@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mauritius_emergency_services/home.dart';
-import 'package:mauritius_emergency_services/theme.dart';
-import 'package:mauritius_emergency_services/util.dart';
+import 'package:mauritius_emergency_services/ui/home.dart';
+import 'package:mauritius_emergency_services/ui/theme/theme.dart';
+import 'package:mauritius_emergency_services/ui/utils/util.dart';
 
 //  Entry point for the MES app
 class MesMaterialApp extends StatelessWidget {
