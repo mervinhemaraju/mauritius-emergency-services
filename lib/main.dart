@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mauritius_emergency_services/app.dart';
+import 'package:mauritius_emergency_services/material_app.dart';
 
 // The main runner app
 void main() {
-  runApp(MauritiusEmergencyServices());
+  runApp(MesMaterialApp());
 }
