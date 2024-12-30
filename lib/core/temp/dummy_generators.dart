@@ -7,7 +7,7 @@ class DummyServiceGenerator {
       Service(
         identifier: "police",
         name: "Police",
-        icon: "",
+        icon: "https://img.icons8.com/fluent/100/000000/policeman-male.png",
         type: "E",
         emails: [],
         mainContact: 999,
@@ -16,7 +16,7 @@ class DummyServiceGenerator {
       Service(
         identifier: "samu",
         name: "Samu",
-        icon: "",
+        icon: "https://img.icons8.com/fluent/100/000000/policeman-male.png",
         type: "E",
         emails: [],
         mainContact: 111,
@@ -25,7 +25,7 @@ class DummyServiceGenerator {
       Service(
         identifier: "police",
         name: "Police",
-        icon: "",
+        icon: "https://img.icons8.com/fluent/100/000000/policeman-male.png",
         type: "E",
         emails: [],
         mainContact: 999,
@@ -34,7 +34,7 @@ class DummyServiceGenerator {
       Service(
         identifier: "samu",
         name: "Samu",
-        icon: "",
+        icon: "https://img.icons8.com/fluent/100/000000/policeman-male.png",
         type: "E",
         emails: [],
         mainContact: 111,
@@ -43,7 +43,7 @@ class DummyServiceGenerator {
       Service(
         identifier: "police",
         name: "Police",
-        icon: "",
+        icon: "https://img.icons8.com/fluent/100/000000/policeman-male.png",
         type: "E",
         emails: [],
         mainContact: 999,
@@ -52,7 +52,7 @@ class DummyServiceGenerator {
       Service(
         identifier: "samu",
         name: "Samu",
-        icon: "",
+        icon: "https://img.icons8.com/fluent/100/000000/policeman-male.png",
         type: "E",
         emails: [],
         mainContact: 111,
@@ -61,7 +61,7 @@ class DummyServiceGenerator {
       Service(
         identifier: "police-2",
         name: "Police 2",
-        icon: "",
+        icon: "https://img.icons8.com/fluent/100/000000/policeman-male.png",
         type: "N",
         emails: [],
         mainContact: 222,
