@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mauritius_emergency_services/ui/home.dart';
+import 'package:mauritius_emergency_services/ui/app.dart';
 import 'package:mauritius_emergency_services/ui/theme/theme.dart';
 import 'package:mauritius_emergency_services/ui/utils/util.dart';
 
@@ -19,7 +19,7 @@ class MesMaterialApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: brightness == Brightness.light ? theme.light() : theme.dark(),
-      home: HomeScreen(),
+      home: const MesApp(),
     );
   }
 }

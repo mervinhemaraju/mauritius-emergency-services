@@ -11,14 +11,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: theme.colorScheme.surface,
-        title: const Text(
-          "Mauritius Emergency Services",
-        ),
-      ),
-      body: Column(
+    return SliverFillRemaining(
+      hasScrollBody: false,
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
