@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/pages/home.dart';
+import 'package:mauritius_emergency_services/ui/pages/services.dart';
 
 class MesApp extends StatefulWidget {
   const MesApp({super.key});
@@ -33,12 +34,7 @@ class MesAppState extends State<MesApp> {
             openDrawer: () => _scaffoldKey.currentState?.openDrawer()),
       ),
       drawer: MesDrawer(),
-      body: CustomScrollView(
-        scrollDirection: Axis.vertical,
-        slivers: [
-          HomeScreen(),
-        ],
-      ),
+      body: ServicesScreen(),
     );
   }
 }
