@@ -49,6 +49,10 @@ class ServicesUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Sort the services by name
+    services.sort((a, b) => a.name.compareTo(b.name));
+
+    // Return the view
     return Padding(
       padding: const EdgeInsets.only(top: 26.0),
       child: ListView(

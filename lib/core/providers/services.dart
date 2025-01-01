@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
-import 'package:mauritius_emergency_services/data/services_repo.dart';
+import 'package:mauritius_emergency_services/data/datasources.dart';
+import 'package:mauritius_emergency_services/data/repositories.dart';
 
 const List<Service> services = [
   Service(
@@ -52,10 +53,10 @@ const List<Service> services = [
 
 final dioProvider = Provider((ref) => Dio());
 
-final servicesRepositoryProvider = Provider<ServicesRepository>((ref) {
+final servicesRepositoryProvider = Provider<MesRepository>((ref) {
   final dio = ref.watch(dioProvider);
-  final dataSource = ServicesRemoteDataSource(dio);
-  return ServicesRepositoryImpl(dataSource);
+  final dataSource = MesRemoteDataSource(dio);
+  return MesRepositoryImpl(dataSource);
 });
 
 final servicesProvider = FutureProvider<List<Service>>((ref) async {
@@ -63,15 +64,7 @@ final servicesProvider = FutureProvider<List<Service>>((ref) async {
   return repository.getServices();
 });
 
-// final emergencyServicesProvider = FutureProvider<List<Service>>((ref) async {
-//   final services = await ref.watch(servicesProvider.future);
-//   return services.where((service) => service.type == "E").toList();
-// });
-
-// final servicesProvider = Provider((ref) {
-//   return services;
-// });
-
-final emergencyServicesProvider = Provider((ref) {
+final emergencyServicesProvider = FutureProvider<List<Service>>((ref) async {
+  final services = await ref.watch(servicesProvider.future);
   return services.where((service) => service.type == "E").toList();
 });
