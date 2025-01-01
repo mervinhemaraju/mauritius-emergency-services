@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
 import 'package:pair/pair.dart';
 
@@ -10,6 +11,9 @@ class MesDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current route path
+    final currentRoute =
+        GoRouter.of(context).routeInformationProvider.value.uri.path;
     return Padding(
       padding: const EdgeInsets.only(right: 56.0),
       child: Drawer(
@@ -22,19 +26,19 @@ class MesDrawer extends StatelessWidget {
             MesDrawerItem(
               leadingIcon: Icon(Icons.home_outlined),
               title: 'Home',
-              isSelected: true,
+              isSelected: MesRoutes.home == currentRoute,
               onTap: () {
                 Navigator.pop(context);
-                context.go('/');
+                context.go(MesRoutes.home);
               },
             ),
             MesDrawerItem(
                 leadingIcon: Icon(Icons.call_outlined),
                 title: 'Services',
-                isSelected: false,
+                isSelected: MesRoutes.services == currentRoute,
                 onTap: () {
                   Navigator.pop(context);
-                  context.go('/services');
+                  context.go(MesRoutes.services);
                 }),
             MesDrawerItem(
                 leadingIcon: Icon(Icons.cyclone_outlined),

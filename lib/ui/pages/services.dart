@@ -1,31 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
-import 'package:mauritius_emergency_services/core/temp/dummy_generators.dart';
+import 'package:mauritius_emergency_services/core/providers/search_controller.dart';
+import 'package:mauritius_emergency_services/core/providers/services.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
 
-class ServicesScreen extends StatelessWidget {
-  final SearchController searchController;
-  const ServicesScreen({
-    super.key,
-    required this.searchController,
-  });
+class ServicesScreen extends ConsumerWidget {
+  const ServicesScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final List<Service> services = DummyServiceGenerator.generate();
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final List<Service> services = ref.watch(servicesProvider);
+    final searchController = ref.watch(globalSearchControllerProvider);
+    final scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
-      key: _scaffoldKey,
+      key: scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
         clipBehavior: Clip.none,
         title: MesAppBar(
             searchController: searchController,
-            openDrawer: () => _scaffoldKey.currentState?.openDrawer()),
+            openDrawer: () => scaffoldKey.currentState?.openDrawer()),
       ),
       drawer: MesDrawer(),
       body: Padding(

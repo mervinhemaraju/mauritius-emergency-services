@@ -1,13 +1,13 @@
 class Service {
-  String identifier = "";
-  String name = "";
-  String type = "";
-  String icon = "";
-  List<String> emails = [];
-  int mainContact = 0;
-  List<int> otherContacts = [];
+  final String identifier;
+  final String name;
+  final String type;
+  final String icon;
+  final List<String> emails;
+  final int mainContact;
+  final List<int> otherContacts;
 
-  Service({
+  const Service({
     required this.identifier,
     required this.name,
     required this.type,
