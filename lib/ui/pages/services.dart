@@ -1,21 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/temp/dummy_generators.dart';
+import 'package:mauritius_emergency_services/ui/components/appbar.dart';
+import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
 
 class ServicesScreen extends StatelessWidget {
-  final List<Service> services = DummyServiceGenerator.generate();
-  ServicesScreen({
+  final SearchController searchController;
+  const ServicesScreen({
     super.key,
+    required this.searchController,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 26.0),
-      child: ListView(
-        children:
-            services.map((service) => ServiceItem(service: service)).toList(),
+    final List<Service> services = DummyServiceGenerator.generate();
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        clipBehavior: Clip.none,
+        title: MesAppBar(
+            searchController: searchController,
+            openDrawer: () => _scaffoldKey.currentState?.openDrawer()),
+      ),
+      drawer: MesDrawer(),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 26.0),
+        child: ListView(
+          children:
+              services.map((service) => ServiceItem(service: service)).toList(),
+        ),
       ),
     );
   }
