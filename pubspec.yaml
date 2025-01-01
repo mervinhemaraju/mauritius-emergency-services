@@ -13,6 +13,8 @@ dependencies:
   pair: ^0.1.2
   go_router: ^14.6.2
   flutter_riverpod: ^2.6.1
+  dio: ^5.7.0
+  flutter_svg: ^2.0.16
 
 dev_dependencies:
   flutter_test:
@@ -23,7 +25,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/loading.gif
+    - path: assets/images/loading.gif
+    - path: assets/svg/error.svg
     
   fonts:
     - family: Lato

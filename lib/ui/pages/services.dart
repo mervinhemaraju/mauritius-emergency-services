@@ -5,6 +5,8 @@ import 'package:mauritius_emergency_services/core/providers/search_controller.da
 import 'package:mauritius_emergency_services/core/providers/services.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
+import 'package:mauritius_emergency_services/ui/components/screen_error.dart';
+import 'package:mauritius_emergency_services/ui/components/screen_loading.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
 
 class ServicesScreen extends ConsumerWidget {
@@ -12,9 +14,14 @@ class ServicesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<Service> services = ref.watch(servicesProvider);
+    // final List<Service> services = ref.watch(servicesProvider);
     final searchController = ref.watch(globalSearchControllerProvider);
     final scaffoldKey = GlobalKey<ScaffoldState>();
+
+    final uiState = ref.watch(servicesProvider).when(
+        data: (services) => ServicesUi(services: services),
+        loading: () => LoadingScreen(),
+        error: (error, stack) => ErrorScreen(title: error.toString()));
 
     return Scaffold(
       key: scaffoldKey,
@@ -27,12 +34,26 @@ class ServicesScreen extends ConsumerWidget {
             openDrawer: () => scaffoldKey.currentState?.openDrawer()),
       ),
       drawer: MesDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 26.0),
-        child: ListView(
-          children:
-              services.map((service) => ServiceItem(service: service)).toList(),
-        ),
+      body: uiState,
+    );
+  }
+}
+
+class ServicesUi extends StatelessWidget {
+  const ServicesUi({
+    super.key,
+    required this.services,
+  });
+
+  final List<Service> services;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 26.0),
+      child: ListView(
+        children:
+            services.map((service) => ServiceItem(service: service)).toList(),
       ),
     );
   }

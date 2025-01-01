@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
+import 'package:mauritius_emergency_services/data/services_repo.dart';
 
 const List<Service> services = [
   Service(
@@ -48,9 +50,27 @@ const List<Service> services = [
   ),
 ];
 
-final servicesProvider = Provider((ref) {
-  return services;
+final dioProvider = Provider((ref) => Dio());
+
+final servicesRepositoryProvider = Provider<ServicesRepository>((ref) {
+  final dio = ref.watch(dioProvider);
+  final dataSource = ServicesRemoteDataSource(dio);
+  return ServicesRepositoryImpl(dataSource);
 });
+
+final servicesProvider = FutureProvider<List<Service>>((ref) async {
+  final repository = ref.watch(servicesRepositoryProvider);
+  return repository.getServices();
+});
+
+// final emergencyServicesProvider = FutureProvider<List<Service>>((ref) async {
+//   final services = await ref.watch(servicesProvider.future);
+//   return services.where((service) => service.type == "E").toList();
+// });
+
+// final servicesProvider = Provider((ref) {
+//   return services;
+// });
 
 final emergencyServicesProvider = Provider((ref) {
   return services.where((service) => service.type == "E").toList();
