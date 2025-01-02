@@ -15,7 +15,7 @@ class MesAppBar extends StatelessWidget {
     return SearchAnchor.bar(
       searchController: searchController,
       barHintText: "Welcome to MES",
-      barElevation: WidgetStatePropertyAll(2),
+      barElevation: WidgetStatePropertyAll(0),
       barLeading: IconButton(
         icon: const Icon(
           Icons.menu,

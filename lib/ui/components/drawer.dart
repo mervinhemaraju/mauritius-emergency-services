@@ -41,10 +41,14 @@ class MesDrawer extends StatelessWidget {
                   context.go(MesRoutes.services);
                 }),
             MesDrawerItem(
-                leadingIcon: Icon(Icons.cyclone_outlined),
-                title: 'Cyclone Report',
-                isSelected: false,
-                onTap: () {}),
+              leadingIcon: Icon(Icons.cyclone_outlined),
+              title: 'Cyclone Report',
+              isSelected: MesRoutes.cycloneReport == currentRoute,
+              onTap: () {
+                Navigator.pop(context);
+                context.go(MesRoutes.cycloneReport);
+              },
+            ),
             MesDrawerItem(
                 leadingIcon: Icon(Icons.supervised_user_circle_outlined),
                 title: 'Vicinity Alerts',

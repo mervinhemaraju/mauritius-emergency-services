@@ -27,6 +27,7 @@ flutter:
   assets:
     - path: assets/images/loading.gif
     - path: assets/svg/error.svg
+    - path: assets/svg/cyclone.svg
     
   fonts:
     - family: Lato
