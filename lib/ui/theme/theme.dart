@@ -1,9 +1,15 @@
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:mauritius_emergency_services/ui/theme/color_extended.dart";
 
 class MaterialTheme {
   final TextTheme textTheme;
+  final AppBarTheme appBarTheme;
 
-  const MaterialTheme(this.textTheme);
+  const MaterialTheme(
+    this.textTheme,
+    this.appBarTheme,
+  );
 
   // Light + Normal Contrast Scheme
   ThemeData light() {
@@ -259,6 +265,7 @@ class MaterialTheme {
         useMaterial3: true,
         brightness: colorScheme.brightness,
         colorScheme: colorScheme,
+        appBarTheme: appBarTheme,
         textTheme: textTheme.apply(
           bodyColor: colorScheme.onSurface,
           displayColor: colorScheme.onSurface,
@@ -268,39 +275,4 @@ class MaterialTheme {
       );
 
   List<ExtendedColor> get extendedColors => [];
-}
-
-class ExtendedColor {
-  final Color seed, value;
-  final ColorFamily light;
-  final ColorFamily lightHighContrast;
-  final ColorFamily lightMediumContrast;
-  final ColorFamily dark;
-  final ColorFamily darkHighContrast;
-  final ColorFamily darkMediumContrast;
-
-  const ExtendedColor({
-    required this.seed,
-    required this.value,
-    required this.light,
-    required this.lightHighContrast,
-    required this.lightMediumContrast,
-    required this.dark,
-    required this.darkHighContrast,
-    required this.darkMediumContrast,
-  });
-}
-
-class ColorFamily {
-  const ColorFamily({
-    required this.color,
-    required this.onColor,
-    required this.colorContainer,
-    required this.onColorContainer,
-  });
-
-  final Color color;
-  final Color onColor;
-  final Color colorContainer;
-  final Color onColorContainer;
 }

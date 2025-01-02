@@ -145,8 +145,12 @@ class MesDrawerHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: _headerItems
-            .map((item) => SpecialHeaderTitle(
-                leadingCharacter: item.key, title: item.value))
+            .map(
+              (item) => SpecialHeaderTitle(
+                leadingCharacter: item.key,
+                title: item.value,
+              ),
+            )
             .toList(),
       ),
     );

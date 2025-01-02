@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mauritius_emergency_services/data/assets_manager.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({super.key, required this.title});
@@ -15,7 +16,7 @@ class ErrorScreen extends StatelessWidget {
         SvgPicture.asset(
           width: 120,
           height: 120,
-          "assets/svg/error.svg",
+          AssetsManager.STATIC_ERROR,
           colorFilter: ColorFilter.mode(
               Theme.of(context).colorScheme.primary, BlendMode.srcIn),
         ),

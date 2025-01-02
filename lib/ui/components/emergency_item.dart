@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
+import 'package:mauritius_emergency_services/data/assets_manager.dart';
 
 class MesEmergencyItem extends StatelessWidget {
   final Service service;
@@ -30,7 +31,7 @@ class MesEmergencyItem extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: FadeInImage.assetNetwork(
-                  placeholder: 'assets/images/loading.gif',
+                  placeholder: AssetsManager.ANIMATED_LOADING,
                   image: service.icon,
                   width: 48,
                   height: 48,

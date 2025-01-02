@@ -26,7 +26,6 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
         clipBehavior: Clip.none,
         title: MesAppBar(

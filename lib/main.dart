@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/routes/router.dart';
 import 'package:mauritius_emergency_services/ui/theme/theme.dart';
-import 'package:mauritius_emergency_services/ui/utils/util.dart';
+import 'package:mauritius_emergency_services/ui/theme/typography.dart';
+import 'package:mauritius_emergency_services/ui/theme/ui.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -26,13 +27,22 @@ class MesMaterialApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Determine the app brightness (theme)
     final brightness = View.of(context).platformDispatcher.platformBrightness;
 
-    // Use with Google Fonts package to use downloadable fonts
+    // Create the text theme
     TextTheme textTheme = createTextTheme(context, "Poppins", "Lato");
 
-    MaterialTheme theme = MaterialTheme(textTheme);
+    // Create the app bar theme
+    AppBarTheme appBarTheme = createAppBarTheme(brightness == Brightness.light);
 
+    // Create the material theme
+    MaterialTheme theme = MaterialTheme(
+      textTheme,
+      appBarTheme,
+    );
+
+    // Return the Material App
     return MaterialApp.router(
       title: 'Flutter Demo',
       theme: brightness == Brightness.light ? theme.light() : theme.dark(),

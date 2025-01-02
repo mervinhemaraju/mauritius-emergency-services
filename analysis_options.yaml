@@ -13,3 +13,4 @@ linter:
 analyzer:
   errors:
     todo: ignore
+    non_constant_identifier_names: ignore

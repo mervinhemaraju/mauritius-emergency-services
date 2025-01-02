@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/providers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
+import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/screen_error.dart';
@@ -26,7 +27,6 @@ class ServicesScreen extends ConsumerWidget {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
         clipBehavior: Clip.none,
         title: MesAppBar(
@@ -76,7 +76,7 @@ class ServiceItem extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
       leading: FadeInImage.assetNetwork(
-        placeholder: 'assets/images/loading.gif',
+        placeholder: AssetsManager.ANIMATED_LOADING,
         image: service.icon,
         width: 48,
         height: 48,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mauritius_emergency_services/core/providers/search_controller.dart';
+import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 
@@ -41,7 +42,7 @@ class _RotatingSvgState extends State<RotatingSvg>
           child: SvgPicture.asset(
             width: 140,
             height: 140,
-            "assets/svg/cyclone.svg",
+            AssetsManager.STATIC_CYCLONE,
             colorFilter: ColorFilter.mode(
                 Theme.of(context).colorScheme.secondary, BlendMode.srcIn),
           ),

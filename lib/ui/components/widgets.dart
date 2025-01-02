@@ -31,14 +31,14 @@ class SpecialHeaderTitle extends StatelessWidget {
             text: leadingCharacter, // The first letter
             style: Theme.of(context)
                 .textTheme
-                .headlineMedium
+                .headlineSmall
                 ?.copyWith(fontWeight: FontWeight.bold, letterSpacing: 4.0),
           ),
           TextSpan(
             text: title, // The rest of the text
             style: Theme.of(context)
                 .textTheme
-                .headlineMedium
+                .headlineSmall
                 ?.copyWith(letterSpacing: 4.0),
           ),
         ],
