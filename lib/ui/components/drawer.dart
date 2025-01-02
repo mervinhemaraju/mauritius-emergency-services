@@ -56,15 +56,20 @@ class MesDrawer extends StatelessWidget {
                 trailing: MesBadge(label: "Coming Soon"),
                 onTap: () {}),
             MesDrawerItem(
-                leadingIcon: Icon(Icons.info_outline),
-                title: 'About',
-                isSelected: false,
-                onTap: () {}),
+              leadingIcon: Icon(Icons.info_outline),
+              title: 'About',
+              isSelected: false,
+              onTap: () {
+                context.push(MesRoutes.about);
+              },
+            ),
             MesDrawerItem(
                 leadingIcon: Icon(Icons.settings_outlined),
                 title: 'Settings',
                 isSelected: false,
-                onTap: () {}),
+                onTap: () {
+                  context.push(MesRoutes.settings);
+                }),
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),

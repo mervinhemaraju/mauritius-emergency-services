@@ -62,13 +62,11 @@ class CycloneScreen extends ConsumerWidget {
 
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-        clipBehavior: Clip.none,
-        title: MesAppBar(
-            searchController: searchController,
-            openDrawer: () => scaffoldKey.currentState?.openDrawer()),
+      appBar: MesAppSearchBar(
+        searchController: searchController,
+        openDrawer: () {
+          scaffoldKey.currentState?.openDrawer();
+        },
       ),
       drawer: MesDrawer(),
       body: RefreshIndicator(

@@ -26,12 +26,11 @@ class ServicesScreen extends ConsumerWidget {
 
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        clipBehavior: Clip.none,
-        title: MesAppBar(
-            searchController: searchController,
-            openDrawer: () => scaffoldKey.currentState?.openDrawer()),
+      appBar: MesAppSearchBar(
+        searchController: searchController,
+        openDrawer: () {
+          scaffoldKey.currentState?.openDrawer();
+        },
       ),
       drawer: MesDrawer(),
       body: uiState,

@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 
-class MesAppBar extends StatelessWidget {
-  final SearchController searchController;
-  final void Function() openDrawer;
-
-  const MesAppBar({
-    super.key,
-    required this.searchController,
-    required this.openDrawer,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SearchAnchor.bar(
+AppBar MesAppSearchBar({
+  required SearchController searchController,
+  required void Function() openDrawer,
+}) {
+  return AppBar(
+    automaticallyImplyLeading: false,
+    clipBehavior: Clip.none,
+    title: SearchAnchor.bar(
       searchController: searchController,
       barHintText: "Welcome to MES",
       barElevation: WidgetStatePropertyAll(0),
@@ -45,6 +40,17 @@ class MesAppBar extends StatelessWidget {
           },
         );
       },
-    );
-  }
+    ),
+  );
+}
+
+AppBar MesAppBar({
+  required void Function() goBack,
+  required String title,
+}) {
+  return AppBar(
+    leading:
+        IconButton(onPressed: goBack, icon: Icon(Icons.arrow_back_outlined)),
+    title: Text(title),
+  );
 }
