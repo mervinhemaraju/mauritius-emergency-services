@@ -51,13 +51,6 @@ class SettingsScreen extends ConsumerWidget {
               subtitle: "Change your app's language",
               onTap: () {},
             ),
-            SettingsItem(
-              icon: Icons.cached_outlined,
-              title: "Clear Cache",
-              subtitle:
-                  "This will clear all cached data and re-load the services from the internet",
-              onTap: () {},
-            ),
           ],
         ),
       ),

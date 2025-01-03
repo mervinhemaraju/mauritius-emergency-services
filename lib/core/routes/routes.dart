@@ -5,6 +5,4 @@ class MesRoutes {
   static const cycloneReport = "/cyclone_report";
   static const about = "/about";
   static const settings = "/settings";
-  static const theme = "/theme";
-  static const contactUs = "/contact_us";
 }

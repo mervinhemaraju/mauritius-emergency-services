@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
+import 'package:mauritius_emergency_services/ui/pages/theme.dart';
 import 'package:pair/pair.dart';
 
 class MesDrawer extends StatelessWidget {
@@ -76,10 +77,17 @@ class MesDrawer extends StatelessWidget {
               child: Divider(),
             ),
             MesDrawerItem(
-                leadingIcon: Icon(Icons.brightness_4_outlined),
-                title: 'Theme',
-                isSelected: false,
-                onTap: () {}),
+              leadingIcon: Icon(Icons.brightness_4_outlined),
+              title: 'Theme',
+              isSelected: false,
+              onTap: () {
+                context.pop();
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => ThemeDialog(),
+                );
+              },
+            ),
             MesDrawerItem(
                 leadingIcon: Icon(Icons.email_outlined),
                 title: 'Contact Us',
