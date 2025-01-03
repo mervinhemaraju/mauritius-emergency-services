@@ -13,13 +13,13 @@ class MesEmergencyItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Container(
-        width: 240,
-        padding: EdgeInsets.all(16.0),
-        child: InkWell(
-          onTap: () {
-            print("${service.name} has been clicked");
-          },
+      child: InkWell(
+        onTap: () {
+          print("${service.name} has been clicked");
+        },
+        child: Container(
+          width: 240,
+          padding: EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

@@ -33,7 +33,12 @@ class ServicesScreen extends ConsumerWidget {
         },
       ),
       drawer: MesDrawer(),
-      body: uiState,
+      body: RefreshIndicator(
+        color: Theme.of(context).colorScheme.onPrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        onRefresh: () async => ref.refresh(servicesProvider.future),
+        child: uiState,
+      ),
     );
   }
 }

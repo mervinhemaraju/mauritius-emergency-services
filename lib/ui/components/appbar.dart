@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 
 AppBar MesAppSearchBar({
   required SearchController searchController,
@@ -10,7 +11,7 @@ AppBar MesAppSearchBar({
     title: SearchAnchor.bar(
       searchController: searchController,
       barHintText: "Welcome to MES",
-      barElevation: WidgetStatePropertyAll(0),
+      barElevation: WidgetStatePropertyAll(MesElevation.appBar),
       barLeading: IconButton(
         icon: const Icon(
           Icons.menu,

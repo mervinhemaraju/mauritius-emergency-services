@@ -5,6 +5,7 @@ import 'package:mauritius_emergency_services/core/models/about.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/settings/extensions.dart';
+import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 
 class AboutScreen extends ConsumerWidget {
   const AboutScreen({super.key});
@@ -49,7 +50,7 @@ class _AboutSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 0,
+      elevation: MesElevation.card,
       margin: EdgeInsets.all(8.0),
       surfaceTintColor: Theme.of(context).colorScheme.surface,
       child: Padding(
@@ -84,7 +85,7 @@ class _AboutHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 0,
+      elevation: MesElevation.card,
       margin: EdgeInsets.all(8.0),
       surfaceTintColor: Theme.of(context).colorScheme.surface,
       child: Padding(
