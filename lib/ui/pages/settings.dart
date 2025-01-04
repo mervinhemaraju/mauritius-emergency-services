@@ -58,18 +58,17 @@ class SettingsScreen extends ConsumerWidget {
   }
 }
 
+// Simple switch widget
 class DynamicSwitch extends ConsumerWidget {
   const DynamicSwitch({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.watch(mesSettingsProvider);
+    final isDynamicEnabled = ref.watch(settingsProvider);
 
     return Switch(
-      value: settings.isDynamicEnabled,
-      onChanged: (bool value) {
-        ref.read(mesSettingsProvider.notifier).updateDynamicEnabled(value);
-      },
+      value: isDynamicEnabled,
+      onChanged: (value) => ref.read(settingsProvider.notifier).toggle(value),
     );
   }
 }

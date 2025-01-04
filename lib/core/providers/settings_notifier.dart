@@ -4,36 +4,35 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MesSettingsNotifier extends StateNotifier<MesSettings> {
-  MesSettingsNotifier() : super(MesSettings.defaults()) {
-    _loadSettings();
+class PreferencesService {
+  static SharedPreferences? _prefs;
+
+  static Future<void> init() async {
+    _prefs = await SharedPreferences.getInstance();
   }
 
-  Future<void> _loadSettings() async {
-    final prefs = await SharedPreferences.getInstance();
-    final jsonString = prefs.getString('mesSettings');
+  static SharedPreferences get prefs => _prefs!;
+}
 
-    if (jsonString != null) {
-      final jsonMap = Map<String, dynamic>.from(
-        jsonDecode(jsonString) as Map,
-      );
-      state = MesSettings.fromJson(jsonMap);
-    }
+// Settings notifier that handles the state and persistence
+class MesSettingsNotifier extends StateNotifier<bool> {
+  static const _key = 'isDynamicEnabled';
+
+  MesSettingsNotifier() : super(false) {
+    _loadInitialValue();
   }
 
-  Future<void> _saveSettings() async {
-    final prefs = await SharedPreferences.getInstance();
-    final jsonString = jsonEncode(state.toJson());
-    await prefs.setString('mesSettings', jsonString);
+  void _loadInitialValue() {
+    state = PreferencesService.prefs.getBool(_key) ?? false;
   }
 
-  Future<void> updateDynamicEnabled(bool value) async {
-    state = state.copyWith(isDynamicEnabled: value);
-    await _saveSettings();
+  Future<void> toggle(bool value) async {
+    await PreferencesService.prefs.setBool(_key, value);
+    state = value;
   }
 }
 
-final mesSettingsProvider =
-    StateNotifierProvider<MesSettingsNotifier, MesSettings>((ref) {
+final settingsProvider =
+    StateNotifierProvider<MesSettingsNotifier, bool>((ref) {
   return MesSettingsNotifier();
 });
