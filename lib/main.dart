@@ -16,17 +16,23 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 // The main runner app
-void main() {
+main() async {
   // TODO(To review this override)
   HttpOverrides.global = MyHttpOverrides();
-  runApp(ProviderScope(child: MesMaterialApp()));
+
+  // Run the main app
+  runApp(
+    ProviderScope(
+      child: MesMaterialApp(),
+    ),
+  );
 }
 
-class MesMaterialApp extends StatelessWidget {
+class MesMaterialApp extends ConsumerWidget {
   MesMaterialApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // Determine the app brightness (theme)
     final brightness = View.of(context).platformDispatcher.platformBrightness;
 

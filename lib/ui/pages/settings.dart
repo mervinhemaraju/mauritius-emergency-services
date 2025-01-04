@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mauritius_emergency_services/core/providers/settings_notifier.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/settings_item.dart';
 import 'package:mauritius_emergency_services/ui/settings/extensions.dart';
@@ -10,7 +11,6 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-
     return Scaffold(
       key: scaffoldKey,
       appBar: MesAppBar(
@@ -31,7 +31,7 @@ class SettingsScreen extends ConsumerWidget {
               title: "Dynamic Colors",
               subtitle:
                   "Apply dynamic colors, based on your wallpaper (Material YOU)",
-              trailing: Switch(value: false, onChanged: (selected) {}),
+              trailing: DynamicSwitch(),
             ),
             _SettingsHeaderTitle(
               title: "Feature",
@@ -54,6 +54,22 @@ class SettingsScreen extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class DynamicSwitch extends ConsumerWidget {
+  const DynamicSwitch({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(mesSettingsProvider);
+
+    return Switch(
+      value: settings.isDynamicEnabled,
+      onChanged: (bool value) {
+        ref.read(mesSettingsProvider.notifier).updateDynamicEnabled(value);
+      },
     );
   }
 }
