@@ -1,38 +1,59 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PreferencesService {
-  static SharedPreferences? _prefs;
-
-  static Future<void> init() async {
-    _prefs = await SharedPreferences.getInstance();
-  }
-
-  static SharedPreferences get prefs => _prefs!;
+abstract class SettingsRepository {
+  Future<MesSettings> getSettings();
+  Future<void> updateSettings(MesSettings settings);
 }
 
-// Settings notifier that handles the state and persistence
-class MesSettingsNotifier extends StateNotifier<bool> {
-  static const _key = 'isDynamicEnabled';
+// Repository implementation
+class SettingsRepositoryImpl implements SettingsRepository {
+  static const _keyDynamicEnabled = 'isDynamicEnabled';
+  final SharedPreferences _prefs;
 
-  MesSettingsNotifier() : super(false) {
-    _loadInitialValue();
+  SettingsRepositoryImpl(this._prefs);
+
+  @override
+  Future<MesSettings> getSettings() async {
+    final isDynamicEnabled = _prefs.getBool(_keyDynamicEnabled) ?? false;
+    return MesSettings(isDynamicEnabled: isDynamicEnabled);
   }
 
-  void _loadInitialValue() {
-    state = PreferencesService.prefs.getBool(_key) ?? false;
-  }
-
-  Future<void> toggle(bool value) async {
-    await PreferencesService.prefs.setBool(_key, value);
-    state = value;
+  @override
+  Future<void> updateSettings(MesSettings settings) async {
+    await _prefs.setBool(_keyDynamicEnabled, settings.isDynamicEnabled);
   }
 }
 
+// Repository provider
+final settingsRepositoryProvider = Provider<SettingsRepository>((ref) {
+  throw UnimplementedError('Repository must be initialized');
+});
+
+// Settings notifier
+class MesSettingsNotifier extends StateNotifier<MesSettings> {
+  final SettingsRepository _repository;
+
+  MesSettingsNotifier(this._repository) : super(MesSettings.initial()) {
+    _loadSettings();
+  }
+
+  Future<void> _loadSettings() async {
+    state = await _repository.getSettings();
+  }
+
+  Future<void> toggleDynamic(bool value) async {
+    final newSettings = state.copyWith(isDynamicEnabled: value);
+    await _repository.updateSettings(newSettings);
+    state = newSettings;
+  }
+}
+
+// Settings provider
 final settingsProvider =
-    StateNotifierProvider<MesSettingsNotifier, bool>((ref) {
-  return MesSettingsNotifier();
+    StateNotifierProvider<MesSettingsNotifier, MesSettings>((ref) {
+  final repository = ref.watch(settingsRepositoryProvider);
+  return MesSettingsNotifier(repository);
 });

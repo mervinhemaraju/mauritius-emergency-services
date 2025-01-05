@@ -64,11 +64,12 @@ class DynamicSwitch extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDynamicEnabled = ref.watch(settingsProvider);
+    final settings = ref.watch(settingsProvider);
 
     return Switch(
-      value: isDynamicEnabled,
-      onChanged: (value) => ref.read(settingsProvider.notifier).toggle(value),
+      value: settings.isDynamicEnabled,
+      onChanged: (value) =>
+          ref.read(settingsProvider.notifier).toggleDynamic(value),
     );
   }
 }

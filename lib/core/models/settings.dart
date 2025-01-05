@@ -13,21 +13,8 @@ class MesSettings {
     );
   }
 
-  // Add JSON serialization for SharedPreferences
-  Map<String, dynamic> toJson() {
-    return {
-      'isDynamicEnabled': isDynamicEnabled,
-    };
-  }
-
-  factory MesSettings.fromJson(Map<String, dynamic> json) {
-    return MesSettings(
-      isDynamicEnabled: json['isDynamicEnabled'] as bool? ?? false,
-    );
-  }
-
   // Default settings
-  factory MesSettings.defaults() {
+  factory MesSettings.initial() {
     return const MesSettings(isDynamicEnabled: false);
   }
 }

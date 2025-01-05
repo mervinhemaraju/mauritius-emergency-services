@@ -6,6 +6,7 @@ import 'package:mauritius_emergency_services/core/routes/router.dart';
 import 'package:mauritius_emergency_services/ui/theme/theme.dart';
 import 'package:mauritius_emergency_services/ui/theme/typography.dart';
 import 'package:mauritius_emergency_services/ui/theme/ui.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -18,14 +19,20 @@ class MyHttpOverrides extends HttpOverrides {
 
 // The main runner app
 main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final prefs = await SharedPreferences.getInstance();
+  final repository = SettingsRepositoryImpl(prefs);
+
   // TODO(To review this override)
   HttpOverrides.global = MyHttpOverrides();
 
-  WidgetsFlutterBinding.ensureInitialized();
-  await PreferencesService.init();
   // Run the main app
   runApp(
     ProviderScope(
+      overrides: [
+        settingsRepositoryProvider.overrideWithValue(repository),
+      ],
       child: MesMaterialApp(),
     ),
   );
