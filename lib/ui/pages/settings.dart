@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/core/providers/settings_notifier.dart';
+import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/settings_item.dart';
 import 'package:mauritius_emergency_services/ui/settings/extensions.dart';

@@ -1,5 +1,8 @@
 enum MesThemes {
-  followSystem,
-  light,
-  dark,
+  followSystem('Follow System'),
+  light('Light'),
+  dark('Dark');
+
+  final String label;
+  const MesThemes(this.label);
 }

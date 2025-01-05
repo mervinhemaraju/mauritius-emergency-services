@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/themes.dart';
+import 'package:mauritius_emergency_services/core/providers/settings.dart';
 
-class ThemeDialog extends StatefulWidget {
+class ThemeDialog extends ConsumerStatefulWidget {
   const ThemeDialog({super.key});
 
   @override
-  State<ThemeDialog> createState() => ThemeDialogState();
+  ConsumerState<ThemeDialog> createState() => ThemeDialogState();
 }
 
-class ThemeDialogState extends State<ThemeDialog> {
-  MesThemes? _character = MesThemes.followSystem;
-
+class ThemeDialogState extends ConsumerState<ThemeDialog> {
   @override
   Widget build(BuildContext context) {
+    final settings = ref.watch(settingsProvider);
+
+    print("New theme read to be ${settings.theme}");
+
     return Dialog(
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          // mainAxisAlignment: MainAxisAlignment.start,
-          // crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -31,36 +33,18 @@ class ThemeDialogState extends State<ThemeDialog> {
                     ),
               ),
             ),
-            MesThemeRadioTile(
-              title: "Follow System",
-              value: MesThemes.followSystem,
-              groupValue: _character,
-              onChanged: (MesThemes? value) {
-                setState(() {
-                  _character = value;
-                });
-              },
-            ),
-            MesThemeRadioTile(
-              title: "Light",
-              value: MesThemes.light,
-              groupValue: _character,
-              onChanged: (MesThemes? value) {
-                setState(() {
-                  _character = value;
-                });
-              },
-            ),
-            MesThemeRadioTile(
-              title: "Dark",
-              value: MesThemes.dark,
-              groupValue: _character,
-              onChanged: (MesThemes? value) {
-                setState(() {
-                  _character = value;
-                });
-              },
-            ),
+            ...MesThemes.values.map((theme) {
+              return RadioListTile<MesThemes>(
+                title: Text(theme.label),
+                value: theme,
+                groupValue: settings.theme,
+                onChanged: (MesThemes? newTheme) {
+                  if (newTheme != null) {
+                    ref.read(settingsProvider.notifier).updateTheme(newTheme);
+                  }
+                },
+              );
+            }),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(

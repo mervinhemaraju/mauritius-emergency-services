@@ -2,7 +2,7 @@ import 'package:mauritius_emergency_services/core/models/cyclone_guidelines.dart
 import 'package:mauritius_emergency_services/core/models/cyclone_names.dart';
 import 'package:mauritius_emergency_services/core/models/cyclone_report.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
-import 'package:mauritius_emergency_services/data/datasources.dart';
+import 'package:mauritius_emergency_services/data/datasources/mes_datasource.dart';
 
 const defaultLanguage = "en";
 
