@@ -6,11 +6,18 @@ import 'package:mauritius_emergency_services/ui/pages/cyclone.dart';
 import 'package:mauritius_emergency_services/ui/pages/home.dart';
 import 'package:mauritius_emergency_services/ui/pages/services.dart';
 import 'package:mauritius_emergency_services/ui/pages/settings.dart';
+import 'package:mauritius_emergency_services/ui/pages/welcome.dart';
 
 class MesAppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: MesRoutes.home,
+    initialLocation: MesRoutes.welcome,
     routes: <RouteBase>[
+      GoRoute(
+        path: MesRoutes.welcome,
+        builder: (BuildContext context, GoRouterState state) {
+          return const WelcomeScreen();
+        },
+      ),
       GoRoute(
         path: MesRoutes.home,
         pageBuilder: (BuildContext context, GoRouterState state) {
