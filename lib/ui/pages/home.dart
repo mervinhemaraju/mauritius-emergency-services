@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/providers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
+import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/emergency_item.dart';
@@ -78,7 +80,7 @@ class HomeUi extends StatelessWidget {
                 ElevatedButton(
                   onPressed: null,
                   onLongPress: () {
-                    print("Emergency button clicked!");
+                    context.push(MesRoutes.precall);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.error,

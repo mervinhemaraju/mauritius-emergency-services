@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/welcome.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
+import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -40,8 +41,10 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final backgroundColor = theme.colorScheme.surface;
+
     return Scaffold(
-      backgroundColor: theme.colorScheme.primaryContainer,
+      backgroundColor: backgroundColor,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,7 +64,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
             ),
             Expanded(
               child: CarouselView(
-                backgroundColor: theme.colorScheme.primaryContainer,
+                backgroundColor: backgroundColor,
                 controller: carouselController,
                 padding: EdgeInsets.symmetric(horizontal: 28.0),
                 itemExtent: MediaQuery.sizeOf(context).width,
@@ -101,6 +104,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                   Spacer(),
                   FloatingActionButton(
+                    elevation: MesElevation.fab,
                     onPressed: () {
                       context.go(MesRoutes.home);
                     },
@@ -140,7 +144,7 @@ class WelcomeCarouselItem extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: theme.colorScheme.onPrimaryContainer,
+            color: theme.colorScheme.primary,
             shape: BoxShape.circle,
           ),
           padding: EdgeInsets.all(38),
@@ -151,7 +155,7 @@ class WelcomeCarouselItem extends StatelessWidget {
                 asset,
                 fit: BoxFit.contain,
                 colorFilter: ColorFilter.mode(
-                  Theme.of(context).colorScheme.primaryContainer,
+                  theme.colorScheme.onPrimary,
                   BlendMode.srcIn,
                 ),
               ),
