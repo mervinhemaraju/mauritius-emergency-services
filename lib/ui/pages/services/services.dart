@@ -56,13 +56,6 @@ class ServicesUi extends StatelessWidget {
     services.sort((a, b) => a.name.compareTo(b.name));
 
     // Return the view
-    return Padding(
-      padding: const EdgeInsets.only(top: 26.0),
-      child: ListView(
-        children: services
-            .map((service) => ExpandableDismissibleTile(service: service))
-            .toList(),
-      ),
-    );
+    return ServicesList(services: services);
   }
 }
