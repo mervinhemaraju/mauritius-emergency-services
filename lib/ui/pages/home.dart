@@ -90,6 +90,7 @@ class HomeUi extends StatelessWidget {
                   child: const Icon(
                     Icons.sensors_outlined,
                     color: Colors.white,
+                    size: 32,
                   ),
                 ),
                 Column(
