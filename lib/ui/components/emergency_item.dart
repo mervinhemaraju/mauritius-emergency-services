@@ -4,19 +4,19 @@ import 'package:mauritius_emergency_services/data/assets_manager.dart';
 
 class MesEmergencyItem extends StatelessWidget {
   final Service service;
+  final VoidCallback onTap;
 
   const MesEmergencyItem({
     super.key,
     required this.service,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () {
-          print("${service.name} has been clicked");
-        },
+        onTap: onTap,
         child: Container(
           width: 240,
           padding: EdgeInsets.all(16.0),

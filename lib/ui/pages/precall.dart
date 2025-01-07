@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/ui/settings/extensions.dart';
 
 class PreCallScreen extends StatefulWidget {
-  const PreCallScreen({super.key});
+  final Service service;
+
+  const PreCallScreen({
+    super.key,
+    required this.service,
+  });
 
   @override
   State<PreCallScreen> createState() => PreCallScreenState();
@@ -38,14 +44,14 @@ class PreCallScreenState extends State<PreCallScreen> {
                       ),
                     ),
                     Text(
-                      "Police Direct",
+                      widget.service.name,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.headlineSmall?.copyWith(
                         color: theme.colorScheme.secondary,
                       ),
                     ),
                     Text(
-                      "999",
+                      widget.service.mainContact.toString(),
                       textAlign: TextAlign.center,
                       style: theme.textTheme.headlineMedium?.copyWith(
                         color: theme.colorScheme.onPrimaryContainer,
@@ -66,8 +72,7 @@ class PreCallScreenState extends State<PreCallScreen> {
                   ),
                   child: FadeInImage.assetNetwork(
                     placeholder: AssetsManager.ANIMATED_LOADING,
-                    image:
-                        "https://img.icons8.com/fluent/100/000000/policeman-male.png",
+                    image: widget.service.icon,
                     width: 120,
                     height: 120,
                   ),
@@ -101,7 +106,7 @@ class PreCallScreenState extends State<PreCallScreen> {
                             : theme.colorScheme.onSecondary,
                       ),
                     ),
-                    key: Key("unique"),
+                    key: Key("swipe_to_cancel"),
                     // Provide a function that tells the app
                     // what to do after an item has been swiped away.
                     onDismissed: (direction) {

@@ -34,27 +34,27 @@ class MesDrawer extends StatelessWidget {
             MesDrawerItem(
               leadingIcon: Icon(Icons.home_outlined),
               title: 'Home',
-              isSelected: MesRoutes.home == currentRoute,
+              isSelected: HomeRoute.path == currentRoute,
               onTap: () {
                 Navigator.pop(context);
-                context.go(MesRoutes.home);
+                context.go(HomeRoute.path);
               },
             ),
             MesDrawerItem(
                 leadingIcon: Icon(Icons.call_outlined),
                 title: 'Services',
-                isSelected: MesRoutes.services == currentRoute,
+                isSelected: ServicesRoute.path == currentRoute,
                 onTap: () {
                   Navigator.pop(context);
-                  context.go(MesRoutes.services);
+                  context.go(ServicesRoute.path);
                 }),
             MesDrawerItem(
               leadingIcon: Icon(Icons.cyclone_outlined),
               title: 'Cyclone Report',
-              isSelected: MesRoutes.cycloneReport == currentRoute,
+              isSelected: CycloneReportRoute.path == currentRoute,
               onTap: () {
                 Navigator.pop(context);
-                context.go(MesRoutes.cycloneReport);
+                context.go(CycloneReportRoute.path);
               },
             ),
             MesDrawerItem(
@@ -68,7 +68,7 @@ class MesDrawer extends StatelessWidget {
               title: 'About',
               isSelected: false,
               onTap: () {
-                context.push(MesRoutes.about);
+                context.push(AboutRoute.path);
               },
             ),
             MesDrawerItem(
@@ -76,7 +76,7 @@ class MesDrawer extends StatelessWidget {
                 title: 'Settings',
                 isSelected: false,
                 onTap: () {
-                  context.push(MesRoutes.settings);
+                  context.push(SettingsRoute.path);
                 }),
             Padding(
               padding:

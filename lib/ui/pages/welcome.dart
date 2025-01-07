@@ -106,7 +106,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                   FloatingActionButton(
                     elevation: MesElevation.fab,
                     onPressed: () {
-                      context.go(MesRoutes.home);
+                      context.go(HomeRoute.path);
                     },
                     backgroundColor: theme.colorScheme.primary,
                     foregroundColor: theme.colorScheme.onPrimary,

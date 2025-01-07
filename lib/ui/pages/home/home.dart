@@ -77,7 +77,7 @@ class _HomeUi extends StatelessWidget {
                 _EmergencyButton(
                   theme: theme,
                   onLongPress: () {
-                    context.push(MesRoutes.precall);
+                    // context.push(PrecallRoute.path, extra: {PrecallRoute.path: service});
                   },
                 ),
                 _TitleSet(
@@ -85,7 +85,11 @@ class _HomeUi extends StatelessWidget {
                   title: "Need other quick emergency actions?",
                   subtitle: "Click one below to call",
                 ),
-                _EmergencyListView()
+                _EmergencyListView(onTap: (service) {
+                  context.push(PrecallRoute.path, extra: {
+                    PrecallRoute.extraService: service,
+                  });
+                })
               ],
             ),
           ),
@@ -144,7 +148,7 @@ class _HomeUi extends StatelessWidget {
     );
   }
 
-  Widget _EmergencyListView() {
+  Widget _EmergencyListView({required Function(Service) onTap}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: SizedBox(
@@ -153,7 +157,12 @@ class _HomeUi extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           children: emergencyServices
               .map(
-                (service) => MesEmergencyItem(service: service),
+                (service) => MesEmergencyItem(
+                  service: service,
+                  onTap: () {
+                    onTap(service);
+                  },
+                ),
               )
               .toList(),
         ),

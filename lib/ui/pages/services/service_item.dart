@@ -74,7 +74,9 @@ class ExpandableDismissibleTile extends StatelessWidget {
     return Dismissible(
       key: Key(service.identifier),
       confirmDismiss: (direction) async {
-        context.push(MesRoutes.precall);
+        context.push(PrecallRoute.path, extra: {
+          PrecallRoute.extraService: service,
+        });
         return false;
       },
       onUpdate: (details) => {
@@ -138,6 +140,7 @@ class ExpandableDismissibleTile extends StatelessWidget {
                       : Icons.arrow_drop_down_outlined,
                 ),
               ),
+              onTap: onToggle,
             ),
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),

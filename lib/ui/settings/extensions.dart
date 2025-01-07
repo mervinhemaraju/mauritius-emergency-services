@@ -7,7 +7,7 @@ extension NavigationExtension on BuildContext {
     if (canPop()) {
       pop();
     } else {
-      go(MesRoutes.home);
+      go(HomeRoute.path);
     }
   }
 }

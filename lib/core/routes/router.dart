@@ -11,16 +11,18 @@ import 'package:mauritius_emergency_services/ui/pages/welcome.dart';
 
 class MesAppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: MesRoutes.welcome,
+    initialLocation: WelcomeRoute.path,
     routes: <RouteBase>[
       GoRoute(
-        path: MesRoutes.welcome,
+        name: WelcomeRoute.name,
+        path: WelcomeRoute.path,
         builder: (BuildContext context, GoRouterState state) {
           return const WelcomeScreen();
         },
       ),
       GoRoute(
-        path: MesRoutes.home,
+        name: HomeRoute.name,
+        path: HomeRoute.path,
         pageBuilder: (BuildContext context, GoRouterState state) {
           return CustomTransitionPage(
             key: state.pageKey,
@@ -39,7 +41,8 @@ class MesAppRouter {
         },
       ),
       GoRoute(
-        path: MesRoutes.services,
+        name: ServicesRoute.name,
+        path: ServicesRoute.path,
         pageBuilder: (BuildContext context, GoRouterState state) {
           return CustomTransitionPage(
             key: state.pageKey,
@@ -58,7 +61,8 @@ class MesAppRouter {
         },
       ),
       GoRoute(
-        path: MesRoutes.cycloneReport,
+        name: CycloneReportRoute.name,
+        path: CycloneReportRoute.path,
         pageBuilder: (BuildContext context, GoRouterState state) {
           return CustomTransitionPage(
             key: state.pageKey,
@@ -77,21 +81,27 @@ class MesAppRouter {
         },
       ),
       GoRoute(
-        path: MesRoutes.about,
+        name: PrecallRoute.name,
+        path: PrecallRoute.path,
+        builder: (BuildContext context, GoRouterState state) {
+          final data = state.extra! as Map<String, dynamic>;
+          return PreCallScreen(
+            service: data[PrecallRoute.extraService],
+          );
+        },
+      ),
+      GoRoute(
+        name: AboutRoute.name,
+        path: AboutRoute.path,
         builder: (BuildContext context, GoRouterState state) {
           return const AboutScreen();
         },
       ),
       GoRoute(
-        path: MesRoutes.settings,
+        name: SettingsRoute.name,
+        path: SettingsRoute.path,
         builder: (BuildContext context, GoRouterState state) {
           return const SettingsScreen();
-        },
-      ),
-      GoRoute(
-        path: MesRoutes.precall,
-        builder: (BuildContext context, GoRouterState state) {
-          return const PreCallScreen();
         },
       ),
     ],
