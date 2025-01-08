@@ -6,7 +6,7 @@ import 'package:mauritius_emergency_services/ui/pages/cyclone.dart';
 import 'package:mauritius_emergency_services/ui/pages/home/home.dart';
 import 'package:mauritius_emergency_services/ui/pages/precall.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services.dart';
-import 'package:mauritius_emergency_services/ui/pages/settings.dart';
+import 'package:mauritius_emergency_services/ui/pages/settings/settings.dart';
 import 'package:mauritius_emergency_services/ui/pages/welcome.dart';
 
 class MesAppRouter {

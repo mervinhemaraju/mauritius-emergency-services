@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/settings_item.dart';
+import 'package:mauritius_emergency_services/ui/pages/settings/emergency_button_dialog.dart';
+import 'package:mauritius_emergency_services/ui/pages/settings/language_dialog.dart';
 import 'package:mauritius_emergency_services/ui/settings/extensions.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -40,7 +42,12 @@ class SettingsScreen extends ConsumerWidget {
               icon: Icons.emergency_outlined,
               title: "Emergency Button Action",
               subtitle: "Set an emergency service for the red button",
-              onTap: () {},
+              onTap: () {
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => EmergencyButtonDialog(),
+                );
+              },
             ),
             _SettingsHeaderTitle(
               title: "Application",
@@ -49,7 +56,12 @@ class SettingsScreen extends ConsumerWidget {
               icon: Icons.language_outlined,
               title: "Change Language",
               subtitle: "Change your app's language",
-              onTap: () {},
+              onTap: () {
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => LanguageDialog(),
+                );
+              },
             ),
           ],
         ),
