@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mauritius_emergency_services/core/models/locale.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
 import 'package:mauritius_emergency_services/core/models/themes.dart';
 import 'package:mauritius_emergency_services/data/repository/settings_repository.dart';
 
-// Settings notifier
 class MesSettingsNotifier extends StateNotifier<MesSettings> {
   final SettingsRepository _repository;
 
@@ -24,6 +24,13 @@ class MesSettingsNotifier extends StateNotifier<MesSettings> {
 
   Future<void> updateTheme(MesThemes theme) async {
     final newSettings = state.copyWith(theme: theme);
+    await _repository.updateSettings(newSettings);
+    state = newSettings;
+  }
+
+  // Add new method to update locale
+  Future<void> updateLocale(MesLocale locale) async {
+    final newSettings = state.copyWith(locale: locale);
     await _repository.updateSettings(newSettings);
     state = newSettings;
   }

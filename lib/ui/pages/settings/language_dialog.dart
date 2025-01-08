@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mauritius_emergency_services/core/models/locale.dart';
+import 'package:mauritius_emergency_services/core/providers/settings.dart';
 
 class LanguageDialog extends ConsumerStatefulWidget {
   const LanguageDialog({super.key});
@@ -12,6 +14,8 @@ class LanguageDialog extends ConsumerStatefulWidget {
 class LanguageDialogState extends ConsumerState<LanguageDialog> {
   @override
   Widget build(BuildContext context) {
+    final settings = ref.watch(settingsProvider);
+
     return Dialog(
       child: Padding(
         padding: const EdgeInsets.all(4.0),
@@ -27,18 +31,20 @@ class LanguageDialogState extends ConsumerState<LanguageDialog> {
                     ),
               ),
             ),
-            // ...MesLocale.values.map((locale) {
-            //   return ListTile(
-            //     // selected: settings.locale == locale,
-            //     selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
-            //     selectedTileColor:
-            //         Theme.of(context).colorScheme.primaryContainer,
-            //     title: Text(locale.name.toString()),
-            //     // trailing:
-            //     //     settings.locale == locale ? Icon(Icons.check_circle) : null,
-            //     onTap: () {},
-            //   );
-            // }),
+            ...MesLocale.values.map((locale) {
+              return ListTile(
+                selected: settings.locale == locale,
+                selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                selectedTileColor:
+                    Theme.of(context).colorScheme.primaryContainer,
+                title: Text(locale.name.toString()),
+                trailing:
+                    settings.locale == locale ? Icon(Icons.check_circle) : null,
+                onTap: () {
+                  ref.read(settingsProvider.notifier).updateLocale(locale);
+                },
+              );
+            }),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
