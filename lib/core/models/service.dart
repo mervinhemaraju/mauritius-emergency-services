@@ -25,8 +25,8 @@ class Service {
       'type': type,
       'icon': icon,
       'emails': emails,
-      'mainContact': mainContact,
-      'otherContacts': otherContacts,
+      'main_contact': mainContact,
+      'other_contacts': otherContacts,
     };
   }
 

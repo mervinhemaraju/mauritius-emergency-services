@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/locale.dart';
+import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
 import 'package:mauritius_emergency_services/core/models/themes.dart';
 import 'package:mauritius_emergency_services/data/repository/settings_repository.dart';
@@ -31,6 +32,12 @@ class MesSettingsNotifier extends StateNotifier<MesSettings> {
   // Add new method to update locale
   Future<void> updateLocale(MesLocale locale) async {
     final newSettings = state.copyWith(locale: locale);
+    await _repository.updateSettings(newSettings);
+    state = newSettings;
+  }
+
+  Future<void> updateEmergencyButtonAction(Service service) async {
+    final newSettings = state.copyWith(emergencyButtonAction: service);
     await _repository.updateSettings(newSettings);
     state = newSettings;
   }

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/providers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
+import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
@@ -42,7 +43,7 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-class _HomeUi extends StatelessWidget {
+class _HomeUi extends ConsumerWidget {
   final List<Service> emergencyServices;
 
   const _HomeUi({
@@ -50,7 +51,10 @@ class _HomeUi extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Get the settings
+    final settings = ref.watch(settingsProvider);
+
     // Define the theme
     final theme = Theme.of(context);
 
@@ -77,7 +81,24 @@ class _HomeUi extends StatelessWidget {
                 _EmergencyButton(
                   theme: theme,
                   onLongPress: () {
-                    // context.push(PrecallRoute.path, extra: {PrecallRoute.path: service});
+                    final Service emergencyService;
+
+                    print("Emergency button pressed");
+                    print(
+                        "identifier: ${settings.emergencyButtonAction.identifier}");
+
+                    if (settings.emergencyButtonAction.identifier.isNotEmpty) {
+                      emergencyService = settings.emergencyButtonAction;
+                    } else {
+                      emergencyService = emergencyServices.first;
+                    }
+
+                    print("thidentifier: ${emergencyService.identifier}");
+
+                    context.push(
+                      PrecallRoute.path,
+                      extra: {PrecallRoute.extraService: emergencyService},
+                    );
                   },
                 ),
                 _TitleSet(

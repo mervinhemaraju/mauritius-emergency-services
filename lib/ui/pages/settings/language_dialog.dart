@@ -34,12 +34,15 @@ class LanguageDialogState extends ConsumerState<LanguageDialog> {
             ...MesLocale.values.map((locale) {
               return ListTile(
                 selected: settings.locale == locale,
-                selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                selectedTileColor:
-                    Theme.of(context).colorScheme.primaryContainer,
+                selectedColor: Theme.of(context).colorScheme.onTertiary,
+                selectedTileColor: Theme.of(context).colorScheme.tertiary,
                 title: Text(locale.name.toString()),
-                trailing:
-                    settings.locale == locale ? Icon(Icons.check_circle) : null,
+                trailing: settings.locale == locale
+                    ? Icon(
+                        Icons.check_circle,
+                        color: Theme.of(context).colorScheme.onTertiary,
+                      )
+                    : null,
                 onTap: () {
                   ref.read(settingsProvider.notifier).updateLocale(locale);
                 },

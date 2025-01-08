@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
+import 'package:mauritius_emergency_services/core/providers/settings.dart';
 
 class EmergencyButtonDialog extends ConsumerStatefulWidget {
   const EmergencyButtonDialog({super.key});
@@ -15,11 +16,16 @@ class EmergencyButtonDialog extends ConsumerStatefulWidget {
 class EmergencyButtonDialogState extends ConsumerState<EmergencyButtonDialog> {
   @override
   Widget build(BuildContext context) {
-    // final settings = ref.watch(settingsProvider);
+    final settings = ref.watch(settingsProvider);
     final uiState = ref.watch(servicesProvider).when(
           data: (services) => ServiceListView(
             services: services,
-            selectedService: Service(),
+            selectedService: settings.emergencyButtonAction,
+            onServiceSelected: (service) {
+              ref
+                  .read(settingsProvider.notifier)
+                  .updateEmergencyButtonAction(service);
+            },
           ),
           loading: () => CircularProgressIndicator(),
           error: (error, stack) => Text("Error occurred"),
@@ -66,11 +72,13 @@ class EmergencyButtonDialogState extends ConsumerState<EmergencyButtonDialog> {
 class ServiceListView extends StatelessWidget {
   final List<Service> services;
   final Service selectedService;
+  final Function(Service) onServiceSelected;
 
   const ServiceListView({
     super.key,
     required this.services,
     required this.selectedService,
+    required this.onServiceSelected,
   });
 
   @override
@@ -82,8 +90,19 @@ class ServiceListView extends StatelessWidget {
             .map(
               (service) => ListTile(
                 selected: service.identifier == selectedService.identifier,
+                selectedColor: Theme.of(context).colorScheme.onTertiary,
+                selectedTileColor: Theme.of(context).colorScheme.tertiary,
                 title: Text(service.name),
-                onTap: () {},
+                subtitle: Text(service.mainContact.toString()),
+                trailing: service.identifier == selectedService.identifier
+                    ? Icon(
+                        Icons.check_circle,
+                        color: Theme.of(context).colorScheme.onTertiary,
+                      )
+                    : null,
+                onTap: () {
+                  onServiceSelected(service);
+                },
               ),
             )
             .toList(),

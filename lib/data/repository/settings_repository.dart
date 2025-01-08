@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:mauritius_emergency_services/core/models/locale.dart';
+import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
 import 'package:mauritius_emergency_services/core/models/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +15,8 @@ abstract class SettingsRepository {
 class SettingsRepositoryImpl implements SettingsRepository {
   static const _keyDynamicEnabled = 'isDynamicEnabled';
   static const _keyTheme = 'theme';
-  static const _keyLocale = 'locale'; // Add new key
+  static const _keyLocale = 'locale';
+  static const _keyEmergencyButtonAction = 'emergencyButtonAction';
   final SharedPreferences _prefs;
 
   SettingsRepositoryImpl(this._prefs);
@@ -21,12 +25,18 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<MesSettings> getSettings() async {
     final isDynamicEnabled = _prefs.getBool(_keyDynamicEnabled) ?? false;
     final themeIndex = _prefs.getInt(_keyTheme) ?? 0;
-    final localeIndex = _prefs.getInt(_keyLocale) ?? 0; // Add locale retrieval
+    final localeIndex = _prefs.getInt(_keyLocale) ?? 0;
+    final String? serviceJson = _prefs.getString(_keyEmergencyButtonAction);
+
+    Service? emergencyButtonAction = serviceJson == null
+        ? Service()
+        : Service.fromJson(jsonDecode(serviceJson));
 
     return MesSettings(
       isDynamicEnabled: isDynamicEnabled,
       theme: MesThemes.values[themeIndex],
-      locale: MesLocale.values[localeIndex], // Add locale to return
+      locale: MesLocale.values[localeIndex],
+      emergencyButtonAction: emergencyButtonAction,
     );
   }
 
@@ -35,6 +45,12 @@ class SettingsRepositoryImpl implements SettingsRepository {
     await _prefs.setBool(_keyDynamicEnabled, settings.isDynamicEnabled);
     await _prefs.setInt(_keyTheme, settings.theme.index);
     await _prefs.setInt(
-        _keyLocale, settings.locale.index); // Add locale storage
+      _keyLocale,
+      settings.locale.index,
+    );
+    await _prefs.setString(
+      _keyEmergencyButtonAction,
+      jsonEncode(settings.emergencyButtonAction.toJson()),
+    );
   }
 }
