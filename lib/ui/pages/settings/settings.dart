@@ -5,7 +5,7 @@ import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/settings_item.dart';
 import 'package:mauritius_emergency_services/ui/pages/settings/emergency_button_dialog.dart';
 import 'package:mauritius_emergency_services/ui/pages/settings/language_dialog.dart';
-import 'package:mauritius_emergency_services/ui/settings/extensions.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});

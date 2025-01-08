@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
-import 'package:mauritius_emergency_services/ui/settings/extensions.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class PreCallScreen extends StatefulWidget {
   final Service service;

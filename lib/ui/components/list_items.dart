@@ -6,7 +6,7 @@ class AboutHeaderListItem extends StatelessWidget {
   final String subtitle;
   final Color background;
   final Color foreground;
-  final Function() onTap;
+  final Function()? onTap;
 
   const AboutHeaderListItem({
     super.key,
@@ -14,7 +14,7 @@ class AboutHeaderListItem extends StatelessWidget {
     required this.subtitle,
     required this.background,
     required this.foreground,
-    required this.onTap,
+    this.onTap,
   });
 
   @override

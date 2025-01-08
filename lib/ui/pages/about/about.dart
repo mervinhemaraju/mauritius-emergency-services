@@ -6,8 +6,11 @@ import 'package:mauritius_emergency_services/core/providers/package_version.dart
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
-import 'package:mauritius_emergency_services/ui/settings/extensions.dart';
+import 'package:mauritius_emergency_services/ui/utils/constants.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends ConsumerWidget {
   const AboutScreen({super.key});
@@ -109,7 +112,15 @@ class _AboutSection extends StatelessWidget {
               icon: about.icon,
               title: about.title,
               subtitle: about.body,
-              onTap: () {},
+              onTap: () async {
+                if (about.title.toLowerCase().startsWith("share")) {
+                  Share.share(URI_MES_PLAYSTORE);
+                } else {
+                  if (about.url != null) {
+                    await launchUrl(about.url!);
+                  }
+                }
+              },
             ),
           )
         ],
@@ -164,16 +175,14 @@ class _AboutHeader extends StatelessWidget {
             subtitle: "Lead Developer & Designer",
             background: theme.colorScheme.primaryContainer,
             foreground: theme.colorScheme.onPrimaryContainer,
-            onTap: () {
-              // TODO(Implement browser redirection)
-            },
+            onTap: () async =>
+                await launchUrl(Uri.parse(URI_DEVELOPER_WEBSITE)),
           ),
           AboutHeaderListItem(
             title: "Nick Foo Kune",
             subtitle: "Playstore Banner & Images",
             background: theme.colorScheme.tertiaryContainer,
             foreground: theme.colorScheme.onTertiaryContainer,
-            onTap: () {},
           ),
           Padding(
             padding: const EdgeInsets.only(
