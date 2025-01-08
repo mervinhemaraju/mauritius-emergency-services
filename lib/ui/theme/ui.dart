@@ -6,6 +6,9 @@ AppBarTheme createAppBarTheme([bool isBrightnessLight = true]) {
     backgroundColor: Colors.transparent,
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness:
+          isBrightnessLight ? Brightness.dark : Brightness.light,
       statusBarIconBrightness:
           isBrightnessLight ? Brightness.dark : Brightness.light,
     ),

@@ -71,7 +71,9 @@ class MesMaterialApp extends ConsumerWidget {
     TextTheme textTheme = createTextTheme(context, "Poppins", "Lato");
 
     // Create the app bar theme
-    AppBarTheme appBarTheme = createAppBarTheme(brightness == Brightness.light);
+    AppBarTheme appBarTheme = createAppBarTheme(
+      brightness == Brightness.light,
+    );
 
     // Create the material theme
     MaterialTheme theme = MaterialTheme(
@@ -89,6 +91,8 @@ class MesMaterialApp extends ConsumerWidget {
 
     // Return the Material App
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      // debugShowMaterialGrid: true,
       title: 'Flutter Demo',
       theme: brightnessUsed,
       routerConfig: MesAppRouter.router,

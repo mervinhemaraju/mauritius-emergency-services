@@ -44,12 +44,6 @@ class About {
         title: "Privacy Policy",
         body: "View the privacy policy for Mes.",
       ),
-      About(
-        icon: Icons.info_outlined,
-        title: "Version",
-        // TODO(Add the version here)
-        body: "to_be_added",
-      )
     ];
   }
 }
