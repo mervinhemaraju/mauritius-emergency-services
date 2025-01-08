@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/themes.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
@@ -45,6 +46,12 @@ main() async {
 
   // TODO(To review this override)
   HttpOverrides.global = MyHttpOverrides();
+
+  // Make screen edge to edge
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.edgeToEdge,
+    overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
+  );
 
   // Run the main app
   runApp(

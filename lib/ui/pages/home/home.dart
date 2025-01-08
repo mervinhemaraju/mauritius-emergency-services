@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
+import 'package:mauritius_emergency_services/core/models/settings.dart';
 import 'package:mauritius_emergency_services/core/providers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
-import 'package:mauritius_emergency_services/ui/components/emergency_item.dart';
+import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/components/screen_error.dart';
 import 'package:mauritius_emergency_services/ui/components/screen_loading.dart';
 
@@ -17,11 +18,20 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Get the scaffold key
     final scaffoldKey = GlobalKey<ScaffoldState>();
+
+    // Get the settings
+    final settings = ref.watch(settingsProvider);
+
+    // Get the search controller
     final searchController = ref.watch(globalSearchControllerProvider);
+
+    // Watch the services and define the ui
     final uiState = ref.watch(emergencyServicesProvider).when(
           data: (services) => _HomeUi(
             emergencyServices: services,
+            settings: settings,
           ),
           loading: () => LoadingScreen(),
           error: (error, stack) => ErrorScreen(
@@ -29,6 +39,7 @@ class HomeScreen extends ConsumerWidget {
           ),
         );
 
+    // Return the view
     return Scaffold(
       key: scaffoldKey,
       appBar: MesAppSearchBar(
@@ -43,18 +54,17 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-class _HomeUi extends ConsumerWidget {
+class _HomeUi extends StatelessWidget {
   final List<Service> emergencyServices;
+  final MesSettings settings;
 
   const _HomeUi({
     required this.emergencyServices,
+    required this.settings,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Get the settings
-    final settings = ref.watch(settingsProvider);
-
+  Widget build(BuildContext context) {
     // Define the theme
     final theme = Theme.of(context);
 
@@ -83,17 +93,11 @@ class _HomeUi extends ConsumerWidget {
                   onLongPress: () {
                     final Service emergencyService;
 
-                    print("Emergency button pressed");
-                    print(
-                        "identifier: ${settings.emergencyButtonAction.identifier}");
-
                     if (settings.emergencyButtonAction.identifier.isNotEmpty) {
                       emergencyService = settings.emergencyButtonAction;
                     } else {
                       emergencyService = emergencyServices.first;
                     }
-
-                    print("thidentifier: ${emergencyService.identifier}");
 
                     context.push(
                       PrecallRoute.path,
@@ -130,7 +134,10 @@ class _HomeUi extends ConsumerWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             title,
-            style: theme.textTheme.headlineSmall,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: theme.colorScheme.onSurface,
+              fontWeight: FontWeight.bold,
+            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -138,7 +145,10 @@ class _HomeUi extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Text(
             subtitle,
-            style: theme.textTheme.bodyMedium,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.secondary,
+              fontWeight: FontWeight.w400,
+            ),
             textAlign: TextAlign.center,
           ),
         )
@@ -178,7 +188,7 @@ class _HomeUi extends ConsumerWidget {
           scrollDirection: Axis.horizontal,
           children: emergencyServices
               .map(
-                (service) => MesEmergencyItem(
+                (service) => MesEmergencyTileItem(
                   service: service,
                   onTap: () {
                     onTap(service);

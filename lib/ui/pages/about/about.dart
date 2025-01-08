@@ -43,7 +43,6 @@ class AboutScreen extends ConsumerWidget {
     // Return the view
     return Scaffold(
       extendBody: true,
-      // extendBodyBehindAppBar: true,
       key: scaffoldKey,
       appBar: MesAppBar(
         title: "About",
