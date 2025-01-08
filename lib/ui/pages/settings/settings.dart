@@ -7,11 +7,11 @@ import 'package:mauritius_emergency_services/ui/pages/settings/emergency_button_
 import 'package:mauritius_emergency_services/ui/pages/settings/language_dialog.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
-class SettingsScreen extends ConsumerWidget {
+class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: scaffoldKey,
