@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
+import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
+import 'package:mauritius_emergency_services/ui/components/widgets.dart';
 
 // The about header list item
 class AboutHeaderListItem extends StatelessWidget {
@@ -199,4 +202,178 @@ class SettingsItem extends StatelessWidget {
       onTap: onTap,
     );
   }
+}
+
+// The exapndable dismissible service list item
+class ExpandableDismissibleTile extends StatelessWidget {
+  final Service service;
+  final bool isExpanded;
+  final Color dismissibleBackgroundColor;
+  final VoidCallback onToggle;
+  final Function(Color) toggleDismissibleBackgroundColor;
+
+  const ExpandableDismissibleTile({
+    super.key,
+    required this.service,
+    required this.dismissibleBackgroundColor,
+    required this.isExpanded,
+    required this.onToggle,
+    required this.toggleDismissibleBackgroundColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Dismissible(
+      key: Key(service.identifier),
+      confirmDismiss: (direction) async {
+        context.push(PrecallRoute.path, extra: {
+          PrecallRoute.extraService: service,
+        });
+        return false;
+      },
+      onUpdate: (details) => {
+        if (details.reached)
+          {
+            toggleDismissibleBackgroundColor(
+              theme.colorScheme.primary,
+            )
+          }
+        else
+          {
+            toggleDismissibleBackgroundColor(
+              theme.colorScheme.secondary,
+            )
+          }
+      },
+      direction: DismissDirection.endToStart,
+      dismissThresholds: const {DismissDirection.endToStart: 0.5},
+      background: Container(
+        alignment: Alignment.centerRight,
+        color: dismissibleBackgroundColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 21.0),
+          child: Icon(
+            Icons.call_outlined,
+            color: theme.colorScheme.onSecondary,
+          ),
+        ),
+      ),
+      child: Container(
+        color: isExpanded
+            ? theme.colorScheme.surfaceContainerHigh
+            : theme.colorScheme.surface,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+              leading: FadeInImage.assetNetwork(
+                placeholder: AssetsManager.ANIMATED_LOADING,
+                image: service.icon,
+                width: 40,
+                height: 40,
+              ),
+              title: Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  service.name,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: theme.colorScheme.onSurface,
+                  ),
+                ),
+              ),
+              subtitle: Row(
+                children: [
+                  Text(service.mainContact.toString(),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.secondary,
+                      )),
+                  const SizedBox(width: 12.0),
+                  const MesChip(label: "Toll Free")
+                ],
+              ),
+              trailing: IconButton(
+                onPressed: onToggle,
+                icon: Icon(
+                  isExpanded
+                      ? Icons.arrow_drop_up_outlined
+                      : Icons.arrow_drop_down_outlined,
+                ),
+              ),
+              onTap: onToggle,
+            ),
+            AnimatedSize(
+              duration: const Duration(milliseconds: 200),
+              child: ClipRect(
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 200),
+                  opacity: isExpanded ? 1.0 : 0.0,
+                  child: Container(
+                    height: isExpanded ? null : 0.0,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 16.0,
+                    ),
+                    child: service.hasExtraContacts
+                        ? _ExtraContactView(
+                            emails: service.emails,
+                            otherContacts: service.otherContacts,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.tertiary,
+                            onTap: (contact) {
+                              // TODO(Redirect to pre call: check if email or number first)
+                            })
+                        : const Text("No other contacts"),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _ExtraContactView({
+    required final List<String> emails,
+    required final List<int> otherContacts,
+    required final Color backgroundColor,
+    required final Function(dynamic) onTap,
+  }) =>
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text("Other Contacts"),
+          const SizedBox(height: 8.0),
+          Wrap(
+            spacing: 8.0, // horizontal spacing between badges
+            runSpacing: 8.0, // vertical spacing between lines
+            children: [
+              ...emails.map(
+                (email) => MesChip(
+                  icon: Icons.email_outlined,
+                  label: email,
+                  padding: EdgeInsets.all(8.0),
+                  backgroundColor: backgroundColor,
+                  onTap: () => onTap(email),
+                ),
+              ),
+              ...otherContacts.map(
+                (contact) => MesChip(
+                  icon: Icons.phone_outlined,
+                  label: contact.toString(),
+                  padding: EdgeInsets.all(8.0),
+                  backgroundColor: backgroundColor,
+                  onTap: () => onTap(contact),
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
 }

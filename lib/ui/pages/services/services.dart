@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/providers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
@@ -14,15 +13,25 @@ class ServicesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final List<Service> services = ref.watch(servicesProvider);
+    // Watch the search controller from provider
     final searchController = ref.watch(globalSearchControllerProvider);
+
+    // Get the global scaffold key
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
+    // Define the UI state
     final uiState = ref.watch(servicesProvider).when(
-        data: (services) => ServicesUi(services: services),
-        loading: () => LoadingScreen(),
-        error: (error, stack) => ErrorScreen(title: error.toString()));
+          data: (services) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: ServicesList(services: services),
+          ),
+          loading: () => LoadingScreen(),
+          error: (error, stack) => ErrorScreen(
+            title: error.toString(),
+          ),
+        );
 
+    // Return the view
     return Scaffold(
       key: scaffoldKey,
       appBar: MesAppSearchBar(
@@ -39,23 +48,5 @@ class ServicesScreen extends ConsumerWidget {
         child: uiState,
       ),
     );
-  }
-}
-
-class ServicesUi extends StatelessWidget {
-  const ServicesUi({
-    super.key,
-    required this.services,
-  });
-
-  final List<Service> services;
-
-  @override
-  Widget build(BuildContext context) {
-    // Sort the services by name
-    services.sort((a, b) => a.name.compareTo(b.name));
-
-    // Return the view
-    return ServicesList(services: services);
   }
 }

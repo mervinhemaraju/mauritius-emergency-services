@@ -17,6 +17,8 @@ class Service {
     this.otherContacts = const [],
   });
 
+  bool get hasExtraContacts => emails.isNotEmpty || otherContacts.isNotEmpty;
+
   // Convert Service object to JSON
   Map<String, dynamic> toJson() {
     return {

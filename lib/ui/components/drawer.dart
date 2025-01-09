@@ -61,7 +61,7 @@ class MesDrawer extends StatelessWidget {
                 leadingIcon: Icon(Icons.supervised_user_circle_outlined),
                 title: 'Vicinity Alerts',
                 isSelected: false,
-                trailing: MesBadge(label: "Coming Soon"),
+                trailing: MesChip(label: "Coming Soon"),
                 onTap: () {}),
             MesDrawerItem(
               leadingIcon: Icon(Icons.info_outline),
