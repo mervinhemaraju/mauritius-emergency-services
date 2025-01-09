@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
 import 'package:mauritius_emergency_services/ui/pages/theme.dart';
+import 'package:mauritius_emergency_services/ui/utils/constants.dart';
 import 'package:pair/pair.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -10,12 +11,6 @@ class MesDrawer extends StatelessWidget {
   const MesDrawer({
     super.key,
   });
-
-  Future<void> _launchUrl(_url) async {
-    if (!await launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,17 +98,9 @@ class MesDrawer extends StatelessWidget {
                   onPressed: () {},
                   icon: Icon(Icons.open_in_new_outlined),
                 ),
-                onTap: () {
-                  // FIXME(Fix this email launcher)
-                  final Uri emailLaunchUri = Uri(
-                    scheme: 'mailto',
-                    path: 'our.email@gmail.com',
-                    queryParameters: {
-                      'subject': 'CallOut user Profile',
-                      'body': "Hello, I'm a user of CallOut app",
-                    },
-                  );
-                  _launchUrl(emailLaunchUri);
+                onTap: () async {
+                  final Uri emailLaunchUri = Uri.parse(URI_MES_CONTACT_US);
+                  launchUrl(emailLaunchUri);
                 }),
           ],
         ),
@@ -142,8 +129,8 @@ class MesDrawerItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       selected: isSelected,
-      selectedColor: Theme.of(context).colorScheme.primary,
-      selectedTileColor: Theme.of(context).colorScheme.surfaceTint,
+      selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
+      selectedTileColor: Theme.of(context).colorScheme.primaryContainer,
       leading: leadingIcon,
       title: Text(title),
       trailing: trailing,
@@ -172,17 +159,19 @@ class MesDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      minimum: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: _headerItems
-            .map(
-              (item) => SpecialHeaderTitle(
-                leadingCharacter: item.key,
-                title: item.value,
-              ),
-            )
-            .toList(),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16.0, top: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: _headerItems
+              .map(
+                (item) => SpecialHeaderTitle(
+                  leadingCharacter: item.key,
+                  title: item.value,
+                ),
+              )
+              .toList(),
+        ),
       ),
     );
   }

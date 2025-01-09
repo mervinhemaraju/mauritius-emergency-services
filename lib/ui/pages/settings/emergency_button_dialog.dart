@@ -25,7 +25,10 @@ class EmergencyButtonDialog extends ConsumerWidget {
         );
 
     return AlertDialog(
-      title: const Text("Choose Emergency Action"),
+      title: Text(
+        "Choose Emergency Action",
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
       contentPadding: EdgeInsets.zero, // Remove default padding
       content: SizedBox(
         width: double.maxFinite,

@@ -13,20 +13,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // FIXME(Fix issue with alertdialogs where selected items are overlapping with title)
 // TODO(Replace report testing by prod one after ensuring cyclone UI is done)
-// TODO(Implement sheet for cyclone name)
-// TODO(Implement sheet for cyclone guidelines)
 // TODO(Add contrast change in theme selector)
 // TODO(Review all app UI & theme)
-// TODO(Implement intent launcher in contact us)
-// TODO(Update settings to modify emergency button action)
 // TODO(Implement app locale)
 // TODO(Allow user to change locale in app)
 // TODO(Implement dynamic color change)
 // TODO(Implement pre call screen)
 // TODO(Implement welcome screen)
 // TODO(Implement search functionality)
-// TODO(Implement drop down section in services list)
 // TODO(Review adaptive UI)
+// TODO(Implement offline services availability)
+// TODO(Implement notifications for cyclone)
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {

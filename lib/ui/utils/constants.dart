@@ -9,3 +9,4 @@ const String URI_MES_API =
     "https://github.com/mervinhemaraju/mauritius-emergency-service-api";
 const String URI_MES_PRIVACY_POLICY =
     "https://mes.mervinhemaraju.com/web/privacy";
+const String URI_MES_CONTACT_US = "https://mes.mervinhemaraju.com/web/#contact";
