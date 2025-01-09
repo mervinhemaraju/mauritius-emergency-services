@@ -7,9 +7,11 @@ import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/components/rotating_svg.dart';
-import 'package:mauritius_emergency_services/ui/components/screen_error.dart';
-import 'package:mauritius_emergency_services/ui/components/screen_loading.dart';
+import 'package:mauritius_emergency_services/ui/components/view_error.dart';
+import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_guidelines_sheet.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_names_sheet.dart';
 import 'package:mauritius_emergency_services/ui/utils/getters.dart';
 
 class CycloneScreen extends ConsumerWidget {
@@ -20,19 +22,22 @@ class CycloneScreen extends ConsumerWidget {
     final searchController = ref.watch(globalSearchControllerProvider);
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
-    final uiState = ref.watch(cycloneReportTestingProvider).when(
-          data: (report) {
-            if (report.level > 0) {
-              return CycloneWarningUi(cycloneReport: report);
-            } else {
-              return CycloneNoWarningUi(cycloneReport: report);
-            }
-          },
-          loading: () => LoadingScreen(),
-          error: (error, stack) => ErrorScreen(
-            title: error.toString(),
-          ),
-        );
+    // Store the cyclone report in a variable to access it later
+    final cycloneReportAsync = ref.watch(cycloneReportTestingProvider);
+
+    final uiState = cycloneReportAsync.when(
+      data: (report) {
+        if (report.level > 0) {
+          return _CycloneWarningUi(cycloneReport: report);
+        } else {
+          return _CycloneNoWarningUi(cycloneReport: report);
+        }
+      },
+      loading: () => LoadingScreen(),
+      error: (error, stack) => ErrorScreen(
+        title: error.toString(),
+      ),
+    );
 
     return Scaffold(
       key: scaffoldKey,
@@ -49,43 +54,57 @@ class CycloneScreen extends ConsumerWidget {
         onRefresh: () async => ref.refresh(cycloneReportTestingProvider.future),
         child: uiState,
       ),
-
-      // TODO(Fix the floating action button for cyclone reports)
-      // floatingActionButton: Column(
-      //   mainAxisAlignment: MainAxisAlignment.end,
-      //   crossAxisAlignment: CrossAxisAlignment.end,
-      //   children: [
-      //     // New FAB
-      //     Padding(
-      //       padding:
-      //           const EdgeInsets.only(bottom: 8.0), // Adds space between FABs
-      //       child: FloatingActionButton.small(
-      //         backgroundColor: Theme.of(context).colorScheme.secondary,
-      //         foregroundColor: Theme.of(context).colorScheme.onSecondary,
-      //         onPressed: () {},
-      //         child: Icon(Icons.rule_outlined),
-      //       ),
-      //     ),
-      //     // Your existing FAB
-      //     FloatingActionButton.extended(
-      //       label: Text("Cyclone Names"),
-      //       icon: Icon(Icons.cyclone_outlined),
-      //       backgroundColor: Theme.of(context).colorScheme.primary,
-      //       foregroundColor: Theme.of(context).colorScheme.onPrimary,
-      //       onPressed: () {},
-      //     ),
-      //   ],
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        spacing: 16.0,
+        children: [
+          FloatingActionButton.small(
+            heroTag: null,
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+            foregroundColor: Theme.of(context).colorScheme.onSecondary,
+            child: Icon(Icons.list_alt_outlined),
+            onPressed: () {
+              showModalBottomSheet<void>(
+                context: context,
+                isScrollControlled: true,
+                showDragHandle: true,
+                enableDrag: true,
+                useSafeArea: true,
+                builder: (BuildContext context) => CycloneNamesSheet(),
+              );
+            },
+          ),
+          FloatingActionButton(
+            heroTag: null,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            child: Icon(Icons.cyclone_outlined),
+            onPressed: () {
+              cycloneReportAsync.whenData((report) {
+                showModalBottomSheet<void>(
+                  context: context,
+                  isScrollControlled: true,
+                  showDragHandle: true,
+                  enableDrag: true,
+                  useSafeArea: true,
+                  builder: (BuildContext context) => CycloneGuidelinesSheet(
+                    cycloneLevel: report.level,
+                  ),
+                );
+              });
+            },
+          )
+        ],
+      ),
     );
   }
 }
 
-class CycloneNoWarningUi extends StatelessWidget {
+class _CycloneNoWarningUi extends StatelessWidget {
   final CycloneReport cycloneReport;
 
-  const CycloneNoWarningUi({
-    super.key,
+  const _CycloneNoWarningUi({
     required this.cycloneReport,
   });
 
@@ -135,11 +154,10 @@ class CycloneNoWarningUi extends StatelessWidget {
   }
 }
 
-class CycloneWarningUi extends StatelessWidget {
+class _CycloneWarningUi extends StatelessWidget {
   final CycloneReport cycloneReport;
 
-  const CycloneWarningUi({
-    super.key,
+  const _CycloneWarningUi({
     required this.cycloneReport,
   });
 

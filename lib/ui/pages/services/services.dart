@@ -4,8 +4,8 @@ import 'package:mauritius_emergency_services/core/providers/search_controller.da
 import 'package:mauritius_emergency_services/core/providers/services.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
-import 'package:mauritius_emergency_services/ui/components/screen_error.dart';
-import 'package:mauritius_emergency_services/ui/components/screen_loading.dart';
+import 'package:mauritius_emergency_services/ui/components/view_error.dart';
+import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/service_item.dart';
 
 class ServicesScreen extends ConsumerWidget {

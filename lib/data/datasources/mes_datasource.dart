@@ -57,7 +57,8 @@ class MesRemoteDataSource implements MesDataSource {
   @override
   Future<List<CycloneGuidelines>> getCycloneGuidelines(String lang) async {
     // Make API call
-    final response = await dio.get("$endpoint/$version/$lang/guidelines");
+    final response =
+        await dio.get("$endpoint/$version/$lang/cyclone/guidelines");
 
     // Check for errors
     if (!response.data["success"]) {
@@ -82,7 +83,7 @@ class MesRemoteDataSource implements MesDataSource {
   @override
   Future<List<CycloneNames>> getCycloneNames(String lang) async {
     // Make API call
-    final response = await dio.get("$endpoint/$version/$lang/names");
+    final response = await dio.get("$endpoint/$version/$lang/cyclone/names");
 
     // Check for errors
     if (!response.data["success"]) {

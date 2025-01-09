@@ -10,8 +10,8 @@ import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
-import 'package:mauritius_emergency_services/ui/components/screen_error.dart';
-import 'package:mauritius_emergency_services/ui/components/screen_loading.dart';
+import 'package:mauritius_emergency_services/ui/components/view_error.dart';
+import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});

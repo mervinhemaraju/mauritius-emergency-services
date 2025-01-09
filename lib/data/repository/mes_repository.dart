@@ -17,12 +17,14 @@ abstract class MesRepository {
   Future<List<CycloneNames>> getCycloneNames([String lang = defaultLanguage]);
 
   // Gets the cyclone guidelines from MES
-  Future<List<CycloneGuidelines>> getCycloneGuidelines(
-      [String lang = defaultLanguage]);
+  Future<List<CycloneGuidelines>> getCycloneGuidelines([
+    String lang = defaultLanguage,
+  ]);
 
   // Gets the cyclone report from MES for testing purposes ONLY
-  Future<CycloneReport> getCycloneReportTesting(
-      [String lang = defaultLanguage]);
+  Future<CycloneReport> getCycloneReportTesting([
+    String lang = defaultLanguage,
+  ]);
 }
 
 class MesRepositoryImpl implements MesRepository {
