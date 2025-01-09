@@ -10,6 +10,7 @@ import 'package:mauritius_emergency_services/ui/theme/theme.dart';
 import 'package:mauritius_emergency_services/ui/theme/typography.dart';
 import 'package:mauritius_emergency_services/ui/theme/ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // FIXME(Fix issue with alertdialogs where selected items are overlapping with title)
 // TODO(Replace report testing by prod one after ensuring cyclone UI is done)
@@ -98,6 +99,8 @@ class MesMaterialApp extends ConsumerWidget {
       // debugShowMaterialGrid: true,
       title: 'Flutter Demo',
       theme: brightnessUsed,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: MesAppRouter.router,
     );
   }

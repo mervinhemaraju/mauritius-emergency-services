@@ -12,6 +12,7 @@ import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -85,7 +86,7 @@ class _HomeUi extends StatelessWidget {
               children: [
                 _TitleSet(
                   theme: theme,
-                  title: "Emergency call help needed?",
+                  title: AppLocalizations.of(context)!.title_home_primary,
                   subtitle: "Hold the emergency button to call",
                 ),
                 _EmergencyButton(
