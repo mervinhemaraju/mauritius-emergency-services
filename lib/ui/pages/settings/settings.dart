@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
-import 'package:mauritius_emergency_services/ui/components/settings_item.dart';
+import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/pages/settings/emergency_button_dialog.dart';
 import 'package:mauritius_emergency_services/ui/pages/settings/language_dialog.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Get the scaffold key
     final scaffoldKey = GlobalKey<ScaffoldState>();
+
+    // Return the view
     return Scaffold(
       key: scaffoldKey,
       appBar: MesAppBar(
@@ -33,7 +36,7 @@ class SettingsScreen extends StatelessWidget {
               title: "Dynamic Colors",
               subtitle:
                   "Apply dynamic colors, based on your wallpaper (Material YOU)",
-              trailing: DynamicSwitch(),
+              trailing: _DynamicColorSwitch(),
             ),
             _SettingsHeaderTitle(
               title: "Feature",
@@ -71,8 +74,8 @@ class SettingsScreen extends StatelessWidget {
 }
 
 // Simple switch widget
-class DynamicSwitch extends ConsumerWidget {
-  const DynamicSwitch({super.key});
+class _DynamicColorSwitch extends ConsumerWidget {
+  const _DynamicColorSwitch();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
