@@ -1,85 +1,16 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mauritius_emergency_services/core/models/cyclone_report.dart';
 import 'package:mauritius_emergency_services/core/providers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
-import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
+import 'package:mauritius_emergency_services/ui/components/list_items.dart';
+import 'package:mauritius_emergency_services/ui/components/rotating_svg.dart';
 import 'package:mauritius_emergency_services/ui/components/screen_error.dart';
 import 'package:mauritius_emergency_services/ui/components/screen_loading.dart';
-import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
-
-class RotatingSvg extends StatefulWidget {
-  final int level; // Define the variable
-
-  const RotatingSvg({
-    super.key,
-    required this.level, // Add it to the constructor
-  });
-
-  @override
-  _RotatingSvgState createState() => _RotatingSvgState();
-}
-
-class _RotatingSvgState extends State<RotatingSvg>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  Duration _getDurationFromLevel() {
-    switch (widget.level) {
-      case 1:
-        return const Duration(seconds: 7); // Slowest
-      case 2:
-        return const Duration(seconds: 4);
-      case 3:
-        return const Duration(seconds: 2);
-      case 4:
-        return const Duration(seconds: 1); // Fastest
-      default:
-        return const Duration(seconds: 7); // Default speed
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: _getDurationFromLevel(), // Adjust rotation speed here
-      vsync: this,
-    )..repeat(); // This makes it rotate indefinitely
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return Transform.rotate(
-          angle: _controller.value * 2 * pi, // Full 360° rotation
-          child: SvgPicture.asset(
-            width: 160,
-            height: 160,
-            AssetsManager.STATIC_CYCLONE,
-            colorFilter: ColorFilter.mode(
-              Theme.of(context).colorScheme.secondary,
-              BlendMode.srcIn,
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
+import 'package:mauritius_emergency_services/ui/components/widgets.dart';
+import 'package:mauritius_emergency_services/ui/utils/getters.dart';
 
 class CycloneScreen extends ConsumerWidget {
   const CycloneScreen({super.key});
@@ -164,11 +95,39 @@ class CycloneNoWarningUi extends StatelessWidget {
       slivers: <Widget>[
         SliverFillRemaining(
           hasScrollBody: false,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 24.0, bottom: 8.0),
-            child: Column(
-              children: [Text("No cyclone warning")],
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Wrap(
+                spacing: 32.0,
+                children: [
+                  Icon(
+                    Icons.cloud_outlined,
+                    size: 96,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  Icon(
+                    Icons.cloud_outlined,
+                    size: 96,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Text(
+                  "There's currently no cyclone warning",
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontWeight: FontWeight.w400),
+                ),
+              ),
+              Icon(
+                Icons.cloud_outlined,
+                size: 96,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ],
           ),
         )
       ],
@@ -194,7 +153,6 @@ class CycloneWarningUi extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(top: 24.0, bottom: 8.0),
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
@@ -219,10 +177,12 @@ class CycloneWarningUi extends StatelessWidget {
                     horizontal: 16.0,
                   ),
                   child: RotatingSvg(
-                    level: cycloneReport.level,
+                    duration: getRotationSpeedFromCycloneLevel(
+                      level: cycloneReport.level,
+                    ),
                   ),
                 ),
-                SectionTitle(title: "Next Bulletin"),
+                _SectionTitle(title: "Next Bulletin"),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   spacing: 12.0,
@@ -243,7 +203,7 @@ class CycloneWarningUi extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 32.0),
-                SectionTitle(title: "Latest News"),
+                _SectionTitle(title: "Latest News"),
                 SizedBox(
                   height: 200,
                   child: ListView(
@@ -251,7 +211,7 @@ class CycloneWarningUi extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     children: cycloneReport.news
                         .map(
-                          (item) => NewsItem(
+                          (item) => CycloneNewsItem(
                             news: item,
                           ),
                         )
@@ -267,11 +227,10 @@ class CycloneWarningUi extends StatelessWidget {
   }
 }
 
-class SectionTitle extends StatelessWidget {
+class _SectionTitle extends StatelessWidget {
   final String title;
 
-  const SectionTitle({
-    super.key,
+  const _SectionTitle({
     required this.title,
   });
 
@@ -286,68 +245,6 @@ class SectionTitle extends StatelessWidget {
               fontWeight: FontWeight.w500,
               color: Theme.of(context).colorScheme.secondary,
             ),
-      ),
-    );
-  }
-}
-
-class NewsItem extends StatelessWidget {
-  final String news;
-
-  const NewsItem({
-    super.key,
-    required this.news,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: MesElevation.card,
-      child: Container(
-        width: 260.0,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(news),
-      ),
-    );
-  }
-}
-
-class TimerCard extends StatelessWidget {
-  final String time;
-  final String subtitle;
-
-  const TimerCard({
-    super.key,
-    required this.time,
-    required this.subtitle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: MesElevation.card,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              time,
-              style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            Text(
-              subtitle,
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-            ),
-          ],
-        ),
       ),
     );
   }

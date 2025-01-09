@@ -4,6 +4,7 @@ import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
+import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 
 // The about header list item
 class AboutHeaderListItem extends StatelessWidget {
@@ -376,4 +377,25 @@ class ExpandableDismissibleTile extends StatelessWidget {
           ),
         ],
       );
+}
+
+class CycloneNewsItem extends StatelessWidget {
+  final String news;
+
+  const CycloneNewsItem({
+    super.key,
+    required this.news,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: MesElevation.card,
+      child: Container(
+        width: 260.0,
+        padding: const EdgeInsets.all(8.0),
+        child: Text(news),
+      ),
+    );
+  }
 }
