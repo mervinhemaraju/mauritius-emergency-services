@@ -13,6 +13,7 @@ abstract class SettingsRepository {
 
 // Repository implementation
 class SettingsRepositoryImpl implements SettingsRepository {
+  static const _keyIsOnboarded = 'isOnboarded';
   static const _keyDynamicEnabled = 'isDynamicEnabled';
   static const _keyTheme = 'theme';
   static const _keyLocale = 'locale';
@@ -23,6 +24,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   @override
   Future<MesSettings> getSettings() async {
+    final isOnboarded = _prefs.getBool(_keyIsOnboarded) ?? false;
     final isDynamicEnabled = _prefs.getBool(_keyDynamicEnabled) ?? false;
     final themeIndex = _prefs.getInt(_keyTheme) ?? 0;
     final localeIndex = _prefs.getInt(_keyLocale) ?? 0;
@@ -33,6 +35,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
         : Service.fromJson(jsonDecode(serviceJson));
 
     return MesSettings(
+      isOnboarded: isOnboarded,
       isDynamicEnabled: isDynamicEnabled,
       theme: MesThemes.values[themeIndex],
       locale: MesLocale.values[localeIndex],
@@ -42,6 +45,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   @override
   Future<void> updateSettings(MesSettings settings) async {
+    await _prefs.setBool(_keyIsOnboarded, settings.isOnboarded);
     await _prefs.setBool(_keyDynamicEnabled, settings.isDynamicEnabled);
     await _prefs.setInt(_keyTheme, settings.theme.index);
     await _prefs.setInt(

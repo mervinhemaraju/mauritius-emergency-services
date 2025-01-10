@@ -13,6 +13,7 @@ import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mauritius_emergency_services/ui/pages/welcome/perms.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});

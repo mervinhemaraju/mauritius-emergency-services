@@ -17,6 +17,12 @@ class MesSettingsNotifier extends StateNotifier<MesSettings> {
     state = await _repository.getSettings();
   }
 
+  Future<void> markAsOnboarded() async {
+    final newSettings = state.copyWith(isOnboarded: true);
+    await _repository.updateSettings(newSettings);
+    state = newSettings;
+  }
+
   Future<void> toggleDynamic(bool value) async {
     final newSettings = state.copyWith(isDynamicEnabled: value);
     await _repository.updateSettings(newSettings);

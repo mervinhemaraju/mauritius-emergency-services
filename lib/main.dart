@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/themes.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/core/routes/router.dart';
+import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/repository/settings_repository.dart';
 import 'package:mauritius_emergency_services/ui/theme/theme.dart';
 import 'package:mauritius_emergency_services/ui/theme/typography.dart';
@@ -23,7 +24,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // TODO(Review adaptive UI)
 // TODO(Implement offline services availability)
 // TODO(Implement notifications for cyclone)
-// TODO(Add permission request when onboarding users)
+// TODO(Show warning for users who didn't allow phone permissions.)
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -65,6 +67,7 @@ class MesMaterialApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Watch the settings
     final settings = ref.watch(settingsProvider);
 
     // Determine the app brightness (theme)
@@ -100,7 +103,10 @@ class MesMaterialApp extends ConsumerWidget {
       theme: brightnessUsed,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      routerConfig: MesAppRouter.router,
+      routerConfig: MesAppRouter.getRouter(
+        initialLocation:
+            settings.isOnboarded ? HomeRoute.path : WelcomeRoute.path,
+      ),
     );
   }
 }
