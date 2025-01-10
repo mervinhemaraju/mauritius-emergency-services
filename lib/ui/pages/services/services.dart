@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mauritius_emergency_services/core/providers/combined.dart';
 import 'package:mauritius_emergency_services/core/providers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
@@ -19,12 +20,26 @@ class ServicesScreen extends ConsumerWidget {
     // Get the global scaffold key
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
-    // Define the UI state
-    final uiState = ref.watch(servicesProvider).when(
-          data: (services) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ServicesList(services: services),
-          ),
+    // Get the permitted service provider
+    final servicesUiState = ref.watch(permittedAllServicesProvider).when(
+          data: (permittedService) {
+            // if (permittedService.isPermissionsGranted) {
+            //   return Padding(
+            //     padding: const EdgeInsets.symmetric(vertical: 16.0),
+            //     child: ServicesList(services: permittedService.services),
+            //   );
+            // } else {
+            //   return RestrictedPermissions(
+            //     title:
+            //         "You need to enable phone permissions to view this section.",
+            //   );
+            // }
+
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: ServicesList(services: permittedService.services),
+            );
+          },
           loading: () => LoadingScreen(),
 
           // FIXME(Improve error screen content and add retry action)
@@ -47,7 +62,7 @@ class ServicesScreen extends ConsumerWidget {
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,
         onRefresh: () async => ref.refresh(servicesProvider.future),
-        child: uiState,
+        child: servicesUiState,
       ),
     );
   }

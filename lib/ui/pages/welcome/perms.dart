@@ -3,6 +3,8 @@ import 'package:permission_handler/permission_handler.dart';
 
 abstract class PermissionRepository {
   Future<bool> requestPermissions();
+
+  // FIXME(Breakdown permissions)
   Future<bool> checkPermissionsStatus();
   Future<bool> checkMandatoryPermissionsStatus();
 }

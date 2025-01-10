@@ -5,7 +5,6 @@ import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
 import 'package:mauritius_emergency_services/core/providers/combined.dart';
 import 'package:mauritius_emergency_services/core/providers/search_controller.dart';
-import 'package:mauritius_emergency_services/core/providers/services.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
@@ -29,27 +28,24 @@ class HomeScreen extends ConsumerWidget {
     // Get the search controller
     final searchController = ref.watch(globalSearchControllerProvider);
 
-    // Watch the services and define the ui
-    final uiState = ref.watch(emergencyServicesProvider).when(
-          data: (services) => _HomeUi(
-            emergencyServices: services,
-            settings: settings,
-          ),
-          loading: () => LoadingScreen(),
-          // FIXME(Improve error screen content and add retry action)
-          error: (error, stack) => ErrorScreen(
-            title: error.toString(),
-          ),
-        );
-
-    final homeUiState = ref.watch(permittedServiceProvider).when(
+    // Get the permitted service provider
+    final homeUiState = ref.watch(permittedEmergencyServicesProvider).when(
           data: (permittedService) {
-            if (permittedService.isPermissionsGranted) {
-              return uiState;
-            } else {
-              return ErrorScreen(
-                  title: "It looks like you didn't give permissions");
-            }
+            // if (permittedService.isPermissionsGranted) {
+            //   return _HomeUi(
+            //     emergencyServices: permittedService.services,
+            //     settings: settings,
+            //   );
+            // } else {
+            //   return RestrictedPermissions(
+            //     title:
+            //         "You need to enable phone permissions to view this section.",
+            //   );
+            // }
+            return _HomeUi(
+              emergencyServices: permittedService.services,
+              settings: settings,
+            );
           },
           loading: () => LoadingScreen(),
 
