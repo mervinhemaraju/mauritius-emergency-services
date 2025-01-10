@@ -82,6 +82,8 @@ class PreCallScreen extends StatelessWidget {
                   onComplete: () {
                     // Add your action here
                     print('Countdown complete!');
+
+                    // TODO(Launch phone intent and make the call)
                   },
                 ),
                 _SlideToCancel(),

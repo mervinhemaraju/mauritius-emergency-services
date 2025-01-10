@@ -19,12 +19,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // TODO(Implement app locale)
 // TODO(Allow user to change locale in app)
 // TODO(Implement dynamic color change)
-// TODO(Implement pre call screen)
-// TODO(Implement welcome screen)
 // TODO(Implement search functionality)
 // TODO(Review adaptive UI)
 // TODO(Implement offline services availability)
 // TODO(Implement notifications for cyclone)
+// TODO(Add permission request when onboarding users)
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {

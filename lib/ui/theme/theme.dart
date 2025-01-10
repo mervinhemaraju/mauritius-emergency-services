@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import "package:flutter/services.dart";
 import "package:mauritius_emergency_services/ui/theme/color_extended.dart";
 
 class MaterialTheme {

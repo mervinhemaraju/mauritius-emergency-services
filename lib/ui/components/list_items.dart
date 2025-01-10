@@ -380,6 +380,7 @@ class ExpandableDismissibleTile extends StatelessWidget {
       );
 }
 
+// The cyclone new item
 class CycloneNewsItem extends StatelessWidget {
   final String news;
 
@@ -397,6 +398,54 @@ class CycloneNewsItem extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Text(news),
       ),
+    );
+  }
+}
+
+// The welcome page's carousel item
+class WelcomeCarouselItem extends StatelessWidget {
+  final String asset;
+  final String title;
+  final String subtitle;
+
+  const WelcomeCarouselItem({
+    super.key,
+    required this.asset,
+    required this.title,
+    required this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          asset,
+        ),
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: theme.textTheme.headlineSmall?.copyWith(
+            color: theme.colorScheme.onPrimaryContainer,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 3.0,
+          ),
+        ),
+        SizedBox(
+          height: 12.0,
+        ),
+        Text(
+          subtitle,
+          textAlign: TextAlign.center,
+          style: theme.textTheme.bodyLarge?.copyWith(
+            color: theme.colorScheme.secondary,
+            fontWeight: FontWeight.w500,
+          ),
+        )
+      ],
     );
   }
 }
