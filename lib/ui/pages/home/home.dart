@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
+import 'package:mauritius_emergency_services/core/providers/combined.dart';
 import 'package:mauritius_emergency_services/core/providers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
@@ -13,7 +14,6 @@ import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mauritius_emergency_services/ui/pages/welcome/perms.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -36,6 +36,24 @@ class HomeScreen extends ConsumerWidget {
             settings: settings,
           ),
           loading: () => LoadingScreen(),
+          // FIXME(Improve error screen content and add retry action)
+          error: (error, stack) => ErrorScreen(
+            title: error.toString(),
+          ),
+        );
+
+    final homeUiState = ref.watch(permittedServiceProvider).when(
+          data: (permittedService) {
+            if (permittedService.isPermissionsGranted) {
+              return uiState;
+            } else {
+              return ErrorScreen(
+                  title: "It looks like you didn't give permissions");
+            }
+          },
+          loading: () => LoadingScreen(),
+
+          // FIXME(Improve error screen content and add retry action)
           error: (error, stack) => ErrorScreen(
             title: error.toString(),
           ),
@@ -51,7 +69,7 @@ class HomeScreen extends ConsumerWidget {
         },
       ),
       drawer: const MesDrawer(),
-      body: uiState,
+      body: homeUiState,
     );
   }
 }

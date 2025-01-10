@@ -34,6 +34,8 @@ class CycloneScreen extends ConsumerWidget {
         }
       },
       loading: () => LoadingScreen(),
+
+      // FIXME(Improve error screen content and add retry action)
       error: (error, stack) => ErrorScreen(
         title: error.toString(),
       ),

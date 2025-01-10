@@ -21,6 +21,8 @@ class EmergencyButtonDialog extends ConsumerWidget {
             },
           ),
           loading: () => const CircularProgressIndicator(),
+
+          // FIXME(Improve error screen content and add retry action)
           error: (error, stack) => const Text("Error occurred"),
         );
 

@@ -26,6 +26,8 @@ class ServicesScreen extends ConsumerWidget {
             child: ServicesList(services: services),
           ),
           loading: () => LoadingScreen(),
+
+          // FIXME(Improve error screen content and add retry action)
           error: (error, stack) => ErrorScreen(
             title: error.toString(),
           ),
