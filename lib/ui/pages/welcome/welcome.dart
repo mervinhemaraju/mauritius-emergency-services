@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/welcome.dart';
-import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
+import 'package:mauritius_emergency_services/ui/pages/welcome/permissions_dialog.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -128,7 +127,10 @@ class _WelcomeCarouselWithIndicatorState
               FloatingActionButton(
                 elevation: MesElevation.fab,
                 onPressed: () {
-                  context.go(HomeRoute.path);
+                  showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => PermissionsDialog(),
+                  );
                 },
                 backgroundColor: theme.colorScheme.primary,
                 foregroundColor: theme.colorScheme.onPrimary,

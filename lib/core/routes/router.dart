@@ -7,7 +7,7 @@ import 'package:mauritius_emergency_services/ui/pages/home/home.dart';
 import 'package:mauritius_emergency_services/ui/pages/precall/precall.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services.dart';
 import 'package:mauritius_emergency_services/ui/pages/settings/settings.dart';
-import 'package:mauritius_emergency_services/ui/pages/welcome.dart';
+import 'package:mauritius_emergency_services/ui/pages/welcome/welcome.dart';
 
 class MesAppRouter {
   static final GoRouter router = GoRouter(

@@ -10,4 +10,5 @@ class AssetsManager {
   static String get STATIC_STORM => "assets/images/storm.webp";
   static String get STATIC_SMARTPHONE_DATA =>
       "assets/images/smartphone_data.webp";
+  static String get STATIC_PERMISSIONS => "assets/images/permissions.webp";
 }
