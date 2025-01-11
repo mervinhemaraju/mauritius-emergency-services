@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mauritius_emergency_services/core/models/locale.dart';
 import 'package:mauritius_emergency_services/core/models/themes.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/core/routes/router.dart';
@@ -15,22 +16,25 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // FIXME(Fix issue with alertdialogs where selected items are overlapping with title)
 // TODO(Replace report testing by prod one after ensuring cyclone UI is done)
-// TODO(Add contrast change in theme selector)
 // TODO(Review all app UI & theme)
-// TODO(Implement app locale)
-// TODO(Allow user to change locale in app)
-// TODO(Implement dynamic color change)
+// TODO(Implement app locales)
 // TODO(Implement search functionality)
 // TODO(Review adaptive UI)
 // TODO(Implement offline services availability)
 // TODO(Implement notifications for cyclone)
+// FEAT(Add contrast change in theme selector)
+// FEAT(Implement dynamic color change)
 
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback = (
+        X509Certificate cert,
+        String host,
+        int port,
+      ) =>
+          true;
   }
 }
 
@@ -102,6 +106,9 @@ class MesMaterialApp extends ConsumerWidget {
       theme: brightnessUsed,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      locale: settings.locale == MesLocale.system
+          ? null
+          : Locale(settings.locale.lang),
       routerConfig: MesAppRouter.getRouter(
         initialLocation:
             settings.isOnboarded ? HomeRoute.path : WelcomeRoute.path,

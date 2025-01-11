@@ -12,7 +12,6 @@ class Welcome {
   });
 
   static List<Welcome> welcomeItems = [
-    // TODO(Update icons)
     Welcome(
       asset: AssetsManager.STATIC_SMARTPHONE_DATA,
       title: "Services List",

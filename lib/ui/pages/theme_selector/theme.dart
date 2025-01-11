@@ -13,6 +13,7 @@ class ThemeDialog extends ConsumerWidget {
     // Watch the settings
     final settings = ref.watch(settingsProvider);
 
+    // FIXME(Issue with dialog on Landscape)
     // Return the view
     return AlertDialog(
       title: Text(

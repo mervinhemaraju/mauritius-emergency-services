@@ -1,4 +1,5 @@
 enum MesLocale {
+  system("system"),
   english('en'),
   french('fr');
 
