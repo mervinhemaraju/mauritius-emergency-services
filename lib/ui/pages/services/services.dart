@@ -9,14 +9,22 @@ import 'package:mauritius_emergency_services/ui/components/view_restricted_perms
 import 'package:mauritius_emergency_services/ui/pages/services/service_item.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_providers.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_state.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class ServicesScreen extends ConsumerWidget {
-  const ServicesScreen({super.key});
+  final String searchQuery;
+
+  const ServicesScreen({
+    super.key,
+    this.searchQuery = "",
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get the global scaffold key
     final scaffoldKey = GlobalKey<ScaffoldState>();
+
+    print("The query is $searchQuery");
 
     // Watch the services ui state
     final servicesUiState = ref.watch(servicesViewStateProvider).when(
@@ -33,7 +41,8 @@ class ServicesScreen extends ConsumerWidget {
               ),
             ServicesViewData(services: final services) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ServicesList(services: services),
+                child:
+                    ServicesList(services: services.search(query: searchQuery)),
               ),
           },
           loading: () => LoadingScreen(),

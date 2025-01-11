@@ -136,7 +136,7 @@ class _WelcomeCarouselWithIndicatorState
                   // If this is IOS, we don't need to request explicit
                   // permissions for phone calls
 
-                  // TODO : Improve the way permissions as handled -> Proposal below:
+                  // TODO : Improve the way permissions are handled -> Proposal below:
                   // Verify if phone permissions are granted in pre-call page instead on each page
                   // Notify users right away when they try to make a call.
                   // We can control this permission by asking just for android since no explicit permissions needed for IOS

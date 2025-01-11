@@ -46,9 +46,20 @@ class MesAppRouter {
           name: ServicesRoute.name,
           path: ServicesRoute.path,
           pageBuilder: (BuildContext context, GoRouterState state) {
+            final String query;
+            if (state.extra != null) {
+              final data = state.extra as Map<String, dynamic>;
+              query = data[ServicesRoute.extraQuery];
+              // Use data safely here
+            } else {
+              query = "";
+              // Handle case where extra is null
+            }
             return CustomTransitionPage(
               key: state.pageKey,
-              child: ServicesScreen(),
+              child: ServicesScreen(
+                searchQuery: query,
+              ),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return ScaleTransition(

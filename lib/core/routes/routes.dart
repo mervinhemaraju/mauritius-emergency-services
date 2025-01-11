@@ -23,6 +23,7 @@ final class PrecallRoute extends MesRoute {
 final class ServicesRoute extends MesRoute {
   static const String name = 'Services';
   static const String path = '/services';
+  static const String extraQuery = "query";
 }
 
 final class CycloneReportRoute extends MesRoute {

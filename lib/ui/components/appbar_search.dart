@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/providers/notifiers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
+import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 AppBar MesAppSearchBar({
   required void Function() openDrawer,
@@ -37,19 +40,48 @@ class _MesSearchBar extends ConsumerWidget {
         searchController: searchController,
         barHintText: "Welcome to MES",
         barElevation: WidgetStatePropertyAll(MesElevation.appBar),
-        barLeading: IconButton(
-          icon: const Icon(
-            Icons.menu,
-          ),
-          onPressed: openDrawer,
+        viewLeading: IconButton(
+          onPressed: () {
+            // searchController.clear();
+            searchController.closeView("");
+            context.go(ServicesRoute.path);
+          },
+          icon: Icon(Icons.arrow_back_ios_new_outlined),
         ),
+        onSubmitted: (query) {
+          // Go to the services route
+          context.go(ServicesRoute.path, extra: {
+            ServicesRoute.extraQuery: query,
+          });
+        },
+        barLeading: searchController.text.isEmpty
+            ? IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: openDrawer,
+              )
+            : IconButton(
+                icon: const Icon(Icons.arrow_back_ios_outlined),
+                onPressed: () {
+                  searchController.clear();
+                  context.go(ServicesRoute.path);
+                },
+              ),
         barTrailing: [
-          IconButton(
-            icon: const Icon(
-              Icons.clear,
+          if (searchController.text.isNotEmpty)
+            IconButton(
+              icon: const Icon(
+                Icons.clear,
+              ),
+              onPressed: () {
+                // Clear the query
+                searchController.clear();
+
+                // If view is not open, open it
+                if (!searchController.isOpen) {
+                  searchController.openView();
+                }
+              },
             ),
-            onPressed: () => searchController.clear(),
-          ),
         ],
         suggestionsBuilder:
             (BuildContext context, SearchController controller) {
@@ -65,13 +97,7 @@ class _MesSearchBar extends ConsumerWidget {
               }
 
               // Get the filtered services
-              final filteredServices = services
-                  .where(
-                    (service) =>
-                        service.name.toLowerCase().contains(query) ||
-                        service.mainContact.toString().contains(query),
-                  )
-                  .toList();
+              final filteredServices = services.search(query: query);
 
               // Conditional views
               if (filteredServices.isEmpty) {
@@ -80,7 +106,18 @@ class _MesSearchBar extends ConsumerWidget {
                 ];
               } else {
                 return [
-                  _SearchUiMatch(services: filteredServices),
+                  _SearchUiMatch(
+                    services: filteredServices,
+                    onTap: (service) {
+                      // Udpate the search controller
+                      searchController.text = service.name;
+
+                      // Navigate to the services route
+                      context.go(ServicesRoute.path, extra: {
+                        ServicesRoute.extraQuery: service.name.toLowerCase(),
+                      });
+                    },
+                  ),
                 ];
               }
             },
@@ -182,9 +219,11 @@ class _SearchUiNoMatch extends StatelessWidget {
 
 class _SearchUiMatch extends StatelessWidget {
   final List<Service> services;
+  final void Function(Service) onTap;
 
   const _SearchUiMatch({
     required this.services,
+    required this.onTap,
   });
 
   @override
@@ -216,7 +255,7 @@ class _SearchUiMatch extends StatelessWidget {
             ),
             trailing: Icon(Icons.open_in_new),
             onTap: () {
-              // TODO(redirect to services screen with filtered value)
+              onTap(services[index]);
             },
           );
         },
