@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
-import 'package:mauritius_emergency_services/ui/pages/theme.dart';
+import 'package:mauritius_emergency_services/ui/pages/theme_selector/theme.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
 import 'package:pair/pair.dart';
 import 'package:url_launcher/url_launcher.dart';

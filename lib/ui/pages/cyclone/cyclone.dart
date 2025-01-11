@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/cyclone_report.dart';
 import 'package:mauritius_emergency_services/core/providers/notifiers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
+import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
@@ -34,10 +35,11 @@ class CycloneScreen extends ConsumerWidget {
         }
       },
       loading: () => LoadingScreen(),
-
-      // FIXME(Improve error screen content and add retry action)
       error: (error, stack) => ErrorScreen(
-        title: error.toString(),
+        title:
+            "Looks like something went wrong and we couldn't load the cyclone report.",
+        showErrorImage: true,
+        retryAction: () => ref.refresh(cycloneReportTestingProvider.future),
       ),
     );
 
@@ -116,39 +118,32 @@ class _CycloneNoWarningUi extends StatelessWidget {
       slivers: <Widget>[
         SliverFillRemaining(
           hasScrollBody: false,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Wrap(
-                spacing: 32.0,
-                children: [
-                  Icon(
-                    Icons.cloud_outlined,
-                    size: 96,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                  Icon(
-                    Icons.cloud_outlined,
-                    size: 96,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Text(
-                  "There's currently no cyclone warning",
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontWeight: FontWeight.w400),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  AssetsManager.STATIC_WEATHER,
+                  width: 220,
+                  height: 220,
                 ),
-              ),
-              Icon(
-                Icons.cloud_outlined,
-                size: 96,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 24.0,
+                    horizontal: 16.0,
+                  ),
+                  child: Text(
+                    "There's currently no cyclone warning in Mauritius",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontWeight: FontWeight.w400,
+                        ),
+                  ),
+                ),
+              ],
+            ),
           ),
         )
       ],

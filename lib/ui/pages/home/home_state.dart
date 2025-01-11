@@ -9,12 +9,6 @@ class HomeViewLoading extends HomeViewState {
   const HomeViewLoading();
 }
 
-class HomeViewError extends HomeViewState {
-  final Object error;
-  final StackTrace stackTrace;
-  const HomeViewError(this.error, this.stackTrace);
-}
-
 class HomeViewRestricted extends HomeViewState {
   const HomeViewRestricted();
 }

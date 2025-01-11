@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/providers/notifiers/search_controller.dart';
-import 'package:mauritius_emergency_services/core/providers/services.dart';
+import 'package:mauritius_emergency_services/core/providers/runtime_permissions.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
+import 'package:mauritius_emergency_services/ui/components/view_restricted_perms.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/service_item.dart';
+import 'package:mauritius_emergency_services/ui/pages/services/services_providers.dart';
+import 'package:mauritius_emergency_services/ui/pages/services/services_state.dart';
 
 class ServicesScreen extends ConsumerWidget {
   const ServicesScreen({super.key});
@@ -19,19 +22,31 @@ class ServicesScreen extends ConsumerWidget {
     // Get the global scaffold key
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
-    // Get the permitted service provider
-    final servicesUiState = ref.watch(servicesProvider).when(
-          data: (services) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ServicesList(services: services),
-            );
+    // Watch the services ui state
+    final servicesUiState = ref.watch(servicesViewStateProvider).when(
+          data: (state) => switch (state) {
+            ServicesViewLoading() => LoadingScreen(),
+            ServicesViewRestricted() => RestrictedPermissions(
+                title:
+                    "You need to enable phone call permissions to view this section.",
+                onReferesh: () {
+                  ref
+                      .read(permissionRefreshNotifierProvider.notifier)
+                      .refresh();
+                },
+              ),
+            ServicesViewData(services: final services) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: ServicesList(services: services),
+              ),
           },
           loading: () => LoadingScreen(),
-
-          // FIXME(Improve error screen content and add retry action)
           error: (error, stack) => ErrorScreen(
-            title: error.toString(),
+            title:
+                "Looks like something went wrong and we couldn't load the services.",
+            showErrorImage: true,
+            retryAction: () =>
+                ref.read(servicesViewNotifierProvider.notifier).refresh(),
           ),
         );
 
@@ -48,7 +63,8 @@ class ServicesScreen extends ConsumerWidget {
       body: RefreshIndicator(
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,
-        onRefresh: () async => ref.refresh(servicesProvider.future),
+        onRefresh: () async =>
+            ref.read(servicesViewNotifierProvider.notifier).refresh(),
         child: servicesUiState,
       ),
     );

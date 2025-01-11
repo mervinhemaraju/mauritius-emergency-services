@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
+import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 
 class EmergencyButtonDialog extends ConsumerWidget {
   const EmergencyButtonDialog({super.key});
@@ -20,10 +21,11 @@ class EmergencyButtonDialog extends ConsumerWidget {
                   .updateEmergencyButtonAction(service);
             },
           ),
-          loading: () => const CircularProgressIndicator(),
-
-          // FIXME(Improve error screen content and add retry action)
-          error: (error, stack) => const Text("Error occurred"),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => ErrorScreen(
+            title: "Couldn't load services",
+            retryAction: () => ref.refresh(servicesProvider.future),
+          ),
         );
 
     return AlertDialog(

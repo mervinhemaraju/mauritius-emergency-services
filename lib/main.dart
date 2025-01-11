@@ -24,7 +24,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // TODO(Review adaptive UI)
 // TODO(Implement offline services availability)
 // TODO(Implement notifications for cyclone)
-// TODO(Show warning for users who didn't allow phone permissions.)
 
 class MyHttpOverrides extends HttpOverrides {
   @override

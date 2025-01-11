@@ -27,15 +27,13 @@ class HomeScreen extends ConsumerWidget {
     // Get the search controller
     final searchController = ref.watch(globalSearchControllerProvider);
 
-    final altstate = ref.watch(homeViewStateProvider).when(
+    // Watch the home ui state
+    final homeUiState = ref.watch(homeViewStateProvider).when(
           data: (state) => switch (state) {
             HomeViewLoading() => LoadingScreen(),
-            HomeViewError(error: final error, stackTrace: final _) =>
-              ErrorScreen(
-                title: error.toString(),
-              ),
             HomeViewRestricted() => RestrictedPermissions(
-                title: "DENIED",
+                title:
+                    "You need to enable phone call permissions to view this section.",
                 onReferesh: () {
                   ref
                       .read(permissionRefreshNotifierProvider.notifier)
@@ -49,10 +47,12 @@ class HomeScreen extends ConsumerWidget {
               ),
           },
           loading: () => LoadingScreen(),
-
-          // FIXME(Improve error screen content and add retry action)
           error: (error, stack) => ErrorScreen(
-            title: error.toString(),
+            title:
+                "Looks like something went wrong and we couldn't load the data.",
+            showErrorImage: true,
+            retryAction: () =>
+                ref.read(homeViewNotifierProvider.notifier).refresh(),
           ),
         );
 
@@ -66,7 +66,7 @@ class HomeScreen extends ConsumerWidget {
         },
       ),
       drawer: const MesDrawer(),
-      body: altstate,
+      body: homeUiState,
     );
   }
 }
