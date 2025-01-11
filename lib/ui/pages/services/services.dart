@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/core/providers/combined.dart';
-import 'package:mauritius_emergency_services/core/providers/search_controller.dart';
+import 'package:mauritius_emergency_services/core/providers/notifiers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
@@ -21,23 +20,11 @@ class ServicesScreen extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
     // Get the permitted service provider
-    final servicesUiState = ref.watch(permittedAllServicesProvider).when(
-          data: (permittedService) {
-            // if (permittedService.isPermissionsGranted) {
-            //   return Padding(
-            //     padding: const EdgeInsets.symmetric(vertical: 16.0),
-            //     child: ServicesList(services: permittedService.services),
-            //   );
-            // } else {
-            //   return RestrictedPermissions(
-            //     title:
-            //         "You need to enable phone permissions to view this section.",
-            //   );
-            // }
-
+    final servicesUiState = ref.watch(servicesProvider).when(
+          data: (services) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ServicesList(services: permittedService.services),
+              child: ServicesList(services: services),
             );
           },
           loading: () => LoadingScreen(),

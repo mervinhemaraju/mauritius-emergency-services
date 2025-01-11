@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/core/providers/combined.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class RestrictedPermissions extends ConsumerWidget {
   // Global vars
   final String title;
+  final Function() onReferesh;
 
   // Constructor
   const RestrictedPermissions({
     super.key,
     required this.title,
+    required this.onReferesh,
   });
 
   @override
@@ -54,7 +55,7 @@ class RestrictedPermissions extends ConsumerWidget {
             child: Text("Open Settings"),
           ),
           MaterialButton(
-            onPressed: () {},
+            onPressed: onReferesh,
             color: theme.colorScheme.primary,
             textColor: theme.colorScheme.onPrimary,
             shape: StadiumBorder(),

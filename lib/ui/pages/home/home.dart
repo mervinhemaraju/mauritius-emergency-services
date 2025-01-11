@@ -3,9 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
-import 'package:mauritius_emergency_services/core/providers/combined.dart';
-import 'package:mauritius_emergency_services/core/providers/search_controller.dart';
-import 'package:mauritius_emergency_services/core/providers/settings.dart';
+import 'package:mauritius_emergency_services/core/providers/runtime_permissions.dart';
+import 'package:mauritius_emergency_services/core/providers/notifiers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
@@ -13,6 +12,9 @@ import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mauritius_emergency_services/ui/components/view_restricted_perms.dart';
+import 'package:mauritius_emergency_services/ui/pages/home/home_providers.dart';
+import 'package:mauritius_emergency_services/ui/pages/home/home_state.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -22,30 +24,29 @@ class HomeScreen extends ConsumerWidget {
     // Get the scaffold key
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
-    // Get the settings
-    final settings = ref.watch(settingsProvider);
-
     // Get the search controller
     final searchController = ref.watch(globalSearchControllerProvider);
 
-    // Get the permitted service provider
-    final homeUiState = ref.watch(permittedEmergencyServicesProvider).when(
-          data: (permittedService) {
-            // if (permittedService.isPermissionsGranted) {
-            //   return _HomeUi(
-            //     emergencyServices: permittedService.services,
-            //     settings: settings,
-            //   );
-            // } else {
-            //   return RestrictedPermissions(
-            //     title:
-            //         "You need to enable phone permissions to view this section.",
-            //   );
-            // }
-            return _HomeUi(
-              emergencyServices: permittedService.services,
-              settings: settings,
-            );
+    final altstate = ref.watch(homeViewStateProvider).when(
+          data: (state) => switch (state) {
+            HomeViewLoading() => LoadingScreen(),
+            HomeViewError(error: final error, stackTrace: final _) =>
+              ErrorScreen(
+                title: error.toString(),
+              ),
+            HomeViewRestricted() => RestrictedPermissions(
+                title: "DENIED",
+                onReferesh: () {
+                  ref
+                      .read(permissionRefreshNotifierProvider.notifier)
+                      .refresh();
+                },
+              ),
+            HomeViewData(services: final services, settings: final settings) =>
+              _HomeUi(
+                emergencyServices: services,
+                settings: settings,
+              ),
           },
           loading: () => LoadingScreen(),
 
@@ -65,7 +66,7 @@ class HomeScreen extends ConsumerWidget {
         },
       ),
       drawer: const MesDrawer(),
-      body: homeUiState,
+      body: altstate,
     );
   }
 }
