@@ -4,9 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
 import 'package:mauritius_emergency_services/core/providers/runtime_permissions.dart';
-import 'package:mauritius_emergency_services/core/providers/notifiers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
-import 'package:mauritius_emergency_services/ui/components/appbar.dart';
+import 'package:mauritius_emergency_services/ui/components/appbar_search.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
@@ -23,9 +22,6 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Get the scaffold key
     final scaffoldKey = GlobalKey<ScaffoldState>();
-
-    // Get the search controller
-    final searchController = ref.watch(globalSearchControllerProvider);
 
     // Watch the home ui state
     final homeUiState = ref.watch(homeViewStateProvider).when(
@@ -60,7 +56,6 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       key: scaffoldKey,
       appBar: MesAppSearchBar(
-        searchController: searchController,
         openDrawer: () {
           scaffoldKey.currentState?.openDrawer();
         },

@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mauritius_emergency_services/core/models/about.dart';
 import 'package:mauritius_emergency_services/core/providers/package_version.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
-import 'package:mauritius_emergency_services/ui/components/appbar.dart';
+import 'package:mauritius_emergency_services/ui/components/appbar_simple.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';

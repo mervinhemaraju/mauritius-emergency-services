@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/core/providers/notifiers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/runtime_permissions.dart';
-import 'package:mauritius_emergency_services/ui/components/appbar.dart';
+import 'package:mauritius_emergency_services/ui/components/appbar_search.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
@@ -16,9 +15,6 @@ class ServicesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Watch the search controller from provider
-    final searchController = ref.watch(globalSearchControllerProvider);
-
     // Get the global scaffold key
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -54,7 +50,6 @@ class ServicesScreen extends ConsumerWidget {
     return Scaffold(
       key: scaffoldKey,
       appBar: MesAppSearchBar(
-        searchController: searchController,
         openDrawer: () {
           scaffoldKey.currentState?.openDrawer();
         },

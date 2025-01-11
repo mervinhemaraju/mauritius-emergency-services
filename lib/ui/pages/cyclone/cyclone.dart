@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/cyclone_report.dart';
-import 'package:mauritius_emergency_services/core/providers/notifiers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
-import 'package:mauritius_emergency_services/ui/components/appbar.dart';
+import 'package:mauritius_emergency_services/ui/components/appbar_search.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/components/rotating_svg.dart';
@@ -20,12 +19,13 @@ class CycloneScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final searchController = ref.watch(globalSearchControllerProvider);
+    // Get the global key
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
     // Store the cyclone report in a variable to access it later
     final cycloneReportAsync = ref.watch(cycloneReportTestingProvider);
 
+    // Get the cyclone view state
     final uiState = cycloneReportAsync.when(
       data: (report) {
         if (report.level > 0) {
@@ -43,10 +43,10 @@ class CycloneScreen extends ConsumerWidget {
       ),
     );
 
+    // Return the view
     return Scaffold(
       key: scaffoldKey,
       appBar: MesAppSearchBar(
-        searchController: searchController,
         openDrawer: () {
           scaffoldKey.currentState?.openDrawer();
         },

@@ -15,11 +15,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // FIXME(Fix issue with alertdialogs where selected items are overlapping with title)
+// REVIEW(Listview and its performance)
+// REVIEW(App UI & theme)
+// REVIEW(Adaptive UI)
 // TODO(Replace report testing by prod one after ensuring cyclone UI is done)
-// TODO(Review all app UI & theme)
 // TODO(Implement app locales)
-// TODO(Implement search functionality)
-// TODO(Review adaptive UI)
 // TODO(Implement offline services availability)
 // TODO(Implement notifications for cyclone)
 // FEAT(Add contrast change in theme selector)
