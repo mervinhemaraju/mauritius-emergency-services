@@ -8,6 +8,7 @@ import 'package:mauritius_emergency_services/ui/pages/precall/precall.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services.dart';
 import 'package:mauritius_emergency_services/ui/pages/settings/settings.dart';
 import 'package:mauritius_emergency_services/ui/pages/welcome/welcome.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class MesAppRouter {
   static GoRouter getRouter({String initialLocation = HomeRoute.path}) {
@@ -88,6 +89,8 @@ class MesAppRouter {
             final data = state.extra! as Map<String, dynamic>;
             return PreCallScreen(
               service: data[PrecallRoute.extraService],
+              number: data[PrecallRoute.extraNumber].toString(),
+              onComplete: () => context.goBack(),
             );
           },
         ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/providers/runtime_permissions.dart';
 import 'package:mauritius_emergency_services/core/providers/services.dart';
@@ -28,7 +30,7 @@ final homeViewStateProvider = StreamProvider<HomeViewState>((ref) async* {
     phonePermissionsStatusProvider.future,
   );
 
-  if (!permissionStatus.isGranted) {
+  if (!permissionStatus.isGranted && !Platform.isIOS) {
     yield const HomeViewRestricted();
     return;
   }

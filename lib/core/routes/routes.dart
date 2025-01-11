@@ -17,6 +17,7 @@ final class PrecallRoute extends MesRoute {
   static const String name = 'PreCall';
   static const String path = '/precall';
   static const String extraService = "service";
+  static const String extraNumber = "number";
 }
 
 final class ServicesRoute extends MesRoute {

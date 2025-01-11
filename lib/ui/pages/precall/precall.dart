@@ -1,14 +1,22 @@
+import 'dart:io';
+
+import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PreCallScreen extends StatelessWidget {
   final Service service;
+  final String number;
+  final void Function() onComplete;
 
   const PreCallScreen({
     super.key,
     required this.service,
+    required this.number,
+    required this.onComplete,
   });
 
   @override
@@ -79,11 +87,32 @@ class PreCallScreen extends StatelessWidget {
                   ),
                 ),
                 _CountdownTimer(
-                  onComplete: () {
-                    // Add your action here
-                    print('Countdown complete!');
+                  onComplete: () async {
+                    // REVIEW(The way we call launchUrl of Tel)
+                    if (Platform.isAndroid) {
+                      final AndroidIntent intent = AndroidIntent(
+                        action: 'android.intent.action.CALL',
+                        data: 'tel:$number',
+                      );
+                      await intent.launch();
+                    } else {
+                      // Build the URI
+                      final uri = Uri(
+                        scheme: 'tel',
+                        path: number,
+                      );
 
-                    // TODO(Launch phone intent and make the call)
+                      // Launch the URL with explicit LaunchMode
+                      if (!await launchUrl(
+                        uri,
+                        mode: LaunchMode.externalNonBrowserApplication,
+                      )) {
+                        print('Could not launch $uri');
+                      }
+                    }
+
+                    // Run on completion function
+                    onComplete();
                   },
                 ),
                 _SlideToCancel(),

@@ -113,7 +113,10 @@ class _HomeUi extends StatelessWidget {
 
                     context.push(
                       PrecallRoute.path,
-                      extra: {PrecallRoute.extraService: emergencyService},
+                      extra: {
+                        PrecallRoute.extraService: emergencyService,
+                        PrecallRoute.extraNumber: emergencyService.mainContact,
+                      },
                     );
                   },
                 ),
@@ -125,6 +128,7 @@ class _HomeUi extends StatelessWidget {
                 _EmergencyListView(onTap: (service) {
                   context.push(PrecallRoute.path, extra: {
                     PrecallRoute.extraService: service,
+                    PrecallRoute.extraNumber: service.mainContact,
                   });
                 })
               ],

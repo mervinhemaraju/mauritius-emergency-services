@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_simple.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/pages/settings/emergency_button_dialog.dart';
@@ -28,16 +27,17 @@ class SettingsScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _SettingsHeaderTitle(
-              title: "Display",
-            ),
-            SettingsItem(
-              icon: Icons.color_lens_outlined,
-              title: "Dynamic Colors",
-              subtitle:
-                  "Apply dynamic colors, based on your wallpaper (Material YOU)",
-              trailing: _DynamicColorSwitch(),
-            ),
+            // FEAT(Implement dynamic color change)
+            // _SettingsHeaderTitle(
+            //   title: "Display",
+            // ),
+            // SettingsItem(
+            //   icon: Icons.color_lens_outlined,
+            //   title: "Dynamic Colors",
+            //   subtitle:
+            //       "Apply dynamic colors, based on your wallpaper (Material YOU)",
+            //   trailing: _DynamicColorSwitch(),
+            // ),
             _SettingsHeaderTitle(
               title: "Feature",
             ),
@@ -74,20 +74,20 @@ class SettingsScreen extends ConsumerWidget {
 }
 
 // Simple switch widget
-class _DynamicColorSwitch extends ConsumerWidget {
-  const _DynamicColorSwitch();
+// class _DynamicColorSwitch extends ConsumerWidget {
+//   const _DynamicColorSwitch();
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.watch(settingsProvider);
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final settings = ref.watch(settingsProvider);
 
-    return Switch(
-      value: settings.isDynamicEnabled,
-      onChanged: (value) =>
-          ref.read(settingsProvider.notifier).toggleDynamic(value),
-    );
-  }
-}
+//     return Switch(
+//       value: settings.isDynamicEnabled,
+//       onChanged: (value) =>
+//           ref.read(settingsProvider.notifier).toggleDynamic(value),
+//     );
+//   }
+// }
 
 class _SettingsHeaderTitle extends StatelessWidget {
   final String title;

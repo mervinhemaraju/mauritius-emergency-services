@@ -45,10 +45,10 @@
 			<string>UIInterfaceOrientationLandscapeLeft</string>
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
-		<key>NSPhoneUsageDescription</key>
-		<string>We need phone permission to make calls</string>
-		<key>NSMicrophoneUsage</key>
-		<string>Need microphone access for phone calls</string>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>tel</string>
+		</array>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>fetch</string>

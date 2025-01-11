@@ -32,9 +32,6 @@ class _MesSearchBar extends ConsumerWidget {
     // Watch the services
     final services = ref.watch(servicesProvider);
 
-    // Define the theme
-    final theme = Theme.of(context);
-
     // Return the view
     return SearchAnchor.bar(
         searchController: searchController,

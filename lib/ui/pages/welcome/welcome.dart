@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/welcome.dart';
+import 'package:mauritius_emergency_services/core/providers/settings.dart';
+import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/pages/welcome/permissions_dialog.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
@@ -42,7 +48,7 @@ class WelcomeScreen extends StatelessWidget {
 }
 
 // Stateful carousel component that provides currentIndex
-class _WelcomeCarouselWithIndicator extends StatefulWidget {
+class _WelcomeCarouselWithIndicator extends ConsumerStatefulWidget {
   final Color backgroundColor;
 
   const _WelcomeCarouselWithIndicator({
@@ -50,12 +56,12 @@ class _WelcomeCarouselWithIndicator extends StatefulWidget {
   });
 
   @override
-  State<_WelcomeCarouselWithIndicator> createState() =>
+  ConsumerState<_WelcomeCarouselWithIndicator> createState() =>
       _WelcomeCarouselWithIndicatorState();
 }
 
 class _WelcomeCarouselWithIndicatorState
-    extends State<_WelcomeCarouselWithIndicator> {
+    extends ConsumerState<_WelcomeCarouselWithIndicator> {
   int currentIndex = 0;
   final carouselController = CarouselController();
 
@@ -127,10 +133,26 @@ class _WelcomeCarouselWithIndicatorState
               FloatingActionButton(
                 elevation: MesElevation.fab,
                 onPressed: () {
-                  showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => PermissionsDialog(),
-                  );
+                  // If this is IOS, we don't need to request explicit
+                  // permissions for phone calls
+
+                  // TODO : Improve the way permissions as handled -> Proposal below:
+                  // Verify if phone permissions are granted in pre-call page instead on each page
+                  // Notify users right away when they try to make a call.
+                  // We can control this permission by asking just for android since no explicit permissions needed for IOS
+                  // We can then have a simple way of telling users that they didn't grant permissions every time they open the app
+                  if (Platform.isIOS) {
+                    // Mark the user as onboarded
+                    ref.read(settingsProvider.notifier).markAsOnboarded();
+
+                    // Navigate to the home screen
+                    context.go(HomeRoute.path);
+                  } else {
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => PermissionsDialog(),
+                    );
+                  }
                 },
                 backgroundColor: theme.colorScheme.primary,
                 foregroundColor: theme.colorScheme.onPrimary,

@@ -232,6 +232,7 @@ class ExpandableDismissibleTile extends StatelessWidget {
       confirmDismiss: (direction) async {
         context.push(PrecallRoute.path, extra: {
           PrecallRoute.extraService: service,
+          PrecallRoute.extraNumber: service.mainContact,
         });
         return false;
       },

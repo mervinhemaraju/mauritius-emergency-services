@@ -23,7 +23,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // TODO(Implement offline services availability)
 // TODO(Implement notifications for cyclone)
 // FEAT(Add contrast change in theme selector)
-// FEAT(Implement dynamic color change)
 
 class MyHttpOverrides extends HttpOverrides {
   @override
