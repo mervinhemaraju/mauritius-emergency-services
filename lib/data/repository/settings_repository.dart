@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:mauritius_emergency_services/core/models/locale.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
-import 'package:mauritius_emergency_services/core/models/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SettingsRepository {
@@ -37,7 +37,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return MesSettings(
       isOnboarded: isOnboarded,
       isDynamicEnabled: isDynamicEnabled,
-      theme: MesThemes.values[themeIndex],
+      theme: ThemeMode.values[themeIndex],
       locale: MesLocale.values[localeIndex],
       emergencyButtonAction: emergencyButtonAction,
     );

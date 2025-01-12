@@ -1,12 +1,12 @@
 // Settings model
+import 'package:flutter/material.dart';
 import 'package:mauritius_emergency_services/core/models/locale.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
-import 'package:mauritius_emergency_services/core/models/themes.dart';
 
 class MesSettings {
   final bool isOnboarded;
   final bool isDynamicEnabled;
-  final MesThemes theme;
+  final ThemeMode theme;
   final MesLocale locale;
   final Service emergencyButtonAction;
 
@@ -21,7 +21,7 @@ class MesSettings {
   MesSettings copyWith({
     bool? isOnboarded,
     bool? isDynamicEnabled,
-    MesThemes? theme,
+    ThemeMode? theme,
     MesLocale? locale,
     Service? emergencyButtonAction,
   }) {
@@ -40,7 +40,7 @@ class MesSettings {
     return const MesSettings(
       isOnboarded: false,
       isDynamicEnabled: false,
-      theme: MesThemes.followSystem,
+      theme: ThemeMode.system,
       locale: MesLocale.english,
       emergencyButtonAction: Service(),
     );

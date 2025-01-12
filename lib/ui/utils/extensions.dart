@@ -26,3 +26,17 @@ extension ServiceExtension on List<Service> {
     ).toList();
   }
 }
+
+extension StringExtension on String {
+  String capitalize() {
+    // If the string is empty, return it as is
+    if (isEmpty) return this;
+
+    // Else capitalize the first letter and return the string
+    return "${this[0].toUpperCase()}${substring(1)}";
+  }
+
+  bool isNumeric() {
+    return int.tryParse(this) != null;
+  }
+}

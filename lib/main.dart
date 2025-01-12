@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/locale.dart';
-import 'package:mauritius_emergency_services/core/models/themes.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/core/routes/router.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
@@ -69,8 +68,12 @@ class MesMaterialApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Watch the settings
-    final settings = ref.watch(settingsProvider);
+    // Retrieve the router
+    final router = MesAppRouter.getRouter(
+      initialLocation: ref.watch(settingsProvider.select((s) => s.isOnboarded))
+          ? HomeRoute.path
+          : WelcomeRoute.path,
+    );
 
     // Determine the app brightness (theme)
     final brightness = View.of(context).platformDispatcher.platformBrightness;
@@ -89,29 +92,24 @@ class MesMaterialApp extends ConsumerWidget {
       appBarTheme,
     );
 
-    // Determine the app brightness (theme)
-    var brightnessUsed = switch (settings.theme) {
-      MesThemes.light => theme.light(),
-      MesThemes.dark => theme.dark(),
-      MesThemes.followSystem =>
-        brightness == Brightness.light ? theme.light() : theme.dark(),
-    };
-
     // Return the Material App
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       // debugShowMaterialGrid: true,
       title: 'Flutter Demo',
-      theme: brightnessUsed,
+      theme: theme.light(),
+      darkTheme: theme.dark(),
+      themeMode: ref.watch(settingsProvider.select(
+        (s) => s.theme,
+      )),
+      highContrastTheme: theme.lightHighContrast(),
+      highContrastDarkTheme: theme.darkHighContrast(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: settings.locale == MesLocale.system
-          ? null
-          : Locale(settings.locale.lang),
-      routerConfig: MesAppRouter.getRouter(
-        initialLocation:
-            settings.isOnboarded ? HomeRoute.path : WelcomeRoute.path,
-      ),
+      locale: ref.watch(settingsProvider.select(
+        (s) => s.locale == MesLocale.system ? null : Locale(s.locale.lang),
+      )),
+      routerConfig: router,
     );
   }
 }

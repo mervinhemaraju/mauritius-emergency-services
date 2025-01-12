@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mauritius_emergency_services/core/models/themes.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
 
 class ThemeDialog extends ConsumerWidget {
@@ -26,13 +25,13 @@ class ThemeDialog extends ConsumerWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          ...MesThemes.values.map((theme) {
-            return RadioListTile<MesThemes>(
+          ...ThemeMode.values.map((theme) {
+            return RadioListTile<ThemeMode>(
               contentPadding: EdgeInsets.zero,
-              title: Text(theme.label),
+              title: Text(theme.name),
               value: theme,
               groupValue: settings.theme,
-              onChanged: (MesThemes? newTheme) {
+              onChanged: (ThemeMode? newTheme) {
                 if (newTheme != null) {
                   ref.read(settingsProvider.notifier).updateTheme(newTheme);
                 }

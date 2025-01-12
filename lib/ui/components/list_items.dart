@@ -5,6 +5,8 @@ import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // The about header list item
 class AboutHeaderListItem extends StatelessWidget {
@@ -295,8 +297,10 @@ class ExpandableDismissibleTile extends StatelessWidget {
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.secondary,
                       )),
-                  const SizedBox(width: 12.0),
-                  const MesChip(label: "Toll Free")
+                  if (service.isTollFree) ...[
+                    const SizedBox(width: 12.0),
+                    const MesChip(label: "Toll Free")
+                  ],
                 ],
               ),
               trailing: IconButton(
@@ -328,7 +332,22 @@ class ExpandableDismissibleTile extends StatelessWidget {
                             backgroundColor:
                                 Theme.of(context).colorScheme.tertiary,
                             onTap: (contact) {
-                              // TODO(Redirect to pre call: check if email or number first)
+                              if (contact.toString().isNumeric()) {
+                                print("Contact is numeric");
+
+                                context.go(PrecallRoute.path, extra: {
+                                  PrecallRoute.extraService: service,
+                                  PrecallRoute.extraNumber: contact.toString(),
+                                });
+                              } else {
+                                // Build the uri
+                                final uri = Uri(
+                                  scheme: 'mailto',
+                                  path: contact.toString(),
+                                );
+
+                                launchUrl(uri);
+                              }
                             })
                         : const Text("No other contacts"),
                   ),
