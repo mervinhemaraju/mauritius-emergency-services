@@ -6,7 +6,7 @@ import 'package:mauritius_emergency_services/core/models/locale.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/core/routes/router.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
-import 'package:mauritius_emergency_services/data/repository/settings_repository.dart';
+import 'package:mauritius_emergency_services/data/impl/app_settings_impl.dart';
 import 'package:mauritius_emergency_services/ui/theme/theme.dart';
 import 'package:mauritius_emergency_services/ui/theme/typography.dart';
 import 'package:mauritius_emergency_services/ui/theme/ui.dart';
@@ -31,7 +31,7 @@ main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = await SharedPreferences.getInstance();
-  final repository = SettingsRepositoryImpl(prefs);
+  final repository = AppSettingsImpl(prefs);
 
   // TODO(To review this override)
   HttpOverrides.global = MyHttpOverrides();

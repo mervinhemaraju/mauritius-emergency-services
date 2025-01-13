@@ -4,10 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/locale.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
-import 'package:mauritius_emergency_services/data/repository/settings_repository.dart';
+import 'package:mauritius_emergency_services/data/repository/app_settings.dart';
 
 class MesSettingsNotifier extends StateNotifier<MesSettings> {
-  final SettingsRepository _repository;
+  final AppSettingsRepository _repository;
 
   MesSettingsNotifier(this._repository) : super(MesSettings.initial()) {
     _loadSettings();
@@ -50,7 +50,7 @@ class MesSettingsNotifier extends StateNotifier<MesSettings> {
 }
 
 // Repository provider
-final settingsRepositoryProvider = Provider<SettingsRepository>((ref) {
+final settingsRepositoryProvider = Provider<AppSettingsRepository>((ref) {
   throw UnimplementedError('Repository must be initialized');
 });
 

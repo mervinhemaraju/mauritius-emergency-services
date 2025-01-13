@@ -1,25 +1,7 @@
-// Abstract class
+import 'package:mauritius_emergency_services/data/repository/runtime_permissions.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-abstract class PermissionRepository {
-  /// Request notification permission
-  Future<PermissionStatus> requestNotificationPermission();
-
-  /// Request phone permission
-  Future<PermissionStatus> requestPhonePermission();
-
-  /// Request all permissions at once
-  Future<bool> requestAllPermissions();
-
-  /// Check status of all permissions
-  Future<Map<Permission, PermissionStatus>> checkPermissionsStatus();
-
-  /// Check only mandatory permissions (phone)
-  Future<PermissionStatus> checkMandatoryPermissionsStatus();
-}
-
-// Repository implementation
-class PermissionRepositoryImpl implements PermissionRepository {
+class RuntimePermissionImpl implements RuntimePermissionRepository {
   @override
   Future<PermissionStatus> requestNotificationPermission() async {
     final status = await Permission.notification.request();

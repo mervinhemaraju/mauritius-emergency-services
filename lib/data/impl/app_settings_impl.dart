@@ -4,15 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:mauritius_emergency_services/core/models/locale.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
+import 'package:mauritius_emergency_services/data/repository/app_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class SettingsRepository {
-  Future<MesSettings> getSettings();
-  Future<void> updateSettings(MesSettings settings);
-}
-
-// Repository implementation
-class SettingsRepositoryImpl implements SettingsRepository {
+class AppSettingsImpl implements AppSettingsRepository {
   static const _keyIsOnboarded = 'isOnboarded';
   static const _keyDynamicEnabled = 'isDynamicEnabled';
   static const _keyTheme = 'theme';
@@ -20,7 +15,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   static const _keyEmergencyButtonAction = 'emergencyButtonAction';
   final SharedPreferences _prefs;
 
-  SettingsRepositoryImpl(this._prefs);
+  AppSettingsImpl(this._prefs);
 
   @override
   Future<MesSettings> getSettings() async {

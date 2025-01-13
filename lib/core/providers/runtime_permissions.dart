@@ -1,10 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/data/repository/permissions_repository.dart';
+import 'package:mauritius_emergency_services/data/impl/runtime_permissions_impl.dart';
+import 'package:mauritius_emergency_services/data/repository/runtime_permissions.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 // Request all permissions
 class RequestAllPermissionsUseCase {
-  final PermissionRepository repository;
+  final RuntimePermissionRepository repository;
 
   RequestAllPermissionsUseCase(this.repository);
 
@@ -12,8 +13,9 @@ class RequestAllPermissionsUseCase {
 }
 
 // Provider
-final permissionRepositoryProvider = Provider<PermissionRepository>((ref) {
-  return PermissionRepositoryImpl();
+final permissionRepositoryProvider =
+    Provider<RuntimePermissionRepository>((ref) {
+  return RuntimePermissionImpl();
 });
 
 final requestPermissionsUseCaseProvider =

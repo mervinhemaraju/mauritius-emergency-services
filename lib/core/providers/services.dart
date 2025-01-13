@@ -4,17 +4,26 @@ import 'package:mauritius_emergency_services/core/models/cyclone_guidelines.dart
 import 'package:mauritius_emergency_services/core/models/cyclone_names.dart';
 import 'package:mauritius_emergency_services/core/models/cyclone_report.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
-import 'package:mauritius_emergency_services/data/datasources/mes_datasource.dart';
-import 'package:mauritius_emergency_services/data/repository/mes_repository.dart';
+import 'package:mauritius_emergency_services/data/api/mes_cyclone.dart';
+import 'package:mauritius_emergency_services/data/api/mes_services.dart';
+import 'package:mauritius_emergency_services/data/impl/mes_service_impl.dart';
+import 'package:mauritius_emergency_services/data/repository/mes_cyclone.dart';
+import 'package:mauritius_emergency_services/data/repository/mes_service.dart';
 
 // Define the dio provider
 final _dioProvider = Provider((ref) => Dio());
 
 // Initialize the MesRepository provider
-final mesRepositoryProvider = Provider<MesRepository>((ref) {
+final mesCycloneRepositoryProvider = Provider<MesCycloneRepository>((ref) {
   final dio = ref.watch(_dioProvider);
-  final dataSource = MesRemoteDataSource(dio);
-  return MesRepositoryImpl(dataSource);
+  return MesCycloneApi(dio);
+});
+
+// Initialize the MesRepository provider
+final mesRepositoryProvider = Provider<MesServiceRepository>((ref) {
+  final dio = ref.watch(_dioProvider);
+  final dataSource = MesServiceApiDataSource(dio);
+  return MesServiceImpl(dataSource);
 });
 
 // Services providers
@@ -30,22 +39,22 @@ final emergencyServicesProvider = FutureProvider<List<Service>>((ref) async {
 
 // Cyclone providers
 final cycloneReportProvider = FutureProvider<CycloneReport>((ref) async {
-  final repository = ref.watch(mesRepositoryProvider);
+  final repository = ref.watch(mesCycloneRepositoryProvider);
   return repository.getCycloneReport();
 });
 
 final cycloneReportTestingProvider = FutureProvider<CycloneReport>((ref) async {
-  final repository = ref.watch(mesRepositoryProvider);
+  final repository = ref.watch(mesCycloneRepositoryProvider);
   return repository.getCycloneReportTesting();
 });
 
 final cycloneGuidelinesProvider =
     FutureProvider<List<CycloneGuidelines>>((ref) async {
-  final repository = ref.watch(mesRepositoryProvider);
+  final repository = ref.watch(mesCycloneRepositoryProvider);
   return repository.getCycloneGuidelines();
 });
 
 final cycloneNamesProvider = FutureProvider<List<CycloneNames>>((ref) async {
-  final repository = ref.watch(mesRepositoryProvider);
+  final repository = ref.watch(mesCycloneRepositoryProvider);
   return repository.getCycloneNames();
 });
