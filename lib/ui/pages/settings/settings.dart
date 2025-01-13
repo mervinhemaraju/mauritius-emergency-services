@@ -27,7 +27,6 @@ class SettingsScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // FEAT(Implement dynamic color change)
             // _SettingsHeaderTitle(
             //   title: "Display",
             // ),

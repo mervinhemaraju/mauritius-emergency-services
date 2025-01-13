@@ -13,14 +13,6 @@ import 'package:mauritius_emergency_services/ui/theme/ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-// REVIEW(Listview and its performance)
-// REVIEW(App UI & theme)
-// REVIEW(Adaptive UI)
-// TODO(Replace report testing by prod one after ensuring cyclone UI is done)
-// TODO(Implement app locales)
-// TODO(Implement offline services availability)
-// TODO(Implement notifications for cyclone)
-
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -66,12 +58,17 @@ class MesMaterialApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Retrieve the router
-    final router = MesAppRouter.getRouter(
-      initialLocation: ref.watch(settingsProvider.select((s) => s.isOnboarded))
-          ? HomeRoute.path
-          : WelcomeRoute.path,
-    );
+    // Get the initial location
+    final intitialLocation =
+        ref.watch(settingsProvider.select((s) => s.isOnboarded))
+            ? HomeRoute.path
+            : WelcomeRoute.path;
+
+    // Set the initial location
+    MesAppRouter.instance.setInitialLocation(intitialLocation);
+
+    // Get the router instance
+    final router = MesAppRouter.instance.getRouter();
 
     // Determine the app brightness (theme)
     final brightness = View.of(context).platformDispatcher.platformBrightness;

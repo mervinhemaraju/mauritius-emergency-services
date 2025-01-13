@@ -11,9 +11,39 @@ import 'package:mauritius_emergency_services/ui/pages/welcome/welcome.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class MesAppRouter {
-  static GoRouter getRouter({String initialLocation = HomeRoute.path}) {
+  // Private vars
+  String _initialLocation = HomeRoute.path;
+
+  // Private constructor
+  MesAppRouter._();
+
+  // Single instance
+  static final MesAppRouter _instance = MesAppRouter._();
+
+  // Getter for the instance
+  static MesAppRouter get instance => _instance;
+
+  // Lazy initialization of the router
+  static GoRouter? _router;
+
+  // Method to set initial location
+  void setInitialLocation(String location) {
+    if (location != _initialLocation) {
+      _initialLocation = location;
+      _router = null;
+    }
+  }
+
+  // Get router instance
+  GoRouter getRouter() {
+    _router ??= _createRouter();
+    return _router!;
+  }
+
+  // Private method to create the router
+  GoRouter _createRouter() {
     return GoRouter(
-      initialLocation: initialLocation,
+      initialLocation: _initialLocation,
       routes: <RouteBase>[
         GoRoute(
           name: WelcomeRoute.name,

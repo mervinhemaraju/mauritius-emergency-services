@@ -1,0 +1,22 @@
+
+
+============ OPTIMIZATIONS ============
+[1] Look into Bloc design pattern
+[2] Improve navigation and router
+[3] App Performance
+    [.] // REVIEW(Listview and its performance)
+    [.] // REVIEW(App UI & theme)
+
+============ TODOS ============
+// TODO(Replace report testing by prod one after ensuring cyclone UI is done)
+// TODO(Implement app locales)
+// TODO(Implement offline services availability)
+// TODO(Implement notifications for cyclone)
+
+============ REVIEWS ============
+// REVIEW(Adaptive UI)
+
+
+============ FEATURES ============
+// FEAT(Implement dynamic color change for Android AND/OR Iphone)
+
