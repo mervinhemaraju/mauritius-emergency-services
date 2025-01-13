@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mauritius_emergency_services/core/providers/local_database.dart';
 import 'package:mauritius_emergency_services/core/providers/runtime_permissions.dart';
-import 'package:mauritius_emergency_services/core/providers/services.dart';
+// import 'package:mauritius_emergency_services/core/providers/services.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_state.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -35,7 +36,7 @@ final servicesViewStateProvider =
     return;
   }
 
-  final servicesAsyncValue = ref.watch(servicesProvider);
+  final servicesAsyncValue = ref.watch(sp("en"));
 
   yield servicesAsyncValue.when(
     data: (services) => ServicesViewData(

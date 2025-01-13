@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/locale.dart';
+import 'package:mauritius_emergency_services/core/providers/local_database.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/core/routes/router.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
@@ -33,6 +34,8 @@ main() async {
   final prefs = await SharedPreferences.getInstance();
   final repository = AppSettingsImpl(prefs);
 
+  final database = await initializeDatabase();
+
   // TODO(To review this override)
   HttpOverrides.global = MyHttpOverrides();
 
@@ -47,6 +50,7 @@ main() async {
     ProviderScope(
       overrides: [
         settingsRepositoryProvider.overrideWithValue(repository),
+        databaseProvider.overrideWithValue(database),
       ],
       child: MesMaterialApp(),
     ),
