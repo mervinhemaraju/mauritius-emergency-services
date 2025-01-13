@@ -29,11 +29,15 @@ class EmergencyButtonDialog extends ConsumerWidget {
         );
 
     return AlertDialog(
-      title: Text(
-        "Choose Emergency Action",
-        style: Theme.of(context).textTheme.titleLarge,
+      clipBehavior: Clip.hardEdge,
+      contentPadding: EdgeInsets.zero,
+      titlePadding: EdgeInsets.zero,
+      title: Container(
+        padding: EdgeInsets.symmetric(vertical: 16.0),
+        color: Theme.of(context).colorScheme.surfaceContainerHigh,
+        alignment: Alignment.center,
+        child: Text("Choose Emergency Action"),
       ),
-      contentPadding: EdgeInsets.zero, // Remove default padding
       content: SizedBox(
         width: double.maxFinite,
         height: 300,
@@ -68,7 +72,7 @@ class ServiceListView extends StatelessWidget {
               subtitle: Text(service.mainContact.toString()),
               trailing: service.identifier == selectedService.identifier
                   ? Icon(
-                      Icons.check_circle,
+                      Icons.check_outlined,
                       color: Theme.of(context).colorScheme.onTertiary,
                     )
                   : null,

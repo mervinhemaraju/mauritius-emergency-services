@@ -13,7 +13,6 @@ import 'package:mauritius_emergency_services/ui/theme/ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-// FIXME(Fix issue with alertdialogs where selected items are overlapping with title)
 // REVIEW(Listview and its performance)
 // REVIEW(App UI & theme)
 // REVIEW(Adaptive UI)
@@ -21,7 +20,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // TODO(Implement app locales)
 // TODO(Implement offline services availability)
 // TODO(Implement notifications for cyclone)
-// FEAT(Add contrast change in theme selector)
 
 class MyHttpOverrides extends HttpOverrides {
   @override

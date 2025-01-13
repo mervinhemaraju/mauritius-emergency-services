@@ -88,7 +88,6 @@ class PreCallScreen extends StatelessWidget {
                 ),
                 _CountdownTimer(
                   onComplete: () async {
-                    // REVIEW(The way we call launchUrl of Tel)
                     if (Platform.isAndroid) {
                       final AndroidIntent intent = AndroidIntent(
                         action: 'android.intent.action.CALL',
@@ -103,10 +102,7 @@ class PreCallScreen extends StatelessWidget {
                       );
 
                       // Launch the URL with explicit LaunchMode
-                      if (!await launchUrl(
-                        uri,
-                        mode: LaunchMode.externalNonBrowserApplication,
-                      )) {
+                      if (!await launchUrl(uri)) {
                         print('Could not launch $uri');
                       }
                     }

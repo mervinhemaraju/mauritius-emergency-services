@@ -15,12 +15,14 @@ class ThemeDialog extends ConsumerWidget {
     // FIXME(Issue with dialog on Landscape)
     // Return the view
     return AlertDialog(
-      title: Text(
-        "Theme Preferences",
-        textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
-            ),
+      clipBehavior: Clip.hardEdge,
+      contentPadding: EdgeInsets.zero,
+      titlePadding: EdgeInsets.zero,
+      title: Container(
+        padding: EdgeInsets.symmetric(vertical: 16.0),
+        color: Theme.of(context).colorScheme.surfaceContainerHigh,
+        alignment: Alignment.center,
+        child: Text("Theme Preferences"),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
