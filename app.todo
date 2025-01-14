@@ -9,9 +9,10 @@
 [4] Search functionality
 
 ============ TODOS ============
+// FIXME(on dark mode, status bar icons are dark too.)
+// FIXME(Improve offline availability by first checking if internet is available before getting from cache.)
 // TODO(Replace report testing by prod one after ensuring cyclone UI is done)
 // TODO(Implement app locales)
-// TODO(Implement notifications for cyclone)
 
 ============ REVIEWS ============
 // REVIEW(Adaptive UI)
@@ -20,4 +21,6 @@
 ============ FEATURES ============
 // FEAT(Add search history functionality)
 // FEAT(Implement dynamic color change for Android AND/OR Iphone)
+// FEAT(Implement push notifications for cyclone using FCM)
+// FEAT(Implement push notifications for services update)
 

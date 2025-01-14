@@ -3,11 +3,11 @@
 <plist version="1.0">
 	<dict>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
-		<true />
+		<true/>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>Mauritius Emergency Services</string>
+		<string>Mes</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -25,9 +25,9 @@
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>LSRequiresIPhoneOS</key>
-		<true />
+		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
-		<true />
+		<true/>
 		<key>UILaunchStoryboardName</key>
 		<string>LaunchScreen</string>
 		<key>UIMainStoryboardFile</key>
@@ -54,5 +54,7 @@
 			<string>fetch</string>
 			<string>remote-notification</string>
 		</array>
+		<key>UIStatusBarHidden</key>
+		<false/>
 	</dict>
 </plist>

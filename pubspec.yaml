@@ -27,6 +27,9 @@ dependencies:
   android_intent_plus: ^5.2.1
   objectbox: ^4.0.3
   objectbox_flutter_libs: ^4.0.3
+  flutter_launcher_icons: ^0.14.2
+  rename_app: ^1.6.2
+  flutter_native_splash: ^2.4.4
 
 dev_dependencies:
   flutter_test:
