@@ -6,7 +6,7 @@ final packageInfoProvider = FutureProvider<PackageInfo>((ref) {
   return PackageInfo.fromPlatform();
 });
 
-// Optional: Provider for just the version without build number
+// Provider for just the version without build number
 final appVersion = Provider<AsyncValue<String>>((ref) {
   return ref.watch(packageInfoProvider).whenData((packageInfo) {
     return packageInfo.version;

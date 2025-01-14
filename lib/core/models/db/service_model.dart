@@ -1,14 +1,14 @@
-// First, let's create the ObjectBox model for Service
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:objectbox/objectbox.dart';
 
-// First, let's create the ObjectBox model for Service
 @Entity()
 class ServiceModel {
   @Id()
   int id = 0;
 
+  @Unique()
   final String identifier;
+
   final String name;
   final String type;
   final String icon;

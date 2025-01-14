@@ -1,5 +1,5 @@
 import 'package:mauritius_emergency_services/core/models/service.dart';
-import 'package:mauritius_emergency_services/core/models/service_model.dart';
+import 'package:mauritius_emergency_services/core/models/db/service_model.dart';
 import 'package:mauritius_emergency_services/data/sources/mes.dart';
 import 'package:mauritius_emergency_services/objectbox.g.dart';
 

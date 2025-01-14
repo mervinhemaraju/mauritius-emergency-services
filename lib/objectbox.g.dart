@@ -14,7 +14,7 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
-import 'core/models/service_model.dart';
+import 'core/models/db/service_model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -34,7 +34,8 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(2, 1189605596833123908),
             name: 'identifier',
             type: 9,
-            flags: 0),
+            flags: 2080,
+            indexId: const obx_int.IdUid(1, 6882993090794878317)),
         obx_int.ModelProperty(
             id: const obx_int.IdUid(3, 3325392578914419130),
             name: 'name',
@@ -111,7 +112,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
       lastEntityId: const obx_int.IdUid(1, 1082964145546588951),
-      lastIndexId: const obx_int.IdUid(0, 0),
+      lastIndexId: const obx_int.IdUid(1, 6882993090794878317),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],

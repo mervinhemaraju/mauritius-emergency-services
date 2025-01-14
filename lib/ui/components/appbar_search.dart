@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/providers/notifiers/search_controller.dart';
-import 'package:mauritius_emergency_services/core/providers/services.dart';
+import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
@@ -139,49 +139,20 @@ class _MesSearchBar extends ConsumerWidget {
 class _SearchUiInitial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO(Add search history functionality)
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 12.0,
-        ),
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 21.0,
-                vertical: 16.0,
-              ),
-              child: Text("Recent Searches"),
-            ),
-            Spacer(),
-            TextButton(
-              onPressed: () {},
-              style: TextButton.styleFrom(
-                foregroundColor: Theme.of(context).colorScheme.tertiary,
-              ),
-              child: Text("Clear"),
-            ),
-            SizedBox(
-              width: 8.0,
-            )
-          ],
-        ),
-        SizedBox(
-          height: 12.0,
-        ),
-        ListTile(
-          leading: Icon(Icons.history),
-          title: Text("Something 1"),
-        ),
-        ListTile(
-          leading: Icon(Icons.history),
-          title: Text("Something 2"),
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "What do you need help with ?",
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+        ],
+      ),
     );
   }
 }

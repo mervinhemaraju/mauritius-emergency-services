@@ -6,11 +6,11 @@
 [3] App Performance
     [.] // REVIEW(Listview and its performance)
     [.] // REVIEW(App UI & theme)
+[4] Search functionality
 
 ============ TODOS ============
 // TODO(Replace report testing by prod one after ensuring cyclone UI is done)
 // TODO(Implement app locales)
-// TODO(Implement offline services availability)
 // TODO(Implement notifications for cyclone)
 
 ============ REVIEWS ============
@@ -18,5 +18,6 @@
 
 
 ============ FEATURES ============
+// FEAT(Add search history functionality)
 // FEAT(Implement dynamic color change for Android AND/OR Iphone)
 
