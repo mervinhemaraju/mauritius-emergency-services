@@ -1,50 +1,35 @@
 // Database provider
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/data/api/mes_services.dart';
 import 'package:mauritius_emergency_services/data/impl/mes_service_impl.dart';
 import 'package:mauritius_emergency_services/data/local/mes_services.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:mauritius_emergency_services/data/repository/mes_service.dart';
+import 'package:mauritius_emergency_services/data/sources/mes.dart';
+import 'package:objectbox/objectbox.dart';
 
-final databaseProvider = Provider<Database>((ref) {
-  throw UnimplementedError('Database must be initialized before use');
+// Riverpod implementations
+final objectBoxProvider = Provider<Store>((ref) {
+  throw UnimplementedError('Initialize this in your main.dart');
 });
 
-// Initialize database
-Future<Database> initializeDatabase() async {
-  final databasePath = await getDatabasesPath();
-  final path = join(databasePath, 'mes_database.db');
-
-  return await openDatabase(
-    path,
-    version: 1,
-    onCreate: (Database db, int version) async {
-      await MesServiceLocalDataSource.createTables(db);
-    },
-  );
-}
-
-// Data sources providers
-final mesLocalDataSourceProvider = Provider<MesServiceLocalDataSource>((ref) {
-  final database = ref.watch(databaseProvider);
-  return MesServiceLocalDataSource(database);
+final mesServiceLocalDataSourceProvider =
+    Provider<MesServiceLocalDataSource>((ref) {
+  final store = ref.watch(objectBoxProvider);
+  return MesServiceLocalDataSource(store);
 });
 
-final mesRemoteDataSourceProvider = Provider<MesServiceApiDataSource>((ref) {
-  return MesServiceApiDataSource(Dio());
+final dioProvider = Provider<Dio>((ref) {
+  return Dio();
 });
 
-// Repository provider
-final mesRepositoryProvider = Provider<MesCachingRepository>((ref) {
-  final remoteDataSource = ref.watch(mesRemoteDataSourceProvider);
-  final localDataSource = ref.watch(mesLocalDataSourceProvider);
-  return MesCachingRepository(remoteDataSource, localDataSource);
+final mesServiceRemoteDataSourceProvider = Provider<MesDataSource>((ref) {
+  final dio = ref.watch(dioProvider);
+  return MesServiceApiDataSource(dio);
 });
 
-// Services provider
-final sp = FutureProvider.family<List<Service>, String>((ref, lang) async {
-  final repository = ref.watch(mesRepositoryProvider);
-  return repository.getAllServices(lang);
+final mesServiceRepositoryProvider = Provider<MesServiceRepository>((ref) {
+  final remoteDataSource = ref.watch(mesServiceRemoteDataSourceProvider);
+  final localDataSource = ref.watch(mesServiceLocalDataSourceProvider);
+  return MesServiceCacheImpl(remoteDataSource, localDataSource);
 });

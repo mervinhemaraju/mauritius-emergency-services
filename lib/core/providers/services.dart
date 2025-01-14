@@ -4,11 +4,9 @@ import 'package:mauritius_emergency_services/core/models/cyclone_guidelines.dart
 import 'package:mauritius_emergency_services/core/models/cyclone_names.dart';
 import 'package:mauritius_emergency_services/core/models/cyclone_report.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
+import 'package:mauritius_emergency_services/core/providers/local_database.dart';
 import 'package:mauritius_emergency_services/data/api/mes_cyclone.dart';
-import 'package:mauritius_emergency_services/data/api/mes_services.dart';
-import 'package:mauritius_emergency_services/data/impl/mes_service_impl.dart';
 import 'package:mauritius_emergency_services/data/repository/mes_cyclone.dart';
-import 'package:mauritius_emergency_services/data/repository/mes_service.dart';
 
 // Define the dio provider
 final _dioProvider = Provider((ref) => Dio());
@@ -19,16 +17,16 @@ final mesCycloneRepositoryProvider = Provider<MesCycloneRepository>((ref) {
   return MesCycloneApi(dio);
 });
 
-// Initialize the MesRepository provider
-final mesRepositoryProvider = Provider<MesServiceRepository>((ref) {
-  final dio = ref.watch(_dioProvider);
-  final dataSource = MesServiceApiDataSource(dio);
-  return MesServiceImpl(dataSource);
-});
+// // Initialize the MesRepository provider
+// final mesRepositoryProvider = Provider<MesServiceRepository>((ref) {
+//   final dio = ref.watch(_dioProvider);
+//   final dataSource = MesServiceApiDataSource(dio);
+//   return MesServiceImpl(dataSource);
+// });
 
 // Services providers
 final servicesProvider = FutureProvider<List<Service>>((ref) async {
-  final repository = ref.watch(mesRepositoryProvider);
+  final repository = ref.watch(mesServiceRepositoryProvider);
   return repository.getAllServices();
 });
 

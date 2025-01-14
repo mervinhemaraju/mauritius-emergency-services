@@ -8,6 +8,7 @@ import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/core/routes/router.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/impl/app_settings_impl.dart';
+import 'package:mauritius_emergency_services/objectbox.g.dart';
 import 'package:mauritius_emergency_services/ui/theme/theme.dart';
 import 'package:mauritius_emergency_services/ui/theme/typography.dart';
 import 'package:mauritius_emergency_services/ui/theme/ui.dart';
@@ -34,7 +35,7 @@ main() async {
   final prefs = await SharedPreferences.getInstance();
   final repository = AppSettingsImpl(prefs);
 
-  final database = await initializeDatabase();
+  final store = await openStore();
 
   // TODO(To review this override)
   HttpOverrides.global = MyHttpOverrides();
@@ -50,7 +51,7 @@ main() async {
     ProviderScope(
       overrides: [
         settingsRepositoryProvider.overrideWithValue(repository),
-        databaseProvider.overrideWithValue(database),
+        objectBoxProvider.overrideWithValue(store),
       ],
       child: MesMaterialApp(),
     ),
