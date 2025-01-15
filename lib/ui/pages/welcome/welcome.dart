@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/welcome.dart';
@@ -9,6 +10,7 @@ import 'package:mauritius_emergency_services/ui/components/adaptive_screen.dart'
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/pages/welcome/permissions_dialog.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
+import 'package:mauritius_emergency_services/ui/utils/getters.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -22,13 +24,16 @@ class WelcomeScreen extends StatelessWidget {
     final backgroundColor = theme.colorScheme.surface;
 
     // Return the view
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      body: SafeArea(
-        child: AdaptiveView(
-          mobileView: _NarrowScreenUi(),
-          tabletLeftView: _WideViewLeft(),
-          tabletRightView: _WideViewRight(),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: getSystemUiOverlayStyle(MediaQuery.platformBrightnessOf(context)),
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        body: SafeArea(
+          child: AdaptiveView(
+            mobileView: _NarrowScreenUi(),
+            tabletLeftView: _WideViewLeft(),
+            tabletRightView: _WideViewRight(),
+          ),
         ),
       ),
     );

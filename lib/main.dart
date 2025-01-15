@@ -30,11 +30,16 @@ class MyHttpOverrides extends HttpOverrides {
 
 // The main runner app
 main() async {
+  // Ensure the widgets are initialized
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize the shared preferences
   final prefs = await SharedPreferences.getInstance();
+
+  // Intialize the app settings
   final repository = AppSettingsImpl(prefs);
 
+  // Initialize the local DB
   final store = await openStore();
 
   // TODO(To review this override)
@@ -43,7 +48,10 @@ main() async {
   // Make screen edge to edge
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.edgeToEdge,
-    overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
+    overlays: [
+      SystemUiOverlay.top,
+      SystemUiOverlay.bottom,
+    ],
   );
 
   // Run the main app
@@ -82,9 +90,7 @@ class MesMaterialApp extends ConsumerWidget {
     TextTheme textTheme = createTextTheme(context, "Poppins", "Lato");
 
     // Create the app bar theme
-    AppBarTheme appBarTheme = createAppBarTheme(
-      brightness == Brightness.light,
-    );
+    AppBarTheme appBarTheme = createAppBarTheme(brightness);
 
     // Create the material theme
     MaterialTheme theme = MaterialTheme(

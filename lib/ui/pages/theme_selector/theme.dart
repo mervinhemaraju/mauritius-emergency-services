@@ -23,23 +23,25 @@ class ThemeDialog extends ConsumerWidget {
         alignment: Alignment.center,
         child: Text("Theme Preferences"),
       ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ...ThemeMode.values.map((theme) {
-            return RadioListTile<ThemeMode>(
-              contentPadding: EdgeInsets.zero,
-              title: Text(theme.name),
-              value: theme,
-              groupValue: settings.theme,
-              onChanged: (ThemeMode? newTheme) {
-                if (newTheme != null) {
-                  ref.read(settingsProvider.notifier).updateTheme(newTheme);
-                }
-              },
-            );
-          }),
-        ],
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ...ThemeMode.values.map((theme) {
+              return RadioListTile<ThemeMode>(
+                contentPadding: EdgeInsets.zero,
+                title: Text(theme.name),
+                value: theme,
+                groupValue: settings.theme,
+                onChanged: (ThemeMode? newTheme) {
+                  if (newTheme != null) {
+                    ref.read(settingsProvider.notifier).updateTheme(newTheme);
+                  }
+                },
+              );
+            }),
+          ],
+        ),
       ),
       actions: [
         TextButton(

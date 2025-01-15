@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:mauritius_emergency_services/ui/utils/getters.dart';
 
-AppBarTheme createAppBarTheme([bool isBrightnessLight = true]) {
+AppBarTheme createAppBarTheme([Brightness brightness = Brightness.light]) {
   return AppBarTheme(
     backgroundColor: Colors.transparent,
-    systemOverlayStyle: SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Colors.transparent,
-      systemNavigationBarIconBrightness:
-          isBrightnessLight ? Brightness.dark : Brightness.light,
-      statusBarIconBrightness:
-          isBrightnessLight ? Brightness.dark : Brightness.light,
-    ),
+    systemOverlayStyle: getSystemUiOverlayStyle(brightness),
   );
 }

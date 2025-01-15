@@ -9,13 +9,11 @@
 [4] Search functionality
 
 ============ TODOS ============
-// FIXME(on dark mode, status bar icons are dark too.)
 // FIXME(Improve offline availability by first checking if internet is available before getting from cache.)
 // TODO(Replace report testing by prod one after ensuring cyclone UI is done)
 // TODO(Implement app locales)
 
 ============ REVIEWS ============
-// REVIEW(Adaptive UI)
 
 
 ============ FEATURES ============
