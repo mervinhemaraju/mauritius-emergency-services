@@ -30,91 +30,98 @@ class PreCallScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: theme.colorScheme.primaryContainer,
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Column(
+          child: CustomScrollView(scrollDirection: Axis.vertical, slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  spacing: 32.0,
                   children: [
-                    Text(
-                      "Starting a call to",
-                      textAlign: TextAlign.center,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onPrimaryContainer,
-                        fontWeight: FontWeight.w500,
+                    Column(
+                      children: [
+                        Text(
+                          "Starting a call to",
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onPrimaryContainer,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 4.0,
+                        ),
+                        Text(
+                          service.name,
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                            color: theme.colorScheme.secondary,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 12.0,
+                        ),
+                        Text(
+                          service.mainContact.toString(),
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.headlineMedium?.copyWith(
+                            color: theme.colorScheme.onPrimaryContainer,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 4.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: theme.colorScheme.tertiary,
+                          width: 4.0,
+                        ),
+                      ),
+                      child: FadeInImage.assetNetwork(
+                        placeholder: AssetsManager.ANIMATED_LOADING,
+                        image: service.icon,
+                        width: 120,
+                        height: 120,
                       ),
                     ),
-                    SizedBox(
-                      height: 4.0,
+                    _CountdownTimer(
+                      onComplete: () async {
+                        if (Platform.isAndroid) {
+                          final AndroidIntent intent = AndroidIntent(
+                            action: 'android.intent.action.CALL',
+                            data: 'tel:$number',
+                          );
+                          await intent.launch();
+                        } else {
+                          // Build the URI
+                          final uri = Uri(
+                            scheme: 'tel',
+                            path: number,
+                          );
+
+                          // Launch the URL with explicit LaunchMode
+                          if (!await launchUrl(uri)) {
+                            print('Could not launch $uri');
+                          }
+                        }
+
+                        // Run on completion function
+                        onComplete();
+                      },
                     ),
-                    Text(
-                      service.name,
-                      textAlign: TextAlign.center,
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        color: theme.colorScheme.secondary,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 12.0,
-                    ),
-                    Text(
-                      service.mainContact.toString(),
-                      textAlign: TextAlign.center,
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        color: theme.colorScheme.onPrimaryContainer,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 4.0,
-                      ),
-                    ),
+                    _SlideToCancel(),
                   ],
                 ),
-                Container(
-                  padding: EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: theme.colorScheme.tertiary,
-                      width: 4.0,
-                    ),
-                  ),
-                  child: FadeInImage.assetNetwork(
-                    placeholder: AssetsManager.ANIMATED_LOADING,
-                    image: service.icon,
-                    width: 120,
-                    height: 120,
-                  ),
-                ),
-                _CountdownTimer(
-                  onComplete: () async {
-                    if (Platform.isAndroid) {
-                      final AndroidIntent intent = AndroidIntent(
-                        action: 'android.intent.action.CALL',
-                        data: 'tel:$number',
-                      );
-                      await intent.launch();
-                    } else {
-                      // Build the URI
-                      final uri = Uri(
-                        scheme: 'tel',
-                        path: number,
-                      );
-
-                      // Launch the URL with explicit LaunchMode
-                      if (!await launchUrl(uri)) {
-                        print('Could not launch $uri');
-                      }
-                    }
-
-                    // Run on completion function
-                    onComplete();
-                  },
-                ),
-                _SlideToCancel(),
-              ],
-            ),
-          ),
+              ),
+            )
+          ]),
         ),
       ),
     );

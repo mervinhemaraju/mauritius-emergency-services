@@ -89,50 +89,50 @@ class _HomeUi extends StatelessWidget {
       slivers: [
         SliverFillRemaining(
           hasScrollBody: false,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 24.0, bottom: 8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _TitleSet(
-                  theme: theme,
-                  title: AppLocalizations.of(context)!.title_home_primary,
-                  subtitle: "Hold the emergency button to call",
-                ),
-                _EmergencyButton(
-                  theme: theme,
-                  onLongPress: () {
-                    final Service emergencyService;
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _TitleSet(
+                theme: theme,
+                title: AppLocalizations.of(context)!.title_home_primary,
+                subtitle: "Hold the emergency button to call",
+              ),
+              SizedBox(height: 32.0),
+              _EmergencyButton(
+                theme: theme,
+                onLongPress: () {
+                  final Service emergencyService;
 
-                    if (settings.emergencyButtonAction.identifier.isNotEmpty) {
-                      emergencyService = settings.emergencyButtonAction;
-                    } else {
-                      emergencyService = emergencyServices.first;
-                    }
+                  if (settings.emergencyButtonAction.identifier.isNotEmpty) {
+                    emergencyService = settings.emergencyButtonAction;
+                  } else {
+                    emergencyService = emergencyServices.first;
+                  }
 
-                    context.push(
-                      PrecallRoute.path,
-                      extra: {
-                        PrecallRoute.extraService: emergencyService,
-                        PrecallRoute.extraNumber: emergencyService.mainContact,
-                      },
-                    );
-                  },
-                ),
-                _TitleSet(
-                  theme: theme,
-                  title: "Need other quick emergency actions?",
-                  subtitle: "Click one below to call",
-                ),
-                _EmergencyListView(onTap: (service) {
-                  context.push(PrecallRoute.path, extra: {
-                    PrecallRoute.extraService: service,
-                    PrecallRoute.extraNumber: service.mainContact,
-                  });
-                })
-              ],
-            ),
+                  context.push(
+                    PrecallRoute.path,
+                    extra: {
+                      PrecallRoute.extraService: emergencyService,
+                      PrecallRoute.extraNumber: emergencyService.mainContact,
+                    },
+                  );
+                },
+              ),
+              SizedBox(height: 32.0),
+              _TitleSet(
+                theme: theme,
+                title: "Need other quick emergency actions?",
+                subtitle: "Click one below to call",
+              ),
+              _EmergencyListView(onTap: (service) {
+                context.push(PrecallRoute.path, extra: {
+                  PrecallRoute.extraService: service,
+                  PrecallRoute.extraNumber: service.mainContact,
+                });
+              }),
+              SizedBox(height: 8.0),
+            ],
           ),
         )
       ],
@@ -147,7 +147,7 @@ class _HomeUi extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Text(
             title,
             style: theme.textTheme.headlineSmall?.copyWith(
@@ -158,7 +158,7 @@ class _HomeUi extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           child: Text(
             subtitle,
             style: theme.textTheme.bodyMedium?.copyWith(
@@ -176,43 +176,37 @@ class _HomeUi extends StatelessWidget {
     required ThemeData theme,
     required Function() onLongPress,
   }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
-      child: ElevatedButton(
-        onPressed: null,
-        onLongPress: onLongPress,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: theme.colorScheme.error,
-          fixedSize: Size(200, 200),
-          shape: CircleBorder(),
-        ),
-        child: Icon(
-          Icons.sensors_outlined,
-          color: theme.colorScheme.onError,
-          size: 32,
-        ),
+    return ElevatedButton(
+      onPressed: null,
+      onLongPress: onLongPress,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: theme.colorScheme.error,
+        fixedSize: Size(200, 200),
+        shape: CircleBorder(),
+      ),
+      child: Icon(
+        Icons.sensors_outlined,
+        color: theme.colorScheme.onError,
+        size: 32,
       ),
     );
   }
 
   Widget _EmergencyListView({required Function(Service) onTap}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: SizedBox(
-        height: 180,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: emergencyServices
-              .map(
-                (service) => MesEmergencyTileItem(
-                  service: service,
-                  onTap: () {
-                    onTap(service);
-                  },
-                ),
-              )
-              .toList(),
-        ),
+    return SizedBox(
+      height: 180,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: emergencyServices
+            .map(
+              (service) => MesEmergencyTileItem(
+                service: service,
+                onTap: () {
+                  onTap(service);
+                },
+              ),
+            )
+            .toList(),
       ),
     );
   }

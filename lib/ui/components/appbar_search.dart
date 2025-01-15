@@ -14,6 +14,7 @@ AppBar MesAppSearchBar({
   return AppBar(
     automaticallyImplyLeading: false,
     clipBehavior: Clip.none,
+    toolbarHeight: kToolbarHeight + 30,
     title: _MesSearchBar(
       openDrawer: openDrawer,
     ),

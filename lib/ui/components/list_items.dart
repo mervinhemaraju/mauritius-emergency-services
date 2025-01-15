@@ -442,28 +442,44 @@ class WelcomeCarouselItem extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(
-          asset,
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            width: double.infinity,
+            child: Image.asset(
+              asset,
+              fit: BoxFit.contain,
+            ),
+          ),
         ),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: theme.textTheme.headlineSmall?.copyWith(
-            color: theme.colorScheme.onPrimaryContainer,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 3.0,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: theme.colorScheme.onPrimaryContainer,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 3.0,
+            ),
           ),
         ),
         SizedBox(
           height: 12.0,
         ),
-        Text(
-          subtitle,
-          textAlign: TextAlign.center,
-          style: theme.textTheme.bodyLarge?.copyWith(
-            color: theme.colorScheme.secondary,
-            fontWeight: FontWeight.w500,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            subtitle,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: theme.colorScheme.secondary,
+              fontWeight: FontWeight.w500,
+            ),
           ),
+        ),
+        SizedBox(
+          height: 21.0,
         )
       ],
     );
