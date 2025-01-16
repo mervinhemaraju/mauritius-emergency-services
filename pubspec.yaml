@@ -1,11 +1,24 @@
+
+# App Details
 name: mauritius_emergency_services
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.5.0
 
+# The versioning of the app
+# App versions should be as follows:
+# x.x.x-suffix-itr+n where:
+# x = 0-9
+# suffix = [dev, beta, rc]
+# itr = 0-9
+# n = version code
+version: 1.2.0-dev.01+20
+
+# Environment details
 environment:
   sdk: ^3.6.0
 
+
+# Main app dependencies
 dependencies:
 
   flutter:
@@ -29,6 +42,8 @@ dependencies:
   objectbox_flutter_libs: ^4.0.3
   split_view: ^3.2.1
 
+
+# Dev Dependencies
 dev_dependencies:
   flutter_test:
     sdk: flutter

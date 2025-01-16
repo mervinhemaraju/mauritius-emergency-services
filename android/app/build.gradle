@@ -1,3 +1,10 @@
+buildscript {
+    ext {
+        // Application Dependencies
+        app_id = "com.th3pl4gu3.mauritius_emergency_services"
+    }
+}
+
 plugins {
     id "com.android.application"
     id "kotlin-android"
@@ -6,7 +13,12 @@ plugins {
 }
 
 android {
-    namespace = "com.example.mauritius_emergency_services"
+
+    signingConfigs {
+        release
+    }
+
+    namespace = "$app_id"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -20,10 +32,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.mauritius_emergency_services"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        applicationId = app_id
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -32,11 +41,43 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+            ndk.debugSymbolLevel = "FULL"
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.debug
         }
     }
+}
+
+// Create a variable called keystorePropertiesFile, and initialize it to your
+// keystore.properties file, in the rootProject folder.
+def props = new Properties()
+def propFile = new File("keystore.properties")
+
+// Check if we can read the file
+if (propFile.canRead()) {
+    props.load(new FileInputStream(propFile))
+
+    // Before assigning, we check if key is present
+    if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+        // Load release configs
+        android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+        android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+        android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+        android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+    } else {
+        println 'signing.properties found but some entries are missing'
+        android.buildTypes.release.signingConfig = null
+    }
+} else {
+    println 'signing.properties not found'
+    android.buildTypes.release.signingConfig = null
 }
 
 flutter {

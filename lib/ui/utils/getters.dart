@@ -19,14 +19,13 @@ Duration getRotationSpeedFromCycloneLevel({required int level}) {
 
 // Returns the system UI overlay style
 SystemUiOverlayStyle getSystemUiOverlayStyle([
-  Brightness brightness = Brightness.light,
+  Brightness brightness = Brightness.dark,
 ]) {
   return SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     systemNavigationBarColor: Colors.transparent,
-    systemNavigationBarIconBrightness:
-        brightness == Brightness.dark ? Brightness.light : Brightness.dark,
-    statusBarIconBrightness:
-        brightness == Brightness.dark ? Brightness.light : Brightness.dark,
+    // systemNavigationBarIconBrightness:
+    //     brightness, // == Brightness.dark ? Brightness.light : Brightness.dark,
+    // statusBarIconBrightness: brightness,
   );
 }

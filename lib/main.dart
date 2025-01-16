@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -84,7 +85,17 @@ class MesMaterialApp extends ConsumerWidget {
     final router = MesAppRouter.instance.getRouter();
 
     // Determine the app brightness (theme)
-    final brightness = View.of(context).platformDispatcher.platformBrightness;
+    final brightness = PlatformDispatcher.instance.platformBrightness;
+
+    // print("Brightness: $brightness");
+
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //   statusBarIconBrightness: brightness, // status bar icons' color
+    //   statusBarBrightness: ,
+    //   statusBarColor: brightness == Brightness.dark
+    //       ? Colors.white
+    //       : Colors.black, // status bar color
+    // ));
 
     // Create the text theme
     TextTheme textTheme = createTextTheme(context, "Poppins", "Lato");
@@ -101,15 +112,14 @@ class MesMaterialApp extends ConsumerWidget {
     // Return the Material App
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      // debugShowMaterialGrid: true,
       title: 'Flutter Demo',
       theme: theme.light(),
       darkTheme: theme.dark(),
+      highContrastTheme: theme.lightHighContrast(),
+      highContrastDarkTheme: theme.darkHighContrast(),
       themeMode: ref.watch(settingsProvider.select(
         (s) => s.theme,
       )),
-      highContrastTheme: theme.lightHighContrast(),
-      highContrastDarkTheme: theme.darkHighContrast(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: ref.watch(settingsProvider.select(
