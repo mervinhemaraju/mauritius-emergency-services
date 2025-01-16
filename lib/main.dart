@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -85,17 +84,7 @@ class MesMaterialApp extends ConsumerWidget {
     final router = MesAppRouter.instance.getRouter();
 
     // Determine the app brightness (theme)
-    final brightness = PlatformDispatcher.instance.platformBrightness;
-
-    // print("Brightness: $brightness");
-
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //   statusBarIconBrightness: brightness, // status bar icons' color
-    //   statusBarBrightness: ,
-    //   statusBarColor: brightness == Brightness.dark
-    //       ? Colors.white
-    //       : Colors.black, // status bar color
-    // ));
+    final brightness = View.of(context).platformDispatcher.platformBrightness;
 
     // Create the text theme
     TextTheme textTheme = createTextTheme(context, "Poppins", "Lato");
