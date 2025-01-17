@@ -4,12 +4,12 @@ import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
 import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -89,8 +89,9 @@ class _HomeUi extends ConsumerWidget {
             children: [
               _TitleSet(
                 theme: theme,
-                title: AppLocalizations.of(context)!.title_home_primary,
-                subtitle: "Hold the emergency button to call",
+                // title: AppLocalizations.of(context)!.title_home_primary,
+                title: t.pages.home.primary_title,
+                subtitle: t.pages.home.primary_subtitle,
               ),
               const SizedBox(height: 32.0),
               _EmergencyButton(
@@ -112,8 +113,8 @@ class _HomeUi extends ConsumerWidget {
               const SizedBox(height: 32.0),
               _TitleSet(
                 theme: theme,
-                title: "Need other quick emergency actions?",
-                subtitle: "Click one below to call",
+                title: t.pages.home.secondary_title,
+                subtitle: t.pages.home.secondary_subtitle,
               ),
               _EmergencyListView(
                 onTap: (service) {

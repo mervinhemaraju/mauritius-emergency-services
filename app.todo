@@ -1,7 +1,7 @@
 
 
 ============ OPTIMIZATIONS ============
-[1] Look into Bloc design pattern
+[1] Look into Bloc design pattern / Use riverpod generators
 [2] Improve navigation and router
 [3] App Performance
     [.] // REVIEW(Listview and its performance)
@@ -11,7 +11,7 @@
 
 ============ TODOS ============
 // TODO(Replace report testing by prod one after ensuring cyclone UI is done)
-// TODO(Implement app locales)
+// TODO(Complete app locales)
 
 ============ FEATURES ============
 // FEAT(Add search history functionality)

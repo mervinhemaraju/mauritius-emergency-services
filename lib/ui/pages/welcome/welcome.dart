@@ -365,7 +365,13 @@ class _WideViewNavigator extends ConsumerWidget {
 
 void _onNavigate(BuildContext context, WidgetRef ref) {
   // Define the go home function
-  goHome() => context.go(HomeRoute.path);
+  goHome() {
+    // Mark user as onboarded
+    ref.read(settingsProvider.notifier).markAsOnboarded();
+
+    // Navigate to home
+    context.go(HomeRoute.path);
+  }
 
   // If this is IOS, we don't need to request explicit
   // permissions for phone calls
@@ -379,16 +385,10 @@ void _onNavigate(BuildContext context, WidgetRef ref) {
         onProceed: () async {
           // Request all permissions
           await RuntimePermissions().requestAllPermissions().whenComplete(
-            () {
-              // Mark user as onboarded
-              ref.read(settingsProvider.notifier).markAsOnboarded();
-
-              // Navigate home
-              goHome();
-            },
-          );
+                goHome,
+              );
         },
-        onComplete: () => goHome(),
+        onComplete: goHome,
       ),
     );
   }

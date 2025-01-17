@@ -26,3 +26,13 @@ SystemUiOverlayStyle getSystemUiOverlayStyle(Brightness brightness) {
         brightness == Brightness.dark ? Brightness.light : Brightness.dark,
   );
 }
+
+void enableEdgeToEdge() {
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.edgeToEdge,
+    overlays: [
+      SystemUiOverlay.top,
+      SystemUiOverlay.bottom,
+    ],
+  );
+}

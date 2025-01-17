@@ -1,0 +1,12 @@
+{
+    "pages": {
+        "home": {
+            "primary_title": "urgence help needed?",
+            "primary_subtitle": "hold the emergency button to call",
+            "secondary_title": "need other quick emergency actions?",
+            "secondary_subtitle": "click any one below to call"
+        }
+    },
+    "actions": {},
+    "others": {}
+}

@@ -1,18 +1,19 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/core/models/locale.dart';
 import 'package:mauritius_emergency_services/core/providers/local_database.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/core/routes/router.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/impl/app_settings_impl.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/objectbox.g.dart';
 import 'package:mauritius_emergency_services/ui/theme/theme.dart';
 import 'package:mauritius_emergency_services/ui/theme/typography.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
+import 'package:mauritius_emergency_services/ui/utils/getters.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -45,22 +46,18 @@ main() async {
   HttpOverrides.global = MyHttpOverrides();
 
   // Make screen edge to edge
-  SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.edgeToEdge,
-    overlays: [
-      SystemUiOverlay.top,
-      SystemUiOverlay.bottom,
-    ],
-  );
+  enableEdgeToEdge();
 
   // Run the main app
   runApp(
-    ProviderScope(
-      overrides: [
-        settingsRepositoryProvider.overrideWithValue(repository),
-        objectBoxProvider.overrideWithValue(store),
-      ],
-      child: const MesMaterialApp(),
+    TranslationProvider(
+      child: ProviderScope(
+        overrides: [
+          settingsRepositoryProvider.overrideWithValue(repository),
+          objectBoxProvider.overrideWithValue(store),
+        ],
+        child: const MesMaterialApp(),
+      ),
     ),
   );
 }
@@ -75,6 +72,9 @@ class MesMaterialApp extends ConsumerWidget {
         ref.watch(settingsProvider.select((s) => s.isOnboarded))
             ? HomeRoute.path
             : WelcomeRoute.path;
+
+    // Update the app locale
+    ref.watch(settingsProvider.select((s) => s.locale.updateMesLocale()));
 
     // Set the initial location
     MesAppRouter.instance.setInitialLocation(intitialLocation);
@@ -91,7 +91,7 @@ class MesMaterialApp extends ConsumerWidget {
     // Return the Material App
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Mauritius Emergency Services',
       theme: theme.light(),
       darkTheme: theme.dark(),
       highContrastTheme: theme.lightHighContrast(),
@@ -99,11 +99,9 @@ class MesMaterialApp extends ConsumerWidget {
       themeMode: ref.watch(settingsProvider.select(
         (s) => s.theme,
       )),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: ref.watch(settingsProvider.select(
-        (s) => s.locale == MesLocale.system ? null : Locale(s.locale.lang),
-      )),
+      locale: TranslationProvider.of(context).flutterLocale,
+      supportedLocales: AppLocaleUtils.supportedLocales,
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       routerConfig: router,
     );
   }
