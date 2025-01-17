@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 class Service {
   // Define the vars
   final String identifier;
@@ -7,6 +9,7 @@ class Service {
   final List<String> emails;
   final int mainContact;
   final List<int> otherContacts;
+  final Uint8List? iconData;
 
   // Define the const
   const Service({
@@ -17,6 +20,7 @@ class Service {
     this.emails = const [],
     this.mainContact = 0,
     this.otherContacts = const [],
+    this.iconData,
   });
 
   // Checks whether the service has extra contacts other than the main one
@@ -42,6 +46,7 @@ class Service {
 
   // Converts a JSON object to a Service object
   factory Service.fromJson(Map<String, dynamic> json) {
+    print("Creating Service from JSON: $json");
     return Service(
       identifier: json['identifier'],
       name: json['name'],

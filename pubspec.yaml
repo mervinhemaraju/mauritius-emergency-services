@@ -42,6 +42,7 @@ dependencies:
   objectbox_flutter_libs: ^4.0.3
   split_view: ^3.2.1
   connectivity_plus: ^6.1.2
+  http: ^1.2.2
 
 
 # Dev Dependencies

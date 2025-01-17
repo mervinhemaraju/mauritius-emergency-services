@@ -20,54 +20,54 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 1082964145546588951),
+      id: const obx_int.IdUid(1, 2232946709823975729),
       name: 'ServiceModel',
-      lastPropertyId: const obx_int.IdUid(9, 362808523630211579),
+      lastPropertyId: const obx_int.IdUid(9, 4650816624349814019),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 7034712709075144897),
+            id: const obx_int.IdUid(1, 5697191125079621273),
             name: 'id',
             type: 6,
             flags: 1),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 1189605596833123908),
+            id: const obx_int.IdUid(2, 2007773999446513874),
             name: 'identifier',
             type: 9,
             flags: 2080,
-            indexId: const obx_int.IdUid(1, 6882993090794878317)),
+            indexId: const obx_int.IdUid(1, 2247597361772265214)),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 3325392578914419130),
+            id: const obx_int.IdUid(3, 7598209173886372798),
             name: 'name',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 2228898928349072942),
+            id: const obx_int.IdUid(4, 7952654821914771908),
             name: 'type',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 5978506605360507080),
-            name: 'icon',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 6779500239562833195),
+            id: const obx_int.IdUid(5, 189811552589409647),
             name: 'language',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 6710554452942288716),
+            id: const obx_int.IdUid(6, 3381830095227425485),
             name: 'emails',
             type: 30,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 1279084870052036578),
+            id: const obx_int.IdUid(7, 1827302918713399343),
             name: 'mainContact',
             type: 6,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(9, 362808523630211579),
+            id: const obx_int.IdUid(8, 6447628205320828040),
+            name: 'iconData',
+            type: 23,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 4650816624349814019),
             name: 'otherContacts',
             type: 26,
             flags: 0)
@@ -111,8 +111,8 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(1, 1082964145546588951),
-      lastIndexId: const obx_int.IdUid(1, 6882993090794878317),
+      lastEntityId: const obx_int.IdUid(1, 2232946709823975729),
+      lastIndexId: const obx_int.IdUid(1, 2247597361772265214),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
@@ -136,20 +136,22 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final identifierOffset = fbb.writeString(object.identifier);
           final nameOffset = fbb.writeString(object.name);
           final typeOffset = fbb.writeString(object.type);
-          final iconOffset = fbb.writeString(object.icon);
           final languageOffset = fbb.writeString(object.language);
           final emailsOffset = fbb.writeList(
               object.emails.map(fbb.writeString).toList(growable: false));
+          final iconDataOffset = object.iconData == null
+              ? null
+              : fbb.writeListInt8(object.iconData!);
           final otherContactsOffset = fbb.writeListInt32(object.otherContacts);
           fbb.startTable(10);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, identifierOffset);
           fbb.addOffset(2, nameOffset);
           fbb.addOffset(3, typeOffset);
-          fbb.addOffset(4, iconOffset);
-          fbb.addOffset(5, languageOffset);
-          fbb.addOffset(6, emailsOffset);
-          fbb.addInt64(7, object.mainContact);
+          fbb.addOffset(4, languageOffset);
+          fbb.addOffset(5, emailsOffset);
+          fbb.addInt64(6, object.mainContact);
+          fbb.addOffset(7, iconDataOffset);
           fbb.addOffset(8, otherContactsOffset);
           fbb.finish(fbb.endTable());
           return object.id;
@@ -165,29 +167,29 @@ obx_int.ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 8, '');
           final typeParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 10, '');
-          final iconParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 12, '');
           final emailsParam = const fb.ListReader<String>(
                   fb.StringReader(asciiOptimization: true),
                   lazy: false)
-              .vTableGet(buffer, rootOffset, 16, []);
+              .vTableGet(buffer, rootOffset, 14, []);
           final mainContactParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0);
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0);
           final otherContactsParam =
               const fb.ListReader<int>(fb.Int32Reader(), lazy: false)
                   .vTableGet(buffer, rootOffset, 20, []);
           final languageParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 14, '');
+              .vTableGet(buffer, rootOffset, 12, '');
+          final iconDataParam = const fb.Uint8ListReader(lazy: false)
+              .vTableGetNullable(buffer, rootOffset, 18) as Uint8List?;
           final object = ServiceModel(
               id: idParam,
               identifier: identifierParam,
               name: nameParam,
               type: typeParam,
-              icon: iconParam,
               emails: emailsParam,
               mainContact: mainContactParam,
               otherContacts: otherContactsParam,
-              language: languageParam);
+              language: languageParam,
+              iconData: iconDataParam);
 
           return object;
         })
@@ -214,21 +216,21 @@ class ServiceModel_ {
   static final type =
       obx.QueryStringProperty<ServiceModel>(_entities[0].properties[3]);
 
-  /// See [ServiceModel.icon].
-  static final icon =
-      obx.QueryStringProperty<ServiceModel>(_entities[0].properties[4]);
-
   /// See [ServiceModel.language].
   static final language =
-      obx.QueryStringProperty<ServiceModel>(_entities[0].properties[5]);
+      obx.QueryStringProperty<ServiceModel>(_entities[0].properties[4]);
 
   /// See [ServiceModel.emails].
   static final emails =
-      obx.QueryStringVectorProperty<ServiceModel>(_entities[0].properties[6]);
+      obx.QueryStringVectorProperty<ServiceModel>(_entities[0].properties[5]);
 
   /// See [ServiceModel.mainContact].
   static final mainContact =
-      obx.QueryIntegerProperty<ServiceModel>(_entities[0].properties[7]);
+      obx.QueryIntegerProperty<ServiceModel>(_entities[0].properties[6]);
+
+  /// See [ServiceModel.iconData].
+  static final iconData =
+      obx.QueryByteVectorProperty<ServiceModel>(_entities[0].properties[7]);
 
   /// See [ServiceModel.otherContacts].
   static final otherContacts =

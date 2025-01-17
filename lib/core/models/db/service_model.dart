@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+import 'package:http/http.dart' as http;
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:objectbox/objectbox.dart';
 
@@ -8,13 +10,15 @@ class ServiceModel {
 
   @Unique()
   final String identifier;
-
   final String name;
   final String type;
-  final String icon;
   final String language;
   final List<String> emails;
   final int mainContact;
+
+  // FIXME(IconData not getting stored in the database)
+  @Property(type: PropertyType.byteVector)
+  Uint8List? iconData;
 
   @Property(type: PropertyType.intVector)
   final List<int> otherContacts;
@@ -24,25 +28,47 @@ class ServiceModel {
     required this.identifier,
     required this.name,
     required this.type,
-    required this.icon,
     required this.emails,
     required this.mainContact,
     required this.otherContacts,
     required this.language,
+    this.iconData,
   });
 
-  // Convert Service to ServiceModel
-  factory ServiceModel.fromService(Service service, String language) {
-    return ServiceModel(
+  // Convert Service to ServiceModel with image download
+  static Future<ServiceModel> fromService(
+      Service service, String language) async {
+    Uint8List? downloadedIconData;
+    try {
+      print("Downloading image from: ${service.icon}");
+
+      final response = await http.get(Uri.parse(service.icon));
+      print("Response status: ${response.statusCode}");
+      print("Response body length: ${response.bodyBytes.length}");
+
+      if (response.statusCode == 200) {
+        downloadedIconData = response.bodyBytes;
+        print("Downloaded image size: ${downloadedIconData.length} bytes");
+      }
+    } catch (e) {
+      print('Failed to download icon for ${service.identifier}: $e');
+    }
+
+    final model = ServiceModel(
       identifier: service.identifier,
       name: service.name,
       type: service.type,
-      icon: service.icon,
       emails: service.emails,
       mainContact: service.mainContact,
       otherContacts: service.otherContacts,
       language: language,
+      iconData: downloadedIconData,
     );
+
+    print(
+        "ServiceModel created with iconData length: ${model.iconData?.length}");
+
+    return model;
   }
 
   // Convert ServiceModel to Service
@@ -51,10 +77,11 @@ class ServiceModel {
       identifier: identifier,
       name: name,
       type: type,
-      icon: icon,
+      icon: "", // Add empty string
       emails: emails,
       mainContact: mainContact,
       otherContacts: otherContacts,
+      iconData: iconData,
     );
   }
 }
