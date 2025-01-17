@@ -46,7 +46,6 @@ class Service {
 
   // Converts a JSON object to a Service object
   factory Service.fromJson(Map<String, dynamic> json) {
-    print("Creating Service from JSON: $json");
     return Service(
       identifier: json['identifier'],
       name: json['name'],

@@ -11,16 +11,9 @@ class MesServiceLocalDataSource implements MesDataSource {
 
   @override
   Future<List<Service>> getAllServices(String lang) async {
-    print("Getting services locally");
     final box = store.box<ServiceModel>();
     final services =
         box.query(ServiceModel_.language.equals(lang)).build().find();
-
-    print("Found ${services.length} services");
-    for (var service in services) {
-      print(
-          "Service ${service.identifier} iconData length: ${service.iconData?.length}");
-    }
 
     return services.map((model) => model.toService()).toList();
   }
@@ -37,16 +30,6 @@ class MesServiceLocalDataSource implements MesDataSource {
     final serviceModels = await Future.wait(
         services.map((service) => ServiceModel.fromService(service, lang)));
 
-    print("Storing ${serviceModels.length} services");
-    print(
-        "First service iconData length: ${serviceModels[0].iconData?.length}");
-
     box.putMany(serviceModels);
-
-    // Verify storage
-    final storedServices = box.getAll();
-    print("Stored services count: ${storedServices.length}");
-    print(
-        "First stored service iconData length: ${storedServices[0].iconData?.length}");
   }
 }

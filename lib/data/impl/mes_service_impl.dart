@@ -39,24 +39,6 @@ class MesServiceCacheImpl implements MesServiceRepository {
         // Return the services
         return localServices;
       }
-
-      // // Try to get from local storage first
-      // final localServices = await localDataSource.getAllServices(lang);
-
-      // if (localServices.isNotEmpty) {
-      //   print("Services found locally. Fetching from cache...");
-      //   return localServices;
-      // }
-
-      // // If local storage is empty, fetch from API
-      // final remoteServices = await remoteDataSource.getAllServices(lang);
-
-      // // Cache the services
-      // await localDataSource.cacheServices(remoteServices, lang);
-
-      // print("Services fetched from API and cached locally.");
-
-      // return remoteServices;
     } catch (e) {
       print("Error fetching services: $e");
 

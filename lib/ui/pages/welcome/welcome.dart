@@ -378,9 +378,7 @@ void _onNavigate(BuildContext context, WidgetRef ref) {
       builder: (context) => PermissionsDialog(
         onProceed: () async {
           // Request all permissions
-          await SimplifiedRuntimePermissions()
-              .requestAllPermissions()
-              .whenComplete(
+          await RuntimePermissions().requestAllPermissions().whenComplete(
             () {
               // Mark user as onboarded
               ref.read(settingsProvider.notifier).markAsOnboarded();

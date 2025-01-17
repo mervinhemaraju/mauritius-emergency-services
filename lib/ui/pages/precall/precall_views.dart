@@ -121,21 +121,21 @@ class _IconView extends StatelessWidget {
     // Return the view
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.all(12.0),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: theme.colorScheme.tertiary,
-            width: 4.0,
+          padding: const EdgeInsets.all(12.0),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: theme.colorScheme.tertiary,
+              width: 4.0,
+            ),
           ),
-        ),
-        width: MediaQuery.sizeOf(context).width,
-        child: FadeInImage.assetNetwork(
-          placeholder: AssetsManager.ANIMATED_LOADING,
-          image: service.icon,
-          fit: BoxFit.contain,
-        ),
-      ),
+          width: MediaQuery.sizeOf(context).width,
+          child: service.iconData.loadImage(
+            networkImageUrl: service.icon,
+            memoryPlaceholderImage: AssetsManager.ANIMATED_LOADING,
+            size: 60,
+            fit: BoxFit.contain,
+          )),
     );
   }
 }

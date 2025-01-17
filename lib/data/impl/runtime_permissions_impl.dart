@@ -1,8 +1,7 @@
 import 'package:mauritius_emergency_services/data/repository/runtime_permissions.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class SimplifiedRuntimePermissions
-    implements SimplifiedRuntimePermissionsRepository {
+class RuntimePermissions implements RuntimePermissionsRepository {
   @override
   Future<PermissionStatus> checkPhonePermissionStatus() async {
     return await Permission.phone.status;

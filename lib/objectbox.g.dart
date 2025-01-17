@@ -139,9 +139,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final languageOffset = fbb.writeString(object.language);
           final emailsOffset = fbb.writeList(
               object.emails.map(fbb.writeString).toList(growable: false));
-          final iconDataOffset = object.iconData == null
-              ? null
-              : fbb.writeListInt8(object.iconData!);
+          final iconDataOffset = fbb.writeListInt8(object.iconData);
           final otherContactsOffset = fbb.writeListInt32(object.otherContacts);
           fbb.startTable(10);
           fbb.addInt64(0, object.id);
@@ -179,7 +177,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final languageParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 12, '');
           final iconDataParam = const fb.Uint8ListReader(lazy: false)
-              .vTableGetNullable(buffer, rootOffset, 18) as Uint8List?;
+              .vTableGet(buffer, rootOffset, 18, Uint8List(0)) as Uint8List;
           final object = ServiceModel(
               id: idParam,
               identifier: identifierParam,

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
@@ -26,7 +27,7 @@ extension NavigationExtension on BuildContext {
       };
 
       // Retrieve the runtime permissions
-      final runtimePermissions = SimplifiedRuntimePermissions();
+      final runtimePermissions = RuntimePermissions();
 
       // Get the permission status for phone
       final phonePermissions =
@@ -93,5 +94,29 @@ extension StringExtension on String {
 
   bool isNumeric() {
     return int.tryParse(this) != null;
+  }
+}
+
+extension BytesExtensions on Uint8List? {
+  Widget loadImage({
+    required String networkImageUrl,
+    required String memoryPlaceholderImage,
+    double size = 40,
+    BoxFit? fit,
+  }) {
+    return this == null
+        ? FadeInImage.assetNetwork(
+            placeholder: memoryPlaceholderImage,
+            image: networkImageUrl,
+            width: size,
+            height: size,
+            fit: fit,
+          )
+        : Image.memory(
+            this!,
+            width: size,
+            height: size,
+            fit: fit,
+          );
   }
 }

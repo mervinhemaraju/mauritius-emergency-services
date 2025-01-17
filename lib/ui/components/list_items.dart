@@ -139,18 +139,10 @@ class MesEmergencyTileItem extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: service.icon.isNotEmpty
-                    ? FadeInImage.assetNetwork(
-                        placeholder: AssetsManager.ANIMATED_LOADING,
-                        image: service.icon,
-                        width: 48,
-                        height: 48,
-                      )
-                    : Icon(
-                        Icons.broken_image_outlined,
-                        color: Theme.of(context).colorScheme.secondary,
-                        size: 48,
-                      ),
+                child: service.iconData.loadImage(
+                    networkImageUrl: service.icon,
+                    memoryPlaceholderImage: AssetsManager.ANIMATED_LOADING,
+                    size: 48),
               ),
             ],
           ),
@@ -276,18 +268,9 @@ class ExpandableDismissibleTile extends StatelessWidget {
             ListTile(
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-              leading: service.icon.isNotEmpty
-                  ? FadeInImage.assetNetwork(
-                      placeholder: AssetsManager.ANIMATED_LOADING,
-                      image: service.icon,
-                      width: 40,
-                      height: 40,
-                    )
-                  : Icon(
-                      Icons.broken_image_outlined,
-                      color: Theme.of(context).colorScheme.secondary,
-                      size: 48,
-                    ),
+              leading: service.iconData.loadImage(
+                  networkImageUrl: service.icon,
+                  memoryPlaceholderImage: AssetsManager.ANIMATED_LOADING),
               title: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(
