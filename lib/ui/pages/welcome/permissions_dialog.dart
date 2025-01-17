@@ -1,34 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mauritius_emergency_services/core/providers/runtime_permissions.dart';
-import 'package:mauritius_emergency_services/core/providers/settings.dart';
-import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
-import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
 
 class PermissionsDialog extends ConsumerWidget {
+  // Global vars
+  final Function() onComplete;
+  final Function() onProceed;
+
   // Constructor
-  const PermissionsDialog({super.key});
+  const PermissionsDialog({
+    super.key,
+    required this.onComplete,
+    required this.onProceed,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Define the theme
     final theme = Theme.of(context);
-
-    // Get the permissions state
-    final permissionsState = ref.watch(permissionsStateProvider);
-
-    // Listen to permission state changes
-    ref.listen(permissionsStateProvider, (previous, next) {
-      next.whenData((isGranted) {
-        // Mark the user as onboarded
-        ref.read(settingsProvider.notifier).markAsOnboarded();
-
-        // Navigate to home page whether permissions were granted or denied
-        context.go(HomeRoute.path);
-      });
-    });
 
     // Return the view
     return SimpleDialog(
@@ -52,7 +41,7 @@ class PermissionsDialog extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            "To provide the best experience, the app requires permission to make and manage phone calls, as this is its main feature.",
+            "To provide the best experience, the app requires permission to perform phone calls for you, as this is its main feature.",
             style: theme.textTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
@@ -73,24 +62,10 @@ class PermissionsDialog extends ConsumerWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        permissionsState.when(
-          data: (_) => _PermissionsActions(
-            onProceed: () => ref
-                .read(permissionsStateProvider.notifier)
-                .requestPermissions(),
-            onCancel: () {
-              // Navigate to home page even if user cancels
-              context.pop();
-            },
-          ),
-          error: (error, stack) => _PermissionsActions(
-            onProceed: () => ref
-                .read(permissionsStateProvider.notifier)
-                .requestPermissions(),
-            onCancel: () => context.goNamed(HomeRoute.path),
-          ),
-          loading: () => LoadingScreen(),
-        ),
+        _PermissionsActions(
+          onProceed: onProceed,
+          onCancel: onComplete,
+        )
       ],
     );
   }

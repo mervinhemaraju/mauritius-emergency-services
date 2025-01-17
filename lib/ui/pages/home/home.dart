@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
-import 'package:mauritius_emergency_services/core/providers/runtime_permissions.dart';
-import 'package:mauritius_emergency_services/core/routes/routes.dart';
+import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
+import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mauritius_emergency_services/ui/components/view_restricted_perms.dart';
-import 'package:mauritius_emergency_services/ui/pages/home/home_providers.dart';
-import 'package:mauritius_emergency_services/ui/pages/home/home_state.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -23,32 +20,17 @@ class HomeScreen extends ConsumerWidget {
     // Get the scaffold key
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
-    // Watch the home ui state
-    final homeUiState = ref.watch(homeViewStateProvider).when(
-          data: (state) => switch (state) {
-            HomeViewLoading() => LoadingScreen(),
-            HomeViewRestricted() => RestrictedPermissions(
-                title:
-                    "You need to enable phone call permissions to view this section.",
-                onReferesh: () {
-                  ref
-                      .read(permissionRefreshNotifierProvider.notifier)
-                      .refresh();
-                },
-              ),
-            HomeViewData(services: final services, settings: final settings) =>
-              _HomeUi(
-                emergencyServices: services,
-                settings: settings,
-              ),
-          },
+    final homeUiState = ref.watch(emergencyServicesProvider).when(
+          data: (services) => _HomeUi(
+            emergencyServices: services,
+            settings: ref.read(settingsProvider),
+          ),
           loading: () => LoadingScreen(),
           error: (error, stack) => ErrorScreen(
             title:
                 "Looks like something went wrong and we couldn't load the data.",
             showErrorImage: true,
-            retryAction: () =>
-                ref.read(homeViewNotifierProvider.notifier).refresh(),
+            retryAction: () => ref.refresh(emergencyServicesProvider.future),
           ),
         );
 
@@ -66,7 +48,7 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-class _HomeUi extends StatelessWidget {
+class _HomeUi extends ConsumerWidget {
   final List<Service> emergencyServices;
   final MesSettings settings;
 
@@ -76,7 +58,7 @@ class _HomeUi extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // Define the theme
     final theme = Theme.of(context);
 
@@ -101,6 +83,7 @@ class _HomeUi extends StatelessWidget {
               SizedBox(height: 32.0),
               _EmergencyButton(
                 theme: theme,
+                onTap: null,
                 onLongPress: () {
                   final Service emergencyService;
 
@@ -110,13 +93,8 @@ class _HomeUi extends StatelessWidget {
                     emergencyService = emergencyServices.first;
                   }
 
-                  context.push(
-                    PrecallRoute.path,
-                    extra: {
-                      PrecallRoute.extraService: emergencyService,
-                      PrecallRoute.extraNumber: emergencyService.mainContact,
-                    },
-                  );
+                  context.navigateToPreCall(emergencyService,
+                      emergencyService.mainContact.toString());
                 },
               ),
               SizedBox(height: 32.0),
@@ -125,12 +103,12 @@ class _HomeUi extends StatelessWidget {
                 title: "Need other quick emergency actions?",
                 subtitle: "Click one below to call",
               ),
-              _EmergencyListView(onTap: (service) {
-                context.push(PrecallRoute.path, extra: {
-                  PrecallRoute.extraService: service,
-                  PrecallRoute.extraNumber: service.mainContact,
-                });
-              }),
+              _EmergencyListView(
+                onTap: (service) {
+                  context.navigateToPreCall(
+                      service, service.mainContact.toString());
+                },
+              ),
               SizedBox(height: 8.0),
             ],
           ),
@@ -175,9 +153,10 @@ class _HomeUi extends StatelessWidget {
   Widget _EmergencyButton({
     required ThemeData theme,
     required Function() onLongPress,
+    required Function()? onTap,
   }) {
     return ElevatedButton(
-      onPressed: null,
+      onPressed: onTap,
       onLongPress: onLongPress,
       style: ElevatedButton.styleFrom(
         backgroundColor: theme.colorScheme.error,

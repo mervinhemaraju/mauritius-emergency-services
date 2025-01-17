@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/welcome.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
+import 'package:mauritius_emergency_services/data/impl/runtime_permissions_impl.dart';
 import 'package:mauritius_emergency_services/ui/components/adaptive_screen.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/pages/welcome/permissions_dialog.dart';
@@ -363,24 +364,34 @@ class _WideViewNavigator extends ConsumerWidget {
 }
 
 void _onNavigate(BuildContext context, WidgetRef ref) {
+  // Define the go home function
+  goHome() => context.go(HomeRoute.path);
+
   // If this is IOS, we don't need to request explicit
   // permissions for phone calls
-
-  // TODO : Improve the way permissions are handled -> Proposal below:
-  // Verify if phone permissions are granted in pre-call page instead on each page
-  // Notify users right away when they try to make a call.
-  // We can control this permission by asking just for android since no explicit permissions needed for IOS
-  // We can then have a simple way of telling users that they didn't grant permissions every time they open the app
   if (Platform.isIOS) {
-    // Mark the user as onboarded
-    ref.read(settingsProvider.notifier).markAsOnboarded();
-
     // Navigate to the home screen
-    context.go(HomeRoute.path);
+    goHome();
   } else {
     showDialog<String>(
       context: context,
-      builder: (BuildContext context) => PermissionsDialog(),
+      builder: (context) => PermissionsDialog(
+        onProceed: () async {
+          // Request all permissions
+          await SimplifiedRuntimePermissions()
+              .requestAllPermissions()
+              .whenComplete(
+            () {
+              // Mark user as onboarded
+              ref.read(settingsProvider.notifier).markAsOnboarded();
+
+              // Navigate home
+              goHome();
+            },
+          );
+        },
+        onComplete: () => goHome(),
+      ),
     );
   }
 }

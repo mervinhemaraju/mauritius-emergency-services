@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
-import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
@@ -232,10 +230,7 @@ class ExpandableDismissibleTile extends StatelessWidget {
     return Dismissible(
       key: Key(service.identifier),
       confirmDismiss: (direction) async {
-        context.push(PrecallRoute.path, extra: {
-          PrecallRoute.extraService: service,
-          PrecallRoute.extraNumber: service.mainContact,
-        });
+        context.navigateToPreCall(service, service.mainContact.toString());
         return false;
       },
       onUpdate: (details) => {
@@ -333,12 +328,8 @@ class ExpandableDismissibleTile extends StatelessWidget {
                                 Theme.of(context).colorScheme.tertiary,
                             onTap: (contact) {
                               if (contact.toString().isNumeric()) {
-                                print("Contact is numeric");
-
-                                context.go(PrecallRoute.path, extra: {
-                                  PrecallRoute.extraService: service,
-                                  PrecallRoute.extraNumber: contact.toString(),
-                                });
+                                context.navigateToPreCall(
+                                    service, contact.toString());
                               } else {
                                 // Build the uri
                                 final uri = Uri(

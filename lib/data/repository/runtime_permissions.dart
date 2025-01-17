@@ -1,19 +1,10 @@
 // Abstract class
 import 'package:permission_handler/permission_handler.dart';
 
-abstract class RuntimePermissionRepository {
-  /// Request notification permission
-  Future<PermissionStatus> requestNotificationPermission();
-
-  /// Request phone permission
-  Future<PermissionStatus> requestPhonePermission();
-
-  /// Request all permissions at once
+abstract class SimplifiedRuntimePermissionsRepository {
   Future<bool> requestAllPermissions();
 
-  /// Check status of all permissions
-  Future<Map<Permission, PermissionStatus>> checkPermissionsStatus();
+  Future<bool> requestPhonePermissions();
 
-  /// Check only mandatory permissions (phone)
-  Future<PermissionStatus> checkMandatoryPermissionsStatus();
+  Future<PermissionStatus> checkPhonePermissionStatus();
 }

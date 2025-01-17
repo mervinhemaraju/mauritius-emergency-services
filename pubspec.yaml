@@ -1,7 +1,7 @@
 
 # App Details
 name: mauritius_emergency_services
-description: "A new Flutter project."
+description: "A mobile application for Android and IOS, that provides information about emergency services in Mauritius."
 publish_to: 'none'
 
 # The versioning of the app
