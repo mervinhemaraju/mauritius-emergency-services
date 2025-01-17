@@ -1,13 +1,12 @@
 import "package:flutter/material.dart";
 import "package:mauritius_emergency_services/ui/theme/color_extended.dart";
+import "package:mauritius_emergency_services/ui/theme/ui.dart";
 
 class MaterialTheme {
   final TextTheme textTheme;
-  final AppBarTheme appBarTheme;
 
   const MaterialTheme(
     this.textTheme,
-    this.appBarTheme,
   );
 
   // Light + Normal Contrast Scheme
@@ -180,7 +179,7 @@ class MaterialTheme {
         useMaterial3: true,
         brightness: colorScheme.brightness,
         colorScheme: colorScheme,
-        appBarTheme: appBarTheme,
+        appBarTheme: createAppBarTheme(colorScheme.brightness),
         textTheme: textTheme.apply(
           bodyColor: colorScheme.onSurface,
           displayColor: colorScheme.onSurface,

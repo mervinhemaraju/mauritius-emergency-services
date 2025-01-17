@@ -11,7 +11,6 @@ import 'package:mauritius_emergency_services/data/impl/app_settings_impl.dart';
 import 'package:mauritius_emergency_services/objectbox.g.dart';
 import 'package:mauritius_emergency_services/ui/theme/theme.dart';
 import 'package:mauritius_emergency_services/ui/theme/typography.dart';
-import 'package:mauritius_emergency_services/ui/theme/ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -83,20 +82,11 @@ class MesMaterialApp extends ConsumerWidget {
     // Get the router instance
     final router = MesAppRouter.instance.getRouter();
 
-    // Determine the app brightness (theme)
-    final brightness = View.of(context).platformDispatcher.platformBrightness;
-
     // Create the text theme
     TextTheme textTheme = createTextTheme(context, "Poppins", "Lato");
 
-    // Create the app bar theme
-    AppBarTheme appBarTheme = createAppBarTheme(brightness);
-
     // Create the material theme
-    MaterialTheme theme = MaterialTheme(
-      textTheme,
-      appBarTheme,
-    );
+    MaterialTheme theme = MaterialTheme(textTheme);
 
     // Return the Material App
     return MaterialApp.router(

@@ -26,7 +26,7 @@ class WelcomeScreen extends StatelessWidget {
 
     // Return the view
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: getSystemUiOverlayStyle(),
+      value: getSystemUiOverlayStyle(theme.brightness),
       child: Scaffold(
         backgroundColor: backgroundColor,
         body: SafeArea(

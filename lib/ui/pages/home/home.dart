@@ -21,10 +21,22 @@ class HomeScreen extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
     final homeUiState = ref.watch(emergencyServicesProvider).when(
-          data: (services) => _HomeUi(
-            emergencyServices: services,
-            settings: ref.read(settingsProvider),
-          ),
+          data: (services) {
+            if (services.isEmpty) {
+              return ErrorScreen(
+                title:
+                    "Looks like no services are available. Make sure you are connected to the internet the first time for MES to download the services.",
+                showErrorImage: true,
+                retryAction: () =>
+                    ref.refresh(emergencyServicesProvider.future),
+              );
+            } else {
+              return _HomeUi(
+                emergencyServices: services,
+                settings: ref.read(settingsProvider),
+              );
+            }
+          },
           loading: () => LoadingScreen(),
           error: (error, stack) => ErrorScreen(
             title:

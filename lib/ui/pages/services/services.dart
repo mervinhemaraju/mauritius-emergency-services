@@ -25,10 +25,22 @@ class ServicesScreen extends ConsumerWidget {
 
     // Watch the services ui state
     final servicesUiState = ref.watch(servicesProvider).when(
-          data: (services) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ServicesList(services: services.search(query: searchQuery)),
-          ),
+          data: (services) {
+            if (services.isEmpty) {
+              return ErrorScreen(
+                title:
+                    "Looks like no services are available. Make sure you are connected to the internet the first time for MES to download the services.",
+                showErrorImage: true,
+                retryAction: () => ref.refresh(servicesProvider.future),
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child:
+                    ServicesList(services: services.search(query: searchQuery)),
+              );
+            }
+          },
           error: (error, stack) => ErrorScreen(
             title:
                 "Looks like something went wrong and we couldn't load the services.",
