@@ -125,7 +125,7 @@ class MesEmergencyTileItem extends StatelessWidget {
         onTap: onTap,
         child: Container(
           width: 240,
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -366,7 +366,7 @@ class ExpandableDismissibleTile extends StatelessWidget {
                 (email) => MesChip(
                   icon: Icons.email_outlined,
                   label: email,
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   backgroundColor: backgroundColor,
                   onTap: () => onTap(email),
                 ),
@@ -375,7 +375,7 @@ class ExpandableDismissibleTile extends StatelessWidget {
                 (contact) => MesChip(
                   icon: Icons.phone_outlined,
                   label: contact.toString(),
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   backgroundColor: backgroundColor,
                   onTap: () => onTap(contact),
                 ),
@@ -450,7 +450,7 @@ class WelcomeCarouselItem extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 12.0,
         ),
         Padding(
@@ -464,7 +464,7 @@ class WelcomeCarouselItem extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 21.0,
         )
       ],

@@ -29,7 +29,7 @@ class WelcomeScreen extends StatelessWidget {
       value: getSystemUiOverlayStyle(theme.brightness),
       child: Scaffold(
         backgroundColor: backgroundColor,
-        body: SafeArea(
+        body: const SafeArea(
           child: AdaptiveView(
             mobileView: _NarrowScreenUi(),
             tabletLeftView: _WideViewLeft(),
@@ -72,7 +72,7 @@ class _WideViewRight extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       spacing: 16.0,
       children: [
-        SizedBox(),
+        const SizedBox(),
         Wrap(
           direction: Axis.horizontal,
           crossAxisAlignment: WrapCrossAlignment.center,
@@ -135,9 +135,9 @@ class _WideViewRight extends ConsumerWidget {
           elevation: MesElevation.button,
           color: theme.colorScheme.primary,
           textColor: theme.colorScheme.onPrimary,
-          shape: StadiumBorder(),
-          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
-          child: Row(
+          shape: const StadiumBorder(),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
+          child: const Row(
             mainAxisSize: MainAxisSize.min,
             spacing: 12.0,
             children: [

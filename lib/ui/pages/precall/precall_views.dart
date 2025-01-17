@@ -5,6 +5,10 @@ import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:logging/logging.dart';
+
+// Initialize the logger
+final Logger log = Logger('pre_call_views.dart');
 
 class PreCallWideLeftView extends StatelessWidget {
   const PreCallWideLeftView({
@@ -49,7 +53,7 @@ class PreCallWideRightView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         spacing: 16.0,
         children: [
-          Text("Calling in:"),
+          const Text("Calling in:"),
           Expanded(
             child: Center(
               child: _CountdownTimer(
@@ -162,7 +166,7 @@ class _HeaderView extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 4.0,
         ),
         Text(
@@ -172,7 +176,7 @@ class _HeaderView extends StatelessWidget {
             color: theme.colorScheme.secondary,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 12.0,
         ),
         Text(
@@ -205,9 +209,9 @@ class _SlideToCancelState extends State<_SlideToCancel> {
       borderRadius: BorderRadius.circular(50.0),
       child: Dismissible(
         direction: DismissDirection.endToStart,
-        dismissThresholds: {DismissDirection.endToStart: 0.5},
+        dismissThresholds: const {DismissDirection.endToStart: 0.5},
         background: _SlideToCancelBackBody(isOverThreshold: isOverThreshold),
-        key: Key("swipe_to_cancel"),
+        key: const Key("swipe_to_cancel"),
         // Provide a function that tells the app
         // what to do after an item has been swiped away.
         onDismissed: (direction) {
@@ -227,7 +231,7 @@ class _SlideToCancelState extends State<_SlideToCancel> {
             });
           }
         },
-        child: _SlideToCancelFrontBody(),
+        child: const _SlideToCancelFrontBody(),
       ),
     );
   }
@@ -247,7 +251,7 @@ class _SlideToCancelBackBody extends StatelessWidget {
 
     // Return the view
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 32.0),
+      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 32.0),
       alignment: Alignment.centerRight,
       color: isOverThreshold
           ? theme.colorScheme.error
@@ -285,13 +289,13 @@ class _SlideToCancelFrontBody extends StatelessWidget {
                 color: theme.colorScheme.primaryContainer,
                 fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             width: 16.0,
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              padding: EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(12.0),
               decoration: BoxDecoration(
                 color: theme.colorScheme.primaryContainer,
                 shape: BoxShape.circle,
@@ -407,7 +411,7 @@ void onCountdownComplete({
 
     // Launch the URL with explicit LaunchMode
     if (!await launchUrl(uri)) {
-      print('Could not launch $uri');
+      log.severe('Could not launch $uri');
     }
   }
 

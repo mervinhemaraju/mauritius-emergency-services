@@ -6,8 +6,8 @@ AppBar MesAppBar({
   required String title,
 }) {
   return AppBar(
-    leading:
-        IconButton(onPressed: goBack, icon: Icon(Icons.arrow_back_outlined)),
+    leading: IconButton(
+        onPressed: goBack, icon: const Icon(Icons.arrow_back_outlined)),
     title: Text(title),
   );
 }

@@ -67,7 +67,7 @@ class ErrorScreen extends StatelessWidget {
                   backgroundColor: theme.colorScheme.tertiary,
                   foregroundColor: theme.colorScheme.onTertiary,
                 ),
-                child: Text("Retry"),
+                child: const Text("Retry"),
               ),
             ),
           ]

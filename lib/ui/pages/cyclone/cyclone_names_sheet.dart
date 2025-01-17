@@ -16,7 +16,7 @@ class CycloneNamesSheet extends ConsumerWidget {
           data: (names) => _CycloneNamesUi(
             cycloneNames: names,
           ),
-          loading: () => LoadingScreen(),
+          loading: () => const LoadingScreen(),
           error: (error, stack) => ErrorScreen(
             title: "An error occurred while fetching the cyclone names.",
             retryAction: () => ref.refresh(cycloneNamesProvider.future),
@@ -25,7 +25,7 @@ class CycloneNamesSheet extends ConsumerWidget {
 
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -34,9 +34,9 @@ class CycloneNamesSheet extends ConsumerWidget {
               style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.start,
             ),
-            SizedBox(height: 48.0),
+            const SizedBox(height: 48.0),
             uiState,
-            SizedBox(height: 48.0),
+            const SizedBox(height: 48.0),
           ],
         ),
       ),

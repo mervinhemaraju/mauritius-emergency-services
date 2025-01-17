@@ -25,7 +25,7 @@ class CycloneGuidelinesSheet extends ConsumerWidget {
 
             return _CycloneGuidelinesUi(cycloneGuidelines: asd.last);
           },
-          loading: () => LoadingScreen(),
+          loading: () => const LoadingScreen(),
           error: (error, stack) => ErrorScreen(
             title: "An error occurred while fetching the cyclone guidelines.",
             retryAction: () => ref.refresh(cycloneGuidelinesProvider.future),
@@ -35,7 +35,7 @@ class CycloneGuidelinesSheet extends ConsumerWidget {
     // Return the view
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -44,9 +44,9 @@ class CycloneGuidelinesSheet extends ConsumerWidget {
               style: theme.textTheme.headlineSmall,
               textAlign: TextAlign.start,
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             uiState,
-            SizedBox(height: 48.0),
+            const SizedBox(height: 48.0),
           ],
         ),
       ),
@@ -80,7 +80,7 @@ class _CycloneGuidelinesUi extends StatelessWidget {
               color: theme.colorScheme.secondary,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 24.0,
           ),
           Text(
@@ -88,11 +88,11 @@ class _CycloneGuidelinesUi extends StatelessWidget {
             style: theme.textTheme.labelMedium,
             textAlign: TextAlign.center,
           ),
-          SizedBox(
+          const SizedBox(
             height: 8.0,
           ),
           ...cycloneGuidelines.precautions.map((precaution) => Container(
-                padding: EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(12.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.0),
                   color: theme.colorScheme.secondaryContainer,

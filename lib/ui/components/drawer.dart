@@ -23,11 +23,11 @@ class MesDrawer extends StatelessWidget {
         width: double.infinity,
         child: ListView(
           // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.only(right: 16.0),
+          padding: const EdgeInsets.only(right: 16.0),
           children: [
-            MesDrawerHeader(),
+            const MesDrawerHeader(),
             MesDrawerItem(
-              leadingIcon: Icon(Icons.home_outlined),
+              leadingIcon: const Icon(Icons.home_outlined),
               title: 'Home',
               isSelected: HomeRoute.path == currentRoute,
               onTap: () {
@@ -36,7 +36,7 @@ class MesDrawer extends StatelessWidget {
               },
             ),
             MesDrawerItem(
-                leadingIcon: Icon(Icons.call_outlined),
+                leadingIcon: const Icon(Icons.call_outlined),
                 title: 'Services',
                 isSelected: ServicesRoute.path == currentRoute,
                 onTap: () {
@@ -44,7 +44,7 @@ class MesDrawer extends StatelessWidget {
                   context.go(ServicesRoute.path);
                 }),
             MesDrawerItem(
-              leadingIcon: Icon(Icons.cyclone_outlined),
+              leadingIcon: const Icon(Icons.cyclone_outlined),
               title: 'Cyclone Report',
               isSelected: CycloneReportRoute.path == currentRoute,
               onTap: () {
@@ -53,13 +53,13 @@ class MesDrawer extends StatelessWidget {
               },
             ),
             MesDrawerItem(
-                leadingIcon: Icon(Icons.supervised_user_circle_outlined),
+                leadingIcon: const Icon(Icons.supervised_user_circle_outlined),
                 title: 'Vicinity Alerts',
                 isSelected: false,
-                trailing: MesChip(label: "Coming Soon"),
+                trailing: const MesChip(label: "Coming Soon"),
                 onTap: () {}),
             MesDrawerItem(
-              leadingIcon: Icon(Icons.info_outline),
+              leadingIcon: const Icon(Icons.info_outline),
               title: 'About',
               isSelected: false,
               onTap: () {
@@ -67,36 +67,35 @@ class MesDrawer extends StatelessWidget {
               },
             ),
             MesDrawerItem(
-                leadingIcon: Icon(Icons.settings_outlined),
+                leadingIcon: const Icon(Icons.settings_outlined),
                 title: 'Settings',
                 isSelected: false,
                 onTap: () {
                   context.push(SettingsRoute.path);
                 }),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
               child: Divider(),
             ),
             MesDrawerItem(
-              leadingIcon: Icon(Icons.brightness_4_outlined),
+              leadingIcon: const Icon(Icons.brightness_4_outlined),
               title: 'Theme',
               isSelected: false,
               onTap: () {
                 context.pop();
                 showDialog<String>(
                   context: context,
-                  builder: (BuildContext context) => ThemeDialog(),
+                  builder: (BuildContext context) => const ThemeDialog(),
                 );
               },
             ),
             MesDrawerItem(
-                leadingIcon: Icon(Icons.email_outlined),
+                leadingIcon: const Icon(Icons.email_outlined),
                 title: 'Contact Us',
                 isSelected: false,
                 trailing: IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.open_in_new_outlined),
+                  icon: const Icon(Icons.open_in_new_outlined),
                 ),
                 onTap: () async {
                   final Uri emailLaunchUri = Uri.parse(URI_MES_CONTACT_US);
@@ -134,7 +133,7 @@ class MesDrawerItem extends StatelessWidget {
       leading: leadingIcon,
       title: Text(title),
       trailing: trailing,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.horizontal(
           right: Radius.circular(25), // Apply stadium effect
           left: Radius.zero, // No effect on the left

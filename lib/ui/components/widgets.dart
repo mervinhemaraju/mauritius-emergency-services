@@ -136,7 +136,7 @@ class TimerCard extends StatelessWidget {
                 color: theme.colorScheme.primary,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16.0,
             ),
             Text(

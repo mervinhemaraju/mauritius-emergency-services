@@ -1,8 +1,11 @@
+import 'package:logging/logging.dart';
 import 'package:mauritius_emergency_services/core/models/network_info.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/data/local/mes_services.dart';
 import 'package:mauritius_emergency_services/data/repository/mes_service.dart';
 import 'package:mauritius_emergency_services/data/sources/mes.dart';
+
+final Logger log = Logger('mes_service_impl.dart');
 
 // Create a repository implementation that handles both local and remote data
 class MesServiceCacheImpl implements MesServiceRepository {
@@ -40,7 +43,7 @@ class MesServiceCacheImpl implements MesServiceRepository {
         return localServices;
       }
     } catch (e) {
-      print("Error fetching services: $e");
+      log.severe("Error fetching services: $e");
 
       rethrow;
     }

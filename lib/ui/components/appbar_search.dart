@@ -47,7 +47,7 @@ class _MesSearchBar extends ConsumerWidget {
             searchController.closeView("");
             context.go(ServicesRoute.path);
           },
-          icon: Icon(Icons.arrow_back_ios_new_outlined),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined),
         ),
         onSubmitted: (query) {
           // Go to the services route
@@ -127,7 +127,7 @@ class _MesSearchBar extends ConsumerWidget {
                 child: CircularProgressIndicator(),
               )
             ],
-            error: (error, stackTrace) => [
+            error: (error, stackTrace) => const [
               ListTile(
                 title: Text('Error loading services'),
               )
@@ -213,7 +213,7 @@ class _SearchUiMatch extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: Text(services.first.mainContact.toString()),
           ),
-          trailing: Icon(Icons.open_with_outlined),
+          trailing: const Icon(Icons.open_with_outlined),
         ),
         itemBuilder: (context, index) {
           return ListTile(
@@ -225,7 +225,7 @@ class _SearchUiMatch extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: Text(services[index].mainContact.toString()),
             ),
-            trailing: Icon(Icons.open_in_new),
+            trailing: const Icon(Icons.open_in_new),
             onTap: () {
               onTap(services[index]);
             },

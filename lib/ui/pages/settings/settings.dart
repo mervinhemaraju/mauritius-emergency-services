@@ -37,7 +37,7 @@ class SettingsScreen extends ConsumerWidget {
             //       "Apply dynamic colors, based on your wallpaper (Material YOU)",
             //   trailing: _DynamicColorSwitch(),
             // ),
-            _SettingsHeaderTitle(
+            const _SettingsHeaderTitle(
               title: "Feature",
             ),
             SettingsItem(
@@ -47,11 +47,12 @@ class SettingsScreen extends ConsumerWidget {
               onTap: () {
                 showDialog<String>(
                   context: context,
-                  builder: (BuildContext context) => EmergencyButtonDialog(),
+                  builder: (BuildContext context) =>
+                      const EmergencyButtonDialog(),
                 );
               },
             ),
-            _SettingsHeaderTitle(
+            const _SettingsHeaderTitle(
               title: "Application",
             ),
             SettingsItem(
@@ -61,7 +62,7 @@ class SettingsScreen extends ConsumerWidget {
               onTap: () {
                 showDialog<String>(
                   context: context,
-                  builder: (BuildContext context) => LanguageDialog(),
+                  builder: (BuildContext context) => const LanguageDialog(),
                 );
               },
             ),

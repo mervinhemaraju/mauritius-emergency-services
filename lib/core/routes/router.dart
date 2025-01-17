@@ -58,7 +58,7 @@ class MesAppRouter {
           pageBuilder: (BuildContext context, GoRouterState state) {
             return CustomTransitionPage(
               key: state.pageKey,
-              child: HomeScreen(),
+              child: const HomeScreen(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return ScaleTransition(
@@ -109,7 +109,7 @@ class MesAppRouter {
           pageBuilder: (BuildContext context, GoRouterState state) {
             return CustomTransitionPage(
               key: state.pageKey,
-              child: CycloneScreen(),
+              child: const CycloneScreen(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return ScaleTransition(

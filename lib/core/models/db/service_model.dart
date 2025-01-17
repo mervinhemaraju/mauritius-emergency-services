@@ -1,7 +1,10 @@
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:objectbox/objectbox.dart';
+
+final Logger log = Logger('service_model.dart');
 
 @Entity()
 class ServiceModel {
@@ -47,7 +50,7 @@ class ServiceModel {
         downloadedIconData = response.bodyBytes;
       }
     } catch (e) {
-      print('Failed to download icon for ${service.identifier}: $e');
+      log.severe('Failed to download icon for ${service.identifier}: $e');
     }
 
     return ServiceModel(

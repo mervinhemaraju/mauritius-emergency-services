@@ -33,10 +33,10 @@ class EmergencyButtonDialog extends ConsumerWidget {
       contentPadding: EdgeInsets.zero,
       titlePadding: EdgeInsets.zero,
       title: Container(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
         color: Theme.of(context).colorScheme.surfaceContainerHigh,
         alignment: Alignment.center,
-        child: Text("Choose Emergency Action"),
+        child: const Text("Choose Emergency Action"),
       ),
       content: SizedBox(
         width: double.maxFinite,

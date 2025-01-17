@@ -21,8 +21,6 @@ class ServicesScreen extends ConsumerWidget {
     // Get the global scaffold key
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
-    print("The query is $searchQuery");
-
     // Watch the services ui state
     final servicesUiState = ref.watch(servicesProvider).when(
           data: (services) {
@@ -47,7 +45,7 @@ class ServicesScreen extends ConsumerWidget {
             showErrorImage: true,
             retryAction: () => ref.refresh(servicesProvider.future),
           ),
-          loading: () => LoadingScreen(),
+          loading: () => const LoadingScreen(),
         );
 
     // Return the view
@@ -58,7 +56,7 @@ class ServicesScreen extends ConsumerWidget {
           scaffoldKey.currentState?.openDrawer();
         },
       ),
-      drawer: MesDrawer(),
+      drawer: const MesDrawer(),
       body: RefreshIndicator(
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,

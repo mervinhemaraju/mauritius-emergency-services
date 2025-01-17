@@ -34,7 +34,7 @@ class CycloneScreen extends ConsumerWidget {
           return _CycloneNoWarningUi(cycloneReport: report);
         }
       },
-      loading: () => LoadingScreen(),
+      loading: () => const LoadingScreen(),
       error: (error, stack) => ErrorScreen(
         title:
             "Looks like something went wrong and we couldn't load the cyclone report.",
@@ -51,7 +51,7 @@ class CycloneScreen extends ConsumerWidget {
           scaffoldKey.currentState?.openDrawer();
         },
       ),
-      drawer: MesDrawer(),
+      drawer: const MesDrawer(),
       body: RefreshIndicator(
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -67,7 +67,7 @@ class CycloneScreen extends ConsumerWidget {
             heroTag: null,
             backgroundColor: Theme.of(context).colorScheme.secondary,
             foregroundColor: Theme.of(context).colorScheme.onSecondary,
-            child: Icon(Icons.list_alt_outlined),
+            child: const Icon(Icons.list_alt_outlined),
             onPressed: () {
               showModalBottomSheet<void>(
                 context: context,
@@ -75,7 +75,7 @@ class CycloneScreen extends ConsumerWidget {
                 showDragHandle: true,
                 enableDrag: true,
                 useSafeArea: true,
-                builder: (BuildContext context) => CycloneNamesSheet(),
+                builder: (BuildContext context) => const CycloneNamesSheet(),
               );
             },
           ),
@@ -83,7 +83,7 @@ class CycloneScreen extends ConsumerWidget {
             heroTag: null,
             backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.onPrimary,
-            child: Icon(Icons.cyclone_outlined),
+            child: const Icon(Icons.cyclone_outlined),
             onPressed: () {
               cycloneReportAsync.whenData((report) {
                 showModalBottomSheet<void>(
@@ -197,7 +197,7 @@ class _CycloneWarningUi extends StatelessWidget {
                     ),
                   ),
                 ),
-                _SectionTitle(title: "Next Bulletin"),
+                const _SectionTitle(title: "Next Bulletin"),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   spacing: 12.0,
@@ -217,12 +217,12 @@ class _CycloneWarningUi extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(height: 32.0),
-                _SectionTitle(title: "Latest News"),
+                const SizedBox(height: 32.0),
+                const _SectionTitle(title: "Latest News"),
                 SizedBox(
                   height: 200,
                   child: ListView(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     scrollDirection: Axis.horizontal,
                     children: cycloneReport.news
                         .map(

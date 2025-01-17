@@ -86,7 +86,7 @@ class _AboutSection extends StatelessWidget {
     // Return the view
     return Card(
       elevation: MesElevation.card,
-      margin: EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8.0),
       surfaceTintColor: theme.colorScheme.surface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -105,7 +105,7 @@ class _AboutSection extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           ...section.map(
             (about) => AboutSectionListItem(
               icon: about.icon,
@@ -138,7 +138,7 @@ class _AboutHeader extends StatelessWidget {
     // Return the view
     return Card(
       elevation: MesElevation.card,
-      margin: EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8.0),
       surfaceTintColor: theme.colorScheme.surface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

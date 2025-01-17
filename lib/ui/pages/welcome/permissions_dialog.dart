@@ -95,15 +95,16 @@ class _PermissionsActions extends StatelessWidget {
         children: [
           MaterialButton(
             onPressed: onProceed,
-            padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
             color: theme.colorScheme.primary,
             textColor: theme.colorScheme.onPrimary,
-            shape: StadiumBorder(),
-            child: Text("Proceed"),
+            shape: const StadiumBorder(),
+            child: const Text("Proceed"),
           ),
           OutlinedButton(
             onPressed: onCancel,
-            child: Text("Cancel"),
+            child: const Text("Cancel"),
           ),
         ],
       ),

@@ -37,7 +37,7 @@ class HomeScreen extends ConsumerWidget {
               );
             }
           },
-          loading: () => LoadingScreen(),
+          loading: () => const LoadingScreen(),
           error: (error, stack) => ErrorScreen(
             title:
                 "Looks like something went wrong and we couldn't load the data.",
@@ -92,7 +92,7 @@ class _HomeUi extends ConsumerWidget {
                 title: AppLocalizations.of(context)!.title_home_primary,
                 subtitle: "Hold the emergency button to call",
               ),
-              SizedBox(height: 32.0),
+              const SizedBox(height: 32.0),
               _EmergencyButton(
                 theme: theme,
                 onTap: null,
@@ -109,7 +109,7 @@ class _HomeUi extends ConsumerWidget {
                       emergencyService.mainContact.toString());
                 },
               ),
-              SizedBox(height: 32.0),
+              const SizedBox(height: 32.0),
               _TitleSet(
                 theme: theme,
                 title: "Need other quick emergency actions?",
@@ -121,7 +121,7 @@ class _HomeUi extends ConsumerWidget {
                       service, service.mainContact.toString());
                 },
               ),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
             ],
           ),
         )
@@ -172,8 +172,8 @@ class _HomeUi extends ConsumerWidget {
       onLongPress: onLongPress,
       style: ElevatedButton.styleFrom(
         backgroundColor: theme.colorScheme.error,
-        fixedSize: Size(200, 200),
-        shape: CircleBorder(),
+        fixedSize: const Size(200, 200),
+        shape: const CircleBorder(),
       ),
       child: Icon(
         Icons.sensors_outlined,

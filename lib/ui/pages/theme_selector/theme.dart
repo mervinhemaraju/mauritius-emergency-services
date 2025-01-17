@@ -18,10 +18,10 @@ class ThemeDialog extends ConsumerWidget {
       contentPadding: EdgeInsets.zero,
       titlePadding: EdgeInsets.zero,
       title: Container(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
         color: Theme.of(context).colorScheme.surfaceContainerHigh,
         alignment: Alignment.center,
-        child: Text("Theme Preferences"),
+        child: const Text("Theme Preferences"),
       ),
       content: SingleChildScrollView(
         child: Column(
@@ -48,7 +48,7 @@ class ThemeDialog extends ConsumerWidget {
           onPressed: () {
             context.pop();
           },
-          child: Text("Close"),
+          child: const Text("Close"),
         )
       ],
     );

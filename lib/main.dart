@@ -60,13 +60,13 @@ main() async {
         settingsRepositoryProvider.overrideWithValue(repository),
         objectBoxProvider.overrideWithValue(store),
       ],
-      child: MesMaterialApp(),
+      child: const MesMaterialApp(),
     ),
   );
 }
 
 class MesMaterialApp extends ConsumerWidget {
-  MesMaterialApp({super.key});
+  const MesMaterialApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
