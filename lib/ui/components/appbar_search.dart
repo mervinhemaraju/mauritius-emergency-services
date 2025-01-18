@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
-import 'package:mauritius_emergency_services/core/providers/notifiers/search_controller.dart';
+import 'package:mauritius_emergency_services/core/providers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/gen/strings.g.dart';

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/welcome.dart';
-import 'package:mauritius_emergency_services/core/providers/settings.dart';
+import 'package:mauritius_emergency_services/core/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/impl/runtime_permissions_impl.dart';
 import 'package:mauritius_emergency_services/gen/strings.g.dart';
@@ -369,7 +369,7 @@ void _onNavigate(BuildContext context, WidgetRef ref) {
   // Define the go home function
   goHome() {
     // Mark user as onboarded
-    ref.read(settingsProvider.notifier).markAsOnboarded();
+    ref.read(mesSettingsNotifierProvider.notifier).markAsOnboarded();
 
     // Navigate to home
     context.go(HomeRoute.path);

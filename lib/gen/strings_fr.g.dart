@@ -120,6 +120,15 @@ class _TranslationsOthersFr implements TranslationsOthersEn {
 	@override String get hour_abbr => 'h';
 	@override String get minute_abbr => 'min';
 	@override String get ooops => 'ooups!';
+	@override Map<String, String> get themes => {
+		'light': 'clair',
+		'dark': 'sombre',
+		'system': 'système',
+	};
+	@override Map<String, String> get language => {
+		'english': 'anglais',
+		'french': 'français',
+	};
 }
 
 // Path: pages.welcome
@@ -546,6 +555,11 @@ extension on TranslationsFr {
 			case 'others.hour_abbr': return 'h';
 			case 'others.minute_abbr': return 'min';
 			case 'others.ooops': return 'ooups!';
+			case 'others.themes.light': return 'clair';
+			case 'others.themes.dark': return 'sombre';
+			case 'others.themes.system': return 'système';
+			case 'others.language.english': return 'anglais';
+			case 'others.language.french': return 'français';
 			default: return null;
 		}
 	}

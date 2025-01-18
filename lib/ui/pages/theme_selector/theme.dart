@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mauritius_emergency_services/core/providers/settings.dart';
+import 'package:mauritius_emergency_services/core/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
@@ -12,7 +12,7 @@ class ThemeDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Watch the settings
-    final settings = ref.watch(settingsProvider);
+    final settings = ref.watch(mesSettingsNotifierProvider);
 
     // Return the view
     return AlertDialog(
@@ -32,12 +32,17 @@ class ThemeDialog extends ConsumerWidget {
             ...ThemeMode.values.map((theme) {
               return RadioListTile<ThemeMode>(
                 contentPadding: EdgeInsets.zero,
-                title: Text(theme.name),
+                title: Text(
+                  t.others.themes[theme.name]?.capitalize() ??
+                      t.others.themes.entries.first.value.capitalize(),
+                ),
                 value: theme,
                 groupValue: settings.theme,
                 onChanged: (ThemeMode? newTheme) {
                   if (newTheme != null) {
-                    ref.read(settingsProvider.notifier).updateTheme(newTheme);
+                    ref
+                        .read(mesSettingsNotifierProvider.notifier)
+                        .updateTheme(newTheme);
                   }
                 },
               );

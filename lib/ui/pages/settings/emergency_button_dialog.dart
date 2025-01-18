@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
-import 'package:mauritius_emergency_services/core/providers/settings.dart';
+import 'package:mauritius_emergency_services/core/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
@@ -12,14 +12,14 @@ class EmergencyButtonDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.watch(settingsProvider);
+    final settings = ref.watch(mesSettingsNotifierProvider);
     final uiState = ref.watch(servicesProvider).when(
           data: (services) => ServiceListView(
             services: services,
             selectedService: settings.emergencyButtonAction,
             onServiceSelected: (service) {
               ref
-                  .read(settingsProvider.notifier)
+                  .read(mesSettingsNotifierProvider.notifier)
                   .updateEmergencyButtonAction(service);
             },
           ),

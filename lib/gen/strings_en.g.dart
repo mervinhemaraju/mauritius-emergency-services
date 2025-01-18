@@ -124,6 +124,15 @@ class TranslationsOthersEn {
 	String get hour_abbr => 'hr';
 	String get minute_abbr => 'min';
 	String get ooops => 'ooops!';
+	Map<String, String> get themes => {
+		'light': 'light',
+		'dark': 'dark',
+		'system': 'system',
+	};
+	Map<String, String> get language => {
+		'english': 'english',
+		'french': 'french',
+	};
 }
 
 // Path: pages.welcome
@@ -550,6 +559,11 @@ extension on Translations {
 			case 'others.hour_abbr': return 'hr';
 			case 'others.minute_abbr': return 'min';
 			case 'others.ooops': return 'ooops!';
+			case 'others.themes.light': return 'light';
+			case 'others.themes.dark': return 'dark';
+			case 'others.themes.system': return 'system';
+			case 'others.language.english': return 'english';
+			case 'others.language.french': return 'french';
 			default: return null;
 		}
 	}

@@ -18,11 +18,11 @@ class AboutScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Watch the package version provider
-    final version = ref.watch(appVersion);
+    final packageInfo = ref.watch(packageInfoProvider);
 
     // Load the version data
-    final versionState = version.when(
-      data: (version) => version,
+    final version = packageInfo.when(
+      data: (info) => info.version,
       loading: () => t.messages.info.loading_component.capitalize(),
       error: (error, stackTrace) =>
           t.messages.info.unknown_component.capitalize(),
@@ -38,7 +38,7 @@ class AboutScreen extends ConsumerWidget {
     otherSection.add(About(
       icon: Icons.info_outlined,
       title: t.pages.about.other_section.version_title.capitalize(),
-      body: versionState,
+      body: version,
     ));
 
     // Return the view

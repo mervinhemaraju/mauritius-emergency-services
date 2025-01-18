@@ -11,7 +11,7 @@ publish_to: 'none'
 # suffix = [dev, beta, rc]
 # itr = 0-9
 # n = version code
-version: 1.2.0-beta.01+20
+version: 1.2.0-beta.02+20
 
 # Environment details
 environment:
@@ -47,6 +47,7 @@ dependencies:
   logging: ^1.3.0
   slang: ^4.4.1
   slang_flutter: ^4.4.0
+  riverpod_annotation: ^2.6.1
 
 
 # Dev Dependencies
@@ -60,6 +61,8 @@ dev_dependencies:
   rename_app: ^1.6.2
   flutter_native_splash: ^2.4.4
   slang_build_runner: ^4.4.0
+  riverpod_generator: ^2.6.3
+  riverpod_lint: ^2.6.3
 
 flutter:
   uses-material-design: true

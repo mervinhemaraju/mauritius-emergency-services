@@ -1,7 +1,7 @@
 
 
 ============ OPTIMIZATIONS ============
-[1] Look into Bloc design pattern / Use riverpod generators
+[1] Look into Bloc design pattern
 [2] Improve navigation and router
 [3] App Performance
     [.] // REVIEW(Listview and its performance)

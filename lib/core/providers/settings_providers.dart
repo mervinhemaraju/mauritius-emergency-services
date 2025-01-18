@@ -5,12 +5,23 @@ import 'package:mauritius_emergency_services/core/models/locale.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
 import 'package:mauritius_emergency_services/data/repository/app_settings.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'settings_providers.g.dart';
 
-class MesSettingsNotifier extends StateNotifier<MesSettings> {
-  final AppSettingsRepository _repository;
+@riverpod
+AppSettingsRepository settingsRepository(Ref ref) {
+  throw UnimplementedError('Repository must be initialized');
+}
 
-  MesSettingsNotifier(this._repository) : super(MesSettings.initial()) {
+@riverpod
+class MesSettingsNotifier extends _$MesSettingsNotifier {
+  late final AppSettingsRepository _repository;
+
+  @override
+  MesSettings build() {
+    _repository = ref.watch(settingsRepositoryProvider);
     _loadSettings();
+    return MesSettings.initial();
   }
 
   Future<void> _loadSettings() async {
@@ -35,7 +46,6 @@ class MesSettingsNotifier extends StateNotifier<MesSettings> {
     state = newSettings;
   }
 
-  // Add new method to update locale
   Future<void> updateLocale(MesLocale locale) async {
     final newSettings = state.copyWith(locale: locale);
     await _repository.updateSettings(newSettings);
@@ -49,14 +59,12 @@ class MesSettingsNotifier extends StateNotifier<MesSettings> {
   }
 }
 
-// Repository provider
-final settingsRepositoryProvider = Provider<AppSettingsRepository>((ref) {
-  throw UnimplementedError('Repository must be initialized');
-});
+// // Repository provider - this remains unchanged as it's already using Provider
+// final settingsRepositoryProvider = Provider<AppSettingsRepository>((ref) {
+//   throw UnimplementedError('Repository must be initialized');
+// });
 
-// Settings provider
-final settingsProvider =
-    StateNotifierProvider<MesSettingsNotifier, MesSettings>((ref) {
-  final repository = ref.watch(settingsRepositoryProvider);
-  return MesSettingsNotifier(repository);
-});
+// // Settings provider - updated to use NotifierProvider
+// final settingsProvider = NotifierProvider<MesSettingsNotifier, MesSettings>(() {
+//   return MesSettingsNotifier();
+// });

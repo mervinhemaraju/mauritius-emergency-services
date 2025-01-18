@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/locale.dart';
 import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
-import 'package:mauritius_emergency_services/core/providers/settings.dart';
+import 'package:mauritius_emergency_services/core/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
@@ -11,7 +11,7 @@ class LanguageDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.watch(settingsProvider);
+    final settings = ref.watch(mesSettingsNotifierProvider);
 
     return SimpleDialog(
       clipBehavior: Clip.hardEdge,
@@ -37,7 +37,10 @@ class LanguageDialog extends ConsumerWidget {
                 selected: settings.locale == locale,
                 selectedColor: Theme.of(context).colorScheme.onTertiary,
                 selectedTileColor: Theme.of(context).colorScheme.tertiary,
-                title: Text(locale.name.toString()),
+                title: Text(
+                  t.others.language[locale.name.toString()]?.capitalize() ??
+                      t.others.language.entries.first.value.capitalize(),
+                ),
                 trailing: settings.locale == locale
                     ? Icon(
                         Icons.check_outlined,
@@ -47,7 +50,7 @@ class LanguageDialog extends ConsumerWidget {
                 onTap: () {
                   // Update the locale
                   ref
-                      .read(settingsProvider.notifier)
+                      .read(mesSettingsNotifierProvider.notifier)
                       .updateLocale(locale)
                       .whenComplete(
                         // When the locale is updated, refresh the services

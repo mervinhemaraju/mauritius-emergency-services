@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/models/settings.dart';
 import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
-import 'package:mauritius_emergency_services/core/providers/settings.dart';
+import 'package:mauritius_emergency_services/core/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
@@ -36,7 +36,7 @@ class HomeScreen extends ConsumerWidget {
             } else {
               return _HomeUi(
                 emergencyServices: services,
-                settings: ref.read(settingsProvider),
+                settings: ref.read(mesSettingsNotifierProvider),
               );
             }
           },

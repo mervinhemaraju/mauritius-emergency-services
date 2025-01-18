@@ -153,6 +153,15 @@
     "others": {
         "hour_abbr": "hr",
         "minute_abbr": "min",
-        "ooops": "ooops!"
+        "ooops": "ooops!",
+        "themes(map)": {
+            "light": "light",
+            "dark": "dark",
+            "system": "system"
+        },
+        "language(map)": {
+            "english": "english",
+            "french": "french"
+        }
     }
 }

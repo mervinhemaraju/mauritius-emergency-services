@@ -1,8 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/providers/local_database.dart';
-import 'package:mauritius_emergency_services/core/providers/settings.dart';
+import 'package:mauritius_emergency_services/core/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/core/routes/router.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/impl/app_settings_impl.dart';
@@ -16,23 +17,26 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // Only enable this for development purposes
 // ad the following in main() -> HttpOverrides.global = MyHttpOverrides();
-// class MyHttpOverrides extends HttpOverrides {
-//   @override
-//   HttpClient createHttpClient(SecurityContext? context) {
-//     return super.createHttpClient(context)
-//       ..badCertificateCallback = (
-//         X509Certificate cert,
-//         String host,
-//         int port,
-//       ) =>
-//           true;
-//   }
-// }
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (
+        X509Certificate cert,
+        String host,
+        int port,
+      ) =>
+          true;
+  }
+}
 
 // The main runner app
 main() async {
   // Ensure the widgets are initialized
   WidgetsFlutterBinding.ensureInitialized();
+
+  // TODO(Remove before deploying to prod)
+  HttpOverrides.global = MyHttpOverrides();
 
   // Initialize the shared preferences
   final prefs = await SharedPreferences.getInstance();
@@ -67,13 +71,13 @@ class MesMaterialApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Get the initial location
     final intitialLocation =
-        ref.watch(settingsProvider.select((s) => s.isOnboarded))
+        ref.watch(mesSettingsNotifierProvider.select((s) => s.isOnboarded))
             ? HomeRoute.path
             : WelcomeRoute.path;
 
     // Update the app locale
     ref.watch(
-      settingsProvider.select(
+      mesSettingsNotifierProvider.select(
         (s) => LocaleSettings.setLocaleRaw(s.locale.lang),
       ),
     );
@@ -98,7 +102,7 @@ class MesMaterialApp extends ConsumerWidget {
       darkTheme: theme.dark(),
       highContrastTheme: theme.lightHighContrast(),
       highContrastDarkTheme: theme.darkHighContrast(),
-      themeMode: ref.watch(settingsProvider.select(
+      themeMode: ref.watch(mesSettingsNotifierProvider.select(
         (s) => s.theme,
       )),
       locale: TranslationProvider.of(context).flutterLocale,
