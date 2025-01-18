@@ -3,6 +3,7 @@ import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:logging/logging.dart';
@@ -53,7 +54,7 @@ class PreCallWideRightView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         spacing: 16.0,
         children: [
-          const Text("Calling in:"),
+          Text(t.pages.precall.calling_in.capitalize()),
           Expanded(
             child: Center(
               child: _CountdownTimer(
@@ -159,7 +160,7 @@ class _HeaderView extends StatelessWidget {
     return Column(
       children: [
         Text(
-          "Starting a call to",
+          t.pages.precall.title.capitalize(),
           textAlign: TextAlign.center,
           style: theme.textTheme.bodyMedium?.copyWith(
             color: theme.colorScheme.onPrimaryContainer,
@@ -284,7 +285,7 @@ class _SlideToCancelFrontBody extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
-            "Slide to Cancel",
+            t.actions.slide_to_cancel.capitalizeAll(),
             style: theme.textTheme.bodyLarge?.copyWith(
                 color: theme.colorScheme.primaryContainer,
                 fontWeight: FontWeight.bold),
@@ -405,12 +406,14 @@ void onCountdownComplete({
   } else {
     // Build the URI
     final uri = Uri(
+      // TODO(Ensure emergency calls are being done too)
       scheme: 'tel',
       path: number,
     );
 
     // Launch the URL with explicit LaunchMode
     if (!await launchUrl(uri)) {
+      // TODO(Add this to a snackbar or something)
       log.severe('Could not launch $uri');
     }
   }

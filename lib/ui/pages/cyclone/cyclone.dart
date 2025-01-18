@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/cyclone_report.dart';
 import 'package:mauritius_emergency_services/core/providers/cyclone_providers.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
@@ -12,6 +13,7 @@ import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_guidelines_sheet.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_names_sheet.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/utils/getters.dart';
 
 class CycloneScreen extends ConsumerWidget {
@@ -36,8 +38,7 @@ class CycloneScreen extends ConsumerWidget {
       },
       loading: () => const LoadingScreen(),
       error: (error, stack) => ErrorScreen(
-        title:
-            "Looks like something went wrong and we couldn't load the cyclone report.",
+        title: t.messages.error.cannot_load_cyclone_report.capitalize(),
         showErrorImage: true,
         retryAction: () => ref.refresh(cycloneReportTestingProvider.future),
       ),
@@ -134,7 +135,7 @@ class _CycloneNoWarningUi extends StatelessWidget {
                     horizontal: 16.0,
                   ),
                   child: Text(
-                    "There's currently no cyclone warning in Mauritius",
+                    t.pages.cyclone.no_warning.capitalize(),
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Theme.of(context).colorScheme.secondary,
@@ -171,14 +172,16 @@ class _CycloneWarningUi extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  "Mauritius is currently is",
+                  t.pages.cyclone.warning.title.capitalize(),
                   textAlign: TextAlign.center,
                   style: theme.textTheme.labelMedium?.copyWith(
                     color: theme.colorScheme.secondary,
                   ),
                 ),
                 Text(
-                  "Class ${cycloneReport.level}",
+                  t.pages.cyclone.warning
+                      .subtitle(level: cycloneReport.level.toString())
+                      .capitalize(),
                   textAlign: TextAlign.center,
                   style: theme.textTheme.displaySmall?.copyWith(
                     fontWeight: FontWeight.bold,
@@ -197,14 +200,17 @@ class _CycloneWarningUi extends StatelessWidget {
                     ),
                   ),
                 ),
-                const _SectionTitle(title: "Next Bulletin"),
+                _SectionTitle(
+                  title: t.pages.cyclone.warning.next_bulletin_title
+                      .capitalizeAll(),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   spacing: 12.0,
                   children: [
                     TimerCard(
                       time: cycloneReport.getHour,
-                      subtitle: "hr",
+                      subtitle: t.others.hour_abbr,
                     ),
                     Text(
                       ":",
@@ -213,12 +219,14 @@ class _CycloneWarningUi extends StatelessWidget {
                     ),
                     TimerCard(
                       time: cycloneReport.getMinute,
-                      subtitle: "min",
+                      subtitle: t.others.minute_abbr,
                     )
                   ],
                 ),
                 const SizedBox(height: 32.0),
-                const _SectionTitle(title: "Latest News"),
+                _SectionTitle(
+                    title: t.pages.cyclone.warning.latest_news_title
+                        .capitalizeAll()),
                 SizedBox(
                   height: 200,
                   child: ListView(

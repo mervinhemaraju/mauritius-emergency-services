@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class EmergencyButtonDialog extends ConsumerWidget {
   const EmergencyButtonDialog({super.key});
@@ -23,7 +25,7 @@ class EmergencyButtonDialog extends ConsumerWidget {
           ),
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, stack) => ErrorScreen(
-            title: "Couldn't load services",
+            title: t.messages.error.cannot_load_data.capitalize(),
             retryAction: () => ref.refresh(servicesProvider.future),
           ),
         );
@@ -36,7 +38,10 @@ class EmergencyButtonDialog extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         color: Theme.of(context).colorScheme.surfaceContainerHigh,
         alignment: Alignment.center,
-        child: const Text("Choose Emergency Action"),
+        child: Text(
+          t.pages.settings.section_feature.emergency_button_action.sheet_title
+              .capitalizeAll(),
+        ),
       ),
       content: SizedBox(
         width: double.maxFinite,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class PermissionsDialog extends ConsumerWidget {
   // Global vars
@@ -30,7 +32,11 @@ class PermissionsDialog extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            "Mes needs permission to proceed",
+            t.pages.welcome.permissions_dialog
+                .primary_text(
+                  app_name_short: t.app.short_name.toUpperCase(),
+                )
+                .capitalizeAll(),
             style: theme.textTheme.headlineSmall?.copyWith(
               color: theme.colorScheme.onSurface,
               fontWeight: FontWeight.bold,
@@ -41,7 +47,7 @@ class PermissionsDialog extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            "To provide the best experience, the app requires permission to perform phone calls for you, as this is its main feature.",
+            t.pages.welcome.permissions_dialog.secondary_text.capitalize(),
             style: theme.textTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
@@ -49,7 +55,7 @@ class PermissionsDialog extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            "We also request notification access to keep you informed and up to date.",
+            t.pages.welcome.permissions_dialog.tertiary_text.capitalize(),
             style: theme.textTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
@@ -57,7 +63,7 @@ class PermissionsDialog extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            "Please grant these permissions to continue using the app seamlessly. If it doesn't work, then you'll need to do it manually in the settings.",
+            t.pages.welcome.permissions_dialog.quaternary_text.capitalize(),
             style: theme.textTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
@@ -100,11 +106,11 @@ class _PermissionsActions extends StatelessWidget {
             color: theme.colorScheme.primary,
             textColor: theme.colorScheme.onPrimary,
             shape: const StadiumBorder(),
-            child: const Text("Proceed"),
+            child: Text(t.actions.proceed.capitalize()),
           ),
           OutlinedButton(
             onPressed: onCancel,
-            child: const Text("Cancel"),
+            child: Text(t.actions.cancel.capitalize()),
           ),
         ],
       ),

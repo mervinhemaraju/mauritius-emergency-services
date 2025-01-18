@@ -62,8 +62,13 @@ class TranslationsPagesEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	late final TranslationsPagesWelcomeEn welcome = TranslationsPagesWelcomeEn._(_root);
 	late final TranslationsPagesHomeEn home = TranslationsPagesHomeEn._(_root);
 	late final TranslationsPagesAboutEn about = TranslationsPagesAboutEn._(_root);
+	late final TranslationsPagesCycloneEn cyclone = TranslationsPagesCycloneEn._(_root);
+	late final TranslationsPagesPrecallEn precall = TranslationsPagesPrecallEn._(_root);
+	late final TranslationsPagesThemeSelectorEn theme_selector = TranslationsPagesThemeSelectorEn._(_root);
+	late final TranslationsPagesSettingsEn settings = TranslationsPagesSettingsEn._(_root);
 }
 
 // Path: messages
@@ -85,6 +90,11 @@ class TranslationsActionsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	String get proceed => 'proceed';
+	String get cancel => 'cancel';
+	String get close => 'close';
+	String get slide_to_cancel => 'slide to cancel';
+	String get get_started => 'get started';
 }
 
 // Path: others
@@ -94,6 +104,20 @@ class TranslationsOthersEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	String get hour_abbr => 'hr';
+	String get minute_abbr => 'min';
+}
+
+// Path: pages.welcome
+class TranslationsPagesWelcomeEn {
+	TranslationsPagesWelcomeEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'welcome';
+	late final TranslationsPagesWelcomeHeaderEn header = TranslationsPagesWelcomeHeaderEn._(_root);
+	late final TranslationsPagesWelcomePermissionsDialogEn permissions_dialog = TranslationsPagesWelcomePermissionsDialogEn._(_root);
 }
 
 // Path: pages.home
@@ -123,6 +147,52 @@ class TranslationsPagesAboutEn {
 	late final TranslationsPagesAboutOtherSectionEn other_section = TranslationsPagesAboutOtherSectionEn._(_root);
 }
 
+// Path: pages.cyclone
+class TranslationsPagesCycloneEn {
+	TranslationsPagesCycloneEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get no_warning => 'there\'s currently no cyclone warning in Mauritius';
+	late final TranslationsPagesCycloneWarningEn warning = TranslationsPagesCycloneWarningEn._(_root);
+	late final TranslationsPagesCycloneNamesEn names = TranslationsPagesCycloneNamesEn._(_root);
+	late final TranslationsPagesCycloneGuidelinesEn guidelines = TranslationsPagesCycloneGuidelinesEn._(_root);
+}
+
+// Path: pages.precall
+class TranslationsPagesPrecallEn {
+	TranslationsPagesPrecallEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'starting a call to';
+	String get calling_in => 'calling in';
+}
+
+// Path: pages.theme_selector
+class TranslationsPagesThemeSelectorEn {
+	TranslationsPagesThemeSelectorEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'theme preferences';
+}
+
+// Path: pages.settings
+class TranslationsPagesSettingsEn {
+	TranslationsPagesSettingsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'settings';
+	late final TranslationsPagesSettingsSectionFeatureEn section_feature = TranslationsPagesSettingsSectionFeatureEn._(_root);
+	late final TranslationsPagesSettingsSectionApplicationEn section_application = TranslationsPagesSettingsSectionApplicationEn._(_root);
+}
+
 // Path: messages.error
 class TranslationsMessagesErrorEn {
 	TranslationsMessagesErrorEn._(this._root);
@@ -131,7 +201,10 @@ class TranslationsMessagesErrorEn {
 
 	// Translations
 	String get cannot_load_data => 'looks like something went wrong and we couldn\'t load the data.';
-	String get services_unavailable => 'looks like no services are available. Make sure you are connected to the internet the first time for MES to download the services.';
+	String services_unavailable({required Object app_name_short}) => 'looks like no services are available. Make sure you are connected to the internet the first time for ${app_name_short} to download the services.';
+	String get cannot_load_cyclone_report => 'looks like something went wrong and we couldn\'t load the cyclone report.';
+	String get cannot_load_cyclone_names => 'an error occurred while fetching the cyclone names.';
+	String get cannot_load_cyclone_guidelines => 'an error occurred while fetching the cyclone guidelines.';
 }
 
 // Path: messages.success
@@ -152,6 +225,29 @@ class TranslationsMessagesInfoEn {
 	// Translations
 	String get loading_component => 'loading...';
 	String get unknown_component => 'unknown';
+}
+
+// Path: pages.welcome.header
+class TranslationsPagesWelcomeHeaderEn {
+	TranslationsPagesWelcomeHeaderEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'welcome to';
+}
+
+// Path: pages.welcome.permissions_dialog
+class TranslationsPagesWelcomePermissionsDialogEn {
+	TranslationsPagesWelcomePermissionsDialogEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String primary_text({required Object app_name_short}) => '${app_name_short} needs permission to proceed';
+	String get secondary_text => 'to provide the best experience, the app requires permission to perform phone calls for you, as this is its main feature.';
+	String get tertiary_text => 'we also request notification access to keep you informed and up to date.';
+	String get quaternary_text => 'please grant these permissions to continue using the app seamlessly. If it doesn\'t work, then you\'ll need to do it manually in the settings.';
 }
 
 // Path: pages.about.header
@@ -200,6 +296,89 @@ class TranslationsPagesAboutOtherSectionEn {
 	String get version_title => 'version';
 }
 
+// Path: pages.cyclone.warning
+class TranslationsPagesCycloneWarningEn {
+	TranslationsPagesCycloneWarningEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Mauritius is currently in';
+	String subtitle({required Object level}) => 'class ${level}';
+	String get next_bulletin_title => 'next bulletin';
+	String get latest_news_title => 'latest news';
+}
+
+// Path: pages.cyclone.names
+class TranslationsPagesCycloneNamesEn {
+	TranslationsPagesCycloneNamesEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'cyclone names';
+	String get table_header_name => 'name';
+	String get table_header_gender => 'gender';
+	String get table_header_provided_by => 'provided by';
+}
+
+// Path: pages.cyclone.guidelines
+class TranslationsPagesCycloneGuidelinesEn {
+	TranslationsPagesCycloneGuidelinesEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String title({required Object level}) => 'guidelines for class ${level}';
+	String get header_precautions_title => 'precautions';
+}
+
+// Path: pages.settings.section_feature
+class TranslationsPagesSettingsSectionFeatureEn {
+	TranslationsPagesSettingsSectionFeatureEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'feature';
+	late final TranslationsPagesSettingsSectionFeatureEmergencyButtonActionEn emergency_button_action = TranslationsPagesSettingsSectionFeatureEmergencyButtonActionEn._(_root);
+}
+
+// Path: pages.settings.section_application
+class TranslationsPagesSettingsSectionApplicationEn {
+	TranslationsPagesSettingsSectionApplicationEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'application';
+	late final TranslationsPagesSettingsSectionApplicationChangeLanguageEn change_language = TranslationsPagesSettingsSectionApplicationChangeLanguageEn._(_root);
+}
+
+// Path: pages.settings.section_feature.emergency_button_action
+class TranslationsPagesSettingsSectionFeatureEmergencyButtonActionEn {
+	TranslationsPagesSettingsSectionFeatureEmergencyButtonActionEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get sheet_title => 'choose Emergency Action';
+	String get tile_title => 'emergency button action';
+	String get tile_subtitle => 'set an emergency service for the red button';
+}
+
+// Path: pages.settings.section_application.change_language
+class TranslationsPagesSettingsSectionApplicationChangeLanguageEn {
+	TranslationsPagesSettingsSectionApplicationChangeLanguageEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get sheet_title => 'choose language';
+	String get tile_title => 'change language';
+	String get tile_subtitle => 'change your app\'s language';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on Translations {
@@ -207,6 +386,12 @@ extension on Translations {
 		switch (path) {
 			case 'app.name': return 'mauritius emergency services';
 			case 'app.short_name': return 'mes';
+			case 'pages.welcome.title': return 'welcome';
+			case 'pages.welcome.header.title': return 'welcome to';
+			case 'pages.welcome.permissions_dialog.primary_text': return ({required Object app_name_short}) => '${app_name_short} needs permission to proceed';
+			case 'pages.welcome.permissions_dialog.secondary_text': return 'to provide the best experience, the app requires permission to perform phone calls for you, as this is its main feature.';
+			case 'pages.welcome.permissions_dialog.tertiary_text': return 'we also request notification access to keep you informed and up to date.';
+			case 'pages.welcome.permissions_dialog.quaternary_text': return 'please grant these permissions to continue using the app seamlessly. If it doesn\'t work, then you\'ll need to do it manually in the settings.';
 			case 'pages.home.title': return 'home';
 			case 'pages.home.primary_title': return 'emergency help needed?';
 			case 'pages.home.primary_subtitle': return 'hold the emergency button to call';
@@ -232,10 +417,43 @@ extension on Translations {
 			case 'pages.about.other_section.privacy_policy_title': return 'privacy policy';
 			case 'pages.about.other_section.privacy_policy_subtitle': return ({required Object app_name_short}) => 'view the privacy policy for ${app_name_short}.';
 			case 'pages.about.other_section.version_title': return 'version';
+			case 'pages.cyclone.no_warning': return 'there\'s currently no cyclone warning in Mauritius';
+			case 'pages.cyclone.warning.title': return 'Mauritius is currently in';
+			case 'pages.cyclone.warning.subtitle': return ({required Object level}) => 'class ${level}';
+			case 'pages.cyclone.warning.next_bulletin_title': return 'next bulletin';
+			case 'pages.cyclone.warning.latest_news_title': return 'latest news';
+			case 'pages.cyclone.names.title': return 'cyclone names';
+			case 'pages.cyclone.names.table_header_name': return 'name';
+			case 'pages.cyclone.names.table_header_gender': return 'gender';
+			case 'pages.cyclone.names.table_header_provided_by': return 'provided by';
+			case 'pages.cyclone.guidelines.title': return ({required Object level}) => 'guidelines for class ${level}';
+			case 'pages.cyclone.guidelines.header_precautions_title': return 'precautions';
+			case 'pages.precall.title': return 'starting a call to';
+			case 'pages.precall.calling_in': return 'calling in';
+			case 'pages.theme_selector.title': return 'theme preferences';
+			case 'pages.settings.title': return 'settings';
+			case 'pages.settings.section_feature.title': return 'feature';
+			case 'pages.settings.section_feature.emergency_button_action.sheet_title': return 'choose Emergency Action';
+			case 'pages.settings.section_feature.emergency_button_action.tile_title': return 'emergency button action';
+			case 'pages.settings.section_feature.emergency_button_action.tile_subtitle': return 'set an emergency service for the red button';
+			case 'pages.settings.section_application.title': return 'application';
+			case 'pages.settings.section_application.change_language.sheet_title': return 'choose language';
+			case 'pages.settings.section_application.change_language.tile_title': return 'change language';
+			case 'pages.settings.section_application.change_language.tile_subtitle': return 'change your app\'s language';
 			case 'messages.error.cannot_load_data': return 'looks like something went wrong and we couldn\'t load the data.';
-			case 'messages.error.services_unavailable': return 'looks like no services are available. Make sure you are connected to the internet the first time for MES to download the services.';
+			case 'messages.error.services_unavailable': return ({required Object app_name_short}) => 'looks like no services are available. Make sure you are connected to the internet the first time for ${app_name_short} to download the services.';
+			case 'messages.error.cannot_load_cyclone_report': return 'looks like something went wrong and we couldn\'t load the cyclone report.';
+			case 'messages.error.cannot_load_cyclone_names': return 'an error occurred while fetching the cyclone names.';
+			case 'messages.error.cannot_load_cyclone_guidelines': return 'an error occurred while fetching the cyclone guidelines.';
 			case 'messages.info.loading_component': return 'loading...';
 			case 'messages.info.unknown_component': return 'unknown';
+			case 'actions.proceed': return 'proceed';
+			case 'actions.cancel': return 'cancel';
+			case 'actions.close': return 'close';
+			case 'actions.slide_to_cancel': return 'slide to cancel';
+			case 'actions.get_started': return 'get started';
+			case 'others.hour_abbr': return 'hr';
+			case 'others.minute_abbr': return 'min';
 			default: return null;
 		}
 	}

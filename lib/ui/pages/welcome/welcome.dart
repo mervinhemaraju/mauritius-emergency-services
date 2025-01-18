@@ -7,10 +7,12 @@ import 'package:mauritius_emergency_services/core/models/welcome.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/impl/runtime_permissions_impl.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/adaptive_screen.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/pages/welcome/permissions_dialog.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/utils/getters.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -83,7 +85,7 @@ class _WideViewRight extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
-                "Welcome to",
+                t.pages.welcome.header.title.capitalize(),
                 style: theme.textTheme.titleMedium?.copyWith(
                   color: theme.colorScheme.secondary,
                   fontWeight: FontWeight.bold,
@@ -92,7 +94,7 @@ class _WideViewRight extends ConsumerWidget {
               ),
             ),
             Text(
-              "Mauritius Emergency Services",
+              t.app.name.capitalizeAll(),
               style: theme.textTheme.headlineSmall?.copyWith(
                 color: theme.colorScheme.primary,
                 fontWeight: FontWeight.bold,
@@ -137,15 +139,15 @@ class _WideViewRight extends ConsumerWidget {
           textColor: theme.colorScheme.onPrimary,
           shape: const StadiumBorder(),
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
-          child: const Row(
+          child: Row(
             mainAxisSize: MainAxisSize.min,
             spacing: 12.0,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 12.0,
               ),
-              Text("Get Started"),
-              Icon(Icons.arrow_forward_ios_outlined)
+              Text(t.actions.get_started.capitalizeAll()),
+              const Icon(Icons.arrow_forward_ios_outlined)
             ],
           ),
         )
@@ -170,7 +172,7 @@ class _NarrowScreenUi extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            "Mauritius Emergency Services",
+            t.app.name.capitalizeAll(),
             style: theme.textTheme.headlineSmall?.copyWith(
               color: theme.colorScheme.secondary,
               fontWeight: FontWeight.bold,

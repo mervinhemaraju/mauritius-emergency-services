@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class ThemeDialog extends ConsumerWidget {
   // Constructor
@@ -21,7 +23,7 @@ class ThemeDialog extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         color: Theme.of(context).colorScheme.surfaceContainerHigh,
         alignment: Alignment.center,
-        child: const Text("Theme Preferences"),
+        child: Text(t.pages.theme_selector.title.capitalizeAll()),
       ),
       content: SingleChildScrollView(
         child: Column(
@@ -48,7 +50,7 @@ class ThemeDialog extends ConsumerWidget {
           onPressed: () {
             context.pop();
           },
-          child: const Text("Close"),
+          child: Text(t.actions.close.capitalize()),
         )
       ],
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
@@ -26,8 +27,11 @@ class ServicesScreen extends ConsumerWidget {
           data: (services) {
             if (services.isEmpty) {
               return ErrorScreen(
-                title:
-                    "Looks like no services are available. Make sure you are connected to the internet the first time for MES to download the services.",
+                title: t.messages.error
+                    .services_unavailable(
+                      app_name_short: t.app.short_name.toUpperCase(),
+                    )
+                    .capitalize(),
                 showErrorImage: true,
                 retryAction: () => ref.refresh(servicesProvider.future),
               );
@@ -40,8 +44,7 @@ class ServicesScreen extends ConsumerWidget {
             }
           },
           error: (error, stack) => ErrorScreen(
-            title:
-                "Looks like something went wrong and we couldn't load the services.",
+            title: t.messages.error.cannot_load_data.capitalize(),
             showErrorImage: true,
             retryAction: () => ref.refresh(servicesProvider.future),
           ),

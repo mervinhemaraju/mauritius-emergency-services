@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/cyclone_names.dart';
 import 'package:mauritius_emergency_services/core/providers/cyclone_providers.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class CycloneNamesSheet extends ConsumerWidget {
   // Constructor
@@ -18,7 +20,7 @@ class CycloneNamesSheet extends ConsumerWidget {
           ),
           loading: () => const LoadingScreen(),
           error: (error, stack) => ErrorScreen(
-            title: "An error occurred while fetching the cyclone names.",
+            title: t.messages.error.cannot_load_cyclone_names.capitalize(),
             retryAction: () => ref.refresh(cycloneNamesProvider.future),
           ),
         );
@@ -30,7 +32,7 @@ class CycloneNamesSheet extends ConsumerWidget {
         child: Column(
           children: <Widget>[
             Text(
-              'Cyclone Names',
+              t.pages.cyclone.names.title.capitalizeAll(),
               style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.start,
             ),
@@ -57,23 +59,23 @@ class _CycloneNamesUi extends StatelessWidget {
       headingRowColor: WidgetStatePropertyAll(
         Theme.of(context).colorScheme.primaryContainer,
       ),
-      columns: const [
+      columns: [
         DataColumn(
           label: Text(
-            'Name',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            t.pages.cyclone.names.table_header_name.capitalizeAll(),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         DataColumn(
           label: Text(
-            'Gender',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            t.pages.cyclone.names.table_header_gender.capitalizeAll(),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         DataColumn(
           label: Text(
-            'Provided By',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            t.pages.cyclone.names.table_header_provided_by.capitalizeAll(),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
       ],

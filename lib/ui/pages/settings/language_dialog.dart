@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/locale.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class LanguageDialog extends ConsumerWidget {
   const LanguageDialog({super.key});
@@ -18,7 +20,10 @@ class LanguageDialog extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         color: Theme.of(context).colorScheme.surfaceContainerHigh,
         alignment: Alignment.center,
-        child: const Text("Choose Language"),
+        child: Text(
+          t.pages.settings.section_application.change_language.sheet_title
+              .capitalizeAll(),
+        ),
       ),
       children: [
         SizedBox(

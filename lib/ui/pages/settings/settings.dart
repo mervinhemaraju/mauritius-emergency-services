@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_simple.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/pages/settings/emergency_button_dialog.dart';
@@ -18,7 +19,7 @@ class SettingsScreen extends ConsumerWidget {
     return Scaffold(
       key: scaffoldKey,
       appBar: MesAppBar(
-        title: "Settings",
+        title: t.pages.settings.title.capitalize(),
         goBack: () => context.goBack(),
       ),
       body: SingleChildScrollView(
@@ -37,13 +38,17 @@ class SettingsScreen extends ConsumerWidget {
             //       "Apply dynamic colors, based on your wallpaper (Material YOU)",
             //   trailing: _DynamicColorSwitch(),
             // ),
-            const _SettingsHeaderTitle(
-              title: "Feature",
+            _SettingsHeaderTitle(
+              title: t.pages.settings.section_feature.title.capitalize(),
             ),
             SettingsItem(
               icon: Icons.emergency_outlined,
-              title: "Emergency Button Action",
-              subtitle: "Set an emergency service for the red button",
+              title: t.pages.settings.section_feature.emergency_button_action
+                  .tile_title
+                  .capitalizeAll(),
+              subtitle: t.pages.settings.section_feature.emergency_button_action
+                  .tile_subtitle
+                  .capitalize(),
               onTap: () {
                 showDialog<String>(
                   context: context,
@@ -52,13 +57,17 @@ class SettingsScreen extends ConsumerWidget {
                 );
               },
             ),
-            const _SettingsHeaderTitle(
-              title: "Application",
+            _SettingsHeaderTitle(
+              title: t.pages.settings.section_application.title.capitalize(),
             ),
             SettingsItem(
               icon: Icons.language_outlined,
-              title: "Change Language",
-              subtitle: "Change your app's language",
+              title: t
+                  .pages.settings.section_application.change_language.tile_title
+                  .capitalizeAll(),
+              subtitle: t.pages.settings.section_application.change_language
+                  .tile_subtitle
+                  .capitalize(),
               onTap: () {
                 showDialog<String>(
                   context: context,

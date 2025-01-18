@@ -12,6 +12,7 @@
 ============ TODOS ============
 // TODO(Replace report testing by prod one after ensuring cyclone UI is done)
 // TODO(Complete app locales)
+// TODO(Interact with MES API based on locale set.)
 
 ============ FEATURES ============
 // FEAT(Add search history functionality)

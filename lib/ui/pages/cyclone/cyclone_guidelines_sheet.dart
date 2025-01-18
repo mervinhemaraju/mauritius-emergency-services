@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/cyclone_guidelines.dart';
 import 'package:mauritius_emergency_services/core/providers/cyclone_providers.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class CycloneGuidelinesSheet extends ConsumerWidget {
   final int cycloneLevel;
@@ -27,7 +29,7 @@ class CycloneGuidelinesSheet extends ConsumerWidget {
           },
           loading: () => const LoadingScreen(),
           error: (error, stack) => ErrorScreen(
-            title: "An error occurred while fetching the cyclone guidelines.",
+            title: t.messages.error.cannot_load_cyclone_guidelines.capitalize(),
             retryAction: () => ref.refresh(cycloneGuidelinesProvider.future),
           ),
         );
@@ -40,7 +42,9 @@ class CycloneGuidelinesSheet extends ConsumerWidget {
         child: Column(
           children: <Widget>[
             Text(
-              'Guidelines for Class $cycloneLevel',
+              t.pages.cyclone.guidelines
+                  .title(level: cycloneLevel.toString())
+                  .capitalizeAll(),
               style: theme.textTheme.headlineSmall,
               textAlign: TextAlign.start,
             ),
@@ -84,7 +88,7 @@ class _CycloneGuidelinesUi extends StatelessWidget {
             height: 24.0,
           ),
           Text(
-            "Precautions",
+            t.pages.cyclone.guidelines.header_precautions_title.capitalizeAll(),
             style: theme.textTheme.labelMedium,
             textAlign: TextAlign.center,
           ),

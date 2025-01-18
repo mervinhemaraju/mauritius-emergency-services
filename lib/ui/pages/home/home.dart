@@ -24,7 +24,11 @@ class HomeScreen extends ConsumerWidget {
           data: (services) {
             if (services.isEmpty) {
               return ErrorScreen(
-                title: t.messages.error.services_unavailable.capitalize(),
+                title: t.messages.error
+                    .services_unavailable(
+                      app_name_short: t.app.short_name.toUpperCase(),
+                    )
+                    .capitalize(),
                 showErrorImage: true,
                 retryAction: () =>
                     ref.refresh(emergencyServicesProvider.future),

@@ -4,6 +4,18 @@
         "short_name": "mes"
     },
     "pages": {
+        "welcome": {
+            "title": "welcome",
+            "header": {
+                "title": "welcome to"
+            },
+            "permissions_dialog": {
+                "primary_text": "$app_name_short needs permission to proceed",
+                "secondary_text": "to provide the best experience, the app requires permission to perform phone calls for you, as this is its main feature.",
+                "tertiary_text": "we also request notification access to keep you informed and up to date.",
+                "quaternary_text": "please grant these permissions to continue using the app seamlessly. If it doesn't work, then you'll need to do it manually in the settings."
+            }
+        },
         "home": {
             "title": "home",
             "primary_title": "emergency help needed?",
@@ -38,12 +50,60 @@
                 "privacy_policy_subtitle": "view the privacy policy for $app_name_short.",
                 "version_title": "version"
             }
+        },
+        "cyclone": {
+            "no_warning": "there's currently no cyclone warning in Mauritius",
+            "warning": {
+                "title": "Mauritius is currently in",
+                "subtitle": "class $level",
+                "next_bulletin_title": "next bulletin",
+                "latest_news_title": "latest news"
+            },
+            "names": {
+                "title": "cyclone names",
+                "table_header_name": "name",
+                "table_header_gender": "gender",
+                "table_header_provided_by": "provided by"
+            },
+            "guidelines": {
+                "title": "guidelines for class $level",
+                "header_precautions_title": "precautions"
+            }
+        },
+        "precall": {
+            "title": "starting a call to",
+            "calling_in": "calling in"
+        },
+        "theme_selector": {
+            "title": "theme preferences"
+        },
+        "settings": {
+            "title": "settings",
+            "section_feature": {
+                "title": "feature",
+                "emergency_button_action": {
+                    "sheet_title": "choose Emergency Action",
+                    "tile_title": "emergency button action",
+                    "tile_subtitle": "set an emergency service for the red button"
+                }
+            },
+            "section_application": {
+                "title": "application",
+                "change_language": {
+                    "sheet_title": "choose language",
+                    "tile_title": "change language",
+                    "tile_subtitle": "change your app's language"
+                }
+            }
         }
     },
     "messages": {
         "error": {
             "cannot_load_data": "looks like something went wrong and we couldn't load the data.",
-            "services_unavailable": "looks like no services are available. Make sure you are connected to the internet the first time for MES to download the services."
+            "services_unavailable": "looks like no services are available. Make sure you are connected to the internet the first time for $app_name_short to download the services.",
+            "cannot_load_cyclone_report": "looks like something went wrong and we couldn't load the cyclone report.",
+            "cannot_load_cyclone_names": "an error occurred while fetching the cyclone names.",
+            "cannot_load_cyclone_guidelines": "an error occurred while fetching the cyclone guidelines."
         },
         "success": {},
         "info": {
@@ -51,6 +111,15 @@
             "unknown_component": "unknown"
         }
     },
-    "actions": {},
-    "others": {}
+    "actions": {
+        "proceed": "proceed",
+        "cancel": "cancel",
+        "close": "close",
+        "slide_to_cancel": "slide to cancel",
+        "get_started": "get started"
+    },
+    "others": {
+        "hour_abbr": "hr",
+        "minute_abbr": "min"
+    }
 }
