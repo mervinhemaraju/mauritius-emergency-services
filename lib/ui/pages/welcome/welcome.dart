@@ -293,8 +293,8 @@ class _WelcomeCarouselView extends StatelessWidget {
             .map(
               (item) => WelcomeCarouselItem(
                 asset: item.asset,
-                title: item.title,
-                subtitle: item.subtitle,
+                title: item.title.capitalizeAll(),
+                subtitle: item.subtitle.capitalize(),
               ),
             )
             .toList(),

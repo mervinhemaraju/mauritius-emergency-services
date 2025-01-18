@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
@@ -289,7 +290,7 @@ class ExpandableDismissibleTile extends StatelessWidget {
                       )),
                   if (service.isTollFree) ...[
                     const SizedBox(width: 12.0),
-                    const MesChip(label: "Toll Free")
+                    MesChip(label: t.actions.toll_free.capitalizeAll())
                   ],
                 ],
               ),
@@ -335,7 +336,8 @@ class ExpandableDismissibleTile extends StatelessWidget {
                                 launchUrl(uri);
                               }
                             })
-                        : const Text("No other contacts"),
+                        : Text(
+                            t.messages.info.no_other_contacts.capitalizeAll()),
                   ),
                 ),
               ),
@@ -356,7 +358,7 @@ class ExpandableDismissibleTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text("Other Contacts"),
+          Text(t.messages.info.other_contacts.capitalizeAll()),
           const SizedBox(height: 8.0),
           Wrap(
             spacing: 8.0, // horizontal spacing between badges

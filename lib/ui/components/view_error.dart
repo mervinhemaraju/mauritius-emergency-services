@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class ErrorScreen extends StatelessWidget {
   // Global vars
@@ -41,7 +43,7 @@ class ErrorScreen extends StatelessWidget {
                   height: 200,
                 ),
               Text(
-                "Ooops!",
+                t.others.ooops.capitalize(),
                 textAlign: TextAlign.center,
                 style: theme.textTheme.headlineLarge?.copyWith(
                   color: theme.colorScheme.primary,
@@ -67,7 +69,7 @@ class ErrorScreen extends StatelessWidget {
                   backgroundColor: theme.colorScheme.tertiary,
                   foregroundColor: theme.colorScheme.onTertiary,
                 ),
-                child: const Text("Retry"),
+                child: Text(t.actions.retry.capitalize()),
               ),
             ),
           ]

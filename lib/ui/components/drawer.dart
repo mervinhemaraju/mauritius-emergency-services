@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
 import 'package:mauritius_emergency_services/ui/pages/theme_selector/theme.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
-import 'package:pair/pair.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MesDrawer extends StatelessWidget {
@@ -28,7 +29,7 @@ class MesDrawer extends StatelessWidget {
             const MesDrawerHeader(),
             MesDrawerItem(
               leadingIcon: const Icon(Icons.home_outlined),
-              title: 'Home',
+              title: t.pages.home.title.capitalizeAll(),
               isSelected: HomeRoute.path == currentRoute,
               onTap: () {
                 Navigator.pop(context);
@@ -37,7 +38,7 @@ class MesDrawer extends StatelessWidget {
             ),
             MesDrawerItem(
                 leadingIcon: const Icon(Icons.call_outlined),
-                title: 'Services',
+                title: t.pages.services.title.capitalizeAll(),
                 isSelected: ServicesRoute.path == currentRoute,
                 onTap: () {
                   Navigator.pop(context);
@@ -45,7 +46,7 @@ class MesDrawer extends StatelessWidget {
                 }),
             MesDrawerItem(
               leadingIcon: const Icon(Icons.cyclone_outlined),
-              title: 'Cyclone Report',
+              title: t.pages.cyclone.title.capitalizeAll(),
               isSelected: CycloneReportRoute.path == currentRoute,
               onTap: () {
                 Navigator.pop(context);
@@ -54,13 +55,13 @@ class MesDrawer extends StatelessWidget {
             ),
             MesDrawerItem(
                 leadingIcon: const Icon(Icons.supervised_user_circle_outlined),
-                title: 'Vicinity Alerts',
+                title: t.pages.vicinity_alerts.title.capitalizeAll(),
                 isSelected: false,
-                trailing: const MesChip(label: "Coming Soon"),
+                trailing: MesChip(label: t.actions.coming_soon.capitalizeAll()),
                 onTap: () {}),
             MesDrawerItem(
               leadingIcon: const Icon(Icons.info_outline),
-              title: 'About',
+              title: t.pages.about.title.capitalizeAll(),
               isSelected: false,
               onTap: () {
                 context.push(AboutRoute.path);
@@ -68,7 +69,7 @@ class MesDrawer extends StatelessWidget {
             ),
             MesDrawerItem(
                 leadingIcon: const Icon(Icons.settings_outlined),
-                title: 'Settings',
+                title: t.pages.settings.title.capitalizeAll(),
                 isSelected: false,
                 onTap: () {
                   context.push(SettingsRoute.path);
@@ -79,7 +80,7 @@ class MesDrawer extends StatelessWidget {
             ),
             MesDrawerItem(
               leadingIcon: const Icon(Icons.brightness_4_outlined),
-              title: 'Theme',
+              title: t.pages.theme_selector.title.capitalizeAll(),
               isSelected: false,
               onTap: () {
                 context.pop();
@@ -91,7 +92,7 @@ class MesDrawer extends StatelessWidget {
             ),
             MesDrawerItem(
                 leadingIcon: const Icon(Icons.email_outlined),
-                title: 'Contact Us',
+                title: t.actions.contact_us.capitalizeAll(),
                 isSelected: false,
                 trailing: IconButton(
                   onPressed: () {},
@@ -145,12 +146,6 @@ class MesDrawerItem extends StatelessWidget {
 }
 
 class MesDrawerHeader extends StatelessWidget {
-  static const List<Pair<String, String>> _headerItems = [
-    Pair('M', 'auritius'),
-    Pair('E', 'mergency'),
-    Pair('S', 'ervices'),
-  ];
-
   const MesDrawerHeader({
     super.key,
   });
@@ -162,7 +157,8 @@ class MesDrawerHeader extends StatelessWidget {
         padding: const EdgeInsets.only(left: 16.0, top: 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: _headerItems
+          children: t.app.name
+              .getStyleHeaderName()
               .map(
                 (item) => SpecialHeaderTitle(
                   leadingCharacter: item.key,

@@ -36,6 +36,7 @@ class TranslationsFr implements Translations {
 	@override late final _TranslationsAppFr app = _TranslationsAppFr._(_root);
 	@override late final _TranslationsPagesFr pages = _TranslationsPagesFr._(_root);
 	@override late final _TranslationsMessagesFr messages = _TranslationsMessagesFr._(_root);
+	@override late final _TranslationsComponentsFr components = _TranslationsComponentsFr._(_root);
 	@override late final _TranslationsActionsFr actions = _TranslationsActionsFr._(_root);
 	@override late final _TranslationsOthersFr others = _TranslationsOthersFr._(_root);
 }
@@ -60,10 +61,12 @@ class _TranslationsPagesFr implements TranslationsPagesEn {
 	// Translations
 	@override late final _TranslationsPagesWelcomeFr welcome = _TranslationsPagesWelcomeFr._(_root);
 	@override late final _TranslationsPagesHomeFr home = _TranslationsPagesHomeFr._(_root);
-	@override late final _TranslationsPagesAboutFr about = _TranslationsPagesAboutFr._(_root);
+	@override late final _TranslationsPagesServicesFr services = _TranslationsPagesServicesFr._(_root);
 	@override late final _TranslationsPagesCycloneFr cyclone = _TranslationsPagesCycloneFr._(_root);
+	@override late final _TranslationsPagesVicinityAlertsFr vicinity_alerts = _TranslationsPagesVicinityAlertsFr._(_root);
 	@override late final _TranslationsPagesPrecallFr precall = _TranslationsPagesPrecallFr._(_root);
 	@override late final _TranslationsPagesThemeSelectorFr theme_selector = _TranslationsPagesThemeSelectorFr._(_root);
+	@override late final _TranslationsPagesAboutFr about = _TranslationsPagesAboutFr._(_root);
 	@override late final _TranslationsPagesSettingsFr settings = _TranslationsPagesSettingsFr._(_root);
 }
 
@@ -79,6 +82,16 @@ class _TranslationsMessagesFr implements TranslationsMessagesEn {
 	@override late final _TranslationsMessagesInfoFr info = _TranslationsMessagesInfoFr._(_root);
 }
 
+// Path: components
+class _TranslationsComponentsFr implements TranslationsComponentsEn {
+	_TranslationsComponentsFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _TranslationsComponentsSearchBarFr search_bar = _TranslationsComponentsSearchBarFr._(_root);
+}
+
 // Path: actions
 class _TranslationsActionsFr implements TranslationsActionsEn {
 	_TranslationsActionsFr._(this._root);
@@ -91,6 +104,10 @@ class _TranslationsActionsFr implements TranslationsActionsEn {
 	@override String get close => 'close';
 	@override String get slide_to_cancel => 'slide to cancel';
 	@override String get get_started => 'get started';
+	@override String get contact_us => 'contact us';
+	@override String get coming_soon => 'coming soon';
+	@override String get toll_free => 'toll free';
+	@override String get retry => 'retry';
 }
 
 // Path: others
@@ -102,6 +119,7 @@ class _TranslationsOthersFr implements TranslationsOthersEn {
 	// Translations
 	@override String get hour_abbr => 'hr';
 	@override String get minute_abbr => 'min';
+	@override String get ooops => 'ooops!';
 }
 
 // Path: pages.welcome
@@ -113,6 +131,7 @@ class _TranslationsPagesWelcomeFr implements TranslationsPagesWelcomeEn {
 	// Translations
 	@override String get title => 'welcome';
 	@override late final _TranslationsPagesWelcomeHeaderFr header = _TranslationsPagesWelcomeHeaderFr._(_root);
+	@override late final _TranslationsPagesWelcomeCarouselFr carousel = _TranslationsPagesWelcomeCarouselFr._(_root);
 	@override late final _TranslationsPagesWelcomePermissionsDialogFr permissions_dialog = _TranslationsPagesWelcomePermissionsDialogFr._(_root);
 }
 
@@ -130,17 +149,14 @@ class _TranslationsPagesHomeFr implements TranslationsPagesHomeEn {
 	@override String get secondary_subtitle => 'click any one below to call';
 }
 
-// Path: pages.about
-class _TranslationsPagesAboutFr implements TranslationsPagesAboutEn {
-	_TranslationsPagesAboutFr._(this._root);
+// Path: pages.services
+class _TranslationsPagesServicesFr implements TranslationsPagesServicesEn {
+	_TranslationsPagesServicesFr._(this._root);
 
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'about';
-	@override late final _TranslationsPagesAboutHeaderFr header = _TranslationsPagesAboutHeaderFr._(_root);
-	@override late final _TranslationsPagesAboutSupportSectionFr support_section = _TranslationsPagesAboutSupportSectionFr._(_root);
-	@override late final _TranslationsPagesAboutOtherSectionFr other_section = _TranslationsPagesAboutOtherSectionFr._(_root);
+	@override String get title => 'services';
 }
 
 // Path: pages.cyclone
@@ -150,10 +166,21 @@ class _TranslationsPagesCycloneFr implements TranslationsPagesCycloneEn {
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
+	@override String get title => 'cyclone report';
 	@override String get no_warning => 'there\'s currently no cyclone warning in Mauritius';
 	@override late final _TranslationsPagesCycloneWarningFr warning = _TranslationsPagesCycloneWarningFr._(_root);
 	@override late final _TranslationsPagesCycloneNamesFr names = _TranslationsPagesCycloneNamesFr._(_root);
 	@override late final _TranslationsPagesCycloneGuidelinesFr guidelines = _TranslationsPagesCycloneGuidelinesFr._(_root);
+}
+
+// Path: pages.vicinity_alerts
+class _TranslationsPagesVicinityAlertsFr implements TranslationsPagesVicinityAlertsEn {
+	_TranslationsPagesVicinityAlertsFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'vicinity alerts';
 }
 
 // Path: pages.precall
@@ -175,6 +202,19 @@ class _TranslationsPagesThemeSelectorFr implements TranslationsPagesThemeSelecto
 
 	// Translations
 	@override String get title => 'theme preferences';
+}
+
+// Path: pages.about
+class _TranslationsPagesAboutFr implements TranslationsPagesAboutEn {
+	_TranslationsPagesAboutFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'about';
+	@override late final _TranslationsPagesAboutHeaderFr header = _TranslationsPagesAboutHeaderFr._(_root);
+	@override late final _TranslationsPagesAboutSupportSectionFr support_section = _TranslationsPagesAboutSupportSectionFr._(_root);
+	@override late final _TranslationsPagesAboutOtherSectionFr other_section = _TranslationsPagesAboutOtherSectionFr._(_root);
 }
 
 // Path: pages.settings
@@ -221,6 +261,20 @@ class _TranslationsMessagesInfoFr implements TranslationsMessagesInfoEn {
 	// Translations
 	@override String get loading_component => 'loading...';
 	@override String get unknown_component => 'unknown';
+	@override String get no_match_for_query => 'ooops, your query didn\'t match any services. Try something else?';
+	@override String get other_contacts => 'no other contacts';
+	@override String get no_other_contacts => 'no other contacts';
+}
+
+// Path: components.search_bar
+class _TranslationsComponentsSearchBarFr implements TranslationsComponentsSearchBarEn {
+	_TranslationsComponentsSearchBarFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String title({required Object app_name_short}) => 'welcome to ${app_name_short}';
+	@override String get subtitle => 'what do you need help with ?';
 }
 
 // Path: pages.welcome.header
@@ -231,6 +285,25 @@ class _TranslationsPagesWelcomeHeaderFr implements TranslationsPagesWelcomeHeade
 
 	// Translations
 	@override String get title => 'welcome to';
+}
+
+// Path: pages.welcome.carousel
+class _TranslationsPagesWelcomeCarouselFr implements TranslationsPagesWelcomeCarouselEn {
+	_TranslationsPagesWelcomeCarouselFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title_1 => 'services list';
+	@override String get subtitle_1 => 'get a list of all emergency and non-emergency services for Mauritius right in your phone.';
+	@override String get title_2 => 'cyclone alerts';
+	@override String get subtitle_2 => 'get notified of cyclone warnings and read the cyclone guidelines live from your phone.';
+	@override String get title_3 => 'emergency actions';
+	@override String get subtitle_3 => 'get a dedicated corder on your dashboard just for emergency services.';
+	@override String get title_4 => 'sos';
+	@override String get subtitle_4 => 'call for urgent help right from the app using the big red button.';
+	@override String get title_5 => 'offline availability';
+	@override String get subtitle_5 => 'connect once to the internet and get all your services available to you offline.';
 }
 
 // Path: pages.welcome.permissions_dialog
@@ -244,6 +317,43 @@ class _TranslationsPagesWelcomePermissionsDialogFr implements TranslationsPagesW
 	@override String get secondary_text => 'to provide the best experience, the app requires permission to perform phone calls for you, as this is its main feature.';
 	@override String get tertiary_text => 'we also request notification access to keep you informed and up to date.';
 	@override String get quaternary_text => 'please grant these permissions to continue using the app seamlessly. If it doesn\'t work, then you\'ll need to do it manually in the settings.';
+}
+
+// Path: pages.cyclone.warning
+class _TranslationsPagesCycloneWarningFr implements TranslationsPagesCycloneWarningEn {
+	_TranslationsPagesCycloneWarningFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Mauritius is currently in';
+	@override String subtitle({required Object level}) => 'class ${level}';
+	@override String get next_bulletin_title => 'next bulletin';
+	@override String get latest_news_title => 'latest news';
+}
+
+// Path: pages.cyclone.names
+class _TranslationsPagesCycloneNamesFr implements TranslationsPagesCycloneNamesEn {
+	_TranslationsPagesCycloneNamesFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'cyclone names';
+	@override String get table_header_name => 'name';
+	@override String get table_header_gender => 'gender';
+	@override String get table_header_provided_by => 'provided by';
+}
+
+// Path: pages.cyclone.guidelines
+class _TranslationsPagesCycloneGuidelinesFr implements TranslationsPagesCycloneGuidelinesEn {
+	_TranslationsPagesCycloneGuidelinesFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String title({required Object level}) => 'guidelines for class ${level}';
+	@override String get header_precautions_title => 'precautions';
 }
 
 // Path: pages.about.header
@@ -290,43 +400,6 @@ class _TranslationsPagesAboutOtherSectionFr implements TranslationsPagesAboutOth
 	@override String get privacy_policy_title => 'privacy policy';
 	@override String privacy_policy_subtitle({required Object app_name_short}) => 'view the privacy policy for ${app_name_short}.';
 	@override String get version_title => 'version';
-}
-
-// Path: pages.cyclone.warning
-class _TranslationsPagesCycloneWarningFr implements TranslationsPagesCycloneWarningEn {
-	_TranslationsPagesCycloneWarningFr._(this._root);
-
-	final TranslationsFr _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'Mauritius is currently in';
-	@override String subtitle({required Object level}) => 'class ${level}';
-	@override String get next_bulletin_title => 'next bulletin';
-	@override String get latest_news_title => 'latest news';
-}
-
-// Path: pages.cyclone.names
-class _TranslationsPagesCycloneNamesFr implements TranslationsPagesCycloneNamesEn {
-	_TranslationsPagesCycloneNamesFr._(this._root);
-
-	final TranslationsFr _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'cyclone names';
-	@override String get table_header_name => 'name';
-	@override String get table_header_gender => 'gender';
-	@override String get table_header_provided_by => 'provided by';
-}
-
-// Path: pages.cyclone.guidelines
-class _TranslationsPagesCycloneGuidelinesFr implements TranslationsPagesCycloneGuidelinesEn {
-	_TranslationsPagesCycloneGuidelinesFr._(this._root);
-
-	final TranslationsFr _root; // ignore: unused_field
-
-	// Translations
-	@override String title({required Object level}) => 'guidelines for class ${level}';
-	@override String get header_precautions_title => 'precautions';
 }
 
 // Path: pages.settings.section_feature
@@ -384,6 +457,16 @@ extension on TranslationsFr {
 			case 'app.short_name': return 'mes';
 			case 'pages.welcome.title': return 'welcome';
 			case 'pages.welcome.header.title': return 'welcome to';
+			case 'pages.welcome.carousel.title_1': return 'services list';
+			case 'pages.welcome.carousel.subtitle_1': return 'get a list of all emergency and non-emergency services for Mauritius right in your phone.';
+			case 'pages.welcome.carousel.title_2': return 'cyclone alerts';
+			case 'pages.welcome.carousel.subtitle_2': return 'get notified of cyclone warnings and read the cyclone guidelines live from your phone.';
+			case 'pages.welcome.carousel.title_3': return 'emergency actions';
+			case 'pages.welcome.carousel.subtitle_3': return 'get a dedicated corder on your dashboard just for emergency services.';
+			case 'pages.welcome.carousel.title_4': return 'sos';
+			case 'pages.welcome.carousel.subtitle_4': return 'call for urgent help right from the app using the big red button.';
+			case 'pages.welcome.carousel.title_5': return 'offline availability';
+			case 'pages.welcome.carousel.subtitle_5': return 'connect once to the internet and get all your services available to you offline.';
 			case 'pages.welcome.permissions_dialog.primary_text': return ({required Object app_name_short}) => '${app_name_short} needs permission to proceed';
 			case 'pages.welcome.permissions_dialog.secondary_text': return 'to provide the best experience, the app requires permission to perform phone calls for you, as this is its main feature.';
 			case 'pages.welcome.permissions_dialog.tertiary_text': return 'we also request notification access to keep you informed and up to date.';
@@ -393,6 +476,23 @@ extension on TranslationsFr {
 			case 'pages.home.primary_subtitle': return 'hold the emergency button to call';
 			case 'pages.home.secondary_title': return 'need other quick emergency actions?';
 			case 'pages.home.secondary_subtitle': return 'click any one below to call';
+			case 'pages.services.title': return 'services';
+			case 'pages.cyclone.title': return 'cyclone report';
+			case 'pages.cyclone.no_warning': return 'there\'s currently no cyclone warning in Mauritius';
+			case 'pages.cyclone.warning.title': return 'Mauritius is currently in';
+			case 'pages.cyclone.warning.subtitle': return ({required Object level}) => 'class ${level}';
+			case 'pages.cyclone.warning.next_bulletin_title': return 'next bulletin';
+			case 'pages.cyclone.warning.latest_news_title': return 'latest news';
+			case 'pages.cyclone.names.title': return 'cyclone names';
+			case 'pages.cyclone.names.table_header_name': return 'name';
+			case 'pages.cyclone.names.table_header_gender': return 'gender';
+			case 'pages.cyclone.names.table_header_provided_by': return 'provided by';
+			case 'pages.cyclone.guidelines.title': return ({required Object level}) => 'guidelines for class ${level}';
+			case 'pages.cyclone.guidelines.header_precautions_title': return 'precautions';
+			case 'pages.vicinity_alerts.title': return 'vicinity alerts';
+			case 'pages.precall.title': return 'starting a call to';
+			case 'pages.precall.calling_in': return 'calling in';
+			case 'pages.theme_selector.title': return 'theme preferences';
 			case 'pages.about.title': return 'about';
 			case 'pages.about.header.title': return 'about';
 			case 'pages.about.header.developer_name': return 'mervin hemaraju';
@@ -413,20 +513,6 @@ extension on TranslationsFr {
 			case 'pages.about.other_section.privacy_policy_title': return 'privacy policy';
 			case 'pages.about.other_section.privacy_policy_subtitle': return ({required Object app_name_short}) => 'view the privacy policy for ${app_name_short}.';
 			case 'pages.about.other_section.version_title': return 'version';
-			case 'pages.cyclone.no_warning': return 'there\'s currently no cyclone warning in Mauritius';
-			case 'pages.cyclone.warning.title': return 'Mauritius is currently in';
-			case 'pages.cyclone.warning.subtitle': return ({required Object level}) => 'class ${level}';
-			case 'pages.cyclone.warning.next_bulletin_title': return 'next bulletin';
-			case 'pages.cyclone.warning.latest_news_title': return 'latest news';
-			case 'pages.cyclone.names.title': return 'cyclone names';
-			case 'pages.cyclone.names.table_header_name': return 'name';
-			case 'pages.cyclone.names.table_header_gender': return 'gender';
-			case 'pages.cyclone.names.table_header_provided_by': return 'provided by';
-			case 'pages.cyclone.guidelines.title': return ({required Object level}) => 'guidelines for class ${level}';
-			case 'pages.cyclone.guidelines.header_precautions_title': return 'precautions';
-			case 'pages.precall.title': return 'starting a call to';
-			case 'pages.precall.calling_in': return 'calling in';
-			case 'pages.theme_selector.title': return 'theme preferences';
 			case 'pages.settings.title': return 'settings';
 			case 'pages.settings.section_feature.title': return 'feature';
 			case 'pages.settings.section_feature.emergency_button_action.sheet_title': return 'choose Emergency Action';
@@ -443,13 +529,23 @@ extension on TranslationsFr {
 			case 'messages.error.cannot_load_cyclone_guidelines': return 'an error occurred while fetching the cyclone guidelines.';
 			case 'messages.info.loading_component': return 'loading...';
 			case 'messages.info.unknown_component': return 'unknown';
+			case 'messages.info.no_match_for_query': return 'ooops, your query didn\'t match any services. Try something else?';
+			case 'messages.info.other_contacts': return 'no other contacts';
+			case 'messages.info.no_other_contacts': return 'no other contacts';
+			case 'components.search_bar.title': return ({required Object app_name_short}) => 'welcome to ${app_name_short}';
+			case 'components.search_bar.subtitle': return 'what do you need help with ?';
 			case 'actions.proceed': return 'proceed';
 			case 'actions.cancel': return 'cancel';
 			case 'actions.close': return 'close';
 			case 'actions.slide_to_cancel': return 'slide to cancel';
 			case 'actions.get_started': return 'get started';
+			case 'actions.contact_us': return 'contact us';
+			case 'actions.coming_soon': return 'coming soon';
+			case 'actions.toll_free': return 'toll free';
+			case 'actions.retry': return 'retry';
 			case 'others.hour_abbr': return 'hr';
 			case 'others.minute_abbr': return 'min';
+			case 'others.ooops': return 'ooops!';
 			default: return null;
 		}
 	}

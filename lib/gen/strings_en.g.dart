@@ -40,6 +40,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final TranslationsAppEn app = TranslationsAppEn._(_root);
 	late final TranslationsPagesEn pages = TranslationsPagesEn._(_root);
 	late final TranslationsMessagesEn messages = TranslationsMessagesEn._(_root);
+	late final TranslationsComponentsEn components = TranslationsComponentsEn._(_root);
 	late final TranslationsActionsEn actions = TranslationsActionsEn._(_root);
 	late final TranslationsOthersEn others = TranslationsOthersEn._(_root);
 }
@@ -64,10 +65,12 @@ class TranslationsPagesEn {
 	// Translations
 	late final TranslationsPagesWelcomeEn welcome = TranslationsPagesWelcomeEn._(_root);
 	late final TranslationsPagesHomeEn home = TranslationsPagesHomeEn._(_root);
-	late final TranslationsPagesAboutEn about = TranslationsPagesAboutEn._(_root);
+	late final TranslationsPagesServicesEn services = TranslationsPagesServicesEn._(_root);
 	late final TranslationsPagesCycloneEn cyclone = TranslationsPagesCycloneEn._(_root);
+	late final TranslationsPagesVicinityAlertsEn vicinity_alerts = TranslationsPagesVicinityAlertsEn._(_root);
 	late final TranslationsPagesPrecallEn precall = TranslationsPagesPrecallEn._(_root);
 	late final TranslationsPagesThemeSelectorEn theme_selector = TranslationsPagesThemeSelectorEn._(_root);
+	late final TranslationsPagesAboutEn about = TranslationsPagesAboutEn._(_root);
 	late final TranslationsPagesSettingsEn settings = TranslationsPagesSettingsEn._(_root);
 }
 
@@ -83,6 +86,16 @@ class TranslationsMessagesEn {
 	late final TranslationsMessagesInfoEn info = TranslationsMessagesInfoEn._(_root);
 }
 
+// Path: components
+class TranslationsComponentsEn {
+	TranslationsComponentsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsComponentsSearchBarEn search_bar = TranslationsComponentsSearchBarEn._(_root);
+}
+
 // Path: actions
 class TranslationsActionsEn {
 	TranslationsActionsEn._(this._root);
@@ -95,6 +108,10 @@ class TranslationsActionsEn {
 	String get close => 'close';
 	String get slide_to_cancel => 'slide to cancel';
 	String get get_started => 'get started';
+	String get contact_us => 'contact us';
+	String get coming_soon => 'coming soon';
+	String get toll_free => 'toll free';
+	String get retry => 'retry';
 }
 
 // Path: others
@@ -106,6 +123,7 @@ class TranslationsOthersEn {
 	// Translations
 	String get hour_abbr => 'hr';
 	String get minute_abbr => 'min';
+	String get ooops => 'ooops!';
 }
 
 // Path: pages.welcome
@@ -117,6 +135,7 @@ class TranslationsPagesWelcomeEn {
 	// Translations
 	String get title => 'welcome';
 	late final TranslationsPagesWelcomeHeaderEn header = TranslationsPagesWelcomeHeaderEn._(_root);
+	late final TranslationsPagesWelcomeCarouselEn carousel = TranslationsPagesWelcomeCarouselEn._(_root);
 	late final TranslationsPagesWelcomePermissionsDialogEn permissions_dialog = TranslationsPagesWelcomePermissionsDialogEn._(_root);
 }
 
@@ -134,17 +153,14 @@ class TranslationsPagesHomeEn {
 	String get secondary_subtitle => 'click any one below to call';
 }
 
-// Path: pages.about
-class TranslationsPagesAboutEn {
-	TranslationsPagesAboutEn._(this._root);
+// Path: pages.services
+class TranslationsPagesServicesEn {
+	TranslationsPagesServicesEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'about';
-	late final TranslationsPagesAboutHeaderEn header = TranslationsPagesAboutHeaderEn._(_root);
-	late final TranslationsPagesAboutSupportSectionEn support_section = TranslationsPagesAboutSupportSectionEn._(_root);
-	late final TranslationsPagesAboutOtherSectionEn other_section = TranslationsPagesAboutOtherSectionEn._(_root);
+	String get title => 'services';
 }
 
 // Path: pages.cyclone
@@ -154,10 +170,21 @@ class TranslationsPagesCycloneEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	String get title => 'cyclone report';
 	String get no_warning => 'there\'s currently no cyclone warning in Mauritius';
 	late final TranslationsPagesCycloneWarningEn warning = TranslationsPagesCycloneWarningEn._(_root);
 	late final TranslationsPagesCycloneNamesEn names = TranslationsPagesCycloneNamesEn._(_root);
 	late final TranslationsPagesCycloneGuidelinesEn guidelines = TranslationsPagesCycloneGuidelinesEn._(_root);
+}
+
+// Path: pages.vicinity_alerts
+class TranslationsPagesVicinityAlertsEn {
+	TranslationsPagesVicinityAlertsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'vicinity alerts';
 }
 
 // Path: pages.precall
@@ -179,6 +206,19 @@ class TranslationsPagesThemeSelectorEn {
 
 	// Translations
 	String get title => 'theme preferences';
+}
+
+// Path: pages.about
+class TranslationsPagesAboutEn {
+	TranslationsPagesAboutEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'about';
+	late final TranslationsPagesAboutHeaderEn header = TranslationsPagesAboutHeaderEn._(_root);
+	late final TranslationsPagesAboutSupportSectionEn support_section = TranslationsPagesAboutSupportSectionEn._(_root);
+	late final TranslationsPagesAboutOtherSectionEn other_section = TranslationsPagesAboutOtherSectionEn._(_root);
 }
 
 // Path: pages.settings
@@ -225,6 +265,20 @@ class TranslationsMessagesInfoEn {
 	// Translations
 	String get loading_component => 'loading...';
 	String get unknown_component => 'unknown';
+	String get no_match_for_query => 'ooops, your query didn\'t match any services. Try something else?';
+	String get other_contacts => 'no other contacts';
+	String get no_other_contacts => 'no other contacts';
+}
+
+// Path: components.search_bar
+class TranslationsComponentsSearchBarEn {
+	TranslationsComponentsSearchBarEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String title({required Object app_name_short}) => 'welcome to ${app_name_short}';
+	String get subtitle => 'what do you need help with ?';
 }
 
 // Path: pages.welcome.header
@@ -235,6 +289,25 @@ class TranslationsPagesWelcomeHeaderEn {
 
 	// Translations
 	String get title => 'welcome to';
+}
+
+// Path: pages.welcome.carousel
+class TranslationsPagesWelcomeCarouselEn {
+	TranslationsPagesWelcomeCarouselEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title_1 => 'services list';
+	String get subtitle_1 => 'get a list of all emergency and non-emergency services for Mauritius right in your phone.';
+	String get title_2 => 'cyclone alerts';
+	String get subtitle_2 => 'get notified of cyclone warnings and read the cyclone guidelines live from your phone.';
+	String get title_3 => 'emergency actions';
+	String get subtitle_3 => 'get a dedicated corder on your dashboard just for emergency services.';
+	String get title_4 => 'sos';
+	String get subtitle_4 => 'call for urgent help right from the app using the big red button.';
+	String get title_5 => 'offline availability';
+	String get subtitle_5 => 'connect once to the internet and get all your services available to you offline.';
 }
 
 // Path: pages.welcome.permissions_dialog
@@ -248,6 +321,43 @@ class TranslationsPagesWelcomePermissionsDialogEn {
 	String get secondary_text => 'to provide the best experience, the app requires permission to perform phone calls for you, as this is its main feature.';
 	String get tertiary_text => 'we also request notification access to keep you informed and up to date.';
 	String get quaternary_text => 'please grant these permissions to continue using the app seamlessly. If it doesn\'t work, then you\'ll need to do it manually in the settings.';
+}
+
+// Path: pages.cyclone.warning
+class TranslationsPagesCycloneWarningEn {
+	TranslationsPagesCycloneWarningEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Mauritius is currently in';
+	String subtitle({required Object level}) => 'class ${level}';
+	String get next_bulletin_title => 'next bulletin';
+	String get latest_news_title => 'latest news';
+}
+
+// Path: pages.cyclone.names
+class TranslationsPagesCycloneNamesEn {
+	TranslationsPagesCycloneNamesEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'cyclone names';
+	String get table_header_name => 'name';
+	String get table_header_gender => 'gender';
+	String get table_header_provided_by => 'provided by';
+}
+
+// Path: pages.cyclone.guidelines
+class TranslationsPagesCycloneGuidelinesEn {
+	TranslationsPagesCycloneGuidelinesEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String title({required Object level}) => 'guidelines for class ${level}';
+	String get header_precautions_title => 'precautions';
 }
 
 // Path: pages.about.header
@@ -294,43 +404,6 @@ class TranslationsPagesAboutOtherSectionEn {
 	String get privacy_policy_title => 'privacy policy';
 	String privacy_policy_subtitle({required Object app_name_short}) => 'view the privacy policy for ${app_name_short}.';
 	String get version_title => 'version';
-}
-
-// Path: pages.cyclone.warning
-class TranslationsPagesCycloneWarningEn {
-	TranslationsPagesCycloneWarningEn._(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-	String get title => 'Mauritius is currently in';
-	String subtitle({required Object level}) => 'class ${level}';
-	String get next_bulletin_title => 'next bulletin';
-	String get latest_news_title => 'latest news';
-}
-
-// Path: pages.cyclone.names
-class TranslationsPagesCycloneNamesEn {
-	TranslationsPagesCycloneNamesEn._(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-	String get title => 'cyclone names';
-	String get table_header_name => 'name';
-	String get table_header_gender => 'gender';
-	String get table_header_provided_by => 'provided by';
-}
-
-// Path: pages.cyclone.guidelines
-class TranslationsPagesCycloneGuidelinesEn {
-	TranslationsPagesCycloneGuidelinesEn._(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-	String title({required Object level}) => 'guidelines for class ${level}';
-	String get header_precautions_title => 'precautions';
 }
 
 // Path: pages.settings.section_feature
@@ -388,6 +461,16 @@ extension on Translations {
 			case 'app.short_name': return 'mes';
 			case 'pages.welcome.title': return 'welcome';
 			case 'pages.welcome.header.title': return 'welcome to';
+			case 'pages.welcome.carousel.title_1': return 'services list';
+			case 'pages.welcome.carousel.subtitle_1': return 'get a list of all emergency and non-emergency services for Mauritius right in your phone.';
+			case 'pages.welcome.carousel.title_2': return 'cyclone alerts';
+			case 'pages.welcome.carousel.subtitle_2': return 'get notified of cyclone warnings and read the cyclone guidelines live from your phone.';
+			case 'pages.welcome.carousel.title_3': return 'emergency actions';
+			case 'pages.welcome.carousel.subtitle_3': return 'get a dedicated corder on your dashboard just for emergency services.';
+			case 'pages.welcome.carousel.title_4': return 'sos';
+			case 'pages.welcome.carousel.subtitle_4': return 'call for urgent help right from the app using the big red button.';
+			case 'pages.welcome.carousel.title_5': return 'offline availability';
+			case 'pages.welcome.carousel.subtitle_5': return 'connect once to the internet and get all your services available to you offline.';
 			case 'pages.welcome.permissions_dialog.primary_text': return ({required Object app_name_short}) => '${app_name_short} needs permission to proceed';
 			case 'pages.welcome.permissions_dialog.secondary_text': return 'to provide the best experience, the app requires permission to perform phone calls for you, as this is its main feature.';
 			case 'pages.welcome.permissions_dialog.tertiary_text': return 'we also request notification access to keep you informed and up to date.';
@@ -397,6 +480,23 @@ extension on Translations {
 			case 'pages.home.primary_subtitle': return 'hold the emergency button to call';
 			case 'pages.home.secondary_title': return 'need other quick emergency actions?';
 			case 'pages.home.secondary_subtitle': return 'click any one below to call';
+			case 'pages.services.title': return 'services';
+			case 'pages.cyclone.title': return 'cyclone report';
+			case 'pages.cyclone.no_warning': return 'there\'s currently no cyclone warning in Mauritius';
+			case 'pages.cyclone.warning.title': return 'Mauritius is currently in';
+			case 'pages.cyclone.warning.subtitle': return ({required Object level}) => 'class ${level}';
+			case 'pages.cyclone.warning.next_bulletin_title': return 'next bulletin';
+			case 'pages.cyclone.warning.latest_news_title': return 'latest news';
+			case 'pages.cyclone.names.title': return 'cyclone names';
+			case 'pages.cyclone.names.table_header_name': return 'name';
+			case 'pages.cyclone.names.table_header_gender': return 'gender';
+			case 'pages.cyclone.names.table_header_provided_by': return 'provided by';
+			case 'pages.cyclone.guidelines.title': return ({required Object level}) => 'guidelines for class ${level}';
+			case 'pages.cyclone.guidelines.header_precautions_title': return 'precautions';
+			case 'pages.vicinity_alerts.title': return 'vicinity alerts';
+			case 'pages.precall.title': return 'starting a call to';
+			case 'pages.precall.calling_in': return 'calling in';
+			case 'pages.theme_selector.title': return 'theme preferences';
 			case 'pages.about.title': return 'about';
 			case 'pages.about.header.title': return 'about';
 			case 'pages.about.header.developer_name': return 'mervin hemaraju';
@@ -417,20 +517,6 @@ extension on Translations {
 			case 'pages.about.other_section.privacy_policy_title': return 'privacy policy';
 			case 'pages.about.other_section.privacy_policy_subtitle': return ({required Object app_name_short}) => 'view the privacy policy for ${app_name_short}.';
 			case 'pages.about.other_section.version_title': return 'version';
-			case 'pages.cyclone.no_warning': return 'there\'s currently no cyclone warning in Mauritius';
-			case 'pages.cyclone.warning.title': return 'Mauritius is currently in';
-			case 'pages.cyclone.warning.subtitle': return ({required Object level}) => 'class ${level}';
-			case 'pages.cyclone.warning.next_bulletin_title': return 'next bulletin';
-			case 'pages.cyclone.warning.latest_news_title': return 'latest news';
-			case 'pages.cyclone.names.title': return 'cyclone names';
-			case 'pages.cyclone.names.table_header_name': return 'name';
-			case 'pages.cyclone.names.table_header_gender': return 'gender';
-			case 'pages.cyclone.names.table_header_provided_by': return 'provided by';
-			case 'pages.cyclone.guidelines.title': return ({required Object level}) => 'guidelines for class ${level}';
-			case 'pages.cyclone.guidelines.header_precautions_title': return 'precautions';
-			case 'pages.precall.title': return 'starting a call to';
-			case 'pages.precall.calling_in': return 'calling in';
-			case 'pages.theme_selector.title': return 'theme preferences';
 			case 'pages.settings.title': return 'settings';
 			case 'pages.settings.section_feature.title': return 'feature';
 			case 'pages.settings.section_feature.emergency_button_action.sheet_title': return 'choose Emergency Action';
@@ -447,13 +533,23 @@ extension on Translations {
 			case 'messages.error.cannot_load_cyclone_guidelines': return 'an error occurred while fetching the cyclone guidelines.';
 			case 'messages.info.loading_component': return 'loading...';
 			case 'messages.info.unknown_component': return 'unknown';
+			case 'messages.info.no_match_for_query': return 'ooops, your query didn\'t match any services. Try something else?';
+			case 'messages.info.other_contacts': return 'no other contacts';
+			case 'messages.info.no_other_contacts': return 'no other contacts';
+			case 'components.search_bar.title': return ({required Object app_name_short}) => 'welcome to ${app_name_short}';
+			case 'components.search_bar.subtitle': return 'what do you need help with ?';
 			case 'actions.proceed': return 'proceed';
 			case 'actions.cancel': return 'cancel';
 			case 'actions.close': return 'close';
 			case 'actions.slide_to_cancel': return 'slide to cancel';
 			case 'actions.get_started': return 'get started';
+			case 'actions.contact_us': return 'contact us';
+			case 'actions.coming_soon': return 'coming soon';
+			case 'actions.toll_free': return 'toll free';
+			case 'actions.retry': return 'retry';
 			case 'others.hour_abbr': return 'hr';
 			case 'others.minute_abbr': return 'min';
+			case 'others.ooops': return 'ooops!';
 			default: return null;
 		}
 	}

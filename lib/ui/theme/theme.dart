@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import "package:mauritius_emergency_services/ui/theme/color_extended.dart";
 import "package:mauritius_emergency_services/ui/theme/ui.dart";
 
 class MaterialTheme {
@@ -187,6 +186,4 @@ class MaterialTheme {
         scaffoldBackgroundColor: colorScheme.surface,
         canvasColor: colorScheme.surface,
       );
-
-  List<ExtendedColor> get extendedColors => [];
 }

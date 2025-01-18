@@ -91,7 +91,7 @@ class MesMaterialApp extends ConsumerWidget {
     // Return the Material App
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Mauritius Emergency Services',
+      title: t.app.name.capitalizeAll(),
       theme: theme.light(),
       darkTheme: theme.dark(),
       highContrastTheme: theme.lightHighContrast(),

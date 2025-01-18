@@ -9,6 +9,18 @@
             "header": {
                 "title": "welcome to"
             },
+            "carousel": {
+                "title_1": "services list",
+                "subtitle_1": "get a list of all emergency and non-emergency services for Mauritius right in your phone.",
+                "title_2": "cyclone alerts",
+                "subtitle_2": "get notified of cyclone warnings and read the cyclone guidelines live from your phone.",
+                "title_3": "emergency actions",
+                "subtitle_3": "get a dedicated corder on your dashboard just for emergency services.",
+                "title_4": "sos",
+                "subtitle_4": "call for urgent help right from the app using the big red button.",
+                "title_5": "offline availability",
+                "subtitle_5": "connect once to the internet and get all your services available to you offline."
+            },
             "permissions_dialog": {
                 "primary_text": "$app_name_short needs permission to proceed",
                 "secondary_text": "to provide the best experience, the app requires permission to perform phone calls for you, as this is its main feature.",
@@ -22,6 +34,39 @@
             "primary_subtitle": "hold the emergency button to call",
             "secondary_title": "need other quick emergency actions?",
             "secondary_subtitle": "click any one below to call"
+        },
+        "services": {
+            "title": "services"
+        },
+        "cyclone": {
+            "title": "cyclone report",
+            "no_warning": "there's currently no cyclone warning in Mauritius",
+            "warning": {
+                "title": "Mauritius is currently in",
+                "subtitle": "class $level",
+                "next_bulletin_title": "next bulletin",
+                "latest_news_title": "latest news"
+            },
+            "names": {
+                "title": "cyclone names",
+                "table_header_name": "name",
+                "table_header_gender": "gender",
+                "table_header_provided_by": "provided by"
+            },
+            "guidelines": {
+                "title": "guidelines for class $level",
+                "header_precautions_title": "precautions"
+            }
+        },
+        "vicinity_alerts": {
+            "title": "vicinity alerts"
+        },
+        "precall": {
+            "title": "starting a call to",
+            "calling_in": "calling in"
+        },
+        "theme_selector": {
+            "title": "theme preferences"
         },
         "about": {
             "title": "about",
@@ -50,32 +95,6 @@
                 "privacy_policy_subtitle": "view the privacy policy for $app_name_short.",
                 "version_title": "version"
             }
-        },
-        "cyclone": {
-            "no_warning": "there's currently no cyclone warning in Mauritius",
-            "warning": {
-                "title": "Mauritius is currently in",
-                "subtitle": "class $level",
-                "next_bulletin_title": "next bulletin",
-                "latest_news_title": "latest news"
-            },
-            "names": {
-                "title": "cyclone names",
-                "table_header_name": "name",
-                "table_header_gender": "gender",
-                "table_header_provided_by": "provided by"
-            },
-            "guidelines": {
-                "title": "guidelines for class $level",
-                "header_precautions_title": "precautions"
-            }
-        },
-        "precall": {
-            "title": "starting a call to",
-            "calling_in": "calling in"
-        },
-        "theme_selector": {
-            "title": "theme preferences"
         },
         "settings": {
             "title": "settings",
@@ -108,7 +127,16 @@
         "success": {},
         "info": {
             "loading_component": "loading...",
-            "unknown_component": "unknown"
+            "unknown_component": "unknown",
+            "no_match_for_query": "ooops, your query didn't match any services. Try something else?",
+            "other_contacts": "no other contacts",
+            "no_other_contacts": "no other contacts"
+        }
+    },
+    "components": {
+        "search_bar": {
+            "title": "welcome to $app_name_short",
+            "subtitle": "what do you need help with ?"
         }
     },
     "actions": {
@@ -116,10 +144,15 @@
         "cancel": "cancel",
         "close": "close",
         "slide_to_cancel": "slide to cancel",
-        "get_started": "get started"
+        "get_started": "get started",
+        "contact_us": "contact us",
+        "coming_soon": "coming soon",
+        "toll_free": "toll free",
+        "retry": "retry"
     },
     "others": {
         "hour_abbr": "hr",
-        "minute_abbr": "min"
+        "minute_abbr": "min",
+        "ooops": "ooops!"
     }
 }

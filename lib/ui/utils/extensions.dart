@@ -11,6 +11,7 @@ import 'package:mauritius_emergency_services/data/impl/runtime_permissions_impl.
 import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/pages/welcome/permissions_dialog.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
+import 'package:pair/pair.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -104,6 +105,19 @@ extension StringExtension on String {
 
   bool isNumeric() {
     return int.tryParse(this) != null;
+  }
+
+  List<Pair<String, String>> getStyleHeaderName() {
+    // Split the name
+    final names = split(" ");
+
+    // Return the formated name
+    return names.map((name) {
+      // First check if the name is empty
+      if (length < 2) return Pair(name, name);
+
+      return Pair(name[0].toUpperCase(), name.substring(1).toLowerCase());
+    }).toList();
   }
 }
 

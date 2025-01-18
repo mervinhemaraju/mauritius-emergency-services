@@ -1,4 +1,5 @@
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 
 class Welcome {
   final String asset;
@@ -14,33 +15,28 @@ class Welcome {
   static List<Welcome> welcomeItems = [
     Welcome(
       asset: AssetsManager.STATIC_SMARTPHONE_DATA,
-      title: "Services List",
-      subtitle:
-          "Get a list of all emergency and non-emergency services for Mauritius right in your phone.",
+      title: t.pages.welcome.carousel.title_1,
+      subtitle: t.pages.welcome.carousel.subtitle_1,
     ),
     Welcome(
       asset: AssetsManager.STATIC_STORM,
-      title: "Cyclone Alerts",
-      subtitle:
-          "Get notified of cyclone warnings and read the cyclone guidelines live from your phone.",
+      title: t.pages.welcome.carousel.title_2,
+      subtitle: t.pages.welcome.carousel.subtitle_2,
     ),
     Welcome(
       asset: AssetsManager.STATIC_POLICE,
-      title: "Emergency Actions",
-      subtitle:
-          "Get a dedicated corder on your dashboard just for emergency services.",
+      title: t.pages.welcome.carousel.title_3,
+      subtitle: t.pages.welcome.carousel.subtitle_3,
     ),
     Welcome(
       asset: AssetsManager.STATIC_SOS,
-      title: "SOS",
-      subtitle:
-          "Call for urgent help right from the app using the big red button.",
+      title: t.pages.welcome.carousel.title_4,
+      subtitle: t.pages.welcome.carousel.subtitle_4,
     ),
     Welcome(
       asset: AssetsManager.STATIC_OFFLINE,
-      title: "Offline Availability",
-      subtitle:
-          "Connect once to the internet and get all your services available to you offline.",
+      title: t.pages.welcome.carousel.title_5,
+      subtitle: t.pages.welcome.carousel.subtitle_5,
     ),
   ];
 }

@@ -5,6 +5,7 @@ import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/providers/notifiers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
@@ -39,7 +40,11 @@ class _MesSearchBar extends ConsumerWidget {
     // Return the view
     return SearchAnchor.bar(
         searchController: searchController,
-        barHintText: "Welcome to MES",
+        barHintText: t.components.search_bar
+            .title(
+              app_name_short: t.app.short_name.toUpperCase(),
+            )
+            .capitalize(),
         barElevation: WidgetStatePropertyAll(MesElevation.appBar),
         viewLeading: IconButton(
           onPressed: () {
@@ -127,9 +132,9 @@ class _MesSearchBar extends ConsumerWidget {
                 child: CircularProgressIndicator(),
               )
             ],
-            error: (error, stackTrace) => const [
+            error: (error, stackTrace) => [
               ListTile(
-                title: Text('Error loading services'),
+                title: Text(t.messages.error.cannot_load_data),
               )
             ],
           );
@@ -148,7 +153,7 @@ class _SearchUiInitial extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "What do you need help with ?",
+            t.components.search_bar.subtitle.capitalize(),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
@@ -176,7 +181,7 @@ class _SearchUiNoMatch extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 21.0),
             child: Text(
-              "Ooops, your query didn't match any services. Try something else?",
+              t.messages.info.no_match_for_query,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: Theme.of(context).colorScheme.secondary,
