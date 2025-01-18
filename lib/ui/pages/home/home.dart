@@ -24,8 +24,7 @@ class HomeScreen extends ConsumerWidget {
           data: (services) {
             if (services.isEmpty) {
               return ErrorScreen(
-                title:
-                    "Looks like no services are available. Make sure you are connected to the internet the first time for MES to download the services.",
+                title: t.messages.error.services_unavailable.capitalize(),
                 showErrorImage: true,
                 retryAction: () =>
                     ref.refresh(emergencyServicesProvider.future),
@@ -39,8 +38,7 @@ class HomeScreen extends ConsumerWidget {
           },
           loading: () => const LoadingScreen(),
           error: (error, stack) => ErrorScreen(
-            title:
-                "Looks like something went wrong and we couldn't load the data.",
+            title: t.messages.error.cannot_load_data.capitalize(),
             showErrorImage: true,
             retryAction: () => ref.refresh(emergencyServicesProvider.future),
           ),
@@ -89,9 +87,8 @@ class _HomeUi extends ConsumerWidget {
             children: [
               _TitleSet(
                 theme: theme,
-                // title: AppLocalizations.of(context)!.title_home_primary,
-                title: t.pages.home.primary_title,
-                subtitle: t.pages.home.primary_subtitle,
+                title: t.pages.home.primary_title.capitalizeAll(),
+                subtitle: t.pages.home.primary_subtitle.capitalize(),
               ),
               const SizedBox(height: 32.0),
               _EmergencyButton(
@@ -113,8 +110,8 @@ class _HomeUi extends ConsumerWidget {
               const SizedBox(height: 32.0),
               _TitleSet(
                 theme: theme,
-                title: t.pages.home.secondary_title,
-                subtitle: t.pages.home.secondary_subtitle,
+                title: t.pages.home.secondary_title.capitalizeAll(),
+                subtitle: t.pages.home.secondary_subtitle.capitalize(),
               ),
               _EmergencyListView(
                 onTap: (service) {

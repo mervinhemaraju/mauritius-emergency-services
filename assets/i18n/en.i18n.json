@@ -1,10 +1,54 @@
 {
+    "app": {
+        "name": "mauritius emergency services",
+        "short_name": "mes"
+    },
     "pages": {
         "home": {
+            "title": "home",
             "primary_title": "emergency help needed?",
             "primary_subtitle": "hold the emergency button to call",
             "secondary_title": "need other quick emergency actions?",
             "secondary_subtitle": "click any one below to call"
+        },
+        "about": {
+            "title": "about",
+            "header": {
+                "title": "about",
+                "developer_name": "mervin hemaraju",
+                "developer_title": "lead developer & designer",
+                "designer_name": "nick foo kune",
+                "designer_title": "playstore banner & images",
+                "caption": "developed with ❤ in 🇲🇺"
+            },
+            "support_section": {
+                "title": "support",
+                "rate_app_title": "rate $app_name_short",
+                "rate_app_subtitle": "if you love the app, let us know in the Google Play Store and we can make it even better.",
+                "share_app_title": "share $app_name_short",
+                "share_app_subtitle": "do not forget to share $app_name_short with your friends and families."
+            },
+            "other_section": {
+                "title": "other",
+                "about_app_title": "about $app_name_short",
+                "about_app_subtitle": "check us out on our official website.",
+                "developer_api_title": "developer API",
+                "developer_api_subtitle": "Application Program Interface (API) used in $app_name_short.",
+                "privacy_policy_title": "privacy policy",
+                "privacy_policy_subtitle": "view the privacy policy for $app_name_short.",
+                "version_title": "version"
+            }
+        }
+    },
+    "messages": {
+        "error": {
+            "cannot_load_data": "looks like something went wrong and we couldn't load the data.",
+            "services_unavailable": "looks like no services are available. Make sure you are connected to the internet the first time for MES to download the services."
+        },
+        "success": {},
+        "info": {
+            "loading_component": "loading...",
+            "unknown_component": "unknown"
         }
     },
     "actions": {},

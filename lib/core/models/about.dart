@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class About {
   final IconData icon;
@@ -18,17 +20,22 @@ class About {
     return <About>[
       About(
         icon: Icons.star_outline,
-        title: "Rate MES",
-        body:
-            "If you love the app, let us know in the Google Play Store and we can make it even better.",
+        title: t.pages.about.support_section
+            .rate_app_title(app_name_short: t.app.short_name.toUpperCase())
+            .capitalizeAll(),
+        body: t.pages.about.support_section.rate_app_subtitle.capitalize(),
         url: Uri.parse(
           URI_MES_PLAYSTORE,
         ),
       ),
       About(
         icon: Icons.share_outlined,
-        title: "Share Mes",
-        body: "Do not forget to share Mes with your friends and families.",
+        title: t.pages.about.support_section
+            .share_app_title(app_name_short: t.app.short_name.toUpperCase())
+            .capitalizeAll(),
+        body: t.pages.about.support_section
+            .share_app_subtitle(app_name_short: t.app.short_name.toUpperCase())
+            .capitalize(),
       )
     ];
   }
@@ -37,22 +44,29 @@ class About {
     return <About>[
       About(
           icon: Icons.group_outlined,
-          title: "About MES",
-          body: "Check us out on our official website.",
+          title: t.pages.about.other_section
+              .about_app_title(app_name_short: t.app.short_name.toUpperCase())
+              .capitalizeAll(),
+          body: t.pages.about.other_section.about_app_subtitle.capitalize(),
           url: Uri.parse(
             URI_MES_WEBSITE,
           )),
       About(
           icon: Icons.code_outlined,
-          title: "Developer API",
-          body: "Application Program Interface (API) used in MES.",
+          title:
+              t.pages.about.other_section.developer_api_title.capitalizeAll(),
+          body: t.pages.about.other_section.about_app_subtitle.capitalize(),
           url: Uri.parse(
             URI_MES_API,
           )),
       About(
           icon: Icons.privacy_tip_outlined,
-          title: "Privacy Policy",
-          body: "View the privacy policy for Mes.",
+          title:
+              t.pages.about.other_section.privacy_policy_title.capitalizeAll(),
+          body: t.pages.about.other_section
+              .privacy_policy_subtitle(
+                  app_name_short: t.app.short_name.toUpperCase())
+              .capitalizeAll(),
           url: Uri.parse(
             URI_MES_PRIVACY_POLICY,
           )),

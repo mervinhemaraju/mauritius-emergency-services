@@ -4,12 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mauritius_emergency_services/core/models/about.dart';
 import 'package:mauritius_emergency_services/core/providers/package_version.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
+import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_simple.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends ConsumerWidget {
@@ -23,8 +23,9 @@ class AboutScreen extends ConsumerWidget {
     // Load the version data
     final versionState = version.when(
       data: (version) => version,
-      loading: () => "Loading...",
-      error: (error, stackTrace) => "Unknown",
+      loading: () => t.messages.info.loading_component.capitalize(),
+      error: (error, stackTrace) =>
+          t.messages.info.unknown_component.capitalize(),
     );
 
     // Define the scaffold key
@@ -36,7 +37,7 @@ class AboutScreen extends ConsumerWidget {
     // Push a version item
     otherSection.add(About(
       icon: Icons.info_outlined,
-      title: "Version",
+      title: t.pages.about.other_section.version_title.capitalize(),
       body: versionState,
     ));
 
@@ -45,7 +46,7 @@ class AboutScreen extends ConsumerWidget {
       extendBody: true,
       key: scaffoldKey,
       appBar: MesAppBar(
-        title: "About",
+        title: t.pages.about.title.capitalize(),
         goBack: () => context.goBack(),
       ),
       body: SingleChildScrollView(
@@ -57,11 +58,11 @@ class AboutScreen extends ConsumerWidget {
             children: [
               const _AboutHeader(),
               _AboutSection(
-                title: "SUPPORT",
+                title: t.pages.about.support_section.title.toUpperCase(),
                 section: About.getSupportSection(),
               ),
               _AboutSection(
-                title: "OTHER",
+                title: t.pages.about.other_section.title.toUpperCase(),
                 section: otherSection,
               ),
             ],
@@ -112,13 +113,7 @@ class _AboutSection extends StatelessWidget {
               title: about.title,
               subtitle: about.body,
               onTap: () async {
-                if (about.title.toLowerCase().startsWith("share")) {
-                  Share.share(URI_MES_PLAYSTORE);
-                } else {
-                  if (about.url != null) {
-                    await launchUrl(about.url!);
-                  }
-                }
+                about.launchAboutIntent();
               },
             ),
           )
@@ -151,7 +146,7 @@ class _AboutHeader extends StatelessWidget {
               top: 16.0,
             ),
             child: Text(
-              "ABOUT",
+              t.pages.about.header.title.toUpperCase(),
               style: theme.textTheme.labelSmall?.copyWith(
                 color: theme.colorScheme.secondary,
               ),
@@ -170,16 +165,16 @@ class _AboutHeader extends StatelessWidget {
             ),
           ),
           AboutHeaderListItem(
-            title: "Mervin Hemaraju",
-            subtitle: "Lead Developer & Designer",
+            title: t.pages.about.header.developer_name.capitalizeAll(),
+            subtitle: t.pages.about.header.developer_title.capitalizeAll(),
             background: theme.colorScheme.primaryContainer,
             foreground: theme.colorScheme.onPrimaryContainer,
             onTap: () async =>
                 await launchUrl(Uri.parse(URI_DEVELOPER_WEBSITE)),
           ),
           AboutHeaderListItem(
-            title: "Nick Foo Kune",
-            subtitle: "Playstore Banner & Images",
+            title: t.pages.about.header.designer_name.capitalizeAll(),
+            subtitle: t.pages.about.header.designer_title.capitalizeAll(),
             background: theme.colorScheme.tertiaryContainer,
             foreground: theme.colorScheme.onTertiaryContainer,
           ),
@@ -187,7 +182,7 @@ class _AboutHeader extends StatelessWidget {
             padding: const EdgeInsets.only(
                 top: 32.0, bottom: 16.0, left: 8.0, right: 8.0),
             child: Text(
-              "Developed with ❤ in 🇲🇺",
+              t.pages.about.header.caption.capitalize(),
               style: theme.textTheme.labelMedium,
               textAlign: TextAlign.center,
             ),
