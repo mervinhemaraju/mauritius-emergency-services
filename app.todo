@@ -8,9 +8,9 @@
     [.] // REVIEW(App UI & theme)
 [4] Search functionality
 [5] better error message when no internet for services & cyclone pages
+[6] navigation animations for android
 
 ============ TODOS ============
-// TODO(Replace report testing by prod one after ensuring cyclone UI is done)
 
 ============ FEATURES ============
 // FEAT(Add search history functionality)

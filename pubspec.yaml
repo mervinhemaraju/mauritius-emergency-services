@@ -11,7 +11,7 @@ publish_to: 'none'
 # suffix = [dev, beta, rc]
 # itr = 0-9
 # n = version code
-version: 1.2.0-dev.01+20
+version: 1.2.0-beta.01+20
 
 # Environment details
 environment:
@@ -26,7 +26,7 @@ dependencies:
 
   flutter_localizations:
     sdk: flutter
-    
+
   pair: ^0.1.2
   go_router: ^14.6.2
   flutter_riverpod: ^2.6.1

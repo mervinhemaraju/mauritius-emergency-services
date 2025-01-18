@@ -132,7 +132,10 @@ class MesDrawerItem extends StatelessWidget {
       selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
       selectedTileColor: Theme.of(context).colorScheme.primaryContainer,
       leading: leadingIcon,
-      title: Text(title),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
       trailing: trailing,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.horizontal(

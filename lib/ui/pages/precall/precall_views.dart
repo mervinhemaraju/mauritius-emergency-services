@@ -59,7 +59,11 @@ class PreCallWideRightView extends StatelessWidget {
             child: Center(
               child: _CountdownTimer(
                 onComplete: () async {
-                  onCountdownComplete(number: number, onComplete: onComplete);
+                  onCountdownComplete(
+                    service: service,
+                    number: number,
+                    onComplete: onComplete,
+                  );
                 },
               ),
             ),
@@ -99,6 +103,7 @@ class PreCallNarrowView extends StatelessWidget {
           _CountdownTimer(
             onComplete: () async {
               onCountdownComplete(
+                service: service,
                 number: number,
                 onComplete: onComplete,
               );
@@ -394,19 +399,30 @@ class _CountdownTimerState extends State<_CountdownTimer>
 }
 
 void onCountdownComplete({
+  required Service service,
   required String number,
   required Function() onComplete,
 }) async {
   if (Platform.isAndroid) {
+    // Define the data
+    String numberUri = 'tel:$number';
+
+    // Check if the number is an emergency number
+    if (service.type.toUpperCase() == "E") {
+      numberUri = 'tel:$number+';
+    }
+
+    // Build the android intent
     final AndroidIntent intent = AndroidIntent(
       action: 'android.intent.action.CALL',
-      data: 'tel:$number',
+      data: numberUri,
     );
+
+    // Launch the intent
     await intent.launch();
   } else {
     // Build the URI
     final uri = Uri(
-      // TODO(Ensure emergency calls are being done too)
       scheme: 'tel',
       path: number,
     );

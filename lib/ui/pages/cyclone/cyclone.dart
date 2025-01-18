@@ -25,7 +25,7 @@ class CycloneScreen extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
     // Store the cyclone report in a variable to access it later
-    final cycloneReportAsync = ref.watch(cycloneReportTestingProvider);
+    final cycloneReportAsync = ref.watch(cycloneReportProvider);
 
     // Get the cyclone view state
     final uiState = cycloneReportAsync.when(
@@ -40,7 +40,7 @@ class CycloneScreen extends ConsumerWidget {
       error: (error, stack) => ErrorScreen(
         title: t.messages.error.cannot_load_cyclone_report.capitalize(),
         showErrorImage: true,
-        retryAction: () => ref.refresh(cycloneReportTestingProvider.future),
+        retryAction: () => ref.refresh(cycloneReportProvider.future),
       ),
     );
 

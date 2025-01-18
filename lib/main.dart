@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,18 +14,20 @@ import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/utils/getters.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback = (
-        X509Certificate cert,
-        String host,
-        int port,
-      ) =>
-          true;
-  }
-}
+// Only enable this for development purposes
+// ad the following in main() -> HttpOverrides.global = MyHttpOverrides();
+// class MyHttpOverrides extends HttpOverrides {
+//   @override
+//   HttpClient createHttpClient(SecurityContext? context) {
+//     return super.createHttpClient(context)
+//       ..badCertificateCallback = (
+//         X509Certificate cert,
+//         String host,
+//         int port,
+//       ) =>
+//           true;
+//   }
+// }
 
 // The main runner app
 main() async {
@@ -41,9 +42,6 @@ main() async {
 
   // Initialize the local DB
   final store = await openStore();
-
-  // TODO(To review this override)
-  HttpOverrides.global = MyHttpOverrides();
 
   // Make screen edge to edge
   enableEdgeToEdge();
@@ -74,7 +72,11 @@ class MesMaterialApp extends ConsumerWidget {
             : WelcomeRoute.path;
 
     // Update the app locale
-    ref.watch(settingsProvider.select((s) => s.locale.updateMesLocale()));
+    ref.watch(
+      settingsProvider.select(
+        (s) => LocaleSettings.setLocaleRaw(s.locale.lang),
+      ),
+    );
 
     // Set the initial location
     MesAppRouter.instance.setInitialLocation(intitialLocation);

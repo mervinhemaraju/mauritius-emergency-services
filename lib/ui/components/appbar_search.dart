@@ -45,6 +45,8 @@ class _MesSearchBar extends ConsumerWidget {
               app_name_short: t.app.short_name.toUpperCase(),
             )
             .capitalize(),
+        barHintStyle:
+            WidgetStatePropertyAll(Theme.of(context).textTheme.bodyMedium),
         barElevation: WidgetStatePropertyAll(MesElevation.appBar),
         viewLeading: IconButton(
           onPressed: () {

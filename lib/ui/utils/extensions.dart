@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/about.dart';
-import 'package:mauritius_emergency_services/core/models/locale.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/impl/runtime_permissions_impl.dart';
@@ -142,16 +141,6 @@ extension BytesExtensions on Uint8List? {
             height: size,
             fit: fit,
           );
-  }
-}
-
-extension LocaleExtensions on MesLocale {
-  void updateMesLocale() {
-    if (this == MesLocale.system) {
-      LocaleSettings.useDeviceLocale();
-    } else {
-      LocaleSettings.setLocaleRaw(lang);
-    }
   }
 }
 
