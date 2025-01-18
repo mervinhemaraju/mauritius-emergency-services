@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/locale.dart';
+import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
@@ -44,7 +45,14 @@ class LanguageDialog extends ConsumerWidget {
                       )
                     : null,
                 onTap: () {
-                  ref.read(settingsProvider.notifier).updateLocale(locale);
+                  // Update the locale
+                  ref
+                      .read(settingsProvider.notifier)
+                      .updateLocale(locale)
+                      .whenComplete(
+                        // When the locale is updated, refresh the services
+                        () => ref.refresh(servicesProvider.future),
+                      );
                 },
               );
             }).toList(),

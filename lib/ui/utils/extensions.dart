@@ -164,7 +164,7 @@ extension AboutExtensions on About {
               )
               .toLowerCase(),
         )) {
-      // TODO(After laucnhed on app store, change this URL to app store for IOS)
+      // TODO(After launched on app store, change this URL to app store for IOS)
       Share.share(URI_MES_PLAYSTORE);
     } else {
       if (url != null) {

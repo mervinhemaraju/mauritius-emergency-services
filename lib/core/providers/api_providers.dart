@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mauritius_emergency_services/core/providers/settings.dart';
 import 'package:mauritius_emergency_services/data/api/mes_cyclone.dart';
 import 'package:mauritius_emergency_services/data/api/mes_services.dart';
 import 'package:mauritius_emergency_services/data/repository/mes_cyclone.dart';
@@ -11,7 +12,11 @@ final _dioProvider = Provider((ref) => Dio());
 // The cyclone repository provider
 final mesCycloneRepositoryProvider = Provider<MesCycloneRepository>((ref) {
   final dio = ref.watch(_dioProvider);
-  return MesCycloneApi(dio);
+  final settings = ref.watch(settingsProvider);
+  return MesCycloneApi(
+    dio: dio,
+    defaultLanguage: settings.locale.lang,
+  );
 });
 
 // The services repository provider

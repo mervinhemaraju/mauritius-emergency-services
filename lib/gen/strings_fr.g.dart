@@ -99,15 +99,15 @@ class _TranslationsActionsFr implements TranslationsActionsEn {
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get proceed => 'proceed';
-	@override String get cancel => 'cancel';
-	@override String get close => 'close';
-	@override String get slide_to_cancel => 'slide to cancel';
-	@override String get get_started => 'get started';
-	@override String get contact_us => 'contact us';
-	@override String get coming_soon => 'coming soon';
-	@override String get toll_free => 'toll free';
-	@override String get retry => 'retry';
+	@override String get proceed => 'continuer';
+	@override String get cancel => 'annuler';
+	@override String get close => 'fermer';
+	@override String get slide_to_cancel => 'glissez pour annuler';
+	@override String get get_started => 'commencer';
+	@override String get contact_us => 'contactez-nous';
+	@override String get coming_soon => 'bientôt disponible';
+	@override String get toll_free => 'gratuit';
+	@override String get retry => 'réessayer';
 }
 
 // Path: others
@@ -117,9 +117,9 @@ class _TranslationsOthersFr implements TranslationsOthersEn {
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get hour_abbr => 'hr';
+	@override String get hour_abbr => 'h';
 	@override String get minute_abbr => 'min';
-	@override String get ooops => 'ooops!';
+	@override String get ooops => 'ooups!';
 }
 
 // Path: pages.welcome
@@ -129,7 +129,7 @@ class _TranslationsPagesWelcomeFr implements TranslationsPagesWelcomeEn {
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'welcome';
+	@override String get title => 'bienvenue';
 	@override late final _TranslationsPagesWelcomeHeaderFr header = _TranslationsPagesWelcomeHeaderFr._(_root);
 	@override late final _TranslationsPagesWelcomeCarouselFr carousel = _TranslationsPagesWelcomeCarouselFr._(_root);
 	@override late final _TranslationsPagesWelcomePermissionsDialogFr permissions_dialog = _TranslationsPagesWelcomePermissionsDialogFr._(_root);
@@ -142,11 +142,11 @@ class _TranslationsPagesHomeFr implements TranslationsPagesHomeEn {
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'home';
-	@override String get primary_title => 'emergency help needed?';
-	@override String get primary_subtitle => 'hold the emergency button to call';
-	@override String get secondary_title => 'need other quick emergency actions?';
-	@override String get secondary_subtitle => 'click any one below to call';
+	@override String get title => 'accueil';
+	@override String get primary_title => 'besoin d\'aide d\'urgence ?';
+	@override String get primary_subtitle => 'maintenez le bouton d\'urgence pour appeler';
+	@override String get secondary_title => 'besoin d\'autres actions d\'urgence rapides ?';
+	@override String get secondary_subtitle => 'cliquez sur l\'une d\'entre elles ci-dessous pour appeler';
 }
 
 // Path: pages.services
@@ -166,8 +166,8 @@ class _TranslationsPagesCycloneFr implements TranslationsPagesCycloneEn {
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'cyclone report';
-	@override String get no_warning => 'there\'s currently no cyclone warning in Mauritius';
+	@override String get title => 'rapport cyclonique';
+	@override String get no_warning => 'il n\'y a actuellement aucune alerte cyclonique à Maurice';
 	@override late final _TranslationsPagesCycloneWarningFr warning = _TranslationsPagesCycloneWarningFr._(_root);
 	@override late final _TranslationsPagesCycloneNamesFr names = _TranslationsPagesCycloneNamesFr._(_root);
 	@override late final _TranslationsPagesCycloneGuidelinesFr guidelines = _TranslationsPagesCycloneGuidelinesFr._(_root);
@@ -180,7 +180,7 @@ class _TranslationsPagesVicinityAlertsFr implements TranslationsPagesVicinityAle
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'vicinity alerts';
+	@override String get title => 'alertes de proximité';
 }
 
 // Path: pages.precall
@@ -190,8 +190,8 @@ class _TranslationsPagesPrecallFr implements TranslationsPagesPrecallEn {
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'starting a call to';
-	@override String get calling_in => 'calling in';
+	@override String get title => 'démarrage d\'un appel vers';
+	@override String get calling_in => 'appel dans';
 }
 
 // Path: pages.theme_selector
@@ -201,7 +201,7 @@ class _TranslationsPagesThemeSelectorFr implements TranslationsPagesThemeSelecto
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'theme preferences';
+	@override String get title => 'préférences de thème';
 }
 
 // Path: pages.about
@@ -211,7 +211,7 @@ class _TranslationsPagesAboutFr implements TranslationsPagesAboutEn {
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'about';
+	@override String get title => 'à propos';
 	@override late final _TranslationsPagesAboutHeaderFr header = _TranslationsPagesAboutHeaderFr._(_root);
 	@override late final _TranslationsPagesAboutSupportSectionFr support_section = _TranslationsPagesAboutSupportSectionFr._(_root);
 	@override late final _TranslationsPagesAboutOtherSectionFr other_section = _TranslationsPagesAboutOtherSectionFr._(_root);
@@ -224,7 +224,7 @@ class _TranslationsPagesSettingsFr implements TranslationsPagesSettingsEn {
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'settings';
+	@override String get title => 'paramètres';
 	@override late final _TranslationsPagesSettingsSectionFeatureFr section_feature = _TranslationsPagesSettingsSectionFeatureFr._(_root);
 	@override late final _TranslationsPagesSettingsSectionApplicationFr section_application = _TranslationsPagesSettingsSectionApplicationFr._(_root);
 }
@@ -236,11 +236,11 @@ class _TranslationsMessagesErrorFr implements TranslationsMessagesErrorEn {
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get cannot_load_data => 'looks like something went wrong and we couldn\'t load the data.';
-	@override String services_unavailable({required Object app_name_short}) => 'looks like no services are available. Make sure you are connected to the internet the first time for ${app_name_short} to download the services.';
-	@override String get cannot_load_cyclone_report => 'looks like something went wrong and we couldn\'t load the cyclone report.';
-	@override String get cannot_load_cyclone_names => 'an error occurred while fetching the cyclone names.';
-	@override String get cannot_load_cyclone_guidelines => 'an error occurred while fetching the cyclone guidelines.';
+	@override String get cannot_load_data => 'il semble que quelque chose ne va pas et nous n\'avons pas pu charger les données.';
+	@override String services_unavailable({required Object app_name_short}) => 'il semble qu\'aucun service ne soit disponible. Assurez-vous d\'être connecté à Internet la première fois pour que ${app_name_short} puisse télécharger les services.';
+	@override String get cannot_load_cyclone_report => 'il semble que quelque chose ne va pas et nous n\'avons pas pu charger le rapport cyclonique.';
+	@override String get cannot_load_cyclone_names => 'une erreur s\'est produite lors de la récupération des noms des cyclones.';
+	@override String get cannot_load_cyclone_guidelines => 'une erreur s\'est produite lors de la récupération des directives cycloniques.';
 }
 
 // Path: messages.success
@@ -259,11 +259,11 @@ class _TranslationsMessagesInfoFr implements TranslationsMessagesInfoEn {
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get loading_component => 'loading...';
-	@override String get unknown_component => 'unknown';
-	@override String get no_match_for_query => 'ooops, your query didn\'t match any services. Try something else?';
-	@override String get other_contacts => 'no other contacts';
-	@override String get no_other_contacts => 'no other contacts';
+	@override String get loading_component => 'chargement...';
+	@override String get unknown_component => 'inconnu';
+	@override String get no_match_for_query => 'oups, votre recherche ne correspond à aucun service. Essayez autre chose ?';
+	@override String get other_contacts => 'pas d\'autres contacts';
+	@override String get no_other_contacts => 'pas d\'autres contacts';
 }
 
 // Path: components.search_bar
@@ -273,8 +273,8 @@ class _TranslationsComponentsSearchBarFr implements TranslationsComponentsSearch
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String title({required Object app_name_short}) => 'welcome to ${app_name_short}';
-	@override String get subtitle => 'what do you need help with ?';
+	@override String title({required Object app_name_short}) => 'bienvenue sur ${app_name_short}';
+	@override String get subtitle => 'de quelle aide avez-vous besoin ?';
 }
 
 // Path: pages.welcome.header
@@ -284,7 +284,7 @@ class _TranslationsPagesWelcomeHeaderFr implements TranslationsPagesWelcomeHeade
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'welcome to';
+	@override String get title => 'bienvenue à';
 }
 
 // Path: pages.welcome.carousel
@@ -294,16 +294,16 @@ class _TranslationsPagesWelcomeCarouselFr implements TranslationsPagesWelcomeCar
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title_1 => 'services list';
-	@override String get subtitle_1 => 'get a list of all emergency and non-emergency services for Mauritius right in your phone.';
-	@override String get title_2 => 'cyclone alerts';
-	@override String get subtitle_2 => 'get notified of cyclone warnings and read the cyclone guidelines live from your phone.';
-	@override String get title_3 => 'emergency actions';
-	@override String get subtitle_3 => 'get a dedicated corder on your dashboard just for emergency services.';
+	@override String get title_1 => 'liste des services';
+	@override String get subtitle_1 => 'obtenez une liste de tous les services d\'urgence et non urgents pour Maurice directement sur votre téléphone.';
+	@override String get title_2 => 'alertes cycloniques';
+	@override String get subtitle_2 => 'soyez informé des alertes cycloniques et consultez les directives cycloniques en direct depuis votre téléphone.';
+	@override String get title_3 => 'actions d\'urgence';
+	@override String get subtitle_3 => 'obtenez un espace dédié sur votre tableau de bord uniquement pour les services d\'urgence.';
 	@override String get title_4 => 'sos';
-	@override String get subtitle_4 => 'call for urgent help right from the app using the big red button.';
-	@override String get title_5 => 'offline availability';
-	@override String get subtitle_5 => 'connect once to the internet and get all your services available to you offline.';
+	@override String get subtitle_4 => 'appelez à l\'aide d\'urgence directement depuis l\'application en utilisant le gros bouton rouge.';
+	@override String get title_5 => 'disponibilité hors ligne';
+	@override String get subtitle_5 => 'connectez-vous une fois à Internet et accédez à tous vos services hors ligne.';
 }
 
 // Path: pages.welcome.permissions_dialog
@@ -313,10 +313,10 @@ class _TranslationsPagesWelcomePermissionsDialogFr implements TranslationsPagesW
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String primary_text({required Object app_name_short}) => '${app_name_short} needs permission to proceed';
-	@override String get secondary_text => 'to provide the best experience, the app requires permission to perform phone calls for you, as this is its main feature.';
-	@override String get tertiary_text => 'we also request notification access to keep you informed and up to date.';
-	@override String get quaternary_text => 'please grant these permissions to continue using the app seamlessly. If it doesn\'t work, then you\'ll need to do it manually in the settings.';
+	@override String primary_text({required Object app_name_short}) => '${app_name_short} a besoin d\'autorisation pour continuer';
+	@override String get secondary_text => 'pour offrir la meilleure expérience, l\'application nécessite l\'autorisation d\'effectuer des appels téléphoniques pour vous, car c\'est sa fonction principale.';
+	@override String get tertiary_text => 'nous demandons également l\'accès aux notifications pour vous tenir informé et à jour.';
+	@override String get quaternary_text => 'veuillez accorder ces autorisations pour continuer à utiliser l\'application sans problème. Si cela ne fonctionne pas, vous devrez le faire manuellement dans les paramètres.';
 }
 
 // Path: pages.cyclone.warning
@@ -326,10 +326,10 @@ class _TranslationsPagesCycloneWarningFr implements TranslationsPagesCycloneWarn
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Mauritius is currently in';
-	@override String subtitle({required Object level}) => 'class ${level}';
-	@override String get next_bulletin_title => 'next bulletin';
-	@override String get latest_news_title => 'latest news';
+	@override String get title => 'Maurice est actuellement en';
+	@override String subtitle({required Object level}) => 'classe ${level}';
+	@override String get next_bulletin_title => 'prochain bulletin';
+	@override String get latest_news_title => 'dernières nouvelles';
 }
 
 // Path: pages.cyclone.names
@@ -339,10 +339,10 @@ class _TranslationsPagesCycloneNamesFr implements TranslationsPagesCycloneNamesE
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'cyclone names';
-	@override String get table_header_name => 'name';
-	@override String get table_header_gender => 'gender';
-	@override String get table_header_provided_by => 'provided by';
+	@override String get title => 'noms des cyclones';
+	@override String get table_header_name => 'nom';
+	@override String get table_header_gender => 'genre';
+	@override String get table_header_provided_by => 'fourni par';
 }
 
 // Path: pages.cyclone.guidelines
@@ -352,8 +352,8 @@ class _TranslationsPagesCycloneGuidelinesFr implements TranslationsPagesCycloneG
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String title({required Object level}) => 'guidelines for class ${level}';
-	@override String get header_precautions_title => 'precautions';
+	@override String title({required Object level}) => 'directives pour la classe ${level}';
+	@override String get header_precautions_title => 'précautions';
 }
 
 // Path: pages.about.header
@@ -363,12 +363,12 @@ class _TranslationsPagesAboutHeaderFr implements TranslationsPagesAboutHeaderEn 
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'about';
+	@override String get title => 'à propos';
 	@override String get developer_name => 'mervin hemaraju';
-	@override String get developer_title => 'lead developer & designer';
+	@override String get developer_title => 'développeur principal & designer';
 	@override String get designer_name => 'nick foo kune';
-	@override String get designer_title => 'playstore banner & images';
-	@override String get caption => 'developed with ❤ in 🇲🇺';
+	@override String get designer_title => 'bannière & images playstore';
+	@override String get caption => 'développé avec ❤ à 🇲🇺';
 }
 
 // Path: pages.about.support_section
@@ -379,10 +379,10 @@ class _TranslationsPagesAboutSupportSectionFr implements TranslationsPagesAboutS
 
 	// Translations
 	@override String get title => 'support';
-	@override String rate_app_title({required Object app_name_short}) => 'rate ${app_name_short}';
-	@override String get rate_app_subtitle => 'if you love the app, let us know in the Google Play Store and we can make it even better.';
-	@override String share_app_title({required Object app_name_short}) => 'share ${app_name_short}';
-	@override String share_app_subtitle({required Object app_name_short}) => 'do not forget to share ${app_name_short} with your friends and families.';
+	@override String rate_app_title({required Object app_name_short}) => 'évaluer ${app_name_short}';
+	@override String get rate_app_subtitle => 'si vous aimez l\'application, faites-le nous savoir sur le Google Play Store et nous pourrons l\'améliorer davantage.';
+	@override String share_app_title({required Object app_name_short}) => 'partager ${app_name_short}';
+	@override String share_app_subtitle({required Object app_name_short}) => 'n\'oubliez pas de partager ${app_name_short} avec vos amis et votre famille.';
 }
 
 // Path: pages.about.other_section
@@ -392,13 +392,13 @@ class _TranslationsPagesAboutOtherSectionFr implements TranslationsPagesAboutOth
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'other';
-	@override String about_app_title({required Object app_name_short}) => 'about ${app_name_short}';
-	@override String get about_app_subtitle => 'check us out on our official website.';
-	@override String get developer_api_title => 'developer API';
-	@override String developer_api_subtitle({required Object app_name_short}) => 'Application Program Interface (API) used in ${app_name_short}.';
-	@override String get privacy_policy_title => 'privacy policy';
-	@override String privacy_policy_subtitle({required Object app_name_short}) => 'view the privacy policy for ${app_name_short}.';
+	@override String get title => 'autre';
+	@override String about_app_title({required Object app_name_short}) => 'à propos de ${app_name_short}';
+	@override String get about_app_subtitle => 'découvrez-nous sur notre site officiel.';
+	@override String get developer_api_title => 'API développeur';
+	@override String developer_api_subtitle({required Object app_name_short}) => 'Interface de Programmation d\'Application (API) utilisée dans ${app_name_short}.';
+	@override String get privacy_policy_title => 'politique de confidentialité';
+	@override String privacy_policy_subtitle({required Object app_name_short}) => 'consultez la politique de confidentialité de ${app_name_short}.';
 	@override String get version_title => 'version';
 }
 
@@ -409,7 +409,7 @@ class _TranslationsPagesSettingsSectionFeatureFr implements TranslationsPagesSet
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'feature';
+	@override String get title => 'fonctionnalité';
 	@override late final _TranslationsPagesSettingsSectionFeatureEmergencyButtonActionFr emergency_button_action = _TranslationsPagesSettingsSectionFeatureEmergencyButtonActionFr._(_root);
 }
 
@@ -431,9 +431,9 @@ class _TranslationsPagesSettingsSectionFeatureEmergencyButtonActionFr implements
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get sheet_title => 'choose Emergency Action';
-	@override String get tile_title => 'emergency button action';
-	@override String get tile_subtitle => 'set an emergency service for the red button';
+	@override String get sheet_title => 'choisir l\'action d\'urgence';
+	@override String get tile_title => 'action du bouton d\'urgence';
+	@override String get tile_subtitle => 'définir un service d\'urgence pour le bouton rouge';
 }
 
 // Path: pages.settings.section_application.change_language
@@ -443,9 +443,9 @@ class _TranslationsPagesSettingsSectionApplicationChangeLanguageFr implements Tr
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get sheet_title => 'choose language';
-	@override String get tile_title => 'change language';
-	@override String get tile_subtitle => 'change your app\'s language';
+	@override String get sheet_title => 'choisir la langue';
+	@override String get tile_title => 'changer de langue';
+	@override String get tile_subtitle => 'changer la langue de votre application';
 }
 
 /// Flat map(s) containing all translations.
@@ -455,97 +455,97 @@ extension on TranslationsFr {
 		switch (path) {
 			case 'app.name': return 'mauritius emergency services';
 			case 'app.short_name': return 'mes';
-			case 'pages.welcome.title': return 'welcome';
-			case 'pages.welcome.header.title': return 'welcome to';
-			case 'pages.welcome.carousel.title_1': return 'services list';
-			case 'pages.welcome.carousel.subtitle_1': return 'get a list of all emergency and non-emergency services for Mauritius right in your phone.';
-			case 'pages.welcome.carousel.title_2': return 'cyclone alerts';
-			case 'pages.welcome.carousel.subtitle_2': return 'get notified of cyclone warnings and read the cyclone guidelines live from your phone.';
-			case 'pages.welcome.carousel.title_3': return 'emergency actions';
-			case 'pages.welcome.carousel.subtitle_3': return 'get a dedicated corder on your dashboard just for emergency services.';
+			case 'pages.welcome.title': return 'bienvenue';
+			case 'pages.welcome.header.title': return 'bienvenue à';
+			case 'pages.welcome.carousel.title_1': return 'liste des services';
+			case 'pages.welcome.carousel.subtitle_1': return 'obtenez une liste de tous les services d\'urgence et non urgents pour Maurice directement sur votre téléphone.';
+			case 'pages.welcome.carousel.title_2': return 'alertes cycloniques';
+			case 'pages.welcome.carousel.subtitle_2': return 'soyez informé des alertes cycloniques et consultez les directives cycloniques en direct depuis votre téléphone.';
+			case 'pages.welcome.carousel.title_3': return 'actions d\'urgence';
+			case 'pages.welcome.carousel.subtitle_3': return 'obtenez un espace dédié sur votre tableau de bord uniquement pour les services d\'urgence.';
 			case 'pages.welcome.carousel.title_4': return 'sos';
-			case 'pages.welcome.carousel.subtitle_4': return 'call for urgent help right from the app using the big red button.';
-			case 'pages.welcome.carousel.title_5': return 'offline availability';
-			case 'pages.welcome.carousel.subtitle_5': return 'connect once to the internet and get all your services available to you offline.';
-			case 'pages.welcome.permissions_dialog.primary_text': return ({required Object app_name_short}) => '${app_name_short} needs permission to proceed';
-			case 'pages.welcome.permissions_dialog.secondary_text': return 'to provide the best experience, the app requires permission to perform phone calls for you, as this is its main feature.';
-			case 'pages.welcome.permissions_dialog.tertiary_text': return 'we also request notification access to keep you informed and up to date.';
-			case 'pages.welcome.permissions_dialog.quaternary_text': return 'please grant these permissions to continue using the app seamlessly. If it doesn\'t work, then you\'ll need to do it manually in the settings.';
-			case 'pages.home.title': return 'home';
-			case 'pages.home.primary_title': return 'emergency help needed?';
-			case 'pages.home.primary_subtitle': return 'hold the emergency button to call';
-			case 'pages.home.secondary_title': return 'need other quick emergency actions?';
-			case 'pages.home.secondary_subtitle': return 'click any one below to call';
+			case 'pages.welcome.carousel.subtitle_4': return 'appelez à l\'aide d\'urgence directement depuis l\'application en utilisant le gros bouton rouge.';
+			case 'pages.welcome.carousel.title_5': return 'disponibilité hors ligne';
+			case 'pages.welcome.carousel.subtitle_5': return 'connectez-vous une fois à Internet et accédez à tous vos services hors ligne.';
+			case 'pages.welcome.permissions_dialog.primary_text': return ({required Object app_name_short}) => '${app_name_short} a besoin d\'autorisation pour continuer';
+			case 'pages.welcome.permissions_dialog.secondary_text': return 'pour offrir la meilleure expérience, l\'application nécessite l\'autorisation d\'effectuer des appels téléphoniques pour vous, car c\'est sa fonction principale.';
+			case 'pages.welcome.permissions_dialog.tertiary_text': return 'nous demandons également l\'accès aux notifications pour vous tenir informé et à jour.';
+			case 'pages.welcome.permissions_dialog.quaternary_text': return 'veuillez accorder ces autorisations pour continuer à utiliser l\'application sans problème. Si cela ne fonctionne pas, vous devrez le faire manuellement dans les paramètres.';
+			case 'pages.home.title': return 'accueil';
+			case 'pages.home.primary_title': return 'besoin d\'aide d\'urgence ?';
+			case 'pages.home.primary_subtitle': return 'maintenez le bouton d\'urgence pour appeler';
+			case 'pages.home.secondary_title': return 'besoin d\'autres actions d\'urgence rapides ?';
+			case 'pages.home.secondary_subtitle': return 'cliquez sur l\'une d\'entre elles ci-dessous pour appeler';
 			case 'pages.services.title': return 'services';
-			case 'pages.cyclone.title': return 'cyclone report';
-			case 'pages.cyclone.no_warning': return 'there\'s currently no cyclone warning in Mauritius';
-			case 'pages.cyclone.warning.title': return 'Mauritius is currently in';
-			case 'pages.cyclone.warning.subtitle': return ({required Object level}) => 'class ${level}';
-			case 'pages.cyclone.warning.next_bulletin_title': return 'next bulletin';
-			case 'pages.cyclone.warning.latest_news_title': return 'latest news';
-			case 'pages.cyclone.names.title': return 'cyclone names';
-			case 'pages.cyclone.names.table_header_name': return 'name';
-			case 'pages.cyclone.names.table_header_gender': return 'gender';
-			case 'pages.cyclone.names.table_header_provided_by': return 'provided by';
-			case 'pages.cyclone.guidelines.title': return ({required Object level}) => 'guidelines for class ${level}';
-			case 'pages.cyclone.guidelines.header_precautions_title': return 'precautions';
-			case 'pages.vicinity_alerts.title': return 'vicinity alerts';
-			case 'pages.precall.title': return 'starting a call to';
-			case 'pages.precall.calling_in': return 'calling in';
-			case 'pages.theme_selector.title': return 'theme preferences';
-			case 'pages.about.title': return 'about';
-			case 'pages.about.header.title': return 'about';
+			case 'pages.cyclone.title': return 'rapport cyclonique';
+			case 'pages.cyclone.no_warning': return 'il n\'y a actuellement aucune alerte cyclonique à Maurice';
+			case 'pages.cyclone.warning.title': return 'Maurice est actuellement en';
+			case 'pages.cyclone.warning.subtitle': return ({required Object level}) => 'classe ${level}';
+			case 'pages.cyclone.warning.next_bulletin_title': return 'prochain bulletin';
+			case 'pages.cyclone.warning.latest_news_title': return 'dernières nouvelles';
+			case 'pages.cyclone.names.title': return 'noms des cyclones';
+			case 'pages.cyclone.names.table_header_name': return 'nom';
+			case 'pages.cyclone.names.table_header_gender': return 'genre';
+			case 'pages.cyclone.names.table_header_provided_by': return 'fourni par';
+			case 'pages.cyclone.guidelines.title': return ({required Object level}) => 'directives pour la classe ${level}';
+			case 'pages.cyclone.guidelines.header_precautions_title': return 'précautions';
+			case 'pages.vicinity_alerts.title': return 'alertes de proximité';
+			case 'pages.precall.title': return 'démarrage d\'un appel vers';
+			case 'pages.precall.calling_in': return 'appel dans';
+			case 'pages.theme_selector.title': return 'préférences de thème';
+			case 'pages.about.title': return 'à propos';
+			case 'pages.about.header.title': return 'à propos';
 			case 'pages.about.header.developer_name': return 'mervin hemaraju';
-			case 'pages.about.header.developer_title': return 'lead developer & designer';
+			case 'pages.about.header.developer_title': return 'développeur principal & designer';
 			case 'pages.about.header.designer_name': return 'nick foo kune';
-			case 'pages.about.header.designer_title': return 'playstore banner & images';
-			case 'pages.about.header.caption': return 'developed with ❤ in 🇲🇺';
+			case 'pages.about.header.designer_title': return 'bannière & images playstore';
+			case 'pages.about.header.caption': return 'développé avec ❤ à 🇲🇺';
 			case 'pages.about.support_section.title': return 'support';
-			case 'pages.about.support_section.rate_app_title': return ({required Object app_name_short}) => 'rate ${app_name_short}';
-			case 'pages.about.support_section.rate_app_subtitle': return 'if you love the app, let us know in the Google Play Store and we can make it even better.';
-			case 'pages.about.support_section.share_app_title': return ({required Object app_name_short}) => 'share ${app_name_short}';
-			case 'pages.about.support_section.share_app_subtitle': return ({required Object app_name_short}) => 'do not forget to share ${app_name_short} with your friends and families.';
-			case 'pages.about.other_section.title': return 'other';
-			case 'pages.about.other_section.about_app_title': return ({required Object app_name_short}) => 'about ${app_name_short}';
-			case 'pages.about.other_section.about_app_subtitle': return 'check us out on our official website.';
-			case 'pages.about.other_section.developer_api_title': return 'developer API';
-			case 'pages.about.other_section.developer_api_subtitle': return ({required Object app_name_short}) => 'Application Program Interface (API) used in ${app_name_short}.';
-			case 'pages.about.other_section.privacy_policy_title': return 'privacy policy';
-			case 'pages.about.other_section.privacy_policy_subtitle': return ({required Object app_name_short}) => 'view the privacy policy for ${app_name_short}.';
+			case 'pages.about.support_section.rate_app_title': return ({required Object app_name_short}) => 'évaluer ${app_name_short}';
+			case 'pages.about.support_section.rate_app_subtitle': return 'si vous aimez l\'application, faites-le nous savoir sur le Google Play Store et nous pourrons l\'améliorer davantage.';
+			case 'pages.about.support_section.share_app_title': return ({required Object app_name_short}) => 'partager ${app_name_short}';
+			case 'pages.about.support_section.share_app_subtitle': return ({required Object app_name_short}) => 'n\'oubliez pas de partager ${app_name_short} avec vos amis et votre famille.';
+			case 'pages.about.other_section.title': return 'autre';
+			case 'pages.about.other_section.about_app_title': return ({required Object app_name_short}) => 'à propos de ${app_name_short}';
+			case 'pages.about.other_section.about_app_subtitle': return 'découvrez-nous sur notre site officiel.';
+			case 'pages.about.other_section.developer_api_title': return 'API développeur';
+			case 'pages.about.other_section.developer_api_subtitle': return ({required Object app_name_short}) => 'Interface de Programmation d\'Application (API) utilisée dans ${app_name_short}.';
+			case 'pages.about.other_section.privacy_policy_title': return 'politique de confidentialité';
+			case 'pages.about.other_section.privacy_policy_subtitle': return ({required Object app_name_short}) => 'consultez la politique de confidentialité de ${app_name_short}.';
 			case 'pages.about.other_section.version_title': return 'version';
-			case 'pages.settings.title': return 'settings';
-			case 'pages.settings.section_feature.title': return 'feature';
-			case 'pages.settings.section_feature.emergency_button_action.sheet_title': return 'choose Emergency Action';
-			case 'pages.settings.section_feature.emergency_button_action.tile_title': return 'emergency button action';
-			case 'pages.settings.section_feature.emergency_button_action.tile_subtitle': return 'set an emergency service for the red button';
+			case 'pages.settings.title': return 'paramètres';
+			case 'pages.settings.section_feature.title': return 'fonctionnalité';
+			case 'pages.settings.section_feature.emergency_button_action.sheet_title': return 'choisir l\'action d\'urgence';
+			case 'pages.settings.section_feature.emergency_button_action.tile_title': return 'action du bouton d\'urgence';
+			case 'pages.settings.section_feature.emergency_button_action.tile_subtitle': return 'définir un service d\'urgence pour le bouton rouge';
 			case 'pages.settings.section_application.title': return 'application';
-			case 'pages.settings.section_application.change_language.sheet_title': return 'choose language';
-			case 'pages.settings.section_application.change_language.tile_title': return 'change language';
-			case 'pages.settings.section_application.change_language.tile_subtitle': return 'change your app\'s language';
-			case 'messages.error.cannot_load_data': return 'looks like something went wrong and we couldn\'t load the data.';
-			case 'messages.error.services_unavailable': return ({required Object app_name_short}) => 'looks like no services are available. Make sure you are connected to the internet the first time for ${app_name_short} to download the services.';
-			case 'messages.error.cannot_load_cyclone_report': return 'looks like something went wrong and we couldn\'t load the cyclone report.';
-			case 'messages.error.cannot_load_cyclone_names': return 'an error occurred while fetching the cyclone names.';
-			case 'messages.error.cannot_load_cyclone_guidelines': return 'an error occurred while fetching the cyclone guidelines.';
-			case 'messages.info.loading_component': return 'loading...';
-			case 'messages.info.unknown_component': return 'unknown';
-			case 'messages.info.no_match_for_query': return 'ooops, your query didn\'t match any services. Try something else?';
-			case 'messages.info.other_contacts': return 'no other contacts';
-			case 'messages.info.no_other_contacts': return 'no other contacts';
-			case 'components.search_bar.title': return ({required Object app_name_short}) => 'welcome to ${app_name_short}';
-			case 'components.search_bar.subtitle': return 'what do you need help with ?';
-			case 'actions.proceed': return 'proceed';
-			case 'actions.cancel': return 'cancel';
-			case 'actions.close': return 'close';
-			case 'actions.slide_to_cancel': return 'slide to cancel';
-			case 'actions.get_started': return 'get started';
-			case 'actions.contact_us': return 'contact us';
-			case 'actions.coming_soon': return 'coming soon';
-			case 'actions.toll_free': return 'toll free';
-			case 'actions.retry': return 'retry';
-			case 'others.hour_abbr': return 'hr';
+			case 'pages.settings.section_application.change_language.sheet_title': return 'choisir la langue';
+			case 'pages.settings.section_application.change_language.tile_title': return 'changer de langue';
+			case 'pages.settings.section_application.change_language.tile_subtitle': return 'changer la langue de votre application';
+			case 'messages.error.cannot_load_data': return 'il semble que quelque chose ne va pas et nous n\'avons pas pu charger les données.';
+			case 'messages.error.services_unavailable': return ({required Object app_name_short}) => 'il semble qu\'aucun service ne soit disponible. Assurez-vous d\'être connecté à Internet la première fois pour que ${app_name_short} puisse télécharger les services.';
+			case 'messages.error.cannot_load_cyclone_report': return 'il semble que quelque chose ne va pas et nous n\'avons pas pu charger le rapport cyclonique.';
+			case 'messages.error.cannot_load_cyclone_names': return 'une erreur s\'est produite lors de la récupération des noms des cyclones.';
+			case 'messages.error.cannot_load_cyclone_guidelines': return 'une erreur s\'est produite lors de la récupération des directives cycloniques.';
+			case 'messages.info.loading_component': return 'chargement...';
+			case 'messages.info.unknown_component': return 'inconnu';
+			case 'messages.info.no_match_for_query': return 'oups, votre recherche ne correspond à aucun service. Essayez autre chose ?';
+			case 'messages.info.other_contacts': return 'pas d\'autres contacts';
+			case 'messages.info.no_other_contacts': return 'pas d\'autres contacts';
+			case 'components.search_bar.title': return ({required Object app_name_short}) => 'bienvenue sur ${app_name_short}';
+			case 'components.search_bar.subtitle': return 'de quelle aide avez-vous besoin ?';
+			case 'actions.proceed': return 'continuer';
+			case 'actions.cancel': return 'annuler';
+			case 'actions.close': return 'fermer';
+			case 'actions.slide_to_cancel': return 'glissez pour annuler';
+			case 'actions.get_started': return 'commencer';
+			case 'actions.contact_us': return 'contactez-nous';
+			case 'actions.coming_soon': return 'bientôt disponible';
+			case 'actions.toll_free': return 'gratuit';
+			case 'actions.retry': return 'réessayer';
+			case 'others.hour_abbr': return 'h';
 			case 'others.minute_abbr': return 'min';
-			case 'others.ooops': return 'ooops!';
+			case 'others.ooops': return 'ooups!';
 			default: return null;
 		}
 	}

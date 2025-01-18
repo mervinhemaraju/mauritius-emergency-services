@@ -9,8 +9,9 @@ class MesCycloneApi implements MesCycloneRepository {
   static const _version = "v1";
 
   final Dio dio;
+  final String defaultLanguage;
 
-  MesCycloneApi(this.dio);
+  MesCycloneApi({required this.dio, this.defaultLanguage = "en"});
 
   // Helper method to reduce duplication
   Future<T> _handleApiCall<T>({
@@ -31,10 +32,9 @@ class MesCycloneApi implements MesCycloneRepository {
   }
 
   @override
-  Future<List<CycloneGuidelines>> getCycloneGuidelines(
-      [String lang = defaultLanguage]) async {
+  Future<List<CycloneGuidelines>> getCycloneGuidelines() async {
     return _handleApiCall(
-      path: '$lang/cyclone/guidelines',
+      path: '$defaultLanguage/cyclone/guidelines',
       mapper: (data) => (data['guidelines'] as List)
           .map((json) => CycloneGuidelines.fromJson(json))
           .toList(),
@@ -43,10 +43,9 @@ class MesCycloneApi implements MesCycloneRepository {
   }
 
   @override
-  Future<List<CycloneNames>> getCycloneNames(
-      [String lang = defaultLanguage]) async {
+  Future<List<CycloneNames>> getCycloneNames() async {
     return _handleApiCall(
-      path: '$lang/cyclone/names',
+      path: '$defaultLanguage/cyclone/names',
       mapper: (data) => (data['names'] as List)
           .map((json) => CycloneNames.fromJson(json))
           .toList(),
@@ -55,20 +54,18 @@ class MesCycloneApi implements MesCycloneRepository {
   }
 
   @override
-  Future<CycloneReport> getCycloneReport(
-      [String lang = defaultLanguage]) async {
+  Future<CycloneReport> getCycloneReport() async {
     return _handleApiCall(
-      path: '$lang/cyclone/report',
+      path: '$defaultLanguage/cyclone/report',
       mapper: (data) => CycloneReport.fromJson(data['report']),
       errorMessage: 'retrieving the cyclone report',
     );
   }
 
   @override
-  Future<CycloneReport> getCycloneReportTesting(
-      [String lang = defaultLanguage]) async {
+  Future<CycloneReport> getCycloneReportTesting() async {
     return _handleApiCall(
-      path: '$lang/cyclone/report/testing',
+      path: '$defaultLanguage/cyclone/report/testing',
       mapper: (data) => CycloneReport.fromJson(data['report']),
       errorMessage: 'retrieving the cyclone report',
     );

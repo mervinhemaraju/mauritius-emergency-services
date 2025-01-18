@@ -1,11 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/providers/local_database.dart';
+import 'package:mauritius_emergency_services/core/providers/settings.dart';
 
 // Services providers
 final servicesProvider = FutureProvider<List<Service>>((ref) async {
   final repository = ref.watch(mesServiceRepositoryProvider);
-  return repository.getAllServices();
+  final settings = ref.watch(settingsProvider);
+
+  return repository.getAllServices(settings.locale.lang);
 });
 
 final emergencyServicesProvider = FutureProvider<List<Service>>((ref) async {

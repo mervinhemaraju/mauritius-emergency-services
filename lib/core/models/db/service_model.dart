@@ -10,8 +10,6 @@ final Logger log = Logger('service_model.dart');
 class ServiceModel {
   @Id()
   int id = 0;
-
-  @Unique()
   final String identifier;
   final String name;
   final String type;

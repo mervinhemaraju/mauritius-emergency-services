@@ -17,9 +17,7 @@
         {
           "id": "2:2007773999446513874",
           "name": "identifier",
-          "type": 9,
-          "flags": 2080,
-          "indexId": "1:2247597361772265214"
+          "type": 9
         },
         {
           "id": "3:7598209173886372798",
@@ -67,7 +65,9 @@
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
-  "retiredIndexUids": [],
+  "retiredIndexUids": [
+    2247597361772265214
+  ],
   "retiredPropertyUids": [],
   "retiredRelationUids": [],
   "version": 1
