@@ -1,5 +1,5 @@
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
-import 'package:mauritius_emergency_services/gen/strings.g.dart';
+import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 
 class Welcome {
   final String asset;

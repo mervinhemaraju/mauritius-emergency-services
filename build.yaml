@@ -1,0 +1,22 @@
+targets:
+  $default:
+    builders:
+      source_gen|combining_builder:
+        generate_for:
+          - lib/core/providers/**.dart
+        options:
+          build_extensions:
+            '^lib/{{}}.dart': 'lib/generated/{{}}.g.dart'
+      freezed|freezed:
+        enabled: true
+        options:
+          build_extensions:
+            '^lib/{{}}.dart': 'lib/generated/{{}}.freezed.dart'
+      slang_build_runner:
+        options:
+          input_directory: assets/i18n
+          output_directory: lib/generated/translations
+          translate_var: t
+          fallback_strategy: base_language
+          base_language: en
+          flutter_integration: true

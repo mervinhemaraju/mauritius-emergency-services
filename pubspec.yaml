@@ -69,6 +69,7 @@ flutter:
   generate: true
 
   assets:
+    - lib/generated/
     - path: assets/images/
     - path: assets/svg/
     

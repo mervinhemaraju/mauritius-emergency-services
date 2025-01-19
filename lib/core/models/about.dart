@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mauritius_emergency_services/gen/strings.g.dart';
+import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 

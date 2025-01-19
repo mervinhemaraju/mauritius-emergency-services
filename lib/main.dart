@@ -7,7 +7,7 @@ import 'package:mauritius_emergency_services/core/providers/settings_providers.d
 import 'package:mauritius_emergency_services/core/routes/router.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/impl/app_settings_impl.dart';
-import 'package:mauritius_emergency_services/gen/strings.g.dart';
+import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/objectbox.g.dart';
 import 'package:mauritius_emergency_services/ui/theme/theme.dart';
 import 'package:mauritius_emergency_services/ui/theme/typography.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mauritius_emergency_services/core/models/locale.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
-import 'package:mauritius_emergency_services/gen/strings.g.dart';
+import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
