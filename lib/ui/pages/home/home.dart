@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
-import 'package:mauritius_emergency_services/core/models/settings.dart';
 import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
-import 'package:mauritius_emergency_services/core/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/gen/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
@@ -21,8 +19,8 @@ class HomeScreen extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
     final homeUiState = ref.watch(emergencyServicesProvider).when(
-          data: (services) {
-            if (services.isEmpty) {
+          data: (emergencyObject) {
+            if (emergencyObject.value.isEmpty) {
               return ErrorScreen(
                 title: t.messages.error
                     .services_unavailable(
@@ -35,8 +33,8 @@ class HomeScreen extends ConsumerWidget {
               );
             } else {
               return _HomeUi(
-                emergencyServices: services,
-                settings: ref.read(mesSettingsNotifierProvider),
+                emergencyServices: emergencyObject.value,
+                emergencyButtonAction: emergencyObject.key,
               );
             }
           },
@@ -64,11 +62,13 @@ class HomeScreen extends ConsumerWidget {
 
 class _HomeUi extends ConsumerWidget {
   final List<Service> emergencyServices;
-  final MesSettings settings;
+  final Service emergencyButtonAction;
+  // final MesSettings settings;
 
   const _HomeUi({
     required this.emergencyServices,
-    required this.settings,
+    required this.emergencyButtonAction,
+    // required this.settings,
   });
 
   @override
@@ -101,14 +101,16 @@ class _HomeUi extends ConsumerWidget {
                 onLongPress: () {
                   final Service emergencyService;
 
-                  if (settings.emergencyButtonAction.identifier.isNotEmpty) {
-                    emergencyService = settings.emergencyButtonAction;
+                  if (emergencyButtonAction.identifier.isNotEmpty) {
+                    emergencyService = emergencyButtonAction;
                   } else {
                     emergencyService = emergencyServices.first;
                   }
 
-                  context.navigateToPreCall(emergencyService,
-                      emergencyService.mainContact.toString());
+                  context.navigateToPreCall(
+                    emergencyService,
+                    emergencyService.mainContact.toString(),
+                  );
                 },
               ),
               const SizedBox(height: 32.0),
@@ -120,7 +122,9 @@ class _HomeUi extends ConsumerWidget {
               _EmergencyListView(
                 onTap: (service) {
                   context.navigateToPreCall(
-                      service, service.mainContact.toString());
+                    service,
+                    service.mainContact.toString(),
+                  );
                 },
               ),
               const SizedBox(height: 8.0),
@@ -188,18 +192,21 @@ class _HomeUi extends ConsumerWidget {
   Widget _EmergencyListView({required Function(Service) onTap}) {
     return SizedBox(
       height: 180,
-      child: ListView(
+      child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        children: emergencyServices
-            .map(
-              (service) => MesEmergencyTileItem(
-                service: service,
-                onTap: () {
-                  onTap(service);
-                },
-              ),
-            )
-            .toList(),
+        prototypeItem: const MesEmergencyTileItem(
+          service: Service(),
+          onTap: null,
+        ),
+        itemCount: emergencyServices.length,
+        itemBuilder: (context, index) {
+          return MesEmergencyTileItem(
+            service: emergencyServices[index],
+            onTap: () {
+              onTap(emergencyServices[index]);
+            },
+          );
+        },
       ),
     );
   }

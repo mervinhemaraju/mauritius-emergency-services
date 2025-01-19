@@ -25,7 +25,8 @@ class CycloneScreen extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
     // Store the cyclone report in a variable to access it later
-    final cycloneReportAsync = ref.watch(cycloneReportProvider);
+    //TODO(Change back before going to prod)
+    final cycloneReportAsync = ref.watch(cycloneReportTestingProvider);
 
     // Get the cyclone view state
     final uiState = cycloneReportAsync.when(
@@ -56,6 +57,7 @@ class CycloneScreen extends ConsumerWidget {
       body: RefreshIndicator(
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,
+        //TODO(Change back before going to prod)
         onRefresh: () async => ref.refresh(cycloneReportTestingProvider.future),
         child: uiState,
       ),
@@ -229,16 +231,18 @@ class _CycloneWarningUi extends StatelessWidget {
                         .capitalizeAll()),
                 SizedBox(
                   height: 200,
-                  child: ListView(
+                  child: ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     scrollDirection: Axis.horizontal,
-                    children: cycloneReport.news
-                        .map(
-                          (item) => CycloneNewsItem(
-                            news: item,
-                          ),
-                        )
-                        .toList(),
+                    itemCount: cycloneReport.news.length,
+                    prototypeItem: const CycloneNewsItem(
+                      news: "",
+                    ),
+                    itemBuilder: (context, index) {
+                      return CycloneNewsItem(
+                        news: cycloneReport.news[index],
+                      );
+                    },
                   ),
                 )
               ],

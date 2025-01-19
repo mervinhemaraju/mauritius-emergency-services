@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/locale.dart';
-import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/core/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/gen/strings.g.dart';
+import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class LanguageDialog extends ConsumerWidget {
@@ -30,35 +30,26 @@ class LanguageDialog extends ConsumerWidget {
         SizedBox(
           width: double.maxFinite,
           height: 300,
-          child: ListView(
-            shrinkWrap: true,
-            children: MesLocale.values.map((locale) {
-              return ListTile(
-                selected: settings.locale == locale,
-                selectedColor: Theme.of(context).colorScheme.onTertiary,
-                selectedTileColor: Theme.of(context).colorScheme.tertiary,
-                title: Text(
-                  t.others.language[locale.name.toString()]?.capitalize() ??
-                      t.others.language.entries.first.value.capitalize(),
-                ),
-                trailing: settings.locale == locale
-                    ? Icon(
-                        Icons.check_outlined,
-                        color: Theme.of(context).colorScheme.onTertiary,
-                      )
-                    : null,
-                onTap: () {
+          child: ListView.builder(
+            prototypeItem: LanguageSelectorItem(
+              isSelected: false,
+              locale: MesLocale.english,
+              onTap: (locale) {},
+            ),
+            itemCount: MesLocale.values.length,
+            itemBuilder: (context, index) {
+              final locale = MesLocale.values[index];
+              return LanguageSelectorItem(
+                isSelected: settings.locale == locale,
+                locale: locale,
+                onTap: (locale) {
                   // Update the locale
                   ref
                       .read(mesSettingsNotifierProvider.notifier)
-                      .updateLocale(locale)
-                      .whenComplete(
-                        // When the locale is updated, refresh the services
-                        () => ref.refresh(servicesProvider.future),
-                      );
+                      .updateLocale(locale);
                 },
               );
-            }).toList(),
+            },
           ),
         )
       ],

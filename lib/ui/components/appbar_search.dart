@@ -6,6 +6,7 @@ import 'package:mauritius_emergency_services/core/providers/search_controller.da
 import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/gen/strings.g.dart';
+import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
@@ -211,32 +212,9 @@ class _SearchUiMatch extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.8,
       child: ListView.builder(
         itemCount: services.length,
-        prototypeItem: ListTile(
-          title: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: Text(services.first.name),
-          ),
-          subtitle: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: Text(services.first.mainContact.toString()),
-          ),
-          trailing: const Icon(Icons.open_with_outlined),
-        ),
+        prototypeItem: SearchItem(service: services.first, onTap: onTap),
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text(services[index].name),
-            ),
-            subtitle: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text(services[index].mainContact.toString()),
-            ),
-            trailing: const Icon(Icons.open_in_new),
-            onTap: () {
-              onTap(services[index]);
-            },
-          );
+          return SearchItem(service: services[index], onTap: onTap);
         },
       ),
     );

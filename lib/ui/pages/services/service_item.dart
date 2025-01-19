@@ -36,7 +36,7 @@ class _ServicesListState extends State<ServicesList> {
       itemCount: widget.services.length,
       itemBuilder: (context, index) {
         final service = widget.services[index];
-        return ExpandableDismissibleTile(
+        return ExpandableDismissibleService(
           service: service,
           isExpanded: expandedId == service.identifier,
           dismissibleBackgroundColor: dismissibleBackgroundColor ??

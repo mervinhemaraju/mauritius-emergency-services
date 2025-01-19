@@ -4,7 +4,6 @@
 [1] Look into Bloc design pattern
 [2] Improve navigation and router
 [3] App Performance
-    [.] // REVIEW(Listview and its performance)
     [.] // REVIEW(App UI & theme)
 [4] Search functionality
 [5] better error message when no internet for services & cyclone pages

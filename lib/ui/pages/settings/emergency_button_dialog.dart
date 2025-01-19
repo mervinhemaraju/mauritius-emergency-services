@@ -4,6 +4,7 @@ import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/core/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/gen/strings.g.dart';
+import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
@@ -12,11 +13,13 @@ class EmergencyButtonDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.watch(mesSettingsNotifierProvider);
+    final emergencyButtonAction = ref.watch(
+      mesSettingsNotifierProvider.select((s) => s.emergencyButtonAction),
+    );
     final uiState = ref.watch(servicesProvider).when(
           data: (services) => ServiceListView(
             services: services,
-            selectedService: settings.emergencyButtonAction,
+            selectedService: emergencyButtonAction,
             onServiceSelected: (service) {
               ref
                   .read(mesSettingsNotifierProvider.notifier)
@@ -66,27 +69,22 @@ class ServiceListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: services
-          .map(
-            (service) => ListTile(
-              selected: service.identifier == selectedService.identifier,
-              selectedColor: Theme.of(context).colorScheme.onTertiary,
-              selectedTileColor: Theme.of(context).colorScheme.tertiary,
-              title: Text(service.name),
-              subtitle: Text(service.mainContact.toString()),
-              trailing: service.identifier == selectedService.identifier
-                  ? Icon(
-                      Icons.check_outlined,
-                      color: Theme.of(context).colorScheme.onTertiary,
-                    )
-                  : null,
-              onTap: () {
-                onServiceSelected(service);
-              },
-            ),
-          )
-          .toList(),
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      prototypeItem: SimpleServiceItem(
+        isSelected: false,
+        service: const Service(),
+        onServiceSelected: onServiceSelected,
+      ),
+      itemCount: services.length,
+      itemBuilder: (context, index) {
+        final service = services[index];
+        return SimpleServiceItem(
+          isSelected: service.identifier == selectedService.identifier,
+          service: service,
+          onServiceSelected: onServiceSelected,
+        );
+      },
     );
   }
 }

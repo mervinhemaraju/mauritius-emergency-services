@@ -120,12 +120,16 @@ extension StringExtension on String {
 }
 
 extension BytesExtensions on Uint8List? {
-  Widget loadImage({
+  Widget? loadImage({
     required String networkImageUrl,
     required String memoryPlaceholderImage,
     double size = 40,
     BoxFit? fit,
   }) {
+    if (this == null && networkImageUrl.isEmpty) {
+      return null;
+    }
+
     return this == null
         ? FadeInImage.assetNetwork(
             placeholder: memoryPlaceholderImage,

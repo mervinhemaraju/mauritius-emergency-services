@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/core/providers/local_database.dart';
 import 'package:mauritius_emergency_services/core/providers/settings_providers.dart';
+import 'package:pair/pair.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'services_providers.g.dart';
 
@@ -38,7 +39,7 @@ Future<List<Service>> services(Ref ref) async {
 }
 
 @riverpod
-Future<List<Service>> emergencyServices(Ref ref) async {
+Future<Pair<Service, List<Service>>> emergencyServices(Ref ref) async {
   /*
   * Gets the list of emergency services from the list of services
   */
@@ -46,6 +47,15 @@ Future<List<Service>> emergencyServices(Ref ref) async {
   // Watch the services
   final services = await ref.watch(servicesProvider.future);
 
+  // Get the emergency button action
+  final emergencyButtonAction = ref.watch(
+    mesSettingsNotifierProvider.select((s) => s.emergencyButtonAction),
+  );
+
+  // Filter out emergency services
+  final emergencyServices =
+      services.where((service) => service.type == "E").toList();
+
   // Return the list of emergency services
-  return services.where((service) => service.type == "E").toList();
+  return Pair(emergencyButtonAction, emergencyServices);
 }

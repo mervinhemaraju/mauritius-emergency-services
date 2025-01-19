@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/gen/strings.g.dart';
+import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
 import 'package:mauritius_emergency_services/ui/pages/theme_selector/theme.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
@@ -23,7 +24,6 @@ class MesDrawer extends StatelessWidget {
       child: Drawer(
         width: double.infinity,
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: const EdgeInsets.only(right: 16.0),
           children: [
             const MesDrawerHeader(),
@@ -105,45 +105,6 @@ class MesDrawer extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class MesDrawerItem extends StatelessWidget {
-  final bool isSelected;
-  final Icon leadingIcon;
-  final String title;
-  final void Function() onTap;
-  final Widget? trailing;
-
-  const MesDrawerItem({
-    super.key,
-    required this.leadingIcon,
-    required this.title,
-    required this.onTap,
-    this.trailing,
-    this.isSelected = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      selected: isSelected,
-      selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
-      selectedTileColor: Theme.of(context).colorScheme.primaryContainer,
-      leading: leadingIcon,
-      title: Text(
-        title,
-        style: Theme.of(context).textTheme.bodyMedium,
-      ),
-      trailing: trailing,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.horizontal(
-          right: Radius.circular(25), // Apply stadium effect
-          left: Radius.zero, // No effect on the left
-        ),
-      ),
-      onTap: onTap,
     );
   }
 }

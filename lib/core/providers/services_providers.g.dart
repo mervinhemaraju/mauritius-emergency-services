@@ -22,12 +22,12 @@ final servicesProvider = AutoDisposeFutureProvider<List<Service>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ServicesRef = AutoDisposeFutureProviderRef<List<Service>>;
-String _$emergencyServicesHash() => r'27e91d9ce52fa9f0e17e870d0f33e35e454cdcb5';
+String _$emergencyServicesHash() => r'b868a618872bb47beeff944d221b54a1d3ed8efb';
 
 /// See also [emergencyServices].
 @ProviderFor(emergencyServices)
 final emergencyServicesProvider =
-    AutoDisposeFutureProvider<List<Service>>.internal(
+    AutoDisposeFutureProvider<Pair<Service, List<Service>>>.internal(
   emergencyServices,
   name: r'emergencyServicesProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -39,6 +39,7 @@ final emergencyServicesProvider =
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef EmergencyServicesRef = AutoDisposeFutureProviderRef<List<Service>>;
+typedef EmergencyServicesRef
+    = AutoDisposeFutureProviderRef<Pair<Service, List<Service>>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

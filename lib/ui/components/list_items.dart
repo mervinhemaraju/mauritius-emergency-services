@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mauritius_emergency_services/core/models/locale.dart';
 import 'package:mauritius_emergency_services/core/models/service.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/gen/strings.g.dart';
@@ -6,6 +7,76 @@ import 'package:mauritius_emergency_services/ui/components/widgets.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+// The MES Drawer Item
+class MesDrawerItem extends StatelessWidget {
+  final bool isSelected;
+  final Icon leadingIcon;
+  final String title;
+  final void Function() onTap;
+  final Widget? trailing;
+
+  const MesDrawerItem({
+    super.key,
+    required this.leadingIcon,
+    required this.title,
+    required this.onTap,
+    this.trailing,
+    this.isSelected = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      selected: isSelected,
+      selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
+      selectedTileColor: Theme.of(context).colorScheme.primaryContainer,
+      leading: leadingIcon,
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      trailing: trailing,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.horizontal(
+          right: Radius.circular(25), // Apply stadium effect
+          left: Radius.zero, // No effect on the left
+        ),
+      ),
+      onTap: onTap,
+    );
+  }
+}
+
+// A search item
+class SearchItem extends StatelessWidget {
+  final Service service;
+  final void Function(Service service) onTap;
+
+  const SearchItem({
+    super.key,
+    required this.service,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4.0),
+        child: Text(service.name),
+      ),
+      subtitle: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4.0),
+        child: Text(service.mainContact.toString()),
+      ),
+      trailing: const Icon(Icons.open_in_new),
+      onTap: () {
+        onTap(service);
+      },
+    );
+  }
+}
 
 // The about header list item
 class AboutHeaderListItem extends StatelessWidget {
@@ -110,7 +181,7 @@ class AboutSectionListItem extends StatelessWidget {
 // The emergency tile item
 class MesEmergencyTileItem extends StatelessWidget {
   final Service service;
-  final VoidCallback onTap;
+  final Function()? onTap;
 
   const MesEmergencyTileItem({
     super.key,
@@ -206,14 +277,14 @@ class SettingsItem extends StatelessWidget {
 }
 
 // The exapndable dismissible service list item
-class ExpandableDismissibleTile extends StatelessWidget {
+class ExpandableDismissibleService extends StatelessWidget {
   final Service service;
   final bool isExpanded;
   final Color dismissibleBackgroundColor;
-  final VoidCallback onToggle;
+  final Function() onToggle;
   final Function(Color) toggleDismissibleBackgroundColor;
 
-  const ExpandableDismissibleTile({
+  const ExpandableDismissibleService({
     super.key,
     required this.service,
     required this.dismissibleBackgroundColor,
@@ -388,7 +459,7 @@ class ExpandableDismissibleTile extends StatelessWidget {
       );
 }
 
-// The cyclone new item
+// The cyclone news item
 class CycloneNewsItem extends StatelessWidget {
   final String news;
 
@@ -470,6 +541,77 @@ class WelcomeCarouselItem extends StatelessWidget {
           height: 21.0,
         )
       ],
+    );
+  }
+}
+
+// Simple Service Item
+class SimpleServiceItem extends StatelessWidget {
+  const SimpleServiceItem({
+    super.key,
+    required this.isSelected,
+    required this.service,
+    required this.onServiceSelected,
+  });
+
+  final bool isSelected;
+  final Service service;
+  final Function(Service service) onServiceSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      selected: isSelected,
+      selectedColor: Theme.of(context).colorScheme.onTertiary,
+      selectedTileColor: Theme.of(context).colorScheme.tertiary,
+      title: Text(service.name),
+      subtitle: Text(service.mainContact.toString()),
+      trailing: isSelected
+          ? Icon(
+              Icons.check_outlined,
+              color: Theme.of(context).colorScheme.onTertiary,
+            )
+          : null,
+      onTap: () {
+        onServiceSelected(service);
+      },
+    );
+  }
+}
+
+// Language selector item
+class LanguageSelectorItem extends StatelessWidget {
+  final bool isSelected;
+  final MesLocale locale;
+  final Function(MesLocale) onTap;
+
+  const LanguageSelectorItem({
+    super.key,
+    required this.isSelected,
+    required this.locale,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      selected: isSelected,
+      selectedColor: Theme.of(context).colorScheme.onTertiary,
+      selectedTileColor: Theme.of(context).colorScheme.tertiary,
+      title: Text(
+        t.others.language[locale.name.toString()]?.capitalize() ??
+            t.others.language.entries.first.value.capitalize(),
+      ),
+      trailing: isSelected
+          ? Icon(
+              Icons.check_outlined,
+              color: Theme.of(context).colorScheme.onTertiary,
+            )
+          : null,
+      onTap: () {
+        // Update the locale
+        onTap(locale);
+      },
     );
   }
 }
