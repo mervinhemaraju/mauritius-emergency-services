@@ -1,4 +1,4 @@
-import 'dart:io';
+// import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,26 +17,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // Only enable this for development purposes
 // ad the following in main() -> HttpOverrides.global = MyHttpOverrides();
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback = (
-        X509Certificate cert,
-        String host,
-        int port,
-      ) =>
-          true;
-  }
-}
+// class MyHttpOverrides extends HttpOverrides {
+//   @override
+//   HttpClient createHttpClient(SecurityContext? context) {
+//     return super.createHttpClient(context)
+//       ..badCertificateCallback = (
+//         X509Certificate cert,
+//         String host,
+//         int port,
+//       ) =>
+//           true;
+//   }
+// }
 
 // The main runner app
 main() async {
   // Ensure the widgets are initialized
   WidgetsFlutterBinding.ensureInitialized();
-
-  // TODO(Remove before deploying to prod)
-  HttpOverrides.global = MyHttpOverrides();
 
   // Initialize the shared preferences
   final prefs = await SharedPreferences.getInstance();
@@ -75,6 +72,11 @@ class MesMaterialApp extends ConsumerWidget {
             ? HomeRoute.path
             : WelcomeRoute.path;
 
+    // Get the theme mode
+    final themeMode = ref.watch(mesSettingsNotifierProvider.select(
+      (s) => s.theme,
+    ));
+
     // Update the app locale
     ref.watch(
       mesSettingsNotifierProvider.select(
@@ -102,9 +104,7 @@ class MesMaterialApp extends ConsumerWidget {
       darkTheme: theme.dark(),
       highContrastTheme: theme.lightHighContrast(),
       highContrastDarkTheme: theme.darkHighContrast(),
-      themeMode: ref.watch(mesSettingsNotifierProvider.select(
-        (s) => s.theme,
-      )),
+      themeMode: themeMode,
       locale: TranslationProvider.of(context).flutterLocale,
       supportedLocales: AppLocaleUtils.supportedLocales,
       localizationsDelegates: GlobalMaterialLocalizations.delegates,

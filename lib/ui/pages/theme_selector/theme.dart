@@ -5,15 +5,12 @@ import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
-class ThemeDialog extends ConsumerWidget {
+class ThemeDialog extends StatelessWidget {
   // Constructor
   const ThemeDialog({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Watch the settings
-    final settings = ref.watch(mesSettingsNotifierProvider);
-
+  Widget build(BuildContext context) {
     // Return the view
     return AlertDialog(
       clipBehavior: Clip.hardEdge,
@@ -30,22 +27,32 @@ class ThemeDialog extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ...ThemeMode.values.map((theme) {
-              return RadioListTile<ThemeMode>(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  t.others.themes[theme.name]?.capitalize() ??
-                      t.others.themes.entries.first.value.capitalize(),
-                ),
-                value: theme,
-                groupValue: settings.theme,
-                onChanged: (ThemeMode? newTheme) {
-                  if (newTheme != null) {
-                    ref
-                        .read(mesSettingsNotifierProvider.notifier)
-                        .updateTheme(newTheme);
-                  }
-                },
-              );
+              return Consumer(builder: (context, ref, child) {
+                // Get the current theme
+                final currentTheme = ref.watch(
+                  mesSettingsNotifierProvider.select(
+                    (s) => s.theme,
+                  ),
+                );
+
+                // Return the view
+                return RadioListTile<ThemeMode>(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(
+                    t.others.themes[theme.name]?.capitalize() ??
+                        t.others.themes.entries.first.value.capitalize(),
+                  ),
+                  value: theme,
+                  groupValue: currentTheme,
+                  onChanged: (ThemeMode? newTheme) {
+                    if (newTheme != null) {
+                      ref
+                          .read(mesSettingsNotifierProvider.notifier)
+                          .updateTheme(newTheme);
+                    }
+                  },
+                );
+              });
             }),
           ],
         ),

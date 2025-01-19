@@ -25,8 +25,7 @@ class CycloneScreen extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
     // Store the cyclone report in a variable to access it later
-    //TODO(Change back before going to prod)
-    final cycloneReportAsync = ref.watch(cycloneReportTestingProvider);
+    final cycloneReportAsync = ref.watch(cycloneReportProvider);
 
     // Get the cyclone view state
     final uiState = cycloneReportAsync.when(
@@ -57,8 +56,7 @@ class CycloneScreen extends ConsumerWidget {
       body: RefreshIndicator(
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,
-        //TODO(Change back before going to prod)
-        onRefresh: () async => ref.refresh(cycloneReportTestingProvider.future),
+        onRefresh: () async => ref.refresh(cycloneReportProvider.future),
         child: uiState,
       ),
       floatingActionButton: Column(

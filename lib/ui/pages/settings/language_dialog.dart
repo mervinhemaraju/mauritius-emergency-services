@@ -6,13 +6,12 @@ import 'package:mauritius_emergency_services/generated/translations/strings.g.da
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
-class LanguageDialog extends ConsumerWidget {
+class LanguageDialog extends StatelessWidget {
   const LanguageDialog({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.watch(mesSettingsNotifierProvider);
-
+  Widget build(BuildContext context) {
+    // Return the view
     return SimpleDialog(
       clipBehavior: Clip.hardEdge,
       contentPadding: EdgeInsets.zero,
@@ -39,16 +38,26 @@ class LanguageDialog extends ConsumerWidget {
             itemCount: MesLocale.values.length,
             itemBuilder: (context, index) {
               final locale = MesLocale.values[index];
-              return LanguageSelectorItem(
-                isSelected: settings.locale == locale,
-                locale: locale,
-                onTap: (locale) {
-                  // Update the locale
-                  ref
-                      .read(mesSettingsNotifierProvider.notifier)
-                      .updateLocale(locale);
-                },
-              );
+              return Consumer(builder: (context, ref, child) {
+                // Get the current locale
+                final settingsLocale = ref.watch(
+                  mesSettingsNotifierProvider.select(
+                    (s) => s.locale,
+                  ),
+                );
+
+                // Return the view
+                return LanguageSelectorItem(
+                  isSelected: settingsLocale == locale,
+                  locale: locale,
+                  onTap: (locale) {
+                    // Update the locale
+                    ref
+                        .read(mesSettingsNotifierProvider.notifier)
+                        .updateLocale(locale);
+                  },
+                );
+              });
             },
           ),
         )
