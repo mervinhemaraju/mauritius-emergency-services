@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:mauritius_emergency_services/core/models/cyclone_guidelines.dart';
-import 'package:mauritius_emergency_services/core/models/cyclone_names.dart';
-import 'package:mauritius_emergency_services/core/models/cyclone_report.dart';
+import 'package:mauritius_emergency_services/models/cyclone_guidelines.dart';
+import 'package:mauritius_emergency_services/models/cyclone_names.dart';
+import 'package:mauritius_emergency_services/models/cyclone_report.dart';
 import 'package:mauritius_emergency_services/data/repository/mes_cyclone.dart';
 
 class MesCycloneApi implements MesCycloneRepository {

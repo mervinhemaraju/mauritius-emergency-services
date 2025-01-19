@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mauritius_emergency_services/core/models/locale.dart';
-import 'package:mauritius_emergency_services/core/models/service.dart';
-import 'package:mauritius_emergency_services/core/models/settings.dart';
+import 'package:mauritius_emergency_services/models/locale.dart';
+import 'package:mauritius_emergency_services/models/service.dart';
+import 'package:mauritius_emergency_services/models/settings.dart';
 import 'package:mauritius_emergency_services/data/repository/app_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

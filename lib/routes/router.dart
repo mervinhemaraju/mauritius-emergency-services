@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mauritius_emergency_services/core/routes/routes.dart';
+import 'package:mauritius_emergency_services/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/pages/about/about.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone.dart';
 import 'package:mauritius_emergency_services/ui/pages/home/home.dart';

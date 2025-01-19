@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mauritius_emergency_services/core/models/locale.dart';
-import 'package:mauritius_emergency_services/core/models/service.dart';
+import 'package:mauritius_emergency_services/models/locale.dart';
+import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:mauritius_emergency_services/core/models/service.dart';
+import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:mauritius_emergency_services/data/sources/mes.dart';
 
 class MesServiceApiDataSource implements MesDataSource {

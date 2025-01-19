@@ -1,7 +1,7 @@
-import 'package:mauritius_emergency_services/core/models/service.dart';
-import 'package:mauritius_emergency_services/core/models/db/service_model.dart';
+import 'package:mauritius_emergency_services/models/service.dart';
+import 'package:mauritius_emergency_services/models/db/service_model.dart';
 import 'package:mauritius_emergency_services/data/sources/mes.dart';
-import 'package:mauritius_emergency_services/objectbox.g.dart';
+import 'package:mauritius_emergency_services/generated/objectbox/objectbox.g.dart';
 
 // Create a local data source implementation
 class MesServiceLocalDataSource implements MesDataSource {

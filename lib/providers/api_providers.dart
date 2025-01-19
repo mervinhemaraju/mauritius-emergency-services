@@ -1,31 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/core/providers/settings_providers.dart';
+import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/data/api/mes_cyclone.dart';
 import 'package:mauritius_emergency_services/data/api/mes_services.dart';
 import 'package:mauritius_emergency_services/data/repository/mes_cyclone.dart';
 import 'package:mauritius_emergency_services/data/sources/mes.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'api_providers.g.dart';
-
-// Define the dio provider
-// final _dioProvider = Provider((ref) => Dio());
-
-// // The cyclone repository provider
-// final mesCycloneRepositoryProvider = Provider<MesCycloneRepository>((ref) {
-//   final dio = ref.watch(_dioProvider);
-//   final settings = ref.watch(settingsProvider);
-//   return MesCycloneApi(
-//     dio: dio,
-//     defaultLanguage: settings.locale.lang,
-//   );
-// });
-
-// // The services repository provider
-// final mesServiceRemoteDataSourceProvider = Provider<MesDataSource>((ref) {
-//   final dio = ref.watch(_dioProvider);
-//   return MesServiceApiDataSource(dio);
-// });
+part '../generated/providers/api_providers.g.dart';
 
 @riverpod
 MesCycloneRepository mesCycloneRepository(Ref ref) {

@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/core/models/locale.dart';
-import 'package:mauritius_emergency_services/core/models/service.dart';
-import 'package:mauritius_emergency_services/core/models/settings.dart';
+import 'package:mauritius_emergency_services/models/locale.dart';
+import 'package:mauritius_emergency_services/models/service.dart';
+import 'package:mauritius_emergency_services/models/settings.dart';
 import 'package:mauritius_emergency_services/data/repository/app_settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'settings_providers.g.dart';
+part '../generated/providers/settings_providers.g.dart';
 
 @riverpod
 AppSettingsRepository settingsRepository(Ref ref) {
@@ -58,13 +58,3 @@ class MesSettingsNotifier extends _$MesSettingsNotifier {
     state = newSettings;
   }
 }
-
-// // Repository provider - this remains unchanged as it's already using Provider
-// final settingsRepositoryProvider = Provider<AppSettingsRepository>((ref) {
-//   throw UnimplementedError('Repository must be initialized');
-// });
-
-// // Settings provider - updated to use NotifierProvider
-// final settingsProvider = NotifierProvider<MesSettingsNotifier, MesSettings>(() {
-//   return MesSettingsNotifier();
-// });

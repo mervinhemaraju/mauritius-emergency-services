@@ -1,7 +1,7 @@
 // Settings model
 import 'package:flutter/material.dart';
-import 'package:mauritius_emergency_services/core/models/locale.dart';
-import 'package:mauritius_emergency_services/core/models/service.dart';
+import 'package:mauritius_emergency_services/models/locale.dart';
+import 'package:mauritius_emergency_services/models/service.dart';
 
 class MesSettings {
   final bool isOnboarded;

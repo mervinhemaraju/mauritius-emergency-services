@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
-import 'package:mauritius_emergency_services/core/models/service.dart';
+import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:objectbox/objectbox.dart';
 
 final Logger log = Logger('service_model.dart');

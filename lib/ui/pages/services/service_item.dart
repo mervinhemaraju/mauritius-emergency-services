@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mauritius_emergency_services/core/models/service.dart';
+import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 
 class ServicesList extends StatefulWidget {

@@ -3,15 +3,10 @@ targets:
     builders:
       source_gen|combining_builder:
         generate_for:
-          - lib/core/providers/**.dart
+          - lib/providers/**.dart
         options:
           build_extensions:
-            '^lib/{{}}.dart': 'lib/generated/{{}}.g.dart'
-      freezed|freezed:
-        enabled: true
-        options:
-          build_extensions:
-            '^lib/{{}}.dart': 'lib/generated/{{}}.freezed.dart'
+            '^lib/providers/{{}}.dart': 'lib/generated/providers/{{}}.g.dart'
       slang_build_runner:
         options:
           input_directory: assets/i18n

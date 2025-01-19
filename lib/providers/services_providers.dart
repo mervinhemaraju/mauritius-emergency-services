@@ -1,24 +1,11 @@
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/core/models/service.dart';
-import 'package:mauritius_emergency_services/core/providers/local_database.dart';
-import 'package:mauritius_emergency_services/core/providers/settings_providers.dart';
+import 'package:mauritius_emergency_services/models/service.dart';
+import 'package:mauritius_emergency_services/providers/local_database.dart';
+import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:pair/pair.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'services_providers.g.dart';
-
-// // Services providers
-// final servicesProvider = FutureProvider<List<Service>>((ref) async {
-//   final repository = ref.watch(mesServiceRepositoryProvider);
-//   final settings = ref.watch(settingsProvider);
-
-//   return repository.getAllServices(settings.locale.lang);
-// });
-
-// final emergencyServicesProvider = FutureProvider<List<Service>>((ref) async {
-//   final services = await ref.watch(servicesProvider.future);
-//   return services.where((service) => service.type == "E").toList();
-// });
+part '../generated/providers/services_providers.g.dart';
 
 @riverpod
 Future<List<Service>> services(Ref ref) async {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'search_controller.g.dart';
+part '../generated/providers/search_controller.g.dart';
 
 @riverpod
 class GlobalSearchController extends _$GlobalSearchController {
