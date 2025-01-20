@@ -12,12 +12,8 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Get the scaffold key
-    final scaffoldKey = GlobalKey<ScaffoldState>();
-
     // Return the view
     return Scaffold(
-      key: scaffoldKey,
       appBar: MesAppBar(
         title: t.pages.settings.title.capitalize(),
         goBack: () => context.goBack(),

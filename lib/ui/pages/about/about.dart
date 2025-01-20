@@ -12,39 +12,14 @@ import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class AboutScreen extends ConsumerWidget {
+class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Watch the package version provider
-    final packageInfo = ref.watch(packageInfoProvider);
-
-    // Load the version data
-    final version = packageInfo.when(
-      data: (info) => info.version,
-      loading: () => t.messages.info.loading_component.capitalize(),
-      error: (error, stackTrace) =>
-          t.messages.info.unknown_component.capitalize(),
-    );
-
-    // Define the scaffold key
-    final scaffoldKey = GlobalKey<ScaffoldState>();
-
-    // Get the 'other' section items
-    final otherSection = About.getOtherSection();
-
-    // Push a version item
-    otherSection.add(About(
-      icon: Icons.info_outlined,
-      title: t.pages.about.other_section.version_title.capitalize(),
-      body: version,
-    ));
-
+  Widget build(BuildContext context) {
     // Return the view
     return Scaffold(
       extendBody: true,
-      key: scaffoldKey,
       appBar: MesAppBar(
         title: t.pages.about.title.capitalize(),
         goBack: () => context.goBack(),
@@ -53,20 +28,40 @@ class AboutScreen extends ConsumerWidget {
         scrollDirection: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 21.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const _AboutHeader(),
-              _AboutSection(
-                title: t.pages.about.support_section.title.toUpperCase(),
-                section: About.getSupportSection(),
-              ),
-              _AboutSection(
-                title: t.pages.about.other_section.title.toUpperCase(),
-                section: otherSection,
-              ),
-            ],
-          ),
+          child: Consumer(builder: (context, ref, child) {
+            // Watch the package version provider
+            final packageInfo = ref.watch(packageInfoProvider);
+
+            // Load the version data
+            final List<About> otherSection = packageInfo.when(
+              data: (info) {
+                final otherSection = About.getOtherSection();
+                otherSection.add(About(
+                  icon: Icons.info_outlined,
+                  title: t.pages.about.other_section.version_title.capitalize(),
+                  body: info.version,
+                ));
+                return otherSection;
+              },
+              loading: () => [],
+              error: (error, stackTrace) => [],
+            );
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const _AboutHeader(),
+                _AboutSection(
+                  title: t.pages.about.support_section.title.toUpperCase(),
+                  section: About.getSupportSection(),
+                ),
+                _AboutSection(
+                  title: t.pages.about.other_section.title.toUpperCase(),
+                  section: otherSection,
+                ),
+              ],
+            );
+          }),
         ),
       ),
     );
@@ -107,16 +102,22 @@ class _AboutSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16.0),
-          ...section.map(
-            (about) => AboutSectionListItem(
-              icon: about.icon,
-              title: about.title,
-              subtitle: about.body,
-              onTap: () async {
-                about.launchAboutIntent();
-              },
-            ),
-          )
+          // Convert map to ListView.builder for better performance
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: section.length,
+            itemBuilder: (context, index) {
+              final about = section[index];
+              return AboutSectionListItem(
+                key: ValueKey(about.title), // Add key for better reconciliation
+                icon: about.icon,
+                title: about.title,
+                subtitle: about.body,
+                onTap: about.launchAboutIntent,
+              );
+            },
+          ),
         ],
       ),
     );
