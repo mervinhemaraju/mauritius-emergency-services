@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:mauritius_emergency_services/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/providers/settings_providers.dart';
@@ -21,9 +22,25 @@ class EmergencyButtonDialog extends ConsumerWidget {
             services: services,
             selectedService: emergencyButtonAction,
             onServiceSelected: (service) {
+              // Update the action
               ref
                   .read(mesSettingsNotifierProvider.notifier)
                   .updateEmergencyButtonAction(service);
+
+              // Show snackbar
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    t.messages.success.emergency_button_action_updated(
+                      action:
+                          "${service.name} - ${service.mainContact.toString()}",
+                    ),
+                  ),
+                ),
+              );
+
+              // Close the dialog
+              context.pop();
             },
           ),
           loading: () => const Center(child: CircularProgressIndicator()),
@@ -51,6 +68,16 @@ class EmergencyButtonDialog extends ConsumerWidget {
         height: 300,
         child: uiState,
       ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            context.pop();
+          },
+          child: Text(
+            t.actions.close.capitalize(),
+          ),
+        ),
+      ],
     );
   }
 }

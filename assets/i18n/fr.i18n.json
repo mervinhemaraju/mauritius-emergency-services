@@ -124,7 +124,10 @@
             "cannot_load_cyclone_names": "une erreur s'est produite lors de la récupération des noms des cyclones.",
             "cannot_load_cyclone_guidelines": "une erreur s'est produite lors de la récupération des directives cycloniques."
         },
-        "success": {},
+        "success": {
+            "language_updated": "La langue de l'application est définie avec succès sur: $language",
+            "emergency_button_action_updated": "Action du bouton d'urgence définie avec succès sur $action."
+        },
         "info": {
             "loading_component": "chargement...",
             "unknown_component": "inconnu",

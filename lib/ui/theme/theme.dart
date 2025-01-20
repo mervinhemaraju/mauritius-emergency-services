@@ -178,6 +178,12 @@ class MaterialTheme {
         useMaterial3: true,
         brightness: colorScheme.brightness,
         colorScheme: colorScheme,
+        snackBarTheme: SnackBarThemeData(
+          backgroundColor: colorScheme.primary,
+          contentTextStyle: TextStyle(
+            color: colorScheme.onPrimary,
+          ),
+        ),
         appBarTheme: createAppBarTheme(colorScheme.brightness),
         textTheme: textTheme.apply(
           bodyColor: colorScheme.onSurface,

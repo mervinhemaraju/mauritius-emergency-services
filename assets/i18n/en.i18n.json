@@ -124,7 +124,10 @@
             "cannot_load_cyclone_names": "an error occurred while fetching the cyclone names.",
             "cannot_load_cyclone_guidelines": "an error occurred while fetching the cyclone guidelines."
         },
-        "success": {},
+        "success": {
+            "language_updated": "App language successfully set to: $language.",
+            "emergency_button_action_updated": "Emergency button action successfully set to $action."
+        },
         "info": {
             "loading_component": "loading...",
             "unknown_component": "unknown",

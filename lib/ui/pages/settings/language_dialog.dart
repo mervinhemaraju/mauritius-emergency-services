@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/models/locale.dart';
 import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
@@ -12,7 +13,7 @@ class LanguageDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Return the view
-    return SimpleDialog(
+    return AlertDialog(
       clipBehavior: Clip.hardEdge,
       contentPadding: EdgeInsets.zero,
       titlePadding: EdgeInsets.zero,
@@ -25,42 +26,67 @@ class LanguageDialog extends StatelessWidget {
               .capitalizeAll(),
         ),
       ),
-      children: [
-        SizedBox(
-          width: double.maxFinite,
-          height: 300,
-          child: ListView.builder(
-            prototypeItem: LanguageSelectorItem(
-              isSelected: false,
-              locale: MesLocale.english,
-              onTap: (locale) {},
-            ),
-            itemCount: MesLocale.values.length,
-            itemBuilder: (context, index) {
-              final locale = MesLocale.values[index];
-              return Consumer(builder: (context, ref, child) {
-                // Get the current locale
-                final settingsLocale = ref.watch(
-                  mesSettingsNotifierProvider.select(
-                    (s) => s.locale,
-                  ),
-                );
-
-                // Return the view
-                return LanguageSelectorItem(
-                  isSelected: settingsLocale == locale,
-                  locale: locale,
-                  onTap: (locale) {
-                    // Update the locale
-                    ref
-                        .read(mesSettingsNotifierProvider.notifier)
-                        .updateLocale(locale);
-                  },
-                );
-              });
-            },
+      content: SizedBox(
+        width: double.maxFinite,
+        height: 300,
+        child: ListView.builder(
+          prototypeItem: LanguageSelectorItem(
+            isSelected: false,
+            locale: MesLocale.english,
+            onTap: (locale) {},
           ),
-        )
+          itemCount: MesLocale.values.length,
+          itemBuilder: (context, index) {
+            final locale = MesLocale.values[index];
+            return Consumer(builder: (context, ref, child) {
+              // Get the current locale
+              final settingsLocale = ref.watch(
+                mesSettingsNotifierProvider.select(
+                  (s) => s.locale,
+                ),
+              );
+
+              // Return the view
+              return LanguageSelectorItem(
+                isSelected: settingsLocale == locale,
+                locale: locale,
+                onTap: (locale) {
+                  // Update the locale
+                  ref
+                      .read(mesSettingsNotifierProvider.notifier)
+                      .updateLocale(locale);
+
+                  // Show snackbar
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        t.messages.success.language_updated(
+                          language: t.others.language[locale.name.toString()]
+                                  ?.capitalize() ??
+                              t.others.language.entries.first.value
+                                  .capitalize(),
+                        ),
+                      ),
+                    ),
+                  );
+
+                  // Close the dialog
+                  context.pop();
+                },
+              );
+            });
+          },
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            context.pop();
+          },
+          child: Text(
+            t.actions.close.capitalize(),
+          ),
+        ),
       ],
     );
   }
