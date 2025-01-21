@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -131,9 +132,15 @@ extension BytesExtensions on Uint8List? {
     }
 
     return this == null
-        ? FadeInImage.assetNetwork(
-            placeholder: memoryPlaceholderImage,
-            image: networkImageUrl,
+        ? CachedNetworkImage(
+            placeholder: (context, url) => Image.asset(
+              memoryPlaceholderImage,
+              width: size,
+              height: size,
+              fit: fit,
+            ),
+            // image: networkImageUrl,
+            imageUrl: networkImageUrl,
             width: size,
             height: size,
             fit: fit,
@@ -163,5 +170,15 @@ extension AboutExtensions on About {
         await launchUrl(url!);
       }
     }
+  }
+}
+
+extension SnackbarExtensions on BuildContext {
+  void showSimpleSnackbar(String message) {
+    ScaffoldMessenger.of(this).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
   }
 }

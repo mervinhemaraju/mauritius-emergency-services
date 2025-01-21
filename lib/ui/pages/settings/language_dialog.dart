@@ -57,17 +57,15 @@ class LanguageDialog extends StatelessWidget {
                       .updateLocale(locale);
 
                   // Show snackbar
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        t.messages.success.language_updated(
+                  context.showSimpleSnackbar(
+                    t.messages.success
+                        .language_updated(
                           language: t.others.language[locale.name.toString()]
                                   ?.capitalize() ??
                               t.others.language.entries.first.value
                                   .capitalize(),
-                        ),
-                      ),
-                    ),
+                        )
+                        .capitalize(),
                   );
 
                   // Close the dialog

@@ -122,16 +122,17 @@
             "services_unavailable": "il semble qu'aucun service ne soit disponible. Assurez-vous d'être connecté à Internet la première fois pour que $app_name_short puisse télécharger les services.",
             "cannot_load_cyclone_report": "il semble que quelque chose ne va pas et nous n'avons pas pu charger le rapport cyclonique.",
             "cannot_load_cyclone_names": "une erreur s'est produite lors de la récupération des noms des cyclones.",
-            "cannot_load_cyclone_guidelines": "une erreur s'est produite lors de la récupération des directives cycloniques."
+            "cannot_load_cyclone_guidelines": "une erreur s'est produite lors de la récupération des directives cycloniques.",
+            "cannot_launch_phone_app": "Ooups ! Nous n'avons pas pu lancer votre application téléphonique."
         },
         "success": {
-            "language_updated": "La langue de l'application est définie avec succès sur: $language",
-            "emergency_button_action_updated": "Action du bouton d'urgence définie avec succès sur $action."
+            "language_updated": "la langue de l'application est définie avec succès sur: $language",
+            "emergency_button_action_updated": "action du bouton d'urgence définie avec succès sur $action."
         },
         "info": {
             "loading_component": "chargement...",
             "unknown_component": "inconnu",
-            "no_match_for_query": "oups, votre recherche ne correspond à aucun service. Essayez autre chose ?",
+            "no_match_for_query": "Ooups, votre recherche ne correspond à aucun service. Essayez autre chose ?",
             "other_contacts": "pas d'autres contacts",
             "no_other_contacts": "pas d'autres contacts"
         }

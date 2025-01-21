@@ -28,15 +28,13 @@ class EmergencyButtonDialog extends ConsumerWidget {
                   .updateEmergencyButtonAction(service);
 
               // Show snackbar
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    t.messages.success.emergency_button_action_updated(
+              context.showSimpleSnackbar(
+                t.messages.success
+                    .emergency_button_action_updated(
                       action:
                           "${service.name} - ${service.mainContact.toString()}",
-                    ),
-                  ),
-                ),
+                    )
+                    .capitalize(),
               );
 
               // Close the dialog

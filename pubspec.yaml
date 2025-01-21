@@ -11,7 +11,7 @@ publish_to: 'none'
 # suffix = [dev, beta, rc]
 # itr = 0-9
 # n = version code
-version: 1.2.0-beta.02+20
+version: 1.2.0-beta.02+21
 
 # Environment details
 environment:
@@ -48,6 +48,8 @@ dependencies:
   slang: ^4.4.1
   slang_flutter: ^4.4.0
   riverpod_annotation: ^2.6.1
+  cached_network_image: ^3.4.1
+  cupertino_icons: ^1.0.8
 
 
 # Dev Dependencies

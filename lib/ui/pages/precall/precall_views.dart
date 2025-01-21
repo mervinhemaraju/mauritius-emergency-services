@@ -63,6 +63,12 @@ class PreCallWideRightView extends StatelessWidget {
                     service: service,
                     number: number,
                     onComplete: onComplete,
+                    onError: () {
+                      // Show on snack bar
+                      context.showSimpleSnackbar(
+                        t.messages.error.cannot_launch_phone_app.capitalize(),
+                      );
+                    },
                   );
                 },
               ),
@@ -106,6 +112,12 @@ class PreCallNarrowView extends StatelessWidget {
                 service: service,
                 number: number,
                 onComplete: onComplete,
+                onError: () {
+                  // Show on snack bar
+                  context.showSimpleSnackbar(
+                    t.messages.error.cannot_launch_phone_app.capitalize(),
+                  );
+                },
               );
             },
           ),
@@ -402,6 +414,7 @@ void onCountdownComplete({
   required Service service,
   required String number,
   required Function() onComplete,
+  required Function() onError,
 }) async {
   if (Platform.isAndroid) {
     // Define the data
@@ -429,8 +442,11 @@ void onCountdownComplete({
 
     // Launch the URL with explicit LaunchMode
     if (!await launchUrl(uri)) {
-      // TODO(Add this to a snackbar or something)
+      // Log the error
       log.severe('Could not launch $uri');
+
+      // run the onError function
+      onError();
     }
   }
 

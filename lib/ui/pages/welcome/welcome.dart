@@ -211,23 +211,26 @@ class _WelcomeCarouselWithIndicatorState
   final carouselController = CarouselController();
   late double? maxWidth;
 
+  void _carouselListener() {
+    final position = carouselController.position;
+    final width = (maxWidth ?? MediaQuery.sizeOf(context).width) - 32;
+    if (position.hasPixels) {
+      final index = (position.pixels / width).round();
+      setState(() {
+        currentIndex = index;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    carouselController.addListener(() {
-      final position = carouselController.position;
-      final width = (maxWidth ?? MediaQuery.sizeOf(context).width) - 32;
-      if (position.hasPixels) {
-        final index = (position.pixels / width).round();
-        setState(() {
-          currentIndex = index;
-        });
-      }
-    });
+    carouselController.addListener(_carouselListener);
   }
 
   @override
   void dispose() {
+    carouselController.removeListener(_carouselListener);
     carouselController.dispose();
     super.dispose();
   }
