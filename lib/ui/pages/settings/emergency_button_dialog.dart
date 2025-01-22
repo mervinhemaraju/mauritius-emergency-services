@@ -17,6 +17,8 @@ class EmergencyButtonDialog extends ConsumerWidget {
     final emergencyButtonAction = ref.watch(
       mesSettingsNotifierProvider.select((s) => s.emergencyButtonAction),
     );
+
+    // TODO(migrate to the new state management)
     final uiState = ref.watch(servicesProvider).when(
           data: (services) => ServiceListView(
             services: services,

@@ -36,6 +36,7 @@ class _MesSearchBar extends ConsumerWidget {
     final searchController = ref.watch(globalSearchControllerProvider);
 
     // Watch the services
+    // TODO(migrate to the new state management)
     final services = ref.watch(servicesProvider);
 
     // Return the view
