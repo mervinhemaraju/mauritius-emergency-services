@@ -21,8 +21,6 @@ class MesCycloneApi implements MesCycloneRepository {
   }) async {
     final response = await dio.get("$_endpoint/$_version/$path");
 
-    print("the response is ${response.data.toString()}");
-
     if (!response.data["success"]) {
       throw Exception(
         response.data["message"]?.toString() ??

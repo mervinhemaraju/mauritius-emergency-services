@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
-import 'package:mauritius_emergency_services/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
+import 'package:mauritius_emergency_services/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
+import 'package:mauritius_emergency_services/ui/pages/home/home_provider.dart';
+import 'package:mauritius_emergency_services/ui/pages/home/home_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -18,32 +20,43 @@ class HomeScreen extends ConsumerWidget {
     // Get the scaffold key
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
-    final homeUiState = ref.watch(emergencyServicesProvider).when(
-          data: (emergencyObject) {
-            if (emergencyObject.value.isEmpty) {
-              return ErrorScreen(
-                title: t.messages.error
-                    .services_unavailable(
-                      app_name_short: t.app.short_name.toUpperCase(),
-                    )
-                    .capitalize(),
-                showErrorImage: true,
-                retryAction: () =>
-                    ref.refresh(emergencyServicesProvider.future),
-              );
-            } else {
-              return _HomeUi(
-                emergencyServices: emergencyObject.value,
-                emergencyButtonAction: emergencyObject.key,
-              );
-            }
-          },
-          loading: () => const LoadingScreen(),
+    // Define a retry action
+    retryAction() async {
+      await ref.read(servicesNotifierProvider.notifier).refresh();
+    }
+
+    // Define the UI state
+    final homeUiState = ref.watch(homeStateProvider).when(
           error: (error, stack) => ErrorScreen(
-            title: t.messages.error.cannot_load_data.capitalize(),
+            title: error.toString().capitalize(),
             showErrorImage: true,
-            retryAction: () => ref.refresh(emergencyServicesProvider.future),
+            retryAction: retryAction,
           ),
+          loading: () => const LoadingScreen(),
+          data: (state) {
+            return switch (state) {
+              HomeErrorState(message: final message) => ErrorScreen(
+                  title: message.capitalize(),
+                  showErrorImage: true,
+                  retryAction: retryAction,
+                ),
+
+              // TODO("Add a better UI for this")
+              HomeNoInternetState(message: final message) => ErrorScreen(
+                  title: message.capitalize(),
+                  showErrorImage: true,
+                  retryAction: retryAction,
+                ),
+              HomeUiState(
+                emergencyServices: final emergencyServices,
+                emergencyButtonAction: final emergencyButtonAction,
+              ) =>
+                _HomeUi(
+                  emergencyServices: emergencyServices,
+                  emergencyButtonAction: emergencyButtonAction,
+                ),
+            };
+          },
         );
 
     // Return the view

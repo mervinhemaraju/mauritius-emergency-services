@@ -1,12 +1,11 @@
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:mauritius_emergency_services/providers/local_database.dart';
 import 'package:mauritius_emergency_services/providers/settings_providers.dart';
-import 'package:pair/pair.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part '../generated/providers/services_providers.g.dart';
 
+// TODO(Get rid of this class.)
 @riverpod
 Future<List<Service>> services(Ref ref) async {
   /*
@@ -26,23 +25,25 @@ Future<List<Service>> services(Ref ref) async {
 }
 
 @riverpod
-Future<Pair<Service, List<Service>>> emergencyServices(Ref ref) async {
-  /*
-  * Gets the list of emergency services from the list of services
-  */
+class ServicesNotifier extends _$ServicesNotifier {
+  @override
+  Future<List<Service>> build() => _fetchServices();
 
-  // Watch the services
-  final services = await ref.watch(servicesProvider.future);
+  Future<List<Service>> _fetchServices() async {
+    // Get the service repository provider
+    final repository = ref.watch(mesServiceRepositoryProvider);
 
-  // Get the emergency button action
-  final emergencyButtonAction = ref.watch(
-    mesSettingsNotifierProvider.select((s) => s.emergencyButtonAction),
-  );
+    // Watch the locale settings
+    final locale = ref.watch(
+      mesSettingsNotifierProvider.select((settings) => settings.locale),
+    );
 
-  // Filter out emergency services
-  final emergencyServices =
-      services.where((service) => service.type == "E").toList();
+    // Return the list of services
+    return await repository.getAllServices(locale.lang);
+  }
 
-  // Return the list of emergency services
-  return Pair(emergencyButtonAction, emergencyServices);
+  Future<void> refresh() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(_fetchServices);
+  }
 }

@@ -11,7 +11,7 @@ publish_to: 'none'
 # suffix = [dev, beta, rc]
 # itr = 0-9
 # n = version code
-version: 1.2.0-beta.02+21
+version: 1.2.0-beta.02+23
 
 # Environment details
 environment:
@@ -50,6 +50,7 @@ dependencies:
   riverpod_annotation: ^2.6.1
   cached_network_image: ^3.4.1
   cupertino_icons: ^1.0.8
+  flutter_native_splash: ^2.4.4
 
 
 # Dev Dependencies
@@ -61,7 +62,6 @@ dev_dependencies:
   objectbox_generator: ^4.0.3
   flutter_launcher_icons: ^0.14.2
   rename_app: ^1.6.2
-  flutter_native_splash: ^2.4.4
   slang_build_runner: ^4.4.0
   riverpod_generator: ^2.6.3
   riverpod_lint: ^2.6.3

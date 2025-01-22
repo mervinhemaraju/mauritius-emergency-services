@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mauritius_emergency_services/models/network_info.dart';
 import 'package:mauritius_emergency_services/providers/api_providers.dart';
-import 'package:mauritius_emergency_services/providers/network_info.dart';
 import 'package:mauritius_emergency_services/data/impl/mes_service_impl.dart';
 import 'package:mauritius_emergency_services/data/local/mes_services.dart';
 import 'package:mauritius_emergency_services/data/repository/mes_service.dart';
@@ -44,7 +44,7 @@ MesServiceRepository mesServiceRepository(Ref ref) {
   final localDataSource = ref.watch(mesServiceLocalDataSourceProvider);
 
   // Get the network info
-  final networkInfo = ref.watch(networkInfoProvider);
+  final networkInfo = NetworkInfo();
 
   // Return the repository
   return MesServiceCacheImpl(remoteDataSource, localDataSource, networkInfo);

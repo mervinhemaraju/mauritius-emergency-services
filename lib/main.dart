@@ -1,6 +1,7 @@
 // import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/providers/local_database.dart';
 import 'package:mauritius_emergency_services/providers/settings_providers.dart';
@@ -33,7 +34,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 // The main runner app
 main() async {
   // Ensure the widgets are initialized
-  WidgetsFlutterBinding.ensureInitialized();
+  final binding = WidgetsFlutterBinding.ensureInitialized();
+
+  // Preserve the splash screen
+  FlutterNativeSplash.preserve(widgetsBinding: binding);
 
   // Initialize the shared preferences
   final prefs = await SharedPreferences.getInstance();
@@ -46,6 +50,9 @@ main() async {
 
   // Make screen edge to edge
   enableEdgeToEdge();
+
+  // Remove splash now as the main content has been loaded
+  FlutterNativeSplash.remove();
 
   // Run the main app
   runApp(
