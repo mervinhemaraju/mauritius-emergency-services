@@ -14,12 +14,13 @@ class EmergencyButtonDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Get the emergency button action
     final emergencyButtonAction = ref.watch(
       mesSettingsNotifierProvider.select((s) => s.emergencyButtonAction),
     );
 
-    // TODO(migrate to the new state management)
-    final uiState = ref.watch(servicesProvider).when(
+    // Get the services ui view
+    final servicesUiView = ref.watch(servicesProvider).when(
           data: (services) => ServiceListView(
             services: services,
             selectedService: emergencyButtonAction,
@@ -50,6 +51,7 @@ class EmergencyButtonDialog extends ConsumerWidget {
           ),
         );
 
+    // Return the main view
     return AlertDialog(
       clipBehavior: Clip.hardEdge,
       contentPadding: EdgeInsets.zero,
@@ -66,7 +68,7 @@ class EmergencyButtonDialog extends ConsumerWidget {
       content: SizedBox(
         width: double.maxFinite,
         height: 300,
-        child: uiState,
+        child: servicesUiView,
       ),
       actions: [
         TextButton(

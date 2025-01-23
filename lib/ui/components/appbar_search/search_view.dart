@@ -6,6 +6,7 @@ import 'package:mauritius_emergency_services/providers/search_controller.dart';
 import 'package:mauritius_emergency_services/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/routes/routes.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
+import 'package:mauritius_emergency_services/ui/components/appbar_search/search_state.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
@@ -30,119 +31,123 @@ class _MesSearchBar extends ConsumerWidget {
     required this.openDrawer,
   });
 
+  // Define the on load function
+  SearchState _onLoad(String query, List<Service> services) {
+    if (query.isEmpty) {
+      return const SearchStateInitial();
+    }
+
+    // Get the filtered services
+    final filteredServices = services.search(query: query);
+
+    // Conditional views
+    if (filteredServices.isEmpty) {
+      return const SearchNoMatchState();
+    } else {
+      return SearchMatchState(filteredServices);
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get the search controller
     final searchController = ref.watch(globalSearchControllerProvider);
 
     // Watch the services
-    // TODO(migrate to the new state management)
     final services = ref.watch(servicesProvider);
 
     // Return the view
     return SearchAnchor.bar(
-        searchController: searchController,
-        barHintText: t.components.search_bar
-            .title(
-              app_name_short: t.app.short_name.toUpperCase(),
-            )
-            .capitalize(),
-        barHintStyle:
-            WidgetStatePropertyAll(Theme.of(context).textTheme.bodyMedium),
-        barElevation: WidgetStatePropertyAll(MesElevation.appBar),
-        viewLeading: IconButton(
-          onPressed: () {
-            // searchController.clear();
-            searchController.closeView("");
-            context.go(ServicesRoute.path);
-          },
-          icon: const Icon(Icons.arrow_back_ios_new_outlined),
-        ),
-        onSubmitted: (query) {
-          // Go to the services route
-          context.go(ServicesRoute.path, extra: {
-            ServicesRoute.extraQuery: query,
-          });
+      searchController: searchController,
+      barHintText: t.components.search_bar
+          .title(
+            app_name_short: t.app.short_name.toUpperCase(),
+          )
+          .capitalize(),
+      barHintStyle:
+          WidgetStatePropertyAll(Theme.of(context).textTheme.bodyMedium),
+      barElevation: WidgetStatePropertyAll(MesElevation.appBar),
+      viewLeading: IconButton(
+        onPressed: () {
+          // searchController.clear();
+          searchController.closeView("");
+          context.go(ServicesRoute.path);
         },
-        barLeading: searchController.text.isEmpty
-            ? IconButton(
-                icon: const Icon(Icons.menu),
-                onPressed: openDrawer,
-              )
-            : IconButton(
-                icon: const Icon(Icons.arrow_back_ios_outlined),
-                onPressed: () {
-                  searchController.clear();
-                  context.go(ServicesRoute.path);
-                },
-              ),
-        barTrailing: [
-          if (searchController.text.isNotEmpty)
-            IconButton(
-              icon: const Icon(
-                Icons.clear,
-              ),
+        icon: const Icon(Icons.arrow_back_ios_new_outlined),
+      ),
+      onSubmitted: (query) {
+        // Go to the services route
+        context.go(ServicesRoute.path, extra: {
+          ServicesRoute.extraQuery: query,
+        });
+      },
+      barLeading: searchController.text.isEmpty
+          ? IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: openDrawer,
+            )
+          : IconButton(
+              icon: const Icon(Icons.arrow_back_ios_outlined),
               onPressed: () {
-                // Clear the query
                 searchController.clear();
-
-                // If view is not open, open it
-                if (!searchController.isOpen) {
-                  searchController.openView();
-                }
+                context.go(ServicesRoute.path);
               },
             ),
-        ],
-        suggestionsBuilder:
-            (BuildContext context, SearchController controller) {
-          return services.when(
-            data: (services) {
-              // Get the search query
-              final query = controller.text.toLowerCase();
+      barTrailing: [
+        if (searchController.text.isNotEmpty)
+          IconButton(
+            icon: const Icon(
+              Icons.clear,
+            ),
+            onPressed: () {
+              // Clear the query
+              searchController.clear();
 
-              if (query.isEmpty) {
-                return [
-                  _SearchUiInitial(),
-                ];
-              }
-
-              // Get the filtered services
-              final filteredServices = services.search(query: query);
-
-              // Conditional views
-              if (filteredServices.isEmpty) {
-                return [
-                  _SearchUiNoMatch(),
-                ];
-              } else {
-                return [
-                  _SearchUiMatch(
-                    services: filteredServices,
-                    onTap: (service) {
-                      // Udpate the search controller
-                      searchController.text = service.name;
-
-                      // Navigate to the services route
-                      context.go(ServicesRoute.path, extra: {
-                        ServicesRoute.extraQuery: service.name.toLowerCase(),
-                      });
-                    },
-                  ),
-                ];
+              // If view is not open, open it
+              if (!searchController.isOpen) {
+                searchController.openView();
               }
             },
-            loading: () => [
-              const Center(
+          ),
+      ],
+      suggestionsBuilder: (BuildContext context, SearchController controller) {
+        // Get the query
+        final query = controller.text.toLowerCase();
+
+        // Get the search state
+        final state = services.when(
+          data: (services) => _onLoad(query, services),
+          loading: () => const SearchStateLoading(),
+          error: (error, stack) => SearchStateError(error.toString()),
+        );
+
+        // Return the view
+        return [
+          switch (state) {
+            SearchStateInitial() => _SearchUiInitial(),
+            SearchStateLoading() => const Center(
                 child: CircularProgressIndicator(),
-              )
-            ],
-            error: (error, stackTrace) => [
-              ListTile(
+              ),
+            SearchStateError() => ListTile(
                 title: Text(t.messages.error.cannot_load_data),
-              )
-            ],
-          );
-        });
+              ),
+            SearchMatchState(services: final services) => _SearchUiMatch(
+                services: services,
+                onTap: (service) {
+                  // Udpate the search controller
+                  searchController.text = service.name;
+
+                  // Navigate to the services route
+                  context.go(ServicesRoute.path, extra: {
+                    ServicesRoute.extraQuery: service.name.toLowerCase(),
+                  });
+                },
+              ),
+            SearchNoMatchState() => _SearchUiNoMatch(),
+          }
+        ];
+      },
+    );
   }
 }
 
