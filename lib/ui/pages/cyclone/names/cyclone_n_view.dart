@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/models/cyclone_names.dart';
-import 'package:mauritius_emergency_services/providers/cyclone_providers.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_n_provider.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_n_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class CycloneNamesSheet extends ConsumerWidget {
@@ -13,17 +14,37 @@ class CycloneNamesSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Retrieve the cyclone names data
+    // Create a retry action
+    void retryAction() {
+      ref.invalidate(cycloneNamesProvider);
+    }
+
+    // Get the ui state
     final uiState = ref.watch(cycloneNamesProvider).when(
-          data: (names) => _CycloneNamesUi(
-            cycloneNames: names,
-          ),
-          loading: () => const LoadingScreen(),
-          error: (error, stack) => ErrorScreen(
-            title: t.messages.error.cannot_load_cyclone_names.capitalize(),
-            retryAction: () => ref.refresh(cycloneNamesProvider.future),
+          data: (state) => state,
+          loading: () => const CycloneNamesLoadingState(),
+          error: (error, stack) => CycloneNamesErrorState(
+            error.toString().capitalize(),
           ),
         );
+
+    // Get the ui view
+    final uiView = switch (uiState) {
+      CycloneNamesLoadingState() => const LoadingScreen(),
+      CycloneNamesErrorState(message: final message) => ErrorScreen(
+          title: message.capitalize(),
+          retryAction: retryAction,
+        ),
+
+      // TODO("Add a better UI for this")
+      CycloneNamesNoInternetState(message: final message) => ErrorScreen(
+          title: message.capitalize(),
+          retryAction: retryAction,
+        ),
+      CycloneNamesUiState(cycloneNames: final cycloneNames) => _CycloneNamesUi(
+          cycloneNames: cycloneNames,
+        ),
+    };
 
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -37,7 +58,7 @@ class CycloneNamesSheet extends ConsumerWidget {
               textAlign: TextAlign.start,
             ),
             const SizedBox(height: 48.0),
-            uiState,
+            uiView,
             const SizedBox(height: 48.0),
           ],
         ),

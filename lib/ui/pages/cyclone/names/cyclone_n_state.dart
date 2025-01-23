@@ -19,6 +19,6 @@ class CycloneNamesNoInternetState extends CycloneNamesState {
 }
 
 class CycloneNamesUiState extends CycloneNamesState {
-  final CycloneNames cycloneNames;
+  final List<CycloneNames> cycloneNames;
   const CycloneNamesUiState(this.cycloneNames);
 }

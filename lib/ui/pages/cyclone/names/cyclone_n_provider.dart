@@ -2,14 +2,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/models/network_info.dart';
 import 'package:mauritius_emergency_services/providers/api_providers.dart';
-import 'package:mauritius_emergency_services/ui/pages/cyclone/guidelines/cyclone_g_state.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_n_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-part "../../../../generated/pages/cyclone/guidelines/cyclone_g_provider.g.dart";
+part "../../../../generated/pages/cyclone/names/cyclone_n_provider.g.dart";
 
 @riverpod
-Future<CycloneGuidelinesState> cycloneGuidelines(Ref ref) async {
+Future<CycloneNamesState> cycloneNames(Ref ref) async {
   /*
-  * Gets the cyclone guidelines
+  * Gets the cyclone names
   */
 
   try {
@@ -22,27 +22,18 @@ Future<CycloneGuidelinesState> cycloneGuidelines(Ref ref) async {
     // Check if not connected to internet
     if (!isConnectedToInternet) {
       // TODO("Add to constants")
-      return const CycloneGuidelinesNoInternetState(
+      return const CycloneNamesNoInternetState(
         "Please connect to the internet",
       );
     }
 
-    // Get the cyclone report
-    final report = await repository.getCycloneReport();
-
-    // Get the cyclone guidelines
-    final guidelines = await repository.getCycloneGuidelines();
-
-    // Get the guideline by the report level
-    final guideline = guidelines
-        .where((guideline) => guideline.level == report.level)
-        .toList()
-        .last;
+    // Get the cyclone names
+    final names = await repository.getCycloneNames();
 
     // Return the view
-    return CycloneGuidelinesUiState(guideline);
+    return CycloneNamesUiState(names);
   } catch (e) {
-    return CycloneGuidelinesErrorState(
+    return CycloneNamesErrorState(
       t.messages.error.cannot_load_data,
     );
   }
