@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/models/cyclone_guidelines.dart';
-import 'package:mauritius_emergency_services/providers/cyclone_providers.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/guidelines/cyclone_g_provider.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/guidelines/cyclone_g_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class CycloneGuidelinesSheet extends ConsumerWidget {
-  final int cycloneLevel;
+  // final int cycloneLevel;
 
   // Constructor
-  const CycloneGuidelinesSheet({super.key, required this.cycloneLevel});
+  const CycloneGuidelinesSheet({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,19 +21,27 @@ class CycloneGuidelinesSheet extends ConsumerWidget {
 
     // Retrieve the cyclone names data
     final uiState = ref.watch(cycloneGuidelinesProvider).when(
-          data: (guidelines) {
-            final asd = guidelines
-                .where((guideline) => guideline.level == cycloneLevel)
-                .toList();
+        data: (state) => state,
+        loading: () => const CycloneGuidelinesLoadingState(),
+        error: (error, stack) => CycloneGuidelinesErrorState(error.toString()));
 
-            return _CycloneGuidelinesUi(cycloneGuidelines: asd.last);
-          },
-          loading: () => const LoadingScreen(),
-          error: (error, stack) => ErrorScreen(
-            title: t.messages.error.cannot_load_cyclone_guidelines.capitalize(),
-            retryAction: () => ref.refresh(cycloneGuidelinesProvider.future),
-          ),
-        );
+    // Get the ui view
+    final uiView = switch (uiState) {
+      CycloneGuidelinesLoadingState() => const LoadingScreen(),
+      CycloneGuidelinesErrorState(message: final message) => ErrorScreen(
+          title: message.capitalize(),
+          retryAction: () => ref.refresh(cycloneGuidelinesProvider.future),
+        ),
+      // TODO("Add a better UI for this")
+      CycloneGuidelinesNoInternetState(message: final message) => ErrorScreen(
+          title: message.capitalize(),
+          retryAction: () => ref.refresh(cycloneGuidelinesProvider.future),
+        ),
+      CycloneGuidelinesUiState(cycloneGuidelines: final cycloneGuidelines) =>
+        _CycloneGuidelinesUi(
+          cycloneGuidelines: cycloneGuidelines,
+        ),
+    };
 
     // Return the view
     return Container(
@@ -41,15 +50,14 @@ class CycloneGuidelinesSheet extends ConsumerWidget {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
+            // FIXME(Include title in UI view)
             Text(
-              t.pages.cyclone.guidelines
-                  .title(level: cycloneLevel.toString())
-                  .capitalizeAll(),
+              t.pages.cyclone.guidelines.title(level: "0").capitalizeAll(),
               style: theme.textTheme.headlineSmall,
               textAlign: TextAlign.start,
             ),
             const SizedBox(height: 16.0),
-            uiState,
+            uiView,
             const SizedBox(height: 48.0),
           ],
         ),

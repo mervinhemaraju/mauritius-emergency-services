@@ -10,8 +10,8 @@ import 'package:mauritius_emergency_services/ui/components/rotating_svg.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
-import 'package:mauritius_emergency_services/ui/pages/cyclone/guidelines/cyclone_guidelines_sheet.dart';
-import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_names_sheet.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/guidelines/cyclone_g_view.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_n_view.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
@@ -113,9 +113,8 @@ class CycloneScreen extends ConsumerWidget {
                 showDragHandle: true,
                 enableDrag: true,
                 useSafeArea: true,
-                builder: (BuildContext context) => const CycloneGuidelinesSheet(
-                  cycloneLevel: 0, // FIXME("Add the cyclone level")
-                ),
+                builder: (BuildContext context) =>
+                    const CycloneGuidelinesSheet(),
               );
             },
           )

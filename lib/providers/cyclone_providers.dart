@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/models/cyclone_guidelines.dart';
 import 'package:mauritius_emergency_services/models/cyclone_names.dart';
 import 'package:mauritius_emergency_services/models/cyclone_report.dart';
 import 'package:mauritius_emergency_services/providers/api_providers.dart';
@@ -32,18 +31,18 @@ Future<CycloneReport> cycloneReportTesting(Ref ref) async {
   return await repository.getCycloneReportTesting();
 }
 
-@riverpod
-Future<List<CycloneGuidelines>> cycloneGuidelines(Ref ref) async {
-  /*
-  * Gets the list of cyclone guidelines
-  */
+// @riverpod
+// Future<List<CycloneGuidelines>> cycloneGuidelines(Ref ref) async {
+//   /*
+//   * Gets the list of cyclone guidelines
+//   */
 
-  // Get the cyclone repository provider
-  final repository = ref.watch(mesCycloneRepositoryProvider);
+//   // Get the cyclone repository provider
+//   final repository = ref.watch(mesCycloneRepositoryProvider);
 
-  // Return the list of cyclone guidelines
-  return await repository.getCycloneGuidelines();
-}
+//   // Return the list of cyclone guidelines
+//   return await repository.getCycloneGuidelines();
+// }
 
 @riverpod
 Future<List<CycloneNames>> cycloneNames(Ref ref) async {
