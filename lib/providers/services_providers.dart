@@ -5,11 +5,11 @@ import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part '../generated/providers/services_providers.g.dart';
 
-// TODO(Get rid of this class.)
 @riverpod
 Future<List<Service>> services(Ref ref) async {
   /*
-  * Gets the list of services from the service repository
+  * Basic provider that gets the list of services from the service repository
+  * To be used for basic purposes such as getting immutable data
   */
 
   // Get the service repository provider
@@ -26,6 +26,11 @@ Future<List<Service>> services(Ref ref) async {
 
 @riverpod
 class ServicesNotifier extends _$ServicesNotifier {
+  /*
+  * Notifier that gets the list of services from the service repository
+  * To be used for advanced purposes such refreshing data.
+  */
+
   @override
   Future<List<Service>> build() => _fetchServices();
 

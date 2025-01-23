@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/models/network_info.dart';
@@ -34,5 +36,26 @@ Future<ServicesState> servicesState(Ref ref) async {
     return ServicesErrorState(
       t.messages.error.cannot_load_data,
     );
+  }
+}
+
+@riverpod
+class ExpandedServiceState extends _$ExpandedServiceState {
+  @override
+  String? build() => null;
+
+  void toggleExpansion(String identifier) {
+    state = state == identifier ? null : identifier;
+  }
+}
+
+@riverpod
+class DismissibleBackgroundColorState
+    extends _$DismissibleBackgroundColorState {
+  @override
+  Color? build() => null;
+
+  void setColor(Color color) {
+    state = color;
   }
 }

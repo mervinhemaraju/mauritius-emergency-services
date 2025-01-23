@@ -17,7 +17,6 @@ import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_state.da
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/utils/getters.dart';
 
-// TODO(Migrate cyclone to the new state management design)
 class CycloneScreen extends ConsumerWidget {
   const CycloneScreen({super.key});
 
@@ -27,12 +26,12 @@ class CycloneScreen extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
     // Create a retry action
-    void retryAction() {
-      ref.invalidate(cycloneReportProvider);
+    void retryAction() async {
+      ref.read(cycloneReportNotifierProvider.notifier).refresh();
     }
 
     // Get the cyclone view state
-    final cycloneReportUiState = ref.watch(cycloneReportProvider).when(
+    final cycloneReportUiState = ref.watch(cycloneReportNotifierProvider).when(
           data: (state) => state,
           loading: () => const CycloneReportLoadingState(),
           error: (error, stack) => CycloneReportErrorState(error.toString()),
@@ -75,8 +74,7 @@ class CycloneScreen extends ConsumerWidget {
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,
         onRefresh: () async {
-          // TODO(Investigate rebuilds count & make reload ui stay until data is available.)
-          retryAction();
+          return ref.read(cycloneReportNotifierProvider.notifier).refresh();
         },
         child: cycloneReportUiView,
       ),
