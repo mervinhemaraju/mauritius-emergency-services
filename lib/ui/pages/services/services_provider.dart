@@ -20,9 +20,10 @@ Future<ServicesState> servicesState(Ref ref) async {
 
       // If not connected to internet
       if (!isConnectedToInternet) {
-        return const ServicesNoInternetState(
-          // TODO(Add to constants)
-          "No services available. Please check your internet connection and try again.",
+        return ServicesNoInternetState(
+          t.messages.error.services_unavailable(
+            app_name_short: t.app.short_name.toUpperCase(),
+          ),
         );
       }
     }

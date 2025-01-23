@@ -5,6 +5,10 @@ sealed class HomeState {
   const HomeState();
 }
 
+class HomeLoadingState extends HomeState {
+  const HomeLoadingState();
+}
+
 class HomeErrorState extends HomeState {
   final String message;
   const HomeErrorState(this.message);

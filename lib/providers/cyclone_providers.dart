@@ -6,18 +6,18 @@ import 'package:mauritius_emergency_services/providers/api_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part '../generated/providers/cyclone_providers.g.dart';
 
-@riverpod
-Future<CycloneReport> cycloneReport(Ref ref) async {
-  /*
-  * Gets the cyclone report
-  */
+// @riverpod
+// Future<CycloneReport> cycloneReport(Ref ref) async {
+//   /*
+//   * Gets the cyclone report
+//   */
 
-  // Get the cyclone repository provider
-  final repository = ref.watch(mesCycloneRepositoryProvider);
+//   // Get the cyclone repository provider
+//   final repository = ref.watch(mesCycloneRepositoryProvider);
 
-  // Return the cyclone report
-  return await repository.getCycloneReport();
-}
+//   // Return the cyclone report
+//   return await repository.getCycloneReport();
+// }
 
 @riverpod
 Future<CycloneReport> cycloneReportTesting(Ref ref) async {

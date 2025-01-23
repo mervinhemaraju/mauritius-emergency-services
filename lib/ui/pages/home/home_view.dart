@@ -27,37 +27,35 @@ class HomeScreen extends ConsumerWidget {
 
     // Define the UI state
     final homeUiState = ref.watch(homeStateProvider).when(
-          error: (error, stack) => ErrorScreen(
-            title: error.toString().capitalize(),
-            showErrorImage: true,
-            retryAction: retryAction,
-          ),
-          loading: () => const LoadingScreen(),
-          data: (state) {
-            return switch (state) {
-              HomeErrorState(message: final message) => ErrorScreen(
-                  title: message.capitalize(),
-                  showErrorImage: true,
-                  retryAction: retryAction,
-                ),
-
-              // TODO("Add a better UI for this")
-              HomeNoInternetState(message: final message) => ErrorScreen(
-                  title: message.capitalize(),
-                  showErrorImage: true,
-                  retryAction: retryAction,
-                ),
-              HomeUiState(
-                emergencyServices: final emergencyServices,
-                emergencyButtonAction: final emergencyButtonAction,
-              ) =>
-                _HomeUi(
-                  emergencyServices: emergencyServices,
-                  emergencyButtonAction: emergencyButtonAction,
-                ),
-            };
-          },
+          error: (error, stack) => HomeErrorState(error.toString()),
+          loading: () => const HomeLoadingState(),
+          data: (state) => state,
         );
+
+    // Get the ui view
+    final homeUiView = switch (homeUiState) {
+      HomeLoadingState() => const LoadingScreen(),
+      HomeErrorState(message: final message) => ErrorScreen(
+          title: message.capitalize(),
+          showErrorImage: true,
+          retryAction: retryAction,
+        ),
+
+      // TODO("Add a better UI for this")
+      HomeNoInternetState(message: final message) => ErrorScreen(
+          title: message.capitalize(),
+          showErrorImage: true,
+          retryAction: retryAction,
+        ),
+      HomeUiState(
+        emergencyServices: final emergencyServices,
+        emergencyButtonAction: final emergencyButtonAction,
+      ) =>
+        _HomeUi(
+          emergencyServices: emergencyServices,
+          emergencyButtonAction: emergencyButtonAction,
+        ),
+    };
 
     // Return the view
     return Scaffold(
@@ -68,7 +66,7 @@ class HomeScreen extends ConsumerWidget {
         },
       ),
       drawer: const MesDrawer(),
-      body: homeUiState,
+      body: homeUiView,
     );
   }
 }

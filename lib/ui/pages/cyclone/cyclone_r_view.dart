@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/models/cyclone_report.dart';
-import 'package:mauritius_emergency_services/providers/cyclone_providers.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search.dart';
@@ -11,11 +10,14 @@ import 'package:mauritius_emergency_services/ui/components/rotating_svg.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/components/widgets.dart';
-import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_guidelines_sheet.dart';
-import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_names_sheet.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/guidelines/cyclone_guidelines_sheet.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_names_sheet.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_provider.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/utils/getters.dart';
 
+// TODO(Migrate cyclone to the new state management design)
 class CycloneScreen extends ConsumerWidget {
   const CycloneScreen({super.key});
 
@@ -24,25 +26,41 @@ class CycloneScreen extends ConsumerWidget {
     // Get the global key
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
-    // Store the cyclone report in a variable to access it later
-    final cycloneReportAsync = ref.watch(cycloneReportProvider);
+    // Create a retry action
+    void retryAction() {
+      ref.invalidate(cycloneReportProvider);
+    }
 
     // Get the cyclone view state
-    final uiState = cycloneReportAsync.when(
-      data: (report) {
-        if (report.level > 0) {
-          return _CycloneWarningUi(cycloneReport: report);
-        } else {
-          return _CycloneNoWarningUi(cycloneReport: report);
-        }
-      },
-      loading: () => const LoadingScreen(),
-      error: (error, stack) => ErrorScreen(
-        title: t.messages.error.cannot_load_cyclone_report.capitalize(),
-        showErrorImage: true,
-        retryAction: () => ref.refresh(cycloneReportProvider.future),
-      ),
-    );
+    final cycloneReportUiState = ref.watch(cycloneReportProvider).when(
+          data: (state) => state,
+          loading: () => const CycloneReportLoadingState(),
+          error: (error, stack) => CycloneReportErrorState(error.toString()),
+        );
+
+    // Get the ui view
+    final cycloneReportUiView = switch (cycloneReportUiState) {
+      CycloneReportLoadingState() => const LoadingScreen(),
+      CycloneReportErrorState(message: final message) => ErrorScreen(
+          title: message.toString().capitalize(),
+          showErrorImage: true,
+          retryAction: retryAction,
+        ),
+      // TODO("Add a better UI for this")
+      CycloneReportNoInternetState(message: final message) => ErrorScreen(
+          title: message.toString().capitalize(),
+          showErrorImage: true,
+          retryAction: retryAction,
+        ),
+      CycloneReportWarningState(cycloneReport: final cycloneReport) =>
+        _CycloneWarningUi(
+          cycloneReport: cycloneReport,
+        ),
+      CycloneReportNoWarningState(cycloneReport: final cycloneReport) =>
+        _CycloneNoWarningUi(
+          cycloneReport: cycloneReport,
+        ),
+    };
 
     // Return the view
     return Scaffold(
@@ -56,8 +74,11 @@ class CycloneScreen extends ConsumerWidget {
       body: RefreshIndicator(
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,
-        onRefresh: () async => ref.refresh(cycloneReportProvider.future),
-        child: uiState,
+        onRefresh: () async {
+          // TODO(Investigate rebuilds count & make reload ui stay until data is available.)
+          retryAction();
+        },
+        child: cycloneReportUiView,
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -86,18 +107,16 @@ class CycloneScreen extends ConsumerWidget {
             foregroundColor: Theme.of(context).colorScheme.onPrimary,
             child: const Icon(Icons.cyclone_outlined),
             onPressed: () {
-              cycloneReportAsync.whenData((report) {
-                showModalBottomSheet<void>(
-                  context: context,
-                  isScrollControlled: true,
-                  showDragHandle: true,
-                  enableDrag: true,
-                  useSafeArea: true,
-                  builder: (BuildContext context) => CycloneGuidelinesSheet(
-                    cycloneLevel: report.level,
-                  ),
-                );
-              });
+              showModalBottomSheet<void>(
+                context: context,
+                isScrollControlled: true,
+                showDragHandle: true,
+                enableDrag: true,
+                useSafeArea: true,
+                builder: (BuildContext context) => const CycloneGuidelinesSheet(
+                  cycloneLevel: 0, // FIXME("Add the cyclone level")
+                ),
+              );
             },
           )
         ],

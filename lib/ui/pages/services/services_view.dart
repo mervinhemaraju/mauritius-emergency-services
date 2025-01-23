@@ -30,38 +30,36 @@ class ServicesScreen extends ConsumerWidget {
 
     // Define the UI state
     final servicesUiState = ref.watch(servicesStateProvider).when(
-          error: (error, stack) => ErrorScreen(
-            title: error.toString().capitalize(),
-            showErrorImage: true,
-            retryAction: retryAction,
-          ),
-          loading: () => const LoadingScreen(),
-          data: (state) {
-            return switch (state) {
-              ServicesErrorState(message: final message) => ErrorScreen(
-                  title: message.capitalize(),
-                  showErrorImage: true,
-                  retryAction: retryAction,
-                ),
-
-              // TODO("Add a better UI for this")
-              ServicesNoInternetState(message: final message) => ErrorScreen(
-                  title: message.capitalize(),
-                  showErrorImage: true,
-                  retryAction: retryAction,
-                ),
-              ServicesUiState(
-                services: final services,
-              ) =>
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: ServicesList(
-                    services: services.search(query: searchQuery),
-                  ),
-                ),
-            };
-          },
+          error: (error, stack) => ServicesErrorState(error.toString()),
+          loading: () => const ServicesLoadingState(),
+          data: (state) => state,
         );
+
+    // Define the UI view
+    final servicesUiView = switch (servicesUiState) {
+      ServicesLoadingState() => const LoadingScreen(),
+      ServicesErrorState(message: final message) => ErrorScreen(
+          title: message.capitalize(),
+          showErrorImage: true,
+          retryAction: retryAction,
+        ),
+
+      // TODO("Add a better UI for this")
+      ServicesNoInternetState(message: final message) => ErrorScreen(
+          title: message.capitalize(),
+          showErrorImage: true,
+          retryAction: retryAction,
+        ),
+      ServicesUiState(
+        services: final services,
+      ) =>
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: ServicesList(
+            services: services.search(query: searchQuery),
+          ),
+        ),
+    };
 
     // Return the view
     return Scaffold(
@@ -76,7 +74,7 @@ class ServicesScreen extends ConsumerWidget {
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,
         onRefresh: retryAction,
-        child: servicesUiState,
+        child: servicesUiView,
       ),
     );
   }
