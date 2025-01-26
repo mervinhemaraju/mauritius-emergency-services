@@ -45,10 +45,9 @@ class CycloneScreen extends ConsumerWidget {
           showErrorImage: true,
           retryAction: retryAction,
         ),
-      // TODO("Add a better UI for this")
       CycloneReportNoInternetState(message: final message) => ErrorScreen(
           title: message.toString().capitalize(),
-          showErrorImage: true,
+          showInternetErrorImage: true,
           retryAction: retryAction,
         ),
       CycloneReportWarningState(cycloneReport: final cycloneReport) =>
@@ -59,6 +58,42 @@ class CycloneScreen extends ConsumerWidget {
         _CycloneNoWarningUi(
           cycloneReport: cycloneReport,
         ),
+    };
+
+    // Get the guidelines fab view
+    final List<Widget> guidelinesFabView = switch (cycloneReportUiState) {
+      CycloneReportLoadingState() ||
+      CycloneReportErrorState(message: final _) ||
+      CycloneReportNoInternetState(message: final _) =>
+        [],
+      CycloneReportWarningState(
+        cycloneReport: final _,
+        cycloneGuidelines: final cycloneGuidelines
+      ) ||
+      CycloneReportNoWarningState(
+        cycloneReport: final _,
+        cycloneGuidelines: final cycloneGuidelines
+      ) =>
+        [
+          FloatingActionButton(
+            heroTag: null,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            child: const Icon(Icons.cyclone_outlined),
+            onPressed: () {
+              showModalBottomSheet<void>(
+                context: context,
+                isScrollControlled: true,
+                showDragHandle: true,
+                enableDrag: true,
+                useSafeArea: true,
+                builder: (BuildContext context) => CycloneGuidelinesSheet(
+                  cycloneGuidelines: cycloneGuidelines,
+                ),
+              );
+            },
+          ),
+        ],
     };
 
     // Return the view
@@ -99,23 +134,7 @@ class CycloneScreen extends ConsumerWidget {
               );
             },
           ),
-          FloatingActionButton(
-            heroTag: null,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: Theme.of(context).colorScheme.onPrimary,
-            child: const Icon(Icons.cyclone_outlined),
-            onPressed: () {
-              showModalBottomSheet<void>(
-                context: context,
-                isScrollControlled: true,
-                showDragHandle: true,
-                enableDrag: true,
-                useSafeArea: true,
-                builder: (BuildContext context) =>
-                    const CycloneGuidelinesSheet(),
-              );
-            },
-          )
+          ...guidelinesFabView
         ],
       ),
     );

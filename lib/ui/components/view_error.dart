@@ -7,6 +7,7 @@ class ErrorScreen extends StatelessWidget {
   // Global vars
   final String title;
   final bool showErrorImage;
+  final bool showInternetErrorImage;
   final Function()? retryAction;
 
   // Constructor
@@ -15,6 +16,7 @@ class ErrorScreen extends StatelessWidget {
     required this.title,
     this.retryAction,
     this.showErrorImage = false,
+    this.showInternetErrorImage = false,
   });
 
   @override
@@ -42,6 +44,12 @@ class ErrorScreen extends StatelessWidget {
                   width: 200,
                   height: 200,
                 ),
+              if (showInternetErrorImage)
+                Icon(
+                  Icons.signal_wifi_statusbar_connected_no_internet_4_outlined,
+                  size: 200,
+                  color: theme.colorScheme.primary,
+                ),
               Text(
                 t.others.ooops.capitalize(),
                 textAlign: TextAlign.center,
@@ -66,8 +74,8 @@ class ErrorScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: retryAction,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.colorScheme.tertiary,
-                  foregroundColor: theme.colorScheme.onTertiary,
+                  backgroundColor: theme.colorScheme.secondary,
+                  foregroundColor: theme.colorScheme.onSecondary,
                 ),
                 child: Text(t.actions.retry.capitalize()),
               ),

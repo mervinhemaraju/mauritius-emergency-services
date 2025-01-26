@@ -43,11 +43,9 @@ class ServicesScreen extends ConsumerWidget {
           showErrorImage: true,
           retryAction: retryAction,
         ),
-
-      // TODO("Add a better UI for this")
       ServicesNoInternetState(message: final message) => ErrorScreen(
           title: message.capitalize(),
-          showErrorImage: true,
+          showInternetErrorImage: true,
           retryAction: retryAction,
         ),
       ServicesUiState(

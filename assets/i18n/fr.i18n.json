@@ -118,12 +118,12 @@
     },
     "messages": {
         "error": {
+            "no_internet_connection": "On dirait que vous êtes hors ligne. Veuillez vous connecter à l'internet et réessayer.",
             "cannot_load_data": "il semble que quelque chose ne va pas et nous n'avons pas pu charger les données.",
             "services_unavailable": "il semble qu'aucun service ne soit disponible. Assurez-vous d'être connecté à Internet la première fois pour que $app_name_short puisse télécharger les services.",
             "cannot_load_cyclone_report": "il semble que quelque chose ne va pas et nous n'avons pas pu charger le rapport cyclonique.",
             "cannot_load_cyclone_names": "une erreur s'est produite lors de la récupération des noms des cyclones.",
-            "cannot_load_cyclone_guidelines": "une erreur s'est produite lors de la récupération des directives cycloniques.",
-            "cannot_launch_phone_app": "Ooups ! Nous n'avons pas pu lancer votre application téléphonique."
+            "cannot_launch_phone_app": "Ooups! Nous n'avons pas pu lancer votre application téléphonique."
         },
         "success": {
             "language_updated": "la langue de l'application est définie avec succès sur: $language",

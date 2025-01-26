@@ -1,3 +1,4 @@
+import 'package:mauritius_emergency_services/models/cyclone_guidelines.dart';
 import 'package:mauritius_emergency_services/models/cyclone_report.dart';
 
 sealed class CycloneReportState {
@@ -20,10 +21,12 @@ class CycloneReportNoInternetState extends CycloneReportState {
 
 class CycloneReportWarningState extends CycloneReportState {
   final CycloneReport cycloneReport;
-  const CycloneReportWarningState(this.cycloneReport);
+  final CycloneGuidelines cycloneGuidelines;
+  const CycloneReportWarningState(this.cycloneReport, this.cycloneGuidelines);
 }
 
 class CycloneReportNoWarningState extends CycloneReportState {
   final CycloneReport cycloneReport;
-  const CycloneReportNoWarningState(this.cycloneReport);
+  final CycloneGuidelines cycloneGuidelines;
+  const CycloneReportNoWarningState(this.cycloneReport, this.cycloneGuidelines);
 }

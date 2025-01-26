@@ -33,12 +33,12 @@ class CycloneNamesSheet extends ConsumerWidget {
       CycloneNamesLoadingState() => const LoadingScreen(),
       CycloneNamesErrorState(message: final message) => ErrorScreen(
           title: message.capitalize(),
+          showErrorImage: true,
           retryAction: retryAction,
         ),
-
-      // TODO("Add a better UI for this")
       CycloneNamesNoInternetState(message: final message) => ErrorScreen(
           title: message.capitalize(),
+          showInternetErrorImage: true,
           retryAction: retryAction,
         ),
       CycloneNamesUiState(cycloneNames: final cycloneNames) => _CycloneNamesUi(

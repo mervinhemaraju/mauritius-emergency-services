@@ -1,15 +1,12 @@
 
 
 ============ OPTIMIZATIONS ============
-[1] Look into Bloc design pattern
-[2] Improve navigation and router
-[3] App Performance
-    [.] // REVIEW(App UI & theme)
-[4] Search functionality
-[5] better error message when no internet for services & cyclone pages
-[6] navigation animations for android
+[1] Improve navigation and router
+[2] Search functionality
+[3] navigation animations for android
 
 ============ TODOS ============
+// FIXME(Fix jank in some parts of the app)
 
 ============ FEATURES ============
 // FEAT(Add search history functionality)

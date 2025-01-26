@@ -11,7 +11,7 @@ publish_to: 'none'
 # suffix = [dev, beta, rc]
 # itr = 0-9
 # n = version code
-version: 1.2.0-beta.02+23
+version: 1.2.0-beta.04+25
 
 # Environment details
 environment:

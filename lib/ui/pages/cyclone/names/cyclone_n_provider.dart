@@ -3,6 +3,7 @@ import 'package:mauritius_emergency_services/generated/translations/strings.g.da
 import 'package:mauritius_emergency_services/models/network_info.dart';
 import 'package:mauritius_emergency_services/providers/api_providers.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_n_state.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part "../../../../generated/pages/cyclone/names/cyclone_n_provider.g.dart";
 
@@ -21,9 +22,8 @@ Future<CycloneNamesState> cycloneNames(Ref ref) async {
 
     // Check if not connected to internet
     if (!isConnectedToInternet) {
-      // TODO("Add to constants")
-      return const CycloneNamesNoInternetState(
-        "Please connect to the internet",
+      return CycloneNamesNoInternetState(
+        t.messages.error.no_internet_connection.capitalize(),
       );
     }
 
@@ -34,7 +34,7 @@ Future<CycloneNamesState> cycloneNames(Ref ref) async {
     return CycloneNamesUiState(names);
   } catch (e) {
     return CycloneNamesErrorState(
-      t.messages.error.cannot_load_data,
+      t.messages.error.cannot_load_cyclone_names,
     );
   }
 }

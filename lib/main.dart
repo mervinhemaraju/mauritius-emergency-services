@@ -1,4 +1,4 @@
-import 'dart:io';
+// import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -18,20 +18,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // Only enable this for development purposes
 // ad the following in main() -> HttpOverrides.global = MyHttpOverrides();
-
-// TODO("Remove before going to prod")
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback = (
-        X509Certificate cert,
-        String host,
-        int port,
-      ) =>
-          true;
-  }
-}
+// class MyHttpOverrides extends HttpOverrides {
+//   @override
+//   HttpClient createHttpClient(SecurityContext? context) {
+//     return super.createHttpClient(context)
+//       ..badCertificateCallback = (
+//         X509Certificate cert,
+//         String host,
+//         int port,
+//       ) =>
+//           true;
+//   }
+// }
 
 // The main runner app
 main() async {
@@ -40,8 +38,6 @@ main() async {
 
   // Preserve the splash screen
   FlutterNativeSplash.preserve(widgetsBinding: binding);
-
-  HttpOverrides.global = MyHttpOverrides();
 
   // Initialize the shared preferences
   final prefs = await SharedPreferences.getInstance();

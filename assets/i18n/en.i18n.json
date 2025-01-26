@@ -118,11 +118,11 @@
     },
     "messages": {
         "error": {
+            "no_internet_connection": "It looks like you're offline. Please connect to the internet and try again.",
             "cannot_load_data": "looks like something went wrong and we couldn't load the data.",
             "services_unavailable": "looks like no services are available. Make sure you are connected to the internet the first time for $app_name_short to download the services.",
             "cannot_load_cyclone_report": "looks like something went wrong and we couldn't load the cyclone report.",
             "cannot_load_cyclone_names": "an error occurred while fetching the cyclone names.",
-            "cannot_load_cyclone_guidelines": "an error occurred while fetching the cyclone guidelines.",
             "cannot_launch_phone_app": "Oops! We couldn't launch your phone app."
         },
         "success": {
