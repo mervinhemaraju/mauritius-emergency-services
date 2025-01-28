@@ -94,6 +94,11 @@
                 "privacy_policy_title": "privacy policy",
                 "privacy_policy_subtitle": "view the privacy policy for $app_name_short.",
                 "version_title": "version"
+            },
+            "disclaimer": {
+                "title": "disclaimer",
+                "message_1": "This application is NOT affiliated with, endorsed by, or connected to any government entity or agency. $app_name_short relies on publicly available resources and a proprietary API built by the app's developer.",
+                "message_2": "All information, features, and services provided within the app are for informational and personal use only."
             }
         },
         "settings": {

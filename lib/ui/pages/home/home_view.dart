@@ -35,23 +35,19 @@ class HomeScreen extends ConsumerWidget {
     // Get the ui view
     final homeUiView = switch (homeUiState) {
       HomeLoadingState() => const LoadingScreen(),
-      HomeErrorState(message: final message) => ErrorScreen(
-          title: message.capitalize(),
+      HomeErrorState() => ErrorScreen(
+          title: homeUiState.message.capitalize(),
           showErrorImage: true,
           retryAction: retryAction,
         ),
-      HomeNoInternetState(message: final message) => ErrorScreen(
-          title: message.capitalize(),
+      HomeNoInternetState() => ErrorScreen(
+          title: homeUiState.message.capitalize(),
           showInternetErrorImage: true,
           retryAction: retryAction,
         ),
-      HomeUiState(
-        emergencyServices: final emergencyServices,
-        emergencyButtonAction: final emergencyButtonAction,
-      ) =>
-        _HomeUi(
-          emergencyServices: emergencyServices,
-          emergencyButtonAction: emergencyButtonAction,
+      HomeUiState() => _HomeUi(
+          emergencyServices: homeUiState.emergencyServices,
+          emergencyButtonAction: homeUiState.emergencyButtonAction,
         ),
     };
 

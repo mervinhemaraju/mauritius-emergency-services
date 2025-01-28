@@ -94,6 +94,11 @@
                 "privacy_policy_title": "politique de confidentialité",
                 "privacy_policy_subtitle": "consultez la politique de confidentialité de $app_name_short.",
                 "version_title": "version"
+            },
+            "disclaimer": {
+                "title": "clause de non-responsabilité",
+                "message_1": "Cette application n'est PAS affiliée, approuvée ou connectée à une entité ou agence gouvernementale. $app_name_short s'appuie sur des ressources accessibles au public et une API propriétaire créée par le développeur de l'application.",
+                "message_2": "Toutes les informations, fonctionnalités et services fournis dans l'application sont uniquement destinés à un usage informatif et personnel."
             }
         },
         "settings": {

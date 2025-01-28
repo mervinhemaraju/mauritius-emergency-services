@@ -50,15 +50,16 @@ class AboutScreen extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const _AboutHeader(),
-                _AboutSection(
+                const AboutHeader(),
+                AboutSection(
                   title: t.pages.about.support_section.title.toUpperCase(),
                   section: About.getSupportSection(),
                 ),
-                _AboutSection(
+                AboutSection(
                   title: t.pages.about.other_section.title.toUpperCase(),
                   section: otherSection,
                 ),
+                const DisclaimerSection(),
               ],
             );
           }),
@@ -68,11 +69,81 @@ class AboutScreen extends StatelessWidget {
   }
 }
 
-class _AboutSection extends StatelessWidget {
+class DisclaimerSection extends StatelessWidget {
+  const DisclaimerSection({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Define the theme
+    final theme = Theme.of(context);
+
+    // Return the view
+    return Card(
+      elevation: MesElevation.card,
+      margin: const EdgeInsets.all(8.0),
+      surfaceTintColor: theme.colorScheme.surface,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 16.0,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 12.0,
+              right: 12.0,
+              top: 16.0,
+            ),
+            child: Text(
+              t.pages.about.disclaimer.title.toUpperCase(),
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: theme.colorScheme.secondary,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 12.0,
+              right: 12.0,
+              bottom: 8.0,
+            ),
+            child: Text(
+              t.pages.about.disclaimer.message_1(
+                app_name_short: t.app.short_name.toUpperCase(),
+              ),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.secondary,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 12.0,
+              right: 12.0,
+              bottom: 8.0,
+            ),
+            child: Text(
+              t.pages.about.disclaimer.message_2,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.secondary,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class AboutSection extends StatelessWidget {
   final List<About> section;
   final String title;
 
-  const _AboutSection({required this.section, required this.title});
+  const AboutSection({
+    super.key,
+    required this.section,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -124,8 +195,10 @@ class _AboutSection extends StatelessWidget {
   }
 }
 
-class _AboutHeader extends StatelessWidget {
-  const _AboutHeader();
+class AboutHeader extends StatelessWidget {
+  const AboutHeader({
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     // Define the theme
