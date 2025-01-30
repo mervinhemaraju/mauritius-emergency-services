@@ -38,23 +38,20 @@ class ServicesScreen extends ConsumerWidget {
     // Define the UI view
     final servicesUiView = switch (servicesUiState) {
       ServicesLoadingState() => const LoadingScreen(),
-      ServicesErrorState(message: final message) => ErrorScreen(
-          title: message.capitalize(),
+      ServicesErrorState() => ErrorScreen(
+          title: servicesUiState.message.capitalize(),
           showErrorImage: true,
           retryAction: retryAction,
         ),
-      ServicesNoInternetState(message: final message) => ErrorScreen(
-          title: message.capitalize(),
+      ServicesNoInternetState() => ErrorScreen(
+          title: servicesUiState.message.capitalize(),
           showInternetErrorImage: true,
           retryAction: retryAction,
         ),
-      ServicesUiState(
-        services: final services,
-      ) =>
-        Padding(
+      ServicesUiState() => Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: ServicesList(
-            services: services.search(query: searchQuery),
+            services: servicesUiState.services.search(query: searchQuery),
           ),
         ),
     };

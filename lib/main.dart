@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:mauritius_emergency_services/providers/local_database.dart';
 import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/routes/router.dart';
 import 'package:mauritius_emergency_services/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/impl/app_settings_impl.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-// import 'package:mauritius_emergency_services/generated/objectbox/objectbox.g.dart';
 import 'package:mauritius_emergency_services/ui/theme/theme.dart';
 import 'package:mauritius_emergency_services/ui/theme/typography.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
@@ -45,9 +43,6 @@ main() async {
   // Intialize the app settings
   final repository = AppSettingsImpl(prefs);
 
-  // Initialize the local DB
-  // final store = await openStore();
-
   // Make screen edge to edge
   enableEdgeToEdge();
 
@@ -60,7 +55,6 @@ main() async {
       child: ProviderScope(
         overrides: [
           settingsRepositoryProvider.overrideWithValue(repository),
-          // objectBoxProvider.overrideWithValue(store),
         ],
         child: const MesMaterialApp(),
       ),

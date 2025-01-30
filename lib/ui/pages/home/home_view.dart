@@ -81,9 +81,6 @@ class _HomeUi extends ConsumerWidget {
     // Define the theme
     final theme = Theme.of(context);
 
-    // Sort the emergency services by name
-    emergencyServices.sort((a, b) => a.name.compareTo(b.name));
-
     // Return the view
     return CustomScrollView(
       scrollDirection: Axis.vertical,

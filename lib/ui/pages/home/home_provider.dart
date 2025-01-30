@@ -38,6 +38,11 @@ Future<HomeState> homeState(Ref ref) async {
     final emergencyServices =
         services.where((service) => service.type == "E").toList();
 
+    // Sort the services
+    emergencyServices.sort(
+      (a, b) => a.name.compareTo(b.name),
+    );
+
     // Set the UI state
     return HomeUiState(emergencyServices, emergencyButtonAction);
   } catch (e) {

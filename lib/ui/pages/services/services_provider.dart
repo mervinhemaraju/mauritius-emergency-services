@@ -30,6 +30,9 @@ Future<ServicesState> servicesState(Ref ref) async {
       }
     }
 
+    // Sort the services
+    services.sort((a, b) => a.name.compareTo(b.name));
+
     // Set the UI state
     return ServicesUiState(services);
   } catch (e) {
