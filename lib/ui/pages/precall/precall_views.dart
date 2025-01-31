@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
@@ -240,11 +241,22 @@ class _SlideToCancelState extends State<_SlideToCancel> {
             // You can adjust this threshold value
             // Update the background color to red
             setState(() {
-              // Add a variable in your state to track the color
+              // Send a haptic feedback
+              if (!isOverThreshold) {
+                HapticFeedback.lightImpact();
+              }
+
+              // Update flag
               isOverThreshold = true;
             });
           } else {
             setState(() {
+              // Send haptic feedback
+              if (isOverThreshold) {
+                HapticFeedback.heavyImpact();
+              }
+
+              // Update flag
               isOverThreshold = false;
             });
           }
@@ -346,7 +358,7 @@ class _CountdownTimerState extends State<_CountdownTimer>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
-  int count = 3;
+  int count = 4;
   bool isAnimating = false;
 
   @override

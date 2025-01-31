@@ -31,18 +31,18 @@ class CycloneNamesSheet extends ConsumerWidget {
     // Get the ui view
     final uiView = switch (uiState) {
       CycloneNamesLoadingState() => const LoadingScreen(),
-      CycloneNamesErrorState(message: final message) => ErrorScreen(
-          title: message.capitalize(),
+      CycloneNamesErrorState() => ErrorScreen(
+          title: uiState.message.capitalize(),
           showErrorImage: true,
           retryAction: retryAction,
         ),
-      CycloneNamesNoInternetState(message: final message) => ErrorScreen(
-          title: message.capitalize(),
+      CycloneNamesNoInternetState() => ErrorScreen(
+          title: uiState.message.capitalize(),
           showInternetErrorImage: true,
           retryAction: retryAction,
         ),
-      CycloneNamesUiState(cycloneNames: final cycloneNames) => _CycloneNamesUi(
-          cycloneNames: cycloneNames,
+      CycloneNamesUiState() => _CycloneNamesUi(
+          cycloneNames: uiState.cycloneNames,
         ),
     };
 

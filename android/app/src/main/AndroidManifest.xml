@@ -11,6 +11,9 @@
     <uses-feature android:name="android.hardware.telephony" android:required="false" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <!-- For haptic feedbacks -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application android:label="Mes" android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity android:name=".MainActivity" android:exported="true"

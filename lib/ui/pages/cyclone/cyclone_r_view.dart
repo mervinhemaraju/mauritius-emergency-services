@@ -40,31 +40,29 @@ class CycloneScreen extends ConsumerWidget {
     // Get the ui view
     final cycloneReportUiView = switch (cycloneReportUiState) {
       CycloneReportLoadingState() => const LoadingScreen(),
-      CycloneReportErrorState(message: final message) => ErrorScreen(
-          title: message.toString().capitalize(),
+      CycloneReportErrorState() => ErrorScreen(
+          title: cycloneReportUiState.message.toString().capitalize(),
           showErrorImage: true,
           retryAction: retryAction,
         ),
-      CycloneReportNoInternetState(message: final message) => ErrorScreen(
-          title: message.toString().capitalize(),
+      CycloneReportNoInternetState() => ErrorScreen(
+          title: cycloneReportUiState.message.toString().capitalize(),
           showInternetErrorImage: true,
           retryAction: retryAction,
         ),
-      CycloneReportWarningState(cycloneReport: final cycloneReport) =>
-        _CycloneWarningUi(
-          cycloneReport: cycloneReport,
+      CycloneReportWarningState() => _CycloneWarningUi(
+          cycloneReport: cycloneReportUiState.cycloneReport,
         ),
-      CycloneReportNoWarningState(cycloneReport: final cycloneReport) =>
-        _CycloneNoWarningUi(
-          cycloneReport: cycloneReport,
+      CycloneReportNoWarningState() => _CycloneNoWarningUi(
+          cycloneReport: cycloneReportUiState.cycloneReport,
         ),
     };
 
     // Get the guidelines fab view
     final List<Widget> guidelinesFabView = switch (cycloneReportUiState) {
       CycloneReportLoadingState() ||
-      CycloneReportErrorState(message: final _) ||
-      CycloneReportNoInternetState(message: final _) =>
+      CycloneReportErrorState() ||
+      CycloneReportNoInternetState() =>
         [],
       CycloneReportWarningState(
         cycloneReport: final _,

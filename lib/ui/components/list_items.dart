@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mauritius_emergency_services/models/locale.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
@@ -300,7 +301,13 @@ class ExpandableDismissibleService extends StatelessWidget {
     return Dismissible(
       key: Key(service.identifier),
       confirmDismiss: (direction) async {
+        // Send haptic feedback to user
+        HapticFeedback.lightImpact();
+
+        // Navigate to pre call
         context.navigateToPreCall(service, service.mainContact.toString());
+
+        // Return false to prevent tiel from dismiss
         return false;
       },
       onUpdate: (details) => {

@@ -56,20 +56,7 @@ class MesAppRouter {
           name: HomeRoute.name,
           path: HomeRoute.path,
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return CustomTransitionPage(
-              key: state.pageKey,
-              child: const HomeScreen(),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return ScaleTransition(
-                  scale: Tween<double>(
-                    begin: 0.95,
-                    end: 1.0,
-                  ).animate(animation),
-                  child: child,
-                );
-              },
-            );
+            return const HomeScreen().withScaleTransition(state.pageKey);
           },
         ),
         GoRoute(
@@ -85,68 +72,42 @@ class MesAppRouter {
               query = "";
               // Handle case where extra is null
             }
-            return CustomTransitionPage(
-              key: state.pageKey,
-              child: ServicesScreen(
-                searchQuery: query,
-              ),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return ScaleTransition(
-                  scale: Tween<double>(
-                    begin: 0.95,
-                    end: 1.0,
-                  ).animate(animation),
-                  child: child,
-                );
-              },
-            );
+            return ServicesScreen(
+              searchQuery: query,
+            ).withScaleTransition(state.pageKey);
           },
         ),
         GoRoute(
           name: CycloneReportRoute.name,
           path: CycloneReportRoute.path,
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return CustomTransitionPage(
-              key: state.pageKey,
-              child: const CycloneScreen(),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return ScaleTransition(
-                  scale: Tween<double>(
-                    begin: 0.95,
-                    end: 1.0,
-                  ).animate(animation),
-                  child: child,
-                );
-              },
-            );
+            return const CycloneScreen().withScaleTransition(state.pageKey);
           },
         ),
         GoRoute(
           name: PrecallRoute.name,
           path: PrecallRoute.path,
-          builder: (BuildContext context, GoRouterState state) {
+          pageBuilder: (BuildContext context, GoRouterState state) {
             final data = state.extra! as Map<String, dynamic>;
             return PreCallScreen(
               service: data[PrecallRoute.extraService],
               number: data[PrecallRoute.extraNumber].toString(),
               onComplete: () => context.goBack(),
-            );
+            ).withSlideTransition(state.pageKey);
           },
         ),
         GoRoute(
           name: AboutRoute.name,
           path: AboutRoute.path,
-          builder: (BuildContext context, GoRouterState state) {
-            return const AboutScreen();
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return const AboutScreen().withSlideTransition(state.pageKey);
           },
         ),
         GoRoute(
           name: SettingsRoute.name,
           path: SettingsRoute.path,
-          builder: (BuildContext context, GoRouterState state) {
-            return const SettingsScreen();
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return const SettingsScreen().withSlideTransition(state.pageKey);
           },
         ),
       ],
