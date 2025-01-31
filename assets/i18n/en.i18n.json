@@ -1,0 +1,176 @@
+{
+    "app": {
+        "name": "mauritius emergency services",
+        "short_name": "mes"
+    },
+    "pages": {
+        "welcome": {
+            "title": "welcome",
+            "header": {
+                "title": "welcome to"
+            },
+            "carousel": {
+                "title_1": "services list",
+                "subtitle_1": "get a list of all emergency and non-emergency services for Mauritius right in your phone.",
+                "title_2": "cyclone alerts",
+                "subtitle_2": "get notified of cyclone warnings and read the cyclone guidelines live from your phone.",
+                "title_3": "emergency actions",
+                "subtitle_3": "get a dedicated corder on your dashboard just for emergency services.",
+                "title_4": "sos",
+                "subtitle_4": "call for urgent help right from the app using the big red button.",
+                "title_5": "offline availability",
+                "subtitle_5": "connect once to the internet and get all your services available to you offline."
+            },
+            "permissions_dialog": {
+                "primary_text": "$app_name_short needs permission to proceed",
+                "secondary_text": "to provide the best experience, the app requires permission to perform phone calls for you, as this is its main feature.",
+                "tertiary_text": "we also request notification access to keep you informed and up to date.",
+                "quaternary_text": "please grant these permissions to continue using the app seamlessly. If it doesn't work, then you'll need to do it manually in the settings."
+            }
+        },
+        "home": {
+            "title": "home",
+            "primary_title": "emergency help needed?",
+            "primary_subtitle": "hold the emergency button to call",
+            "secondary_title": "need other quick emergency actions?",
+            "secondary_subtitle": "click any one below to call"
+        },
+        "services": {
+            "title": "services"
+        },
+        "cyclone": {
+            "title": "cyclone report",
+            "no_warning": "there's currently no cyclone warning in Mauritius",
+            "warning": {
+                "title": "Mauritius is currently in",
+                "subtitle": "class $level",
+                "next_bulletin_title": "next bulletin",
+                "latest_news_title": "latest news"
+            },
+            "names": {
+                "title": "cyclone names",
+                "table_header_name": "name",
+                "table_header_gender": "gender",
+                "table_header_provided_by": "provided by"
+            },
+            "guidelines": {
+                "title": "guidelines for class $level",
+                "header_precautions_title": "precautions"
+            }
+        },
+        "vicinity_alerts": {
+            "title": "vicinity alerts"
+        },
+        "precall": {
+            "title": "starting a call to",
+            "calling_in": "calling in"
+        },
+        "theme_selector": {
+            "title": "theme preferences"
+        },
+        "about": {
+            "title": "about",
+            "header": {
+                "title": "about",
+                "developer_name": "mervin hemaraju",
+                "developer_title": "lead developer & designer",
+                "designer_name": "nick foo kune",
+                "designer_title": "playstore banner & images",
+                "caption": "developed with ❤ in 🇲🇺"
+            },
+            "support_section": {
+                "title": "support",
+                "rate_app_title": "rate $app_name_short",
+                "rate_app_subtitle": "if you love the app, let us know in the Google Play Store and we can make it even better.",
+                "share_app_title": "share $app_name_short",
+                "share_app_subtitle": "do not forget to share $app_name_short with your friends and families."
+            },
+            "other_section": {
+                "title": "other",
+                "about_app_title": "about $app_name_short",
+                "about_app_subtitle": "check us out on our official website.",
+                "developer_api_title": "developer API",
+                "developer_api_subtitle": "Application Program Interface (API) used in $app_name_short.",
+                "privacy_policy_title": "privacy policy",
+                "privacy_policy_subtitle": "view the privacy policy for $app_name_short.",
+                "version_title": "version"
+            },
+            "disclaimer": {
+                "title": "disclaimer",
+                "message_1": "This application is NOT affiliated with, endorsed by, or connected to any government entity or agency. $app_name_short relies on publicly available resources and a proprietary API built by the app's developer.",
+                "message_2": "All information, features, and services provided within the app are for informational and personal use only."
+            }
+        },
+        "settings": {
+            "title": "settings",
+            "section_feature": {
+                "title": "feature",
+                "emergency_button_action": {
+                    "sheet_title": "choose Emergency Action",
+                    "tile_title": "emergency button action",
+                    "tile_subtitle": "set an emergency service for the red button"
+                }
+            },
+            "section_application": {
+                "title": "application",
+                "change_language": {
+                    "sheet_title": "choose language",
+                    "tile_title": "change language",
+                    "tile_subtitle": "change your app's language"
+                }
+            }
+        }
+    },
+    "messages": {
+        "error": {
+            "no_internet_connection": "It looks like you're offline. Please connect to the internet and try again.",
+            "cannot_load_data": "looks like something went wrong and we couldn't load the data.",
+            "services_unavailable": "looks like no services are available. Make sure you are connected to the internet the first time for $app_name_short to download the services.",
+            "cannot_load_cyclone_report": "looks like something went wrong and we couldn't load the cyclone report.",
+            "cannot_load_cyclone_names": "an error occurred while fetching the cyclone names.",
+            "cannot_launch_phone_app": "Oops! We couldn't launch your phone app."
+        },
+        "success": {
+            "language_updated": "app language successfully set to: $language.",
+            "emergency_button_action_updated": "emergency button action successfully set to $action."
+        },
+        "info": {
+            "loading_component": "loading...",
+            "unknown_component": "unknown",
+            "no_match_for_query": "Ooops, your query didn't match any services. Try something else?",
+            "other_contacts": "no other contacts",
+            "no_other_contacts": "no other contacts"
+        }
+    },
+    "components": {
+        "search_bar": {
+            "title": "welcome to $app_name_short",
+            "subtitle": "what do you need help with ?"
+        }
+    },
+    "actions": {
+        "proceed": "proceed",
+        "cancel": "cancel",
+        "close": "close",
+        "slide_to_cancel": "slide to cancel",
+        "get_started": "get started",
+        "contact_us": "contact us",
+        "coming_soon": "coming soon",
+        "toll_free": "toll free",
+        "retry": "retry"
+    },
+    "others": {
+        "hour_abbr": "hr",
+        "minute_abbr": "min",
+        "ooops": "ooops!",
+        "themes(map)": {
+            "light": "light",
+            "dark": "dark",
+            "system": "system"
+        },
+        "language(map)": {
+            "english": "english",
+            "french": "french"
+        }
+    }
+}

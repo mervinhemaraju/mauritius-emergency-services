@@ -1,0 +1,19 @@
+targets:
+  $default:
+    builders:
+      source_gen|combining_builder:
+        generate_for:
+          - lib/providers/**.dart
+          - lib/ui/pages/**/*_provider.dart
+        options:
+          build_extensions:
+            '^lib/providers/{{}}.dart': 'lib/generated/providers/{{}}.g.dart'
+            '^lib/ui/pages/{{}}_provider.dart': 'lib/generated/pages/{{}}_provider.g.dart'
+      slang_build_runner:
+        options:
+          input_directory: assets/i18n
+          output_directory: lib/generated/translations
+          translate_var: t
+          fallback_strategy: base_language
+          base_language: en
+          flutter_integration: true

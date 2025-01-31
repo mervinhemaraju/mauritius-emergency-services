@@ -1,0 +1,13 @@
+flutter_native_splash:
+  web: false
+  color: "#e6f1f9"
+  color_dark: "#111318"
+  image: "assets/icons/splash/mes_light.png"
+  image_dark: "assets/icons/splash/mes_dark.png"
+
+  android_12:
+    color: "#e6f1f9"
+    color_dark: "#111318"
+    image: "assets/icons/splash/mes_light.png"
+    image_dark: "assets/icons/splash/mes_dark.png"
+    

@@ -1,0 +1,176 @@
+{
+    "app": {
+        "name": "mauritius emergency services",
+        "short_name": "mes"
+    },
+    "pages": {
+        "welcome": {
+            "title": "bienvenue",
+            "header": {
+                "title": "bienvenue à"
+            },
+            "carousel": {
+                "title_1": "liste des services",
+                "subtitle_1": "obtenez une liste de tous les services d'urgence et non urgents pour Maurice directement sur votre téléphone.",
+                "title_2": "alertes cycloniques",
+                "subtitle_2": "soyez informé des alertes cycloniques et consultez les directives cycloniques en direct depuis votre téléphone.",
+                "title_3": "actions d'urgence",
+                "subtitle_3": "obtenez un espace dédié sur votre tableau de bord uniquement pour les services d'urgence.",
+                "title_4": "sos",
+                "subtitle_4": "appelez à l'aide d'urgence directement depuis l'application en utilisant le gros bouton rouge.",
+                "title_5": "disponibilité hors ligne",
+                "subtitle_5": "connectez-vous une fois à Internet et accédez à tous vos services hors ligne."
+            },
+            "permissions_dialog": {
+                "primary_text": "$app_name_short a besoin d'autorisation pour continuer",
+                "secondary_text": "pour offrir la meilleure expérience, l'application nécessite l'autorisation d'effectuer des appels téléphoniques pour vous, car c'est sa fonction principale.",
+                "tertiary_text": "nous demandons également l'accès aux notifications pour vous tenir informé et à jour.",
+                "quaternary_text": "veuillez accorder ces autorisations pour continuer à utiliser l'application sans problème. Si cela ne fonctionne pas, vous devrez le faire manuellement dans les paramètres."
+            }
+        },
+        "home": {
+            "title": "accueil",
+            "primary_title": "besoin d'aide d'urgence ?",
+            "primary_subtitle": "maintenez le bouton d'urgence pour appeler",
+            "secondary_title": "besoin d'autres actions d'urgence rapides ?",
+            "secondary_subtitle": "cliquez sur l'une d'entre elles ci-dessous pour appeler"
+        },
+        "services": {
+            "title": "services"
+        },
+        "cyclone": {
+            "title": "rapport cyclonique",
+            "no_warning": "il n'y a actuellement aucune alerte cyclonique à Maurice",
+            "warning": {
+                "title": "Maurice est actuellement en",
+                "subtitle": "classe $level",
+                "next_bulletin_title": "prochain bulletin",
+                "latest_news_title": "dernières nouvelles"
+            },
+            "names": {
+                "title": "noms des cyclones",
+                "table_header_name": "nom",
+                "table_header_gender": "genre",
+                "table_header_provided_by": "fourni par"
+            },
+            "guidelines": {
+                "title": "directives pour la classe $level",
+                "header_precautions_title": "précautions"
+            }
+        },
+        "vicinity_alerts": {
+            "title": "alertes de proximité"
+        },
+        "precall": {
+            "title": "démarrage d'un appel vers",
+            "calling_in": "appel dans"
+        },
+        "theme_selector": {
+            "title": "préférences de thème"
+        },
+        "about": {
+            "title": "à propos",
+            "header": {
+                "title": "à propos",
+                "developer_name": "mervin hemaraju",
+                "developer_title": "développeur principal & designer",
+                "designer_name": "nick foo kune",
+                "designer_title": "bannière & images playstore",
+                "caption": "développé avec ❤ à 🇲🇺"
+            },
+            "support_section": {
+                "title": "support",
+                "rate_app_title": "évaluer $app_name_short",
+                "rate_app_subtitle": "si vous aimez l'application, faites-le nous savoir sur le Google Play Store et nous pourrons l'améliorer davantage.",
+                "share_app_title": "partager $app_name_short",
+                "share_app_subtitle": "n'oubliez pas de partager $app_name_short avec vos amis et votre famille."
+            },
+            "other_section": {
+                "title": "autre",
+                "about_app_title": "à propos de $app_name_short",
+                "about_app_subtitle": "découvrez-nous sur notre site officiel.",
+                "developer_api_title": "API développeur",
+                "developer_api_subtitle": "Interface de Programmation d'Application (API) utilisée dans $app_name_short.",
+                "privacy_policy_title": "politique de confidentialité",
+                "privacy_policy_subtitle": "consultez la politique de confidentialité de $app_name_short.",
+                "version_title": "version"
+            },
+            "disclaimer": {
+                "title": "clause de non-responsabilité",
+                "message_1": "Cette application n'est PAS affiliée, approuvée ou connectée à une entité ou agence gouvernementale. $app_name_short s'appuie sur des ressources accessibles au public et une API propriétaire créée par le développeur de l'application.",
+                "message_2": "Toutes les informations, fonctionnalités et services fournis dans l'application sont uniquement destinés à un usage informatif et personnel."
+            }
+        },
+        "settings": {
+            "title": "paramètres",
+            "section_feature": {
+                "title": "fonctionnalité",
+                "emergency_button_action": {
+                    "sheet_title": "choisir l'action d'urgence",
+                    "tile_title": "action du bouton d'urgence",
+                    "tile_subtitle": "définir un service d'urgence pour le bouton rouge"
+                }
+            },
+            "section_application": {
+                "title": "application",
+                "change_language": {
+                    "sheet_title": "choisir la langue",
+                    "tile_title": "changer de langue",
+                    "tile_subtitle": "changer la langue de votre application"
+                }
+            }
+        }
+    },
+    "messages": {
+        "error": {
+            "no_internet_connection": "On dirait que vous êtes hors ligne. Veuillez vous connecter à l'internet et réessayer.",
+            "cannot_load_data": "il semble que quelque chose ne va pas et nous n'avons pas pu charger les données.",
+            "services_unavailable": "il semble qu'aucun service ne soit disponible. Assurez-vous d'être connecté à Internet la première fois pour que $app_name_short puisse télécharger les services.",
+            "cannot_load_cyclone_report": "il semble que quelque chose ne va pas et nous n'avons pas pu charger le rapport cyclonique.",
+            "cannot_load_cyclone_names": "une erreur s'est produite lors de la récupération des noms des cyclones.",
+            "cannot_launch_phone_app": "Ooups! Nous n'avons pas pu lancer votre application téléphonique."
+        },
+        "success": {
+            "language_updated": "la langue de l'application est définie avec succès sur: $language",
+            "emergency_button_action_updated": "action du bouton d'urgence définie avec succès sur $action."
+        },
+        "info": {
+            "loading_component": "chargement...",
+            "unknown_component": "inconnu",
+            "no_match_for_query": "Ooups, votre recherche ne correspond à aucun service. Essayez autre chose ?",
+            "other_contacts": "pas d'autres contacts",
+            "no_other_contacts": "pas d'autres contacts"
+        }
+    },
+    "components": {
+        "search_bar": {
+            "title": "bienvenue sur $app_name_short",
+            "subtitle": "de quelle aide avez-vous besoin ?"
+        }
+    },
+    "actions": {
+        "proceed": "continuer",
+        "cancel": "annuler",
+        "close": "fermer",
+        "slide_to_cancel": "glissez pour annuler",
+        "get_started": "commencer",
+        "contact_us": "contactez-nous",
+        "coming_soon": "bientôt disponible",
+        "toll_free": "gratuit",
+        "retry": "réessayer"
+    },
+    "others": {
+        "hour_abbr": "h",
+        "minute_abbr": "min",
+        "ooops": "ooups!",
+        "themes(map)": {
+            "light": "clair",
+            "dark": "sombre",
+            "system": "système"
+        },
+        "language(map)": {
+            "english": "anglais",
+            "french": "français"
+        }
+    }
+}
