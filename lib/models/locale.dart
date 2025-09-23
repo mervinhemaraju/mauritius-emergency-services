@@ -1,4 +1,3 @@
-// TODO(Convert to freezed)
 enum MesLocale {
   english('en'),
   french('fr');

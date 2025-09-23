@@ -163,7 +163,7 @@ extension AboutExtensions on About {
               )
               .toLowerCase(),
         )) {
-      // TODO(After launched on app store, change this URL to app store for IOS)
+      // FIXME(Fix this deprecated functionality)
       Share.share(URI_MES_PLAYSTORE);
     } else {
       if (url != null) {
