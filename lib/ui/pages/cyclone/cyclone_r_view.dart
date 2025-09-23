@@ -27,11 +27,11 @@ class CycloneScreen extends ConsumerWidget {
 
     // Create a retry action
     void retryAction() async {
-      ref.read(cycloneReportNotifierProvider.notifier).refresh();
+      ref.read(cycloneReportProvider.notifier).refresh();
     }
 
     // Get the cyclone view state
-    final cycloneReportUiState = ref.watch(cycloneReportNotifierProvider).when(
+    final cycloneReportUiState = ref.watch(cycloneReportProvider).when(
           data: (state) => state,
           loading: () => const CycloneReportLoadingState(),
           error: (error, stack) => CycloneReportErrorState(error.toString()),
@@ -107,7 +107,7 @@ class CycloneScreen extends ConsumerWidget {
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,
         onRefresh: () async {
-          return ref.read(cycloneReportNotifierProvider.notifier).refresh();
+          return ref.read(cycloneReportProvider.notifier).refresh();
         },
         child: cycloneReportUiView,
       ),

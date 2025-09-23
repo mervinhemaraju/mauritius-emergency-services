@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
-class About {
-  final IconData icon;
-  final String title;
-  final String body;
-  final Uri? url;
+part '../generated/models/about.freezed.dart';
 
-  About({
-    required this.icon,
-    required this.title,
-    required this.body,
-    this.url,
-  });
+@freezed
+abstract class About with _$About {
+  const factory About({
+    required IconData icon,
+    required String title,
+    required String body,
+    Uri? url,
+  }) = _About;
 
   static List<About> getSupportSection() {
     return <About>[

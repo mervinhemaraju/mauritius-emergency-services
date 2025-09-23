@@ -25,7 +25,7 @@ class ServicesScreen extends ConsumerWidget {
 
     // Define a retry action
     retryAction() async {
-      await ref.read(servicesNotifierProvider.notifier).refresh();
+      await ref.read(servicesProvider.notifier).refresh();
     }
 
     // Define the UI state

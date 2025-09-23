@@ -69,18 +69,18 @@ class MesMaterialApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Get the initial location
     final intitialLocation =
-        ref.watch(mesSettingsNotifierProvider.select((s) => s.isOnboarded))
+        ref.watch(mesSettingsProvider.select((s) => s.isOnboarded))
             ? HomeRoute.path
             : WelcomeRoute.path;
 
     // Get the theme mode
-    final themeMode = ref.watch(mesSettingsNotifierProvider.select(
+    final themeMode = ref.watch(mesSettingsProvider.select(
       (s) => s.theme,
     ));
 
     // Update the app locale
     ref.watch(
-      mesSettingsNotifierProvider.select(
+      mesSettingsProvider.select(
         (s) => LocaleSettings.setLocaleRaw(s.locale.lang),
       ),
     );

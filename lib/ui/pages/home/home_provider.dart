@@ -12,7 +12,7 @@ Future<HomeState> homeState(Ref ref) async {
   // Add to try catch to catch errors
   try {
     // Get the list of services
-    final services = await ref.watch(servicesNotifierProvider.future);
+    final services = await ref.watch(servicesProvider.future);
 
     // If the services list is empty, check the internet connection
     if (services.isEmpty) {
@@ -31,7 +31,7 @@ Future<HomeState> homeState(Ref ref) async {
 
     // Get the emergency button action
     final emergencyButtonAction = ref.watch(
-      mesSettingsNotifierProvider.select((s) => s.emergencyButtonAction),
+      mesSettingsProvider.select((s) => s.emergencyButtonAction),
     );
 
     // Filter out emergency services

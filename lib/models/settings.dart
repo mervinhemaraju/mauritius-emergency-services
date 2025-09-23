@@ -1,48 +1,29 @@
-// Settings model
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mauritius_emergency_services/models/locale.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
 
-class MesSettings {
-  final bool isOnboarded;
-  final bool isDynamicEnabled;
-  final ThemeMode theme;
-  final MesLocale locale;
-  final Service emergencyButtonAction;
+part '../generated/models/settings.freezed.dart';
 
-  const MesSettings({
-    required this.isOnboarded,
-    required this.isDynamicEnabled,
-    required this.theme,
-    required this.locale,
-    required this.emergencyButtonAction,
-  });
+@freezed
+abstract class MesSettings with _$MesSettings {
+  /*
+    This is the settings model class which 
+    represents the app settings functionalities
+  */
+  const factory MesSettings({
+    required bool isOnboarded,
+    required bool isDynamicEnabled,
+    required ThemeMode theme,
+    required MesLocale locale,
+    required Service emergencyButtonAction,
+  }) = _MesSettings;
 
-  MesSettings copyWith({
-    bool? isOnboarded,
-    bool? isDynamicEnabled,
-    ThemeMode? theme,
-    MesLocale? locale,
-    Service? emergencyButtonAction,
-  }) {
-    return MesSettings(
-      isOnboarded: isOnboarded ?? this.isOnboarded,
-      isDynamicEnabled: isDynamicEnabled ?? this.isDynamicEnabled,
-      theme: theme ?? this.theme,
-      locale: locale ?? this.locale,
-      emergencyButtonAction:
-          emergencyButtonAction ?? this.emergencyButtonAction,
-    );
-  }
-
-  // Update default settings
-  factory MesSettings.initial() {
-    return const MesSettings(
-      isOnboarded: false,
-      isDynamicEnabled: false,
-      theme: ThemeMode.system,
-      locale: MesLocale.english,
-      emergencyButtonAction: Service(),
-    );
-  }
+  factory MesSettings.initial() => const MesSettings(
+        isOnboarded: false,
+        isDynamicEnabled: false,
+        theme: ThemeMode.system,
+        locale: MesLocale.english,
+        emergencyButtonAction: Service(),
+      );
 }

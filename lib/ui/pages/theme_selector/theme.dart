@@ -30,7 +30,7 @@ class ThemeDialog extends StatelessWidget {
               return Consumer(builder: (context, ref, child) {
                 // Get the current theme
                 final currentTheme = ref.watch(
-                  mesSettingsNotifierProvider.select(
+                  mesSettingsProvider.select(
                     (s) => s.theme,
                   ),
                 );
@@ -43,11 +43,12 @@ class ThemeDialog extends StatelessWidget {
                         t.others.themes.entries.first.value.capitalize(),
                   ),
                   value: theme,
+                  // TODO("Fix deprecated attributes")
                   groupValue: currentTheme,
                   onChanged: (ThemeMode? newTheme) {
                     if (newTheme != null) {
                       ref
-                          .read(mesSettingsNotifierProvider.notifier)
+                          .read(mesSettingsProvider.notifier)
                           .updateTheme(newTheme);
                     }
                   },

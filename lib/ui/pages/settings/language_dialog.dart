@@ -41,7 +41,7 @@ class LanguageDialog extends StatelessWidget {
             return Consumer(builder: (context, ref, child) {
               // Get the current locale
               final settingsLocale = ref.watch(
-                mesSettingsNotifierProvider.select(
+                mesSettingsProvider.select(
                   (s) => s.locale,
                 ),
               );
@@ -52,15 +52,13 @@ class LanguageDialog extends StatelessWidget {
                 locale: locale,
                 onTap: (locale) {
                   // Update the locale
-                  ref
-                      .read(mesSettingsNotifierProvider.notifier)
-                      .updateLocale(locale);
+                  ref.read(mesSettingsProvider.notifier).updateLocale(locale);
 
                   // Show snackbar
                   context.showSimpleSnackbar(
                     t.messages.success
                         .language_updated(
-                          language: t.others.language[locale.name.toString()]
+                          language: t.others.language[locale.lang.toString()]
                                   ?.capitalize() ??
                               t.others.language.entries.first.value
                                   .capitalize(),

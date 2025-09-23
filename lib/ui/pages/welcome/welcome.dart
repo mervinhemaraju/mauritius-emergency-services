@@ -372,7 +372,7 @@ void _onNavigate(BuildContext context, WidgetRef ref) {
   // Define the go home function
   goHome() {
     // Mark user as onboarded
-    ref.read(mesSettingsNotifierProvider.notifier).markAsOnboarded();
+    ref.read(mesSettingsProvider.notifier).markAsOnboarded();
 
     // Navigate to home
     context.go(HomeRoute.path);

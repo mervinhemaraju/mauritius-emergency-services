@@ -13,7 +13,7 @@ Future<ServicesState> servicesState(Ref ref) async {
   // Add to try catch to catch errors
   try {
     // Get the list of services
-    final services = await ref.watch(servicesNotifierProvider.future);
+    final services = await ref.watch(servicesProvider.future);
 
     // If the services list is empty, check the internet connection
     if (services.isEmpty) {

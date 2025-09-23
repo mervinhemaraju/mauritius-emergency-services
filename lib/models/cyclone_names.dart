@@ -1,22 +1,17 @@
-class CycloneNames {
-  final String name;
-  final String gender;
-  final String providedBy;
-  final String namedBy;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const CycloneNames({
-    required this.name,
-    required this.gender,
-    required this.providedBy,
-    required this.namedBy,
-  });
+part '../generated/models/cyclone_names.freezed.dart';
+part '../generated/models/cyclone_names.g.dart';
 
-  factory CycloneNames.fromJson(Map<String, dynamic> json) {
-    return CycloneNames(
-      name: json['name'],
-      gender: json['gender'],
-      providedBy: json['provided_by'],
-      namedBy: json['named_by'],
-    );
-  }
+@freezed
+abstract class CycloneNames with _$CycloneNames {
+  const factory CycloneNames({
+    required String name,
+    required String gender,
+    required String providedBy,
+    required String namedBy,
+  }) = _CycloneNames;
+
+  factory CycloneNames.fromJson(Map<String, dynamic> json) =>
+      _$CycloneNamesFromJson(json);
 }
