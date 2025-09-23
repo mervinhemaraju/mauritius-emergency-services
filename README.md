@@ -25,7 +25,7 @@ It has been designed using the guidelines of Material Design and has been adapte
 
 ## Official Website
 
-Mes can be found on its [official website](https://mes.mervinhemaraju.com/web) or via the [playstore](https://play.google.com/store/apps/details?id=com.th3pl4gu3.mauritius_emergency_services)
+Mes can be found on its [official website](https://mes.plagueworks.org/web) or via the [playstore](https://play.google.com/store/apps/details?id=com.th3pl4gu3.mauritius_emergency_services)
 
 `<a href="screenshots"></a>`
 
@@ -40,7 +40,7 @@ Mes can be found on its [official website](https://mes.mervinhemaraju.com/web) o
 
 Reach out to us at the following:
 
-* Website: [mes.mervinhemaraju.com](https://mes.mervinhemaraju.com/web)
+* Website: [mes.plagueworks.org](https://mes.plagueworks.org/web)
 * Play Store: [Mes](https://play.google.com/store/apps/details?id=com.th3pl4gu3.mauritius_emergency_services)
 * Support Email: th3pl4gu33@gmail.com
 
