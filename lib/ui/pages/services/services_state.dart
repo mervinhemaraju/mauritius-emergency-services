@@ -1,24 +1,17 @@
 import 'package:mauritius_emergency_services/models/service.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-sealed class ServicesState {
-  const ServicesState();
-}
+part '../../../generated/pages/services/services_state.freezed.dart';
 
-class ServicesLoadingState extends ServicesState {
-  const ServicesLoadingState();
-}
+@freezed
+sealed class ServicesState with _$ServicesState {
+  const factory ServicesState.Loaded({required List<Service> services}) =
+      ServicesLoaded;
 
-class ServicesErrorState extends ServicesState {
-  final String message;
-  const ServicesErrorState(this.message);
-}
+  const factory ServicesState.Error({required String message}) = ServicesError;
 
-class ServicesNoInternetState extends ServicesState {
-  final String message;
-  const ServicesNoInternetState(this.message);
-}
+  const factory ServicesState.Loading() = ServicesLoading;
 
-class ServicesUiState extends ServicesState {
-  final List<Service> services;
-  const ServicesUiState(this.services);
+  const factory ServicesState.NoInternet({required String message}) =
+      ServicesNoInternet;
 }

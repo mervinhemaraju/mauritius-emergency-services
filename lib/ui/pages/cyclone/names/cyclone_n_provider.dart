@@ -21,8 +21,8 @@ Future<CycloneNamesState> cycloneNames(Ref ref) async {
 
     // Check if not connected to internet
     if (!isConnectedToInternet) {
-      return CycloneNamesNoInternetState(
-        t.messages.error.no_internet_connection.capitalize(),
+      return CycloneNamesNoInternet(
+        message: t.messages.error.no_internet_connection.capitalize(),
       );
     }
 
@@ -30,10 +30,10 @@ Future<CycloneNamesState> cycloneNames(Ref ref) async {
     final names = await repository.getCycloneNames();
 
     // Return the view
-    return CycloneNamesUiState(names);
+    return CycloneNamesLoaded(cycloneNames: names);
   } catch (e) {
-    return CycloneNamesErrorState(
-      t.messages.error.cannot_load_cyclone_names,
+    return CycloneNamesError(
+      message: t.messages.error.cannot_load_cyclone_names,
     );
   }
 }

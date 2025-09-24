@@ -1,26 +1,22 @@
-// Create a sealed class of the home state
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
 
-sealed class HomeState {
-  const HomeState();
-}
+part '../../../generated/pages/home/home_state.freezed.dart';
 
-class HomeLoadingState extends HomeState {
-  const HomeLoadingState();
-}
+@freezed
+sealed class HomeState with _$HomeState {
+  const factory HomeState.Loaded({
+    required List<Service> services,
+    required Service emergencyButtonAction,
+  }) = HomeLoaded;
 
-class HomeErrorState extends HomeState {
-  final String message;
-  const HomeErrorState(this.message);
-}
+  const factory HomeState.Error({
+    required String message,
+  }) = HomeError;
 
-class HomeNoInternetState extends HomeState {
-  final String message;
-  const HomeNoInternetState(this.message);
-}
+  const factory HomeState.Loading() = HomeLoading;
 
-class HomeUiState extends HomeState {
-  final List<Service> emergencyServices;
-  final Service emergencyButtonAction;
-  const HomeUiState(this.emergencyServices, this.emergencyButtonAction);
+  const factory HomeState.NoInternet({
+    required String message,
+  }) = HomeNoInternet;
 }

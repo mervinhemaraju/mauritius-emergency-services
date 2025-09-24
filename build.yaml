@@ -16,9 +16,13 @@ targets:
       freezed:
         generate_for:
           - lib/models/*.dart
+          - lib/ui/pages/**.dart
+          - lib/ui/components/**.dart
         options:
           build_extensions:
             '^lib/models/{{}}.dart': 'lib/generated/models/{{}}.freezed.dart'
+            '^lib/ui/pages/{{}}.dart': 'lib/generated/pages/{{}}.freezed.dart'
+            '^lib/ui/components/{{}}.dart': 'lib/generated/components/{{}}.freezed.dart'
 
       slang_build_runner:
         options:

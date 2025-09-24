@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:mauritius_emergency_services/models/cyclone_guidelines.dart';
-import 'package:mauritius_emergency_services/models/cyclone_names.dart';
+import 'package:mauritius_emergency_services/models/cyclone_name.dart';
 import 'package:mauritius_emergency_services/models/cyclone_report.dart';
 import 'package:mauritius_emergency_services/data/repository/mes_cyclone.dart';
 
@@ -43,11 +43,11 @@ class MesCycloneApi implements MesCycloneRepository {
   }
 
   @override
-  Future<List<CycloneNames>> getCycloneNames() async {
+  Future<List<CycloneName>> getCycloneNames() async {
     return _handleApiCall(
       path: '$defaultLanguage/cyclone/names',
       mapper: (data) => (data['names'] as List)
-          .map((json) => CycloneNames.fromJson(json))
+          .map((json) => CycloneName.fromJson(json))
           .toList(),
       errorMessage: 'retrieving the cyclone names',
     );

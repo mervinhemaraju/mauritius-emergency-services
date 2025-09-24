@@ -30,25 +30,25 @@ class ServicesScreen extends ConsumerWidget {
 
     // Define the UI state
     final servicesUiState = ref.watch(servicesStateProvider).when(
-          error: (error, stack) => ServicesErrorState(error.toString()),
-          loading: () => const ServicesLoadingState(),
+          error: (error, stack) => ServicesError(message: error.toString()),
+          loading: () => const ServicesLoading(),
           data: (state) => state,
         );
 
     // Define the UI view
     final servicesUiView = switch (servicesUiState) {
-      ServicesLoadingState() => const LoadingScreen(),
-      ServicesErrorState() => ErrorScreen(
+      ServicesLoading() => const LoadingScreen(),
+      ServicesError() => ErrorScreen(
           title: servicesUiState.message.capitalize(),
           showErrorImage: true,
           retryAction: retryAction,
         ),
-      ServicesNoInternetState() => ErrorScreen(
+      ServicesNoInternet() => ErrorScreen(
           title: servicesUiState.message.capitalize(),
           showInternetErrorImage: true,
           retryAction: retryAction,
         ),
-      ServicesUiState() => Padding(
+      ServicesLoaded() => Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: ServicesList(
             services: servicesUiState.services.search(query: searchQuery),

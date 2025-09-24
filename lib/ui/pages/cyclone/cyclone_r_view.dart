@@ -33,42 +33,43 @@ class CycloneScreen extends ConsumerWidget {
     // Get the cyclone view state
     final cycloneReportUiState = ref.watch(cycloneReportProvider).when(
           data: (state) => state,
-          loading: () => const CycloneReportLoadingState(),
-          error: (error, stack) => CycloneReportErrorState(error.toString()),
+          loading: () => const CycloneReportLoading(),
+          error: (error, stack) =>
+              CycloneReportError(message: error.toString()),
         );
 
     // Get the ui view
     final cycloneReportUiView = switch (cycloneReportUiState) {
-      CycloneReportLoadingState() => const LoadingScreen(),
-      CycloneReportErrorState() => ErrorScreen(
+      CycloneReportLoading() => const LoadingScreen(),
+      CycloneReportError() => ErrorScreen(
           title: cycloneReportUiState.message.toString().capitalize(),
           showErrorImage: true,
           retryAction: retryAction,
         ),
-      CycloneReportNoInternetState() => ErrorScreen(
+      CycloneReportNoInternet() => ErrorScreen(
           title: cycloneReportUiState.message.toString().capitalize(),
           showInternetErrorImage: true,
           retryAction: retryAction,
         ),
-      CycloneReportWarningState() => _CycloneWarningUi(
+      CycloneReportWarning() => _CycloneWarningUi(
           cycloneReport: cycloneReportUiState.cycloneReport,
         ),
-      CycloneReportNoWarningState() => _CycloneNoWarningUi(
+      CycloneReportNoWarning() => _CycloneNoWarningUi(
           cycloneReport: cycloneReportUiState.cycloneReport,
         ),
     };
 
     // Get the guidelines fab view
     final List<Widget> guidelinesFabView = switch (cycloneReportUiState) {
-      CycloneReportLoadingState() ||
-      CycloneReportErrorState() ||
-      CycloneReportNoInternetState() =>
+      CycloneReportLoading() ||
+      CycloneReportError() ||
+      CycloneReportNoInternet() =>
         [],
-      CycloneReportWarningState(
+      CycloneReportWarning(
         cycloneReport: final _,
         cycloneGuidelines: final cycloneGuidelines
       ) ||
-      CycloneReportNoWarningState(
+      CycloneReportNoWarning(
         cycloneReport: final _,
         cycloneGuidelines: final cycloneGuidelines
       ) =>

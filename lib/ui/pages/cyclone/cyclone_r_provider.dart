@@ -41,8 +41,8 @@ class CycloneReportNotifier extends _$CycloneReportNotifier {
       final isConnectedToInternet = await NetworkInfo().isConnectedToInternet;
 
       if (!isConnectedToInternet) {
-        return CycloneReportNoInternetState(
-          t.messages.error.no_internet_connection.capitalize(),
+        return CycloneReportNoInternet(
+          message: t.messages.error.no_internet_connection.capitalize(),
         );
       }
 
@@ -56,11 +56,13 @@ class CycloneReportNotifier extends _$CycloneReportNotifier {
 
       // Get the report and guidelines
       return report.level > 0
-          ? CycloneReportWarningState(report, guideline)
-          : CycloneReportNoWarningState(report, guideline);
+          ? CycloneReportWarning(
+              cycloneReport: report, cycloneGuidelines: guideline)
+          : CycloneReportNoWarning(
+              cycloneReport: report, cycloneGuidelines: guideline);
     } catch (e) {
-      return CycloneReportErrorState(
-        t.messages.error.cannot_load_cyclone_report,
+      return CycloneReportError(
+        message: t.messages.error.cannot_load_cyclone_report,
       );
     }
   }

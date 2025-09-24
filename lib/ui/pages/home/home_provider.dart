@@ -21,8 +21,8 @@ Future<HomeState> homeState(Ref ref) async {
 
       // If not connected to internet
       if (!isConnectedToInternet) {
-        return HomeNoInternetState(
-          t.messages.error.services_unavailable(
+        return HomeNoInternet(
+          message: t.messages.error.services_unavailable(
             app_name_short: t.app.short_name.toUpperCase(),
           ),
         );
@@ -44,10 +44,13 @@ Future<HomeState> homeState(Ref ref) async {
     );
 
     // Set the UI state
-    return HomeUiState(emergencyServices, emergencyButtonAction);
+    return HomeLoaded(
+      services: emergencyServices,
+      emergencyButtonAction: emergencyButtonAction,
+    );
   } catch (e) {
-    return HomeErrorState(
-      t.messages.error.cannot_load_data,
+    return HomeError(
+      message: t.messages.error.cannot_load_data,
     );
   }
 }

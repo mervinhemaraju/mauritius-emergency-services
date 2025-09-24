@@ -35,7 +35,7 @@ class _MesSearchBar extends ConsumerWidget {
   // Define the on load function
   SearchState _onLoad(String query, List<Service> services) {
     if (query.isEmpty) {
-      return const SearchStateInitial();
+      return const SearchInitial();
     }
 
     // Get the filtered services
@@ -43,9 +43,9 @@ class _MesSearchBar extends ConsumerWidget {
 
     // Conditional views
     if (filteredServices.isEmpty) {
-      return const SearchNoMatchState();
+      return const SearchNoMatch();
     } else {
-      return SearchMatchState(filteredServices);
+      return SearchMatched(services: filteredServices);
     }
   }
 
@@ -118,21 +118,21 @@ class _MesSearchBar extends ConsumerWidget {
         // Get the search state
         final state = services.when(
           data: (services) => _onLoad(query, services),
-          loading: () => const SearchStateLoading(),
-          error: (error, stack) => SearchStateError(error.toString()),
+          loading: () => const SearchLoading(),
+          error: (error, stack) => SearchError(message: error.toString()),
         );
 
         // Return the view
         return [
           switch (state) {
-            SearchStateInitial() => _SearchUiInitial(),
-            SearchStateLoading() => const Center(
+            SearchInitial() => _SearchUiInitial(),
+            SearchLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            SearchStateError() => ListTile(
+            SearchError() => ListTile(
                 title: Text(t.messages.error.cannot_load_data),
               ),
-            SearchMatchState(services: final services) => _SearchUiMatch(
+            SearchMatched(services: final services) => _SearchUiMatch(
                 services: services,
                 onTap: (service) {
                   // Udpate the search controller
@@ -144,7 +144,7 @@ class _MesSearchBar extends ConsumerWidget {
                   });
                 },
               ),
-            SearchNoMatchState() => _SearchUiNoMatch(),
+            SearchNoMatch() => _SearchUiNoMatch(),
           }
         ];
       },
