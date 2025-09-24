@@ -21,12 +21,12 @@ class CycloneReportNoInternetState extends CycloneReportState {
 
 class CycloneReportWarningState extends CycloneReportState {
   final CycloneReport cycloneReport;
-  final CycloneGuidelines cycloneGuidelines;
+  final CycloneGuidelines? cycloneGuidelines;
   const CycloneReportWarningState(this.cycloneReport, this.cycloneGuidelines);
 }
 
 class CycloneReportNoWarningState extends CycloneReportState {
   final CycloneReport cycloneReport;
-  final CycloneGuidelines cycloneGuidelines;
+  final CycloneGuidelines? cycloneGuidelines;
   const CycloneReportNoWarningState(this.cycloneReport, this.cycloneGuidelines);
 }

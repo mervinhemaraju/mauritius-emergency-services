@@ -37,7 +37,10 @@ class LanguageDialog extends StatelessWidget {
           ),
           itemCount: MesLocale.values.length,
           itemBuilder: (context, index) {
+            // Retrieve the locale
             final locale = MesLocale.values[index];
+
+            // Build the view
             return Consumer(builder: (context, ref, child) {
               // Get the current locale
               final settingsLocale = ref.watch(
@@ -58,7 +61,7 @@ class LanguageDialog extends StatelessWidget {
                   context.showSimpleSnackbar(
                     t.messages.success
                         .language_updated(
-                          language: t.others.language[locale.lang.toString()]
+                          language: t.others.language[locale.name.toString()]
                                   ?.capitalize() ??
                               t.others.language.entries.first.value
                                   .capitalize(),

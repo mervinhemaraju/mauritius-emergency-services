@@ -163,8 +163,7 @@ extension AboutExtensions on About {
               )
               .toLowerCase(),
         )) {
-      // FIXME(Fix this deprecated functionality)
-      Share.share(URI_MES_PLAYSTORE);
+      SharePlus.instance.share(ShareParams(uri: Uri.parse(URI_MES_PLAYSTORE)));
     } else {
       if (url != null) {
         await launchUrl(url!);

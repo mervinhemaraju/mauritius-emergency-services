@@ -8,6 +8,7 @@
 
 ============ TODOS ============
 // FIXME(Fix jank in some parts of the app)
+// FIXME(On Android, when clicking the search bar and writing something and then slide back, the keyboard stays open and when we open the drawer, there's a ui bug.)
 
 ============ FEATURES ============
 // FEAT(Add search history functionality)

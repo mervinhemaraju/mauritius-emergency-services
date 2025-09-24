@@ -606,7 +606,7 @@ class LanguageSelectorItem extends StatelessWidget {
       selectedColor: Theme.of(context).colorScheme.onTertiary,
       selectedTileColor: Theme.of(context).colorScheme.tertiary,
       title: Text(
-        t.others.language[locale.lang.toString()]?.capitalize() ??
+        t.others.language[locale.name.toString()]?.capitalize() ??
             t.others.language.entries.first.value.capitalize(),
       ),
       trailing: isSelected

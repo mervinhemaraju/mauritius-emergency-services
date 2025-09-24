@@ -8,8 +8,9 @@ abstract class CycloneNames with _$CycloneNames {
   const factory CycloneNames({
     required String name,
     required String gender,
-    required String providedBy,
-    required String namedBy,
+    // FIXME(Find a fix for the JsonKey)
+    @JsonKey(name: 'provided_by') required String providedBy,
+    @JsonKey(name: 'named_by') required String namedBy,
   }) = _CycloneNames;
 
   factory CycloneNames.fromJson(Map<String, dynamic> json) =>

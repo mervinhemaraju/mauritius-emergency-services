@@ -72,26 +72,28 @@ class CycloneScreen extends ConsumerWidget {
         cycloneReport: final _,
         cycloneGuidelines: final cycloneGuidelines
       ) =>
-        [
-          FloatingActionButton(
-            heroTag: null,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: Theme.of(context).colorScheme.onPrimary,
-            child: const Icon(Icons.cyclone_outlined),
-            onPressed: () {
-              showModalBottomSheet<void>(
-                context: context,
-                isScrollControlled: true,
-                showDragHandle: true,
-                enableDrag: true,
-                useSafeArea: true,
-                builder: (BuildContext context) => CycloneGuidelinesSheet(
-                  cycloneGuidelines: cycloneGuidelines,
+        cycloneGuidelines != null
+            ? [
+                FloatingActionButton(
+                  heroTag: null,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                  child: const Icon(Icons.cyclone_outlined),
+                  onPressed: () {
+                    showModalBottomSheet<void>(
+                      context: context,
+                      isScrollControlled: true,
+                      showDragHandle: true,
+                      enableDrag: true,
+                      useSafeArea: true,
+                      builder: (BuildContext context) => CycloneGuidelinesSheet(
+                        cycloneGuidelines: cycloneGuidelines,
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-        ],
+              ]
+            : [],
     };
 
     // Return the view
