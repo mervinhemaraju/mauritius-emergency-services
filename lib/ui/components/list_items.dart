@@ -413,9 +413,11 @@ class ExpandableDismissibleService extends StatelessWidget {
 
                                 launchUrl(uri);
                               }
-                            })
+                            },
+                          )
                         : Text(
-                            t.messages.info.no_other_contacts.capitalizeAll()),
+                            t.messages.info.no_other_contacts.capitalizeAll(),
+                          ),
                   ),
                 ),
               ),

@@ -138,7 +138,7 @@
             "loading_component": "loading...",
             "unknown_component": "unknown",
             "no_match_for_query": "Ooops, your query didn't match any services. Try something else?",
-            "other_contacts": "no other contacts",
+            "other_contacts": "other contacts",
             "no_other_contacts": "no other contacts"
         }
     },
