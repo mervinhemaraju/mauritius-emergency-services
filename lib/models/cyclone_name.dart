@@ -10,7 +10,6 @@ abstract class CycloneName with _$CycloneName {
     required String gender,
     // FIXME(Find a fix for the JsonKey)
     @JsonKey(name: 'provided_by') required String providedBy,
-    @JsonKey(name: 'named_by') required String namedBy,
   }) = _CycloneName;
 
   factory CycloneName.fromJson(Map<String, dynamic> json) =>

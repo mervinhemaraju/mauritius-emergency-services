@@ -16,7 +16,7 @@ version: 1.2.1-beta-02+32
 
 # Environment details
 environment:
-  sdk: ^3.6.0
+  sdk: ^3.8.0
 
 
 # Main app dependencies
@@ -68,7 +68,7 @@ dev_dependencies:
   slang_build_runner: ^4.4.0
   riverpod_generator: ^3.0.0
   riverpod_lint: ^3.0.0
-  json_serializable: ^6.9.0
+  json_serializable: ^6.11.1
   freezed: ^3.2.3
 
 objectbox:
