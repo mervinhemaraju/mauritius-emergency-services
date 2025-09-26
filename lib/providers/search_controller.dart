@@ -15,4 +15,6 @@ class GlobalSearchController extends _$GlobalSearchController {
 
     return controller;
   }
+
+  void clear() => state.clear();
 }

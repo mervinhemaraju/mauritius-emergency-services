@@ -12,25 +12,19 @@ import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
-AppBar MesAppSearchBar({
-  required void Function() openDrawer,
-}) {
+AppBar MesAppSearchBar({required void Function() openDrawer}) {
   return AppBar(
     automaticallyImplyLeading: false,
     clipBehavior: Clip.none,
     toolbarHeight: kToolbarHeight + 30,
-    title: _MesSearchBar(
-      openDrawer: openDrawer,
-    ),
+    title: _MesSearchBar(openDrawer: openDrawer),
   );
 }
 
 class _MesSearchBar extends ConsumerWidget {
   final void Function() openDrawer;
 
-  const _MesSearchBar({
-    required this.openDrawer,
-  });
+  const _MesSearchBar({required this.openDrawer});
 
   // Define the on load function
   SearchState _onLoad(String query, List<Service> services) {
@@ -61,45 +55,54 @@ class _MesSearchBar extends ConsumerWidget {
     return SearchAnchor.bar(
       searchController: searchController,
       barHintText: t.components.search_bar
-          .title(
-            app_name_short: t.app.short_name.toUpperCase(),
-          )
+          .title(app_name_short: t.app.short_name.toUpperCase())
           .capitalize(),
-      barHintStyle:
-          WidgetStatePropertyAll(Theme.of(context).textTheme.bodyMedium),
+      barHintStyle: WidgetStatePropertyAll(
+        Theme.of(context).textTheme.bodyMedium,
+      ),
       barElevation: WidgetStatePropertyAll(MesElevation.appBar),
       viewLeading: IconButton(
-        onPressed: () {
-          // searchController.clear();
-          searchController.closeView("");
-          context.go(ServicesRoute.path);
-        },
-        icon: const Icon(Icons.arrow_back_ios_new_outlined),
+        icon: const Icon(Icons.arrow_back_ios),
+        onPressed: () => searchController.closeView(null),
       ),
       onSubmitted: (query) {
-        // Go to the services route
-        context.go(ServicesRoute.path, extra: {
-          ServicesRoute.extraQuery: query,
+        // Get the current services state
+        services.whenData((services) {
+          // Get the search state using the same logic as _onLoad
+          final searchState = _onLoad(query.toLowerCase(), services);
+
+          // Only navigate if there are matches
+          if (searchState is SearchMatched) {
+            // Navigate to the services route with the query
+            context.go(
+              ServicesRoute.path,
+              extra: {ServicesRoute.extraQuery: query.toLowerCase()},
+            );
+
+            // Optionally provide haptic feedback for successful submission
+            HapticFeedback.lightImpact();
+          } else {
+            // Optionally show some feedback for no matches
+            // You could show a snackbar or just do nothing
+            HapticFeedback.mediumImpact(); // Different haptic for no matches
+          }
         });
       },
-      barLeading: searchController.text.isEmpty
-          ? IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: openDrawer,
-            )
-          : IconButton(
-              icon: const Icon(Icons.arrow_back_ios_outlined),
-              onPressed: () {
-                searchController.clear();
-                context.go(ServicesRoute.path);
-              },
-            ),
+      onClose: () {
+        // When the searchview is called, unfocus
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        });
+      },
+      barLeading: IconButton(
+        icon: const Icon(Icons.menu),
+        onPressed: openDrawer,
+      ),
       barTrailing: [
-        if (searchController.text.isNotEmpty)
-          IconButton(
-            icon: const Icon(
-              Icons.clear,
-            ),
+        Visibility(
+          visible: searchController.text.isNotEmpty,
+          child: IconButton(
+            icon: const Icon(Icons.clear),
             onPressed: () {
               // Clear the query
               searchController.clear();
@@ -110,6 +113,7 @@ class _MesSearchBar extends ConsumerWidget {
               }
             },
           ),
+        ),
       ],
       suggestionsBuilder: (BuildContext context, SearchController controller) {
         // Get the query
@@ -126,26 +130,25 @@ class _MesSearchBar extends ConsumerWidget {
         return [
           switch (state) {
             SearchInitial() => _SearchUiInitial(),
-            SearchLoading() => const Center(
-                child: CircularProgressIndicator(),
-              ),
+            SearchLoading() => const Center(child: CircularProgressIndicator()),
             SearchError() => ListTile(
-                title: Text(t.messages.error.cannot_load_data),
-              ),
+              title: Text(t.messages.error.cannot_load_data),
+            ),
             SearchMatched(services: final services) => _SearchUiMatch(
-                services: services,
-                onTap: (service) {
-                  // Udpate the search controller
-                  searchController.text = service.name;
+              services: services,
+              onTap: (service) {
+                // Udpate the search controller
+                searchController.text = service.name;
 
-                  // Navigate to the services route
-                  context.go(ServicesRoute.path, extra: {
-                    ServicesRoute.extraQuery: service.name.toLowerCase(),
-                  });
-                },
-              ),
+                // Navigate to the services route
+                context.go(
+                  ServicesRoute.path,
+                  extra: {ServicesRoute.extraQuery: service.name.toLowerCase()},
+                );
+              },
+            ),
             SearchNoMatch() => _SearchUiNoMatch(),
-          }
+          },
         ];
       },
     );
@@ -194,8 +197,8 @@ class _SearchUiNoMatch extends StatelessWidget {
               t.messages.info.no_match_for_query,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
+                color: Theme.of(context).colorScheme.secondary,
+              ),
             ),
           ),
         ],
@@ -208,10 +211,7 @@ class _SearchUiMatch extends StatelessWidget {
   final List<Service> services;
   final void Function(Service) onTap;
 
-  const _SearchUiMatch({
-    required this.services,
-    required this.onTap,
-  });
+  const _SearchUiMatch({required this.services, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
