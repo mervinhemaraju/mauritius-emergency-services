@@ -103,6 +103,13 @@
         },
         "settings": {
             "title": "settings",
+            "section_display": {
+                "title": "display",
+                "dynamic_colors": {
+                    "tile_title": "dynamic colors",
+                    "tile_subtitle": "apply dynamic colors, based on your wallpaper (Material YOU)"
+                }
+            },
             "section_feature": {
                 "title": "feature",
                 "emergency_button_action": {

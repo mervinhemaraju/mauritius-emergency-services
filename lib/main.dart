@@ -1,6 +1,7 @@
 // import 'dart:io';
 import 'dart:io';
 
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -22,12 +23,8 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (
-        X509Certificate cert,
-        String host,
-        int port,
-      ) =>
-          true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
 
@@ -57,9 +54,7 @@ main() async {
   runApp(
     TranslationProvider(
       child: ProviderScope(
-        overrides: [
-          settingsRepositoryProvider.overrideWithValue(repository),
-        ],
+        overrides: [settingsRepositoryProvider.overrideWithValue(repository)],
         child: const MesMaterialApp(),
       ),
     ),
@@ -74,13 +69,16 @@ class MesMaterialApp extends ConsumerWidget {
     // Get the initial location
     final intitialLocation =
         ref.watch(mesSettingsProvider.select((s) => s.isOnboarded))
-            ? HomeRoute.path
-            : WelcomeRoute.path;
+        ? HomeRoute.path
+        : WelcomeRoute.path;
 
     // Get the theme mode
-    final themeMode = ref.watch(mesSettingsProvider.select(
-      (s) => s.theme,
-    ));
+    final themeMode = ref.watch(mesSettingsProvider.select((s) => s.theme));
+
+    // Get the dynamic color activation
+    final isDynamicEnabled = ref.watch(
+      mesSettingsProvider.select((s) => s.isDynamicEnabled),
+    );
 
     // Update the app locale
     ref.watch(
@@ -101,19 +99,47 @@ class MesMaterialApp extends ConsumerWidget {
     // Create the material theme
     MaterialTheme theme = MaterialTheme(textTheme);
 
-    // Return the Material App
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: t.app.name.capitalizeAll(),
-      theme: theme.light(),
-      darkTheme: theme.dark(),
-      highContrastTheme: theme.lightHighContrast(),
-      highContrastDarkTheme: theme.darkHighContrast(),
-      themeMode: themeMode,
-      locale: TranslationProvider.of(context).flutterLocale,
-      supportedLocales: AppLocaleUtils.supportedLocales,
-      localizationsDelegates: GlobalMaterialLocalizations.delegates,
-      routerConfig: router,
+    // Dynamic color builder for Material YOU
+    return DynamicColorBuilder(
+      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+        // Build the condition for dynamic color eligibility
+        final bool isEligibleForDc =
+            (lightDynamic != null && darkDynamic != null) && isDynamicEnabled;
+
+        // Build light and dark color schemes
+        final ColorScheme lightScheme = isEligibleForDc
+            ? lightDynamic.harmonized()
+            : theme.light().colorScheme;
+        final ColorScheme darkScheme = isEligibleForDc
+            ? darkDynamic.harmonized()
+            : theme.dark().colorScheme;
+
+        // Build the theme datas
+        final lightTheme = ThemeData(
+          colorScheme: lightScheme,
+          textTheme: textTheme,
+          useMaterial3: true,
+        );
+
+        final darkTheme = ThemeData(
+          colorScheme: darkScheme,
+          textTheme: textTheme,
+          useMaterial3: true,
+        );
+
+        // Return the Material App
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: t.app.name.capitalizeAll(),
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: themeMode,
+          locale: TranslationProvider.of(context).flutterLocale,
+          supportedLocales: AppLocaleUtils.supportedLocales,
+          localizationsDelegates: GlobalMaterialLocalizations.delegates,
+          routerConfig: router,
+        );
+      },
     );
   }
 }

@@ -103,6 +103,13 @@
         },
         "settings": {
             "title": "paramètres",
+            "section_display": {
+                "title": "écran",
+                "dynamic_colors": {
+                    "tile_title": "couleurs dynamiques",
+                    "tile_subtitle": "appliquer des couleurs dynamiques, en fonction de votre fond d'écran (Material YOU)"
+                }
+            },
             "section_feature": {
                 "title": "fonctionnalité",
                 "emergency_button_action": {

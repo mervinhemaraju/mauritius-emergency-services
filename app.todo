@@ -2,7 +2,6 @@
 
 ============ OPTIMIZATIONS ============
 [1] Improve navigation and router
-[2] navigation animations for android
 [3] Improve service & icons caching 
 [3] Improve themes and screen ui colors
 [4] Improve home layout
@@ -12,6 +11,6 @@
 
 ============ FEATURES ============
 // FEAT(Add search history functionality)
-// FEAT(Implement dynamic color change for Android AND/OR Iphone)
+// FEAT(Implement medium and high contrast)
 // FEAT(Implement push notifications for cyclone using FCM)
 
