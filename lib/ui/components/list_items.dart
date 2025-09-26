@@ -312,7 +312,7 @@ class ExpandableDismissibleService extends StatelessWidget {
       ),
       child: Container(
         color: isExpanded
-            ? theme.colorScheme.surfaceContainerHigh
+            ? theme.colorScheme.onInverseSurface
             : theme.colorScheme.surface,
         child: Column(
           mainAxisSize: MainAxisSize.min,

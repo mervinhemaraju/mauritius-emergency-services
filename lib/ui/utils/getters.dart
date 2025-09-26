@@ -22,17 +22,15 @@ SystemUiOverlayStyle getSystemUiOverlayStyle(Brightness brightness) {
   return SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     systemNavigationBarColor: Colors.transparent,
-    statusBarIconBrightness:
-        brightness == Brightness.dark ? Brightness.light : Brightness.dark,
+    statusBarIconBrightness: brightness == Brightness.dark
+        ? Brightness.light
+        : Brightness.dark,
   );
 }
 
 void enableEdgeToEdge() {
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.edgeToEdge,
-    overlays: [
-      SystemUiOverlay.top,
-      SystemUiOverlay.bottom,
-    ],
+    overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
   );
 }

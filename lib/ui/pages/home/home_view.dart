@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/providers/services_providers.dart';
@@ -26,7 +27,9 @@ class HomeScreen extends ConsumerWidget {
     }
 
     // Define the UI state
-    final homeUiState = ref.watch(homeStateProvider).when(
+    final homeUiState = ref
+        .watch(homeStateProvider)
+        .when(
           error: (error, stack) => HomeError(message: error.toString()),
           loading: () => const HomeLoading(),
           data: (state) => state,
@@ -36,19 +39,19 @@ class HomeScreen extends ConsumerWidget {
     final homeUiView = switch (homeUiState) {
       HomeLoading() => const LoadingScreen(),
       HomeError() => ErrorScreen(
-          title: homeUiState.message.capitalize(),
-          showErrorImage: true,
-          retryAction: retryAction,
-        ),
+        title: homeUiState.message.capitalize(),
+        showErrorImage: true,
+        retryAction: retryAction,
+      ),
       HomeNoInternet() => ErrorScreen(
-          title: homeUiState.message.capitalize(),
-          showInternetErrorImage: true,
-          retryAction: retryAction,
-        ),
+        title: homeUiState.message.capitalize(),
+        showInternetErrorImage: true,
+        retryAction: retryAction,
+      ),
       HomeLoaded() => _HomeUi(
-          emergencyServices: homeUiState.services,
-          emergencyButtonAction: homeUiState.emergencyButtonAction,
-        ),
+        emergencyServices: homeUiState.services,
+        emergencyButtonAction: homeUiState.emergencyButtonAction,
+      ),
     };
 
     // Return the view
@@ -91,12 +94,15 @@ class _HomeUi extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const Spacer(),
+              const Gap(16.0),
               _TitleSet(
                 theme: theme,
                 title: t.pages.home.primary_title.capitalizeAll(),
                 subtitle: t.pages.home.primary_subtitle.capitalize(),
               ),
-              const SizedBox(height: 32.0),
+              const Spacer(),
+              const Gap(32.0),
               _EmergencyButton(
                 theme: theme,
                 onTap: null,
@@ -115,12 +121,15 @@ class _HomeUi extends ConsumerWidget {
                   );
                 },
               ),
-              const SizedBox(height: 32.0),
+              const Spacer(),
+              const Gap(32.0),
               _TitleSet(
                 theme: theme,
                 title: t.pages.home.secondary_title.capitalizeAll(),
                 subtitle: t.pages.home.secondary_subtitle.capitalize(),
               ),
+              const Spacer(),
+              const Gap(32.0),
               _EmergencyListView(
                 onTap: (service) {
                   context.navigateToPreCall(
@@ -129,10 +138,11 @@ class _HomeUi extends ConsumerWidget {
                   );
                 },
               ),
-              const SizedBox(height: 8.0),
+              const Spacer(),
+              const Gap(16.0),
             ],
           ),
-        )
+        ),
       ],
     );
   }
@@ -165,7 +175,7 @@ class _HomeUi extends ConsumerWidget {
             ),
             textAlign: TextAlign.center,
           ),
-        )
+        ),
       ],
     );
   }
@@ -180,7 +190,7 @@ class _HomeUi extends ConsumerWidget {
       onLongPress: onLongPress,
       style: ElevatedButton.styleFrom(
         backgroundColor: theme.colorScheme.error,
-        fixedSize: const Size(200, 200),
+        fixedSize: const Size(260, 260),
         shape: const CircleBorder(),
       ),
       child: Icon(

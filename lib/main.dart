@@ -11,6 +11,7 @@ import 'package:mauritius_emergency_services/routes/router.dart';
 import 'package:mauritius_emergency_services/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/impl/app_settings_impl.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
+import 'package:mauritius_emergency_services/ui/theme/colors.dart';
 import 'package:mauritius_emergency_services/ui/theme/theme.dart';
 import 'package:mauritius_emergency_services/ui/theme/typography.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
@@ -107,25 +108,12 @@ class MesMaterialApp extends ConsumerWidget {
             (lightDynamic != null && darkDynamic != null) && isDynamicEnabled;
 
         // Build light and dark color schemes
-        final ColorScheme lightScheme = isEligibleForDc
-            ? lightDynamic.harmonized()
-            : theme.light().colorScheme;
-        final ColorScheme darkScheme = isEligibleForDc
-            ? darkDynamic.harmonized()
-            : theme.dark().colorScheme;
-
-        // Build the theme datas
-        final lightTheme = ThemeData(
-          colorScheme: lightScheme,
-          textTheme: textTheme,
-          useMaterial3: true,
-        );
-
-        final darkTheme = ThemeData(
-          colorScheme: darkScheme,
-          textTheme: textTheme,
-          useMaterial3: true,
-        );
+        final ThemeData lightTheme = isEligibleForDc
+            ? theme.build(lightDynamic.harmonized())
+            : theme.build(MesColorSchemes.light);
+        final ThemeData darkTheme = isEligibleForDc
+            ? theme.build(darkDynamic.harmonized())
+            : theme.build(MesColorSchemes.dark);
 
         // Return the Material App
         return MaterialApp.router(

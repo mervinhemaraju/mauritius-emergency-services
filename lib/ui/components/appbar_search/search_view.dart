@@ -54,6 +54,9 @@ class _MesSearchBar extends ConsumerWidget {
     // Return the view
     return SearchAnchor.bar(
       searchController: searchController,
+      barBackgroundColor: WidgetStatePropertyAll(
+        Theme.of(context).colorScheme.onInverseSurface,
+      ),
       barHintText: t.components.search_bar
           .title(app_name_short: t.app.short_name.toUpperCase())
           .capitalize(),

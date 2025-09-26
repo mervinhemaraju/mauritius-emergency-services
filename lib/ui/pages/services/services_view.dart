@@ -51,7 +51,7 @@ class ServicesScreen extends ConsumerWidget {
         retryAction: retryAction,
       ),
       ServicesLoaded() => Column(
-        spacing: 12.0,
+        spacing: 20.0,
         children: [
           Visibility(
             visible: searchQuery.isNotEmpty,
