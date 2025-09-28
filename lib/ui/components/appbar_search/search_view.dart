@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
@@ -8,7 +7,7 @@ import 'package:mauritius_emergency_services/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/routes/routes.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_state.dart';
-import 'package:mauritius_emergency_services/ui/components/list_items.dart';
+import 'package:mauritius_emergency_services/ui/pages/services/services_list.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
@@ -68,29 +67,7 @@ class _MesSearchBar extends ConsumerWidget {
         icon: const Icon(Icons.arrow_back_ios),
         onPressed: () => searchController.closeView(null),
       ),
-      onSubmitted: (query) {
-        // Get the current services state
-        services.whenData((services) {
-          // Get the search state using the same logic as _onLoad
-          final searchState = _onLoad(query.toLowerCase(), services);
-
-          // Only navigate if there are matches
-          if (searchState is SearchMatched) {
-            // Navigate to the services route with the query
-            context.go(
-              ServicesRoute.path,
-              extra: {ServicesRoute.extraQuery: query.toLowerCase()},
-            );
-
-            // Optionally provide haptic feedback for successful submission
-            HapticFeedback.lightImpact();
-          } else {
-            // Optionally show some feedback for no matches
-            // You could show a snackbar or just do nothing
-            HapticFeedback.mediumImpact(); // Different haptic for no matches
-          }
-        });
-      },
+      onSubmitted: (_) {},
       onClose: () {
         // When the searchview is called, unfocus
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -220,13 +197,7 @@ class _SearchUiMatch extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
-      child: ListView.builder(
-        itemCount: services.length,
-        prototypeItem: SearchItem(service: services.first, onTap: onTap),
-        itemBuilder: (context, index) {
-          return SearchItem(service: services[index], onTap: onTap);
-        },
-      ),
+      child: ServicesList(services: services),
     );
   }
 }

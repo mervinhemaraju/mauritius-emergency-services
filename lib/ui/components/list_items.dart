@@ -46,32 +46,6 @@ class MesDrawerItem extends StatelessWidget {
   }
 }
 
-// A search item
-class SearchItem extends StatelessWidget {
-  final Service service;
-  final void Function(Service service) onTap;
-
-  const SearchItem({super.key, required this.service, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
-        child: Text(service.name),
-      ),
-      subtitle: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
-        child: Text(service.mainContact.toString()),
-      ),
-      trailing: const Icon(Icons.open_in_new),
-      onTap: () {
-        onTap(service);
-      },
-    );
-  }
-}
-
 // The about header list item
 class AboutHeaderListItem extends StatelessWidget {
   final String title;

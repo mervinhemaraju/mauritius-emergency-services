@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mauritius_emergency_services/providers/search_controller.dart';
 import 'package:mauritius_emergency_services/providers/services_providers.dart';
-import 'package:mauritius_emergency_services/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
@@ -50,36 +47,8 @@ class ServicesScreen extends ConsumerWidget {
         showInternetErrorImage: true,
         retryAction: retryAction,
       ),
-      ServicesLoaded() => Column(
-        spacing: 20.0,
-        children: [
-          Visibility(
-            visible: searchQuery.isNotEmpty,
-            child: ChoiceChip(
-              label: Text("Filtering by: $searchQuery"),
-              avatar: const Icon(Icons.close),
-              showCheckmark: false,
-              selected: true,
-              selectedColor: Theme.of(context).colorScheme.secondaryContainer,
-              labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
-              ),
-              onSelected: (selection) {
-                // Clear the search query
-                ref.read(globalSearchControllerProvider.notifier).clear();
-
-                // Navigate to the whole list of services
-                context.go(ServicesRoute.path);
-              },
-            ),
-          ),
-
-          Expanded(
-            child: ServicesList(
-              services: servicesUiState.services.search(query: searchQuery),
-            ),
-          ),
-        ],
+      ServicesLoaded() => ServicesList(
+        services: servicesUiState.services.search(query: searchQuery),
       ),
     };
 
