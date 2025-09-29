@@ -30,7 +30,8 @@ class HomeScreen extends ConsumerWidget {
     final homeUiState = ref
         .watch(homeStateProvider)
         .when(
-          error: (error, stack) => HomeError(message: error.toString()),
+          error: (error, stack) =>
+              HomeError(message: error.toString()),
           loading: () => const HomeLoading(),
           data: (state) => state,
         );
@@ -98,8 +99,10 @@ class _HomeUi extends ConsumerWidget {
               const Gap(16.0),
               _TitleSet(
                 theme: theme,
-                title: t.pages.home.primary_title.capitalizeAll(),
-                subtitle: t.pages.home.primary_subtitle.capitalize(),
+                title: t.pages.home.primary_title
+                    .capitalizeAll(),
+                subtitle: t.pages.home.primary_subtitle
+                    .capitalize(),
               ),
               const Spacer(),
               const Gap(32.0),
@@ -109,7 +112,9 @@ class _HomeUi extends ConsumerWidget {
                 onLongPress: () {
                   final Service emergencyService;
 
-                  if (emergencyButtonAction.identifier.isNotEmpty) {
+                  if (emergencyButtonAction
+                      .identifier
+                      .isNotEmpty) {
                     emergencyService = emergencyButtonAction;
                   } else {
                     emergencyService = emergencyServices.first;
@@ -125,8 +130,10 @@ class _HomeUi extends ConsumerWidget {
               const Gap(32.0),
               _TitleSet(
                 theme: theme,
-                title: t.pages.home.secondary_title.capitalizeAll(),
-                subtitle: t.pages.home.secondary_subtitle.capitalize(),
+                title: t.pages.home.secondary_title
+                    .capitalizeAll(),
+                subtitle: t.pages.home.secondary_subtitle
+                    .capitalize(),
               ),
               const Spacer(),
               const Gap(32.0),
@@ -166,7 +173,10 @@ class _HomeUi extends ConsumerWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 8.0,
+          ),
           child: Text(
             subtitle,
             style: theme.textTheme.bodyMedium?.copyWith(
@@ -190,7 +200,7 @@ class _HomeUi extends ConsumerWidget {
       onLongPress: onLongPress,
       style: ElevatedButton.styleFrom(
         backgroundColor: theme.colorScheme.error,
-        fixedSize: const Size(260, 260),
+        fixedSize: const Size(230, 230),
         shape: const CircleBorder(),
       ),
       child: Icon(

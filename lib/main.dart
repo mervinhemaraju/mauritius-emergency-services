@@ -55,7 +55,11 @@ main() async {
   runApp(
     TranslationProvider(
       child: ProviderScope(
-        overrides: [settingsRepositoryProvider.overrideWithValue(repository)],
+        overrides: [
+          settingsRepositoryProvider.overrideWithValue(
+            repository,
+          ),
+        ],
         child: const MesMaterialApp(),
       ),
     ),
@@ -67,14 +71,30 @@ class MesMaterialApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Get the initial location
-    final intitialLocation =
-        ref.watch(mesSettingsProvider.select((s) => s.isOnboarded))
-        ? HomeRoute.path
-        : WelcomeRoute.path;
+    // Retrieve setting flags
+    final isOnboarded = ref.watch(
+      mesSettingsProvider.select((s) => s.isOnboarded),
+    );
+    final disclaimerAcknowledged = ref.watch(
+      mesSettingsProvider.select(
+        (s) => s.disclaimerAcknowledged,
+      ),
+    );
+
+    // Determine the initial location
+    String initialLocation = switch ((
+      isOnboarded,
+      disclaimerAcknowledged,
+    )) {
+      (false, _) => WelcomeRoute.path,
+      (true, false) => DisclaimerRoute.path,
+      (true, true) => HomeRoute.path,
+    };
 
     // Get the theme mode
-    final themeMode = ref.watch(mesSettingsProvider.select((s) => s.theme));
+    final themeMode = ref.watch(
+      mesSettingsProvider.select((s) => s.theme),
+    );
 
     // Get the dynamic color activation
     final isDynamicEnabled = ref.watch(
@@ -89,45 +109,54 @@ class MesMaterialApp extends ConsumerWidget {
     );
 
     // Set the initial location
-    MesAppRouter.instance.setInitialLocation(intitialLocation);
+    MesAppRouter.instance.setInitialLocation(initialLocation);
 
     // Get the router instance
     final router = MesAppRouter.instance.getRouter();
 
     // Create the text theme
-    TextTheme textTheme = createTextTheme(context, "Poppins", "Lato");
+    TextTheme textTheme = createTextTheme(
+      context,
+      "Poppins",
+      "Lato",
+    );
 
     // Create the material theme
     MaterialTheme theme = MaterialTheme(textTheme);
 
     // Dynamic color builder for Material YOU
     return DynamicColorBuilder(
-      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-        // Build the condition for dynamic color eligibility
-        final bool isEligibleForDc =
-            (lightDynamic != null && darkDynamic != null) && isDynamicEnabled;
+      builder:
+          (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+            // Build the condition for dynamic color eligibility
+            final bool isEligibleForDc =
+                (lightDynamic != null && darkDynamic != null) &&
+                isDynamicEnabled;
 
-        // Build light and dark color schemes
-        final ThemeData lightTheme = isEligibleForDc
-            ? theme.build(lightDynamic.harmonized())
-            : theme.build(MesColorSchemes.light);
-        final ThemeData darkTheme = isEligibleForDc
-            ? theme.build(darkDynamic.harmonized())
-            : theme.build(MesColorSchemes.dark);
+            // Build light and dark color schemes
+            final ThemeData lightTheme = isEligibleForDc
+                ? theme.build(lightDynamic.harmonized())
+                : theme.build(MesColorSchemes.light);
+            final ThemeData darkTheme = isEligibleForDc
+                ? theme.build(darkDynamic.harmonized())
+                : theme.build(MesColorSchemes.dark);
 
-        // Return the Material App
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          title: t.app.name.capitalizeAll(),
-          theme: lightTheme,
-          darkTheme: darkTheme,
-          themeMode: themeMode,
-          locale: TranslationProvider.of(context).flutterLocale,
-          supportedLocales: AppLocaleUtils.supportedLocales,
-          localizationsDelegates: GlobalMaterialLocalizations.delegates,
-          routerConfig: router,
-        );
-      },
+            // Return the Material App
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              title: t.app.name.capitalizeAll(),
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              themeMode: themeMode,
+              locale: TranslationProvider.of(
+                context,
+              ).flutterLocale,
+              supportedLocales: AppLocaleUtils.supportedLocales,
+              localizationsDelegates:
+                  GlobalMaterialLocalizations.delegates,
+              routerConfig: router,
+            );
+          },
     );
   }
 }

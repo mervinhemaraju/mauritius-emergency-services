@@ -28,6 +28,32 @@
                 "quaternary_text": "please grant these permissions to continue using the app seamlessly. If it doesn't work, then you'll need to do it manually in the settings."
             }
         },
+        "disclaimer_screen": {
+            "title": "important notice",
+            "header": "before you continue",
+            "sections": [
+                {
+                    "icon": "⚠️",
+                    "title": "no government affiliation",
+                    "message": "This application is NOT affiliated with, endorsed by, or connected to any government entity or agency, including the Mauritius Meteorological Services or emergency services."
+                },
+                {
+                    "icon": "📋",
+                    "title": "data sources",
+                    "message": "Emergency contacts are manually curated and maintained by the app developer.\n\nCyclone information is sourced from the Mauritius Meteorological Services (metservice.intnet.mu) and relayed through our API for convenience."
+                },
+                {
+                    "icon": "ℹ️",
+                    "title": "informational use only",
+                    "message": "All information provided in this app is for personal informational purposes only. Always verify critical information with official government sources during emergencies."
+                },
+                {
+                    "icon": "🔒",
+                    "title": "privacy & data",
+                    "message": "This app does not collect, store, or share any personal information. All data displayed is fetched from public sources and our API. For full details, please review our Privacy Policy."
+                }
+            ]
+        },
         "home": {
             "title": "home",
             "primary_title": "emergency help needed?",
@@ -94,11 +120,6 @@
                 "privacy_policy_title": "privacy policy",
                 "privacy_policy_subtitle": "view the privacy policy for $app_name_short.",
                 "version_title": "version"
-            },
-            "disclaimer": {
-                "title": "disclaimer",
-                "message_1": "This application is NOT affiliated with, endorsed by, or connected to any government entity or agency. $app_name_short relies on publicly available resources and a proprietary API built by the app's developer.",
-                "message_2": "All information, features, and services provided within the app are for informational and personal use only."
             }
         },
         "settings": {
@@ -156,6 +177,8 @@
         }
     },
     "actions": {
+        "agree": "agree",
+        "exit": "exit",
         "proceed": "proceed",
         "cancel": "cancel",
         "close": "close",

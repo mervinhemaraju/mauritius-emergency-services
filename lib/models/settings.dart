@@ -12,6 +12,7 @@ abstract class MesSettings with _$MesSettings {
     represents the app settings functionalities
   */
   const factory MesSettings({
+    required bool disclaimerAcknowledged,
     required bool isOnboarded,
     required bool isDynamicEnabled,
     required ThemeMode theme,
@@ -20,10 +21,11 @@ abstract class MesSettings with _$MesSettings {
   }) = _MesSettings;
 
   factory MesSettings.initial() => const MesSettings(
-        isOnboarded: false,
-        isDynamicEnabled: false,
-        theme: ThemeMode.system,
-        locale: MesLocale.english,
-        emergencyButtonAction: Service(),
-      );
+    disclaimerAcknowledged: false,
+    isOnboarded: false,
+    isDynamicEnabled: false,
+    theme: ThemeMode.system,
+    locale: MesLocale.english,
+    emergencyButtonAction: Service(),
+  );
 }

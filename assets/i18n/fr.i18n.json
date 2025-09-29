@@ -28,6 +28,32 @@
                 "quaternary_text": "veuillez accorder ces autorisations pour continuer à utiliser l'application sans problème. Si cela ne fonctionne pas, vous devrez le faire manuellement dans les paramètres."
             }
         },
+        "disclaimer_screen": {
+            "title": "avis important",
+            "header": "avant de continuer",
+            "sections": [
+                {
+                    "icon": "⚠️",
+                    "title": "aucune affiliation gouvernementale",
+                    "message": "Cette application n'est PAS affiliée, endorsée ou liée à une entité gouvernementale ou agence, y compris les Services Météorologiques de Maurice ou les services d'urgence."
+                },
+                {
+                    "icon": "📋",
+                    "title": "sources des données",
+                    "message": "Les contacts d'urgence sont compilés et maintenus manuellement par le développeur de l'application.\n\nLes informations cycloniques proviennent des Services Météorologiques de Maurice (metservice.intnet.mu) et sont relayées via notre API pour votre commodité."
+                },
+                {
+                    "icon": "ℹ️",
+                    "title": "usage informatif uniquement",
+                    "message": "Toutes les informations fournies dans cette application sont à titre informatif personnel uniquement. Vérifiez toujours les informations critiques auprès des sources gouvernementales officielles lors d'urgences."
+                },
+                {
+                    "icon": "🔒",
+                    "title": "confidentialité et données",
+                    "message": "Cette application ne collecte, ne stocke ni ne partage aucune information personnelle. Toutes les données affichées proviennent de sources publiques et de notre API. Pour plus de détails, veuillez consulter notre Politique de Confidentialité."
+                }
+            ]
+        },
         "home": {
             "title": "accueil",
             "primary_title": "besoin d'aide d'urgence ?",
@@ -94,11 +120,6 @@
                 "privacy_policy_title": "politique de confidentialité",
                 "privacy_policy_subtitle": "consultez la politique de confidentialité de $app_name_short.",
                 "version_title": "version"
-            },
-            "disclaimer": {
-                "title": "clause de non-responsabilité",
-                "message_1": "Cette application n'est PAS affiliée, approuvée ou connectée à une entité ou agence gouvernementale. $app_name_short s'appuie sur des ressources accessibles au public et une API propriétaire créée par le développeur de l'application.",
-                "message_2": "Toutes les informations, fonctionnalités et services fournis dans l'application sont uniquement destinés à un usage informatif et personnel."
             }
         },
         "settings": {
@@ -156,6 +177,8 @@
         }
     },
     "actions": {
+        "agree": "accepter",
+        "exit": "quitter",
         "proceed": "continuer",
         "cancel": "annuler",
         "close": "fermer",

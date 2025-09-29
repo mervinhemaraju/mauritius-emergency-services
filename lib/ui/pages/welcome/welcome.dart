@@ -83,7 +83,9 @@ class _WideViewRight extends ConsumerWidget {
           runSpacing: 8.0,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12.0,
+              ),
               child: Text(
                 t.pages.welcome.header.title.capitalize(),
                 style: theme.textTheme.titleMedium?.copyWith(
@@ -101,7 +103,7 @@ class _WideViewRight extends ConsumerWidget {
                 letterSpacing: 4.0,
               ),
               textAlign: TextAlign.center,
-            )
+            ),
           ],
         ),
         Row(
@@ -127,7 +129,7 @@ class _WideViewRight extends ConsumerWidget {
               Icons.emergency,
               color: theme.colorScheme.secondary,
               size: 36,
-            )
+            ),
           ],
         ),
         MaterialButton(
@@ -138,19 +140,20 @@ class _WideViewRight extends ConsumerWidget {
           color: theme.colorScheme.primary,
           textColor: theme.colorScheme.onPrimary,
           shape: const StadiumBorder(),
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 16.0,
+          ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             spacing: 12.0,
             children: [
-              const SizedBox(
-                width: 12.0,
-              ),
+              const SizedBox(width: 12.0),
               Text(t.actions.get_started.capitalizeAll()),
-              const Icon(Icons.arrow_forward_ios_outlined)
+              const Icon(Icons.arrow_forward_ios_outlined),
             ],
           ),
-        )
+        ),
       ],
     );
   }
@@ -192,7 +195,8 @@ class _NarrowScreenUi extends StatelessWidget {
   }
 }
 
-class _WelcomeCarouselWithIndicator extends ConsumerStatefulWidget {
+class _WelcomeCarouselWithIndicator
+    extends ConsumerStatefulWidget {
   final Color backgroundColor;
   final bool isNarrowUi;
   const _WelcomeCarouselWithIndicator({
@@ -213,7 +217,8 @@ class _WelcomeCarouselWithIndicatorState
 
   void _carouselListener() {
     final position = carouselController.position;
-    final width = (maxWidth ?? MediaQuery.sizeOf(context).width) - 32;
+    final width =
+        (maxWidth ?? MediaQuery.sizeOf(context).width) - 32;
     if (position.hasPixels) {
       final index = (position.pixels / width).round();
       setState(() {
@@ -238,13 +243,15 @@ class _WelcomeCarouselWithIndicatorState
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      maxWidth = constraints.maxWidth;
+      builder:
+          (BuildContext context, BoxConstraints constraints) {
+            maxWidth = constraints.maxWidth;
 
-      return widget.isNarrowUi
-          ? _build1(constraints.maxWidth)
-          : _build2(constraints.maxWidth);
-    });
+            return widget.isNarrowUi
+                ? _build1(constraints.maxWidth)
+                : _build2(constraints.maxWidth);
+          },
+    );
   }
 
   Widget _build1(double shrinkExtent) {
@@ -307,9 +314,7 @@ class _WelcomeCarouselView extends StatelessWidget {
 }
 
 class _CarouselIndicator extends StatelessWidget {
-  const _CarouselIndicator({
-    required this.currentIndex,
-  });
+  const _CarouselIndicator({required this.currentIndex});
 
   final int currentIndex;
 
@@ -336,9 +341,7 @@ class _CarouselIndicator extends StatelessWidget {
 }
 
 class _WideViewNavigator extends ConsumerWidget {
-  const _WideViewNavigator({
-    required this.currentIndex,
-  });
+  const _WideViewNavigator({required this.currentIndex});
 
   final int currentIndex;
 
@@ -346,7 +349,10 @@ class _WideViewNavigator extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 16.0),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 28.0,
+        vertical: 16.0,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -369,13 +375,13 @@ class _WideViewNavigator extends ConsumerWidget {
 }
 
 void _onNavigate(BuildContext context, WidgetRef ref) {
-  // Define the go home function
+  // Define the go disclaimer route function
   goHome() {
     // Mark user as onboarded
     ref.read(mesSettingsProvider.notifier).markAsOnboarded();
 
-    // Navigate to home
-    context.go(HomeRoute.path);
+    // Navigate to the disclaimer page
+    context.go(DisclaimerRoute.path);
   }
 
   // If this is IOS, we don't need to request explicit
@@ -389,9 +395,9 @@ void _onNavigate(BuildContext context, WidgetRef ref) {
       builder: (context) => PermissionsDialog(
         onProceed: () async {
           // Request all permissions
-          await RuntimePermissions().requestAllPermissions().whenComplete(
-                goHome,
-              );
+          await RuntimePermissions()
+              .requestAllPermissions()
+              .whenComplete(goHome);
         },
         onComplete: goHome,
       ),
