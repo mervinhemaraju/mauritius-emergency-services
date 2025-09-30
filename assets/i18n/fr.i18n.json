@@ -35,12 +35,12 @@
                 {
                     "icon": "⚠️",
                     "title": "aucune affiliation gouvernementale",
-                    "message": "Cette application n'est PAS affiliée, endorsée ou liée à une entité gouvernementale ou agence, y compris les Services Météorologiques de Maurice ou les services d'urgence."
+                    "message": "Cette application n'est PAS affiliée, endorsée ou liée à une entité gouvernementale ou agence, y compris les Services Météorologiques de Maurice ou les services d'urgence. Il s'agit d'un service indépendant."
                 },
                 {
                     "icon": "📋",
                     "title": "sources des données",
-                    "message": "Les contacts d'urgence sont compilés et maintenus manuellement par le développeur de l'application.\n\nLes informations cycloniques proviennent des Services Météorologiques de Maurice (metservice.intnet.mu) et sont relayées via notre API pour votre commodité."
+                    "message": "Les numéros d'urgence proviennent de :\n• Le site officiel du gouvernement (govmu.org)\n• Le site officiel Maurinet (maurinet.com)\n• Répertoires de services publics\n\nLes informations cycloniques proviennent des Services Météorologiques de Maurice (metservice.intnet.mu) et sont relayées via notre API pour votre commodité."
                 },
                 {
                     "icon": "ℹ️",

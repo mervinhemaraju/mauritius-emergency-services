@@ -35,12 +35,12 @@
                 {
                     "icon": "⚠️",
                     "title": "no government affiliation",
-                    "message": "This application is NOT affiliated with, endorsed by, or connected to any government entity or agency, including the Mauritius Meteorological Services or emergency services."
+                    "message": "This application is NOT affiliated with, endorsed by, or connected to any government entity or agency, including the Mauritius Meteorological Services or emergency services. This is an independent service."
                 },
                 {
                     "icon": "📋",
                     "title": "data sources",
-                    "message": "Emergency contacts are manually curated and maintained by the app developer.\n\nCyclone information is sourced from the Mauritius Meteorological Services (metservice.intnet.mu) and relayed through our API for convenience."
+                    "message": "Emergency contact numbers are sourced from:\n• The official government website (govmu.org)\n• Maurinet official website (maurinet.com)\n• Public service directories\n\nCyclone information is sourced from the Mauritius Meteorological Services (metservice.intnet.mu) and relayed through our API for convenience."
                 },
                 {
                     "icon": "ℹ️",
