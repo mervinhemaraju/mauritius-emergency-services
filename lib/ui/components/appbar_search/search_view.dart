@@ -45,7 +45,9 @@ class _MesSearchBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get the search controller
-    final searchController = ref.watch(globalSearchControllerProvider);
+    final searchController = ref.watch(
+      globalSearchControllerProvider,
+    );
 
     // Watch the services
     final services = ref.watch(servicesProvider);
@@ -54,7 +56,7 @@ class _MesSearchBar extends ConsumerWidget {
     return SearchAnchor.bar(
       searchController: searchController,
       barBackgroundColor: WidgetStatePropertyAll(
-        Theme.of(context).colorScheme.onInverseSurface,
+        Theme.of(context).colorScheme.tintedSurface(level: 56.0),
       ),
       barHintText: t.components.search_bar
           .title(app_name_short: t.app.short_name.toUpperCase())
@@ -95,42 +97,50 @@ class _MesSearchBar extends ConsumerWidget {
           ),
         ),
       ],
-      suggestionsBuilder: (BuildContext context, SearchController controller) {
-        // Get the query
-        final query = controller.text.toLowerCase();
+      suggestionsBuilder:
+          (BuildContext context, SearchController controller) {
+            // Get the query
+            final query = controller.text.toLowerCase();
 
-        // Get the search state
-        final state = services.when(
-          data: (services) => _onLoad(query, services),
-          loading: () => const SearchLoading(),
-          error: (error, stack) => SearchError(message: error.toString()),
-        );
+            // Get the search state
+            final state = services.when(
+              data: (services) => _onLoad(query, services),
+              loading: () => const SearchLoading(),
+              error: (error, stack) =>
+                  SearchError(message: error.toString()),
+            );
 
-        // Return the view
-        return [
-          switch (state) {
-            SearchInitial() => _SearchUiInitial(),
-            SearchLoading() => const Center(child: CircularProgressIndicator()),
-            SearchError() => ListTile(
-              title: Text(t.messages.error.cannot_load_data),
-            ),
-            SearchMatched(services: final services) => _SearchUiMatch(
-              services: services,
-              onTap: (service) {
-                // Udpate the search controller
-                searchController.text = service.name;
+            // Return the view
+            return [
+              switch (state) {
+                SearchInitial() => _SearchUiInitial(),
+                SearchLoading() => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                SearchError() => ListTile(
+                  title: Text(t.messages.error.cannot_load_data),
+                ),
+                SearchMatched(services: final services) =>
+                  _SearchUiMatch(
+                    services: services,
+                    onTap: (service) {
+                      // Udpate the search controller
+                      searchController.text = service.name;
 
-                // Navigate to the services route
-                context.go(
-                  ServicesRoute.path,
-                  extra: {ServicesRoute.extraQuery: service.name.toLowerCase()},
-                );
+                      // Navigate to the services route
+                      context.go(
+                        ServicesRoute.path,
+                        extra: {
+                          ServicesRoute.extraQuery: service.name
+                              .toLowerCase(),
+                        },
+                      );
+                    },
+                  ),
+                SearchNoMatch() => _SearchUiNoMatch(),
               },
-            ),
-            SearchNoMatch() => _SearchUiNoMatch(),
+            ];
           },
-        ];
-      },
     );
   }
 }
@@ -139,7 +149,10 @@ class _SearchUiInitial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(
+        vertical: 32.0,
+        horizontal: 16.0,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         // crossAxisAlignment: CrossAxisAlignment.center,
@@ -172,13 +185,18 @@ class _SearchUiNoMatch extends StatelessWidget {
             color: Theme.of(context).colorScheme.tertiary,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 21.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 21.0,
+            ),
             child: Text(
               t.messages.info.no_match_for_query,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).colorScheme.secondary,
-              ),
+              style: Theme.of(context).textTheme.bodyLarge
+                  ?.copyWith(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.secondary,
+                  ),
             ),
           ),
         ],
@@ -191,7 +209,10 @@ class _SearchUiMatch extends StatelessWidget {
   final List<Service> services;
   final void Function(Service) onTap;
 
-  const _SearchUiMatch({required this.services, required this.onTap});
+  const _SearchUiMatch({
+    required this.services,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

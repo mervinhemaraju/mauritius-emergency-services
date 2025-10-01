@@ -151,7 +151,7 @@ class ActionButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
+      padding: const EdgeInsets.only(top: 8.0, bottom: 48.0),
       child: Row(
         spacing: 12.0,
         children: [

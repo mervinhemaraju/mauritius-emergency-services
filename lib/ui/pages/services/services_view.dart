@@ -29,7 +29,8 @@ class ServicesScreen extends ConsumerWidget {
     final servicesUiState = ref
         .watch(servicesStateProvider)
         .when(
-          error: (error, stack) => ServicesError(message: error.toString()),
+          error: (error, stack) =>
+              ServicesError(message: error.toString()),
           loading: () => const ServicesLoading(),
           data: (state) => state,
         );
@@ -48,7 +49,9 @@ class ServicesScreen extends ConsumerWidget {
         retryAction: retryAction,
       ),
       ServicesLoaded() => ServicesList(
-        services: servicesUiState.services.search(query: searchQuery),
+        services: servicesUiState.services.search(
+          query: searchQuery,
+        ),
       ),
     };
 

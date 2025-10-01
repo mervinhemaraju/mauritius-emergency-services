@@ -30,10 +30,17 @@ class MesDrawerItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       selected: isSelected,
-      selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
-      selectedTileColor: Theme.of(context).colorScheme.primaryContainer,
+      selectedColor: Theme.of(
+        context,
+      ).colorScheme.onPrimaryContainer,
+      selectedTileColor: Theme.of(
+        context,
+      ).colorScheme.primaryContainer,
       leading: leadingIcon,
-      title: Text(title, style: Theme.of(context).textTheme.bodyMedium),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
       trailing: trailing,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.horizontal(
@@ -68,16 +75,22 @@ class AboutHeaderListItem extends StatelessWidget {
     return ListTile(
       leading: Container(
         padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(color: background, shape: BoxShape.circle),
+        decoration: BoxDecoration(
+          color: background,
+          shape: BoxShape.circle,
+        ),
         child: Icon(Icons.person, size: 28, color: foreground),
       ),
       title: Padding(
         padding: const EdgeInsets.only(bottom: 4.0),
         child: Text(
           title,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
-          ),
+          style: Theme.of(context).textTheme.bodyMedium
+              ?.copyWith(
+                color: Theme.of(
+                  context,
+                ).colorScheme.onPrimaryContainer,
+              ),
         ),
       ),
       subtitle: Text(
@@ -150,7 +163,9 @@ class MesEmergencyTileItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context).colorScheme.surfaceContainerLow,
+      color: Theme.of(
+        context,
+      ).colorScheme.tintedSurface(level: 8.0),
       child: InkWell(
         onTap: onTap,
         child: Container(
@@ -162,16 +177,20 @@ class MesEmergencyTileItem extends StatelessWidget {
               Text(
                 service.name,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontWeight: FontWeight.w400,
-                ),
+                style: Theme.of(context).textTheme.bodyLarge
+                    ?.copyWith(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.secondary,
+                      fontWeight: FontWeight.w400,
+                    ),
               ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: service.iconData.loadImage(
                   networkImageUrl: service.icon,
-                  memoryPlaceholderImage: AssetsManager.ANIMATED_LOADING,
+                  memoryPlaceholderImage:
+                      AssetsManager.ANIMATED_LOADING,
                   size: 48,
                 ),
               ),
@@ -260,24 +279,40 @@ class ExpandableDismissibleService extends StatelessWidget {
         HapticFeedback.lightImpact();
 
         // Navigate to pre call
-        context.navigateToPreCall(service, service.mainContact.toString());
+        context.navigateToPreCall(
+          service,
+          service.mainContact.toString(),
+        );
 
         // Return false to prevent tiel from dismiss
         return false;
       },
       onUpdate: (details) => {
         if (details.reached)
-          {toggleDismissibleBackgroundColor(theme.colorScheme.primary)}
+          {
+            toggleDismissibleBackgroundColor(
+              theme.colorScheme.primary,
+            ),
+          }
         else
-          {toggleDismissibleBackgroundColor(theme.colorScheme.secondary)},
+          {
+            toggleDismissibleBackgroundColor(
+              theme.colorScheme.secondary,
+            ),
+          },
       },
       direction: DismissDirection.endToStart,
-      dismissThresholds: const {DismissDirection.endToStart: 0.5},
+      dismissThresholds: const {
+        DismissDirection.endToStart: 0.5,
+      },
       background: Container(
         alignment: Alignment.centerRight,
         color: dismissibleBackgroundColor,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 21.0),
+          padding: const EdgeInsets.symmetric(
+            vertical: 8.0,
+            horizontal: 21.0,
+          ),
           child: Icon(
             Icons.call_outlined,
             color: theme.colorScheme.onSecondary,
@@ -286,8 +321,8 @@ class ExpandableDismissibleService extends StatelessWidget {
       ),
       child: Container(
         color: isExpanded
-            ? theme.colorScheme.onInverseSurface
-            : theme.colorScheme.surface,
+            ? theme.colorScheme.tintedSurface(level: 48.0)
+            : theme.colorScheme.tintedSurface(),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -298,7 +333,8 @@ class ExpandableDismissibleService extends StatelessWidget {
               ),
               leading: service.iconData.loadImage(
                 networkImageUrl: service.icon,
-                memoryPlaceholderImage: AssetsManager.ANIMATED_LOADING,
+                memoryPlaceholderImage:
+                    AssetsManager.ANIMATED_LOADING,
               ),
               title: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
@@ -320,7 +356,9 @@ class ExpandableDismissibleService extends StatelessWidget {
                   ),
                   if (service.isTollFree) ...[
                     const SizedBox(width: 12.0),
-                    MesChip(label: t.actions.toll_free.capitalizeAll()),
+                    MesChip(
+                      label: t.actions.toll_free.capitalizeAll(),
+                    ),
                   ],
                 ],
               ),
@@ -328,7 +366,8 @@ class ExpandableDismissibleService extends StatelessWidget {
                   ? null
                   : Wrap(
                       direction: Axis.vertical,
-                      crossAxisAlignment: WrapCrossAlignment.center,
+                      crossAxisAlignment:
+                          WrapCrossAlignment.center,
                       children: [
                         Badge(
                           label: isExpanded
@@ -339,7 +378,9 @@ class ExpandableDismissibleService extends StatelessWidget {
                                       .toString(),
                                 ),
 
-                          textColor: Theme.of(context).colorScheme.onTertiary,
+                          textColor: Theme.of(
+                            context,
+                          ).colorScheme.onTertiary,
                           backgroundColor: Theme.of(
                             context,
                           ).colorScheme.tertiary,
@@ -348,7 +389,9 @@ class ExpandableDismissibleService extends StatelessWidget {
                           isExpanded
                               ? Icons.arrow_drop_up_outlined
                               : Icons.arrow_drop_down_outlined,
-                          color: Theme.of(context).colorScheme.tertiary,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.tertiary,
                         ),
                       ],
                     ),
@@ -374,7 +417,9 @@ class ExpandableDismissibleService extends StatelessWidget {
                               context,
                             ).colorScheme.tertiary,
                             onTap: (contact) {
-                              if (contact.toString().isNumeric()) {
+                              if (contact
+                                  .toString()
+                                  .isNumeric()) {
                                 context.navigateToPreCall(
                                   service,
                                   contact.toString(),
@@ -391,7 +436,8 @@ class ExpandableDismissibleService extends StatelessWidget {
                             },
                           )
                         : Text(
-                            t.messages.info.no_other_contacts.capitalizeAll(),
+                            t.messages.info.no_other_contacts
+                                .capitalizeAll(),
                           ),
                   ),
                 ),
@@ -483,7 +529,9 @@ class WelcomeCarouselItem extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+            ),
             width: double.infinity,
             child: Image.asset(asset, fit: BoxFit.contain),
           ),
@@ -572,7 +620,8 @@ class LanguageSelectorItem extends StatelessWidget {
       selectedColor: Theme.of(context).colorScheme.onTertiary,
       selectedTileColor: Theme.of(context).colorScheme.tertiary,
       title: Text(
-        t.others.language[locale.name.toString()]?.capitalize() ??
+        t.others.language[locale.name.toString()]
+                ?.capitalize() ??
             t.others.language.entries.first.value.capitalize(),
       ),
       trailing: isSelected

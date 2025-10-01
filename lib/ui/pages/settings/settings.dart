@@ -28,7 +28,8 @@ class SettingsScreen extends ConsumerWidget {
           children: [
             if (Platform.isAndroid) ...[
               _SettingsHeaderTitle(
-                title: t.pages.settings.section_display.title.capitalize(),
+                title: t.pages.settings.section_display.title
+                    .capitalizeAll(),
               ),
               SettingsItem(
                 icon: Icons.color_lens_outlined,
@@ -38,7 +39,7 @@ class SettingsScreen extends ConsumerWidget {
                     .section_display
                     .dynamic_colors
                     .tile_title
-                    .capitalize(),
+                    .capitalizeAll(),
                 subtitle: t
                     .pages
                     .settings
@@ -50,7 +51,8 @@ class SettingsScreen extends ConsumerWidget {
               ),
             ],
             _SettingsHeaderTitle(
-              title: t.pages.settings.section_feature.title.capitalize(),
+              title: t.pages.settings.section_feature.title
+                  .capitalize(),
             ),
             SettingsItem(
               icon: Icons.emergency_outlined,
@@ -77,7 +79,8 @@ class SettingsScreen extends ConsumerWidget {
               },
             ),
             _SettingsHeaderTitle(
-              title: t.pages.settings.section_application.title.capitalize(),
+              title: t.pages.settings.section_application.title
+                  .capitalize(),
             ),
             SettingsItem(
               icon: Icons.language_outlined,
@@ -98,7 +101,8 @@ class SettingsScreen extends ConsumerWidget {
               onTap: () {
                 showDialog<String>(
                   context: context,
-                  builder: (BuildContext context) => const LanguageDialog(),
+                  builder: (BuildContext context) =>
+                      const LanguageDialog(),
                 );
               },
             ),
@@ -109,7 +113,6 @@ class SettingsScreen extends ConsumerWidget {
   }
 }
 
-// Simple switch widget
 class _DynamicColorSwitch extends ConsumerWidget {
   const _DynamicColorSwitch();
 
@@ -119,8 +122,9 @@ class _DynamicColorSwitch extends ConsumerWidget {
 
     return Switch(
       value: settings.isDynamicEnabled,
-      onChanged: (value) =>
-          ref.read(mesSettingsProvider.notifier).toggleDynamic(value),
+      onChanged: (value) => ref
+          .read(mesSettingsProvider.notifier)
+          .toggleDynamic(value),
     );
   }
 }
