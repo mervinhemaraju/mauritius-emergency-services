@@ -5,13 +5,16 @@ import 'package:mauritius_emergency_services/models/cyclone_report.dart';
 import 'package:mauritius_emergency_services/data/repository/mes_cyclone.dart';
 
 class MesCycloneApi implements MesCycloneRepository {
-  static const _endpoint = "https://mes.plagueworks.org/api";
+  static const _endpoint = "https://mesapi.plagueworks.org/api";
   static const _version = "v1";
 
   final Dio dio;
   final String defaultLanguage;
 
-  MesCycloneApi({required this.dio, this.defaultLanguage = "en"});
+  MesCycloneApi({
+    required this.dio,
+    this.defaultLanguage = "en",
+  });
 
   // Helper method to reduce duplication
   Future<T> _handleApiCall<T>({

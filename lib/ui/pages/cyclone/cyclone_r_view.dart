@@ -188,10 +188,10 @@ class _CycloneNoWarningUi extends StatelessWidget {
                     ).colorScheme.primary,
                     secondaryColor: Theme.of(
                       context,
-                    ).colorScheme.secondary,
+                    ).colorScheme.onSurface,
                     tertiaryColor: Theme.of(
                       context,
-                    ).colorScheme.tertiary,
+                    ).colorScheme.onSurface,
                   ),
                 ),
                 Padding(

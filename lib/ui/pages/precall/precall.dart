@@ -34,6 +34,7 @@ class PreCallScreen extends StatelessWidget {
             ),
             tabletLeftView: PreCallWideLeftView(
               service: service,
+              number: number,
             ),
             tabletRightView: PreCallWideRightView(
               service: service,

@@ -16,9 +16,11 @@ class PreCallWideLeftView extends StatelessWidget {
   const PreCallWideLeftView({
     super.key,
     required this.service,
+    required this.number,
   });
 
   final Service service;
+  final String number;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class PreCallWideLeftView extends StatelessWidget {
       child: Column(
         spacing: 48.0,
         children: [
-          _HeaderView(service: service),
+          _HeaderView(service: service, number: number),
           _IconView(service: service),
         ],
       ),
@@ -67,7 +69,8 @@ class PreCallWideRightView extends StatelessWidget {
                     onError: () {
                       // Show on snack bar
                       context.showSimpleSnackbar(
-                        t.messages.error.cannot_launch_phone_app.capitalize(),
+                        t.messages.error.cannot_launch_phone_app
+                            .capitalize(),
                       );
                     },
                   );
@@ -105,7 +108,7 @@ class PreCallNarrowView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         spacing: 80.0,
         children: [
-          _HeaderView(service: service),
+          _HeaderView(service: service, number: number),
           _IconView(service: service),
           _CountdownTimer(
             onComplete: () async {
@@ -116,7 +119,8 @@ class PreCallNarrowView extends StatelessWidget {
                 onError: () {
                   // Show on snack bar
                   context.showSimpleSnackbar(
-                    t.messages.error.cannot_launch_phone_app.capitalize(),
+                    t.messages.error.cannot_launch_phone_app
+                        .capitalize(),
                   );
                 },
               );
@@ -130,9 +134,7 @@ class PreCallNarrowView extends StatelessWidget {
 }
 
 class _IconView extends StatelessWidget {
-  const _IconView({
-    required this.service,
-  });
+  const _IconView({required this.service});
 
   final Service service;
 
@@ -144,21 +146,22 @@ class _IconView extends StatelessWidget {
     // Return the view
     return Expanded(
       child: Container(
-          padding: const EdgeInsets.all(12.0),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: theme.colorScheme.tertiary,
-              width: 4.0,
-            ),
+        padding: const EdgeInsets.all(12.0),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: theme.colorScheme.tertiary,
+            width: 4.0,
           ),
-          width: MediaQuery.sizeOf(context).width,
-          child: service.iconData.loadImage(
-            networkImageUrl: service.icon,
-            memoryPlaceholderImage: AssetsManager.ANIMATED_LOADING,
-            size: 60,
-            fit: BoxFit.contain,
-          )),
+        ),
+        width: MediaQuery.sizeOf(context).width,
+        child: service.iconData.loadImage(
+          networkImageUrl: service.icon,
+          memoryPlaceholderImage: AssetsManager.ANIMATED_LOADING,
+          size: 60,
+          fit: BoxFit.contain,
+        ),
+      ),
     );
   }
 }
@@ -166,8 +169,10 @@ class _IconView extends StatelessWidget {
 class _HeaderView extends StatelessWidget {
   const _HeaderView({
     required this.service,
+    required this.number,
   });
   final Service service;
+  final String number;
 
   @override
   Widget build(BuildContext context) {
@@ -185,9 +190,7 @@ class _HeaderView extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(
-          height: 4.0,
-        ),
+        const SizedBox(height: 4.0),
         Text(
           service.name,
           textAlign: TextAlign.center,
@@ -195,11 +198,9 @@ class _HeaderView extends StatelessWidget {
             color: theme.colorScheme.secondary,
           ),
         ),
-        const SizedBox(
-          height: 12.0,
-        ),
+        const SizedBox(height: 12.0),
         Text(
-          service.mainContact.toString(),
+          number,
           textAlign: TextAlign.center,
           style: theme.textTheme.headlineMedium?.copyWith(
             color: theme.colorScheme.onPrimaryContainer,
@@ -228,8 +229,12 @@ class _SlideToCancelState extends State<_SlideToCancel> {
       borderRadius: BorderRadius.circular(50.0),
       child: Dismissible(
         direction: DismissDirection.endToStart,
-        dismissThresholds: const {DismissDirection.endToStart: 0.5},
-        background: _SlideToCancelBackBody(isOverThreshold: isOverThreshold),
+        dismissThresholds: const {
+          DismissDirection.endToStart: 0.5,
+        },
+        background: _SlideToCancelBackBody(
+          isOverThreshold: isOverThreshold,
+        ),
         key: const Key("swipe_to_cancel"),
         // Provide a function that tells the app
         // what to do after an item has been swiped away.
@@ -270,9 +275,7 @@ class _SlideToCancelState extends State<_SlideToCancel> {
 class _SlideToCancelBackBody extends StatelessWidget {
   final bool isOverThreshold;
 
-  const _SlideToCancelBackBody({
-    required this.isOverThreshold,
-  });
+  const _SlideToCancelBackBody({required this.isOverThreshold});
 
   @override
   Widget build(BuildContext context) {
@@ -281,13 +284,18 @@ class _SlideToCancelBackBody extends StatelessWidget {
 
     // Return the view
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 32.0),
+      padding: const EdgeInsets.symmetric(
+        vertical: 12.0,
+        horizontal: 32.0,
+      ),
       alignment: Alignment.centerRight,
       color: isOverThreshold
           ? theme.colorScheme.error
           : theme.colorScheme.secondary,
       child: Icon(
-        isOverThreshold ? Icons.call_end_outlined : Icons.call_outlined,
+        isOverThreshold
+            ? Icons.call_end_outlined
+            : Icons.call_outlined,
         color: isOverThreshold
             ? theme.colorScheme.onError
             : theme.colorScheme.onSecondary,
@@ -316,12 +324,11 @@ class _SlideToCancelFrontBody extends StatelessWidget {
           Text(
             t.actions.slide_to_cancel.capitalizeAll(),
             style: theme.textTheme.bodyLarge?.copyWith(
-                color: theme.colorScheme.primaryContainer,
-                fontWeight: FontWeight.bold),
+              color: theme.colorScheme.primaryContainer,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          const SizedBox(
-            width: 16.0,
-          ),
+          const SizedBox(width: 16.0),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -338,7 +345,7 @@ class _SlideToCancelFrontBody extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -369,13 +376,16 @@ class _CountdownTimerState extends State<_CountdownTimer>
       vsync: this,
     );
 
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0),
-      end: const Offset(-1.5, 0),
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    _slideAnimation =
+        Tween<Offset>(
+          begin: const Offset(0, 0),
+          end: const Offset(-1.5, 0),
+        ).animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: Curves.easeInOut,
+          ),
+        );
 
     _startCountdown();
   }
@@ -413,7 +423,8 @@ class _CountdownTimerState extends State<_CountdownTimer>
       child: Text(
         '$count',
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.displayMedium?.copyWith(
+        style: Theme.of(context).textTheme.displayMedium
+            ?.copyWith(
               color: Theme.of(context).colorScheme.secondary,
               fontWeight: FontWeight.w600,
             ),
@@ -447,10 +458,7 @@ void onCountdownComplete({
     await intent.launch();
   } else {
     // Build the URI
-    final uri = Uri(
-      scheme: 'tel',
-      path: number,
-    );
+    final uri = Uri(scheme: 'tel', path: number);
 
     // Launch the URL with explicit LaunchMode
     if (!await launchUrl(uri)) {
