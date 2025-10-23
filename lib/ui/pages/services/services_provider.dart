@@ -1,6 +1,4 @@
 import 'dart:ui';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/models/network_info.dart';
 import 'package:mauritius_emergency_services/providers/services_providers.dart';
@@ -13,7 +11,7 @@ Future<ServicesState> servicesState(Ref ref) async {
   // Add to try catch to catch errors
   try {
     // Get the list of services
-    final services = await ref.watch(servicesNotifierProvider.future);
+    final services = await ref.watch(servicesProvider.future);
 
     // If the services list is empty, check the internet connection
     if (services.isEmpty) {
@@ -22,8 +20,8 @@ Future<ServicesState> servicesState(Ref ref) async {
 
       // If not connected to internet
       if (!isConnectedToInternet) {
-        return ServicesNoInternetState(
-          t.messages.error.services_unavailable(
+        return ServicesNoInternet(
+          message: t.messages.error.services_unavailable(
             app_name_short: t.app.short_name.toUpperCase(),
           ),
         );
@@ -34,10 +32,10 @@ Future<ServicesState> servicesState(Ref ref) async {
     services.sort((a, b) => a.name.compareTo(b.name));
 
     // Set the UI state
-    return ServicesUiState(services);
+    return ServicesLoaded(services: services);
   } catch (e) {
-    return ServicesErrorState(
-      t.messages.error.cannot_load_data,
+    return ServicesError(
+      message: t.messages.error.cannot_load_data,
     );
   }
 }

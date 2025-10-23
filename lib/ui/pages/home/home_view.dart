@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/providers/services_providers.dart';
@@ -22,33 +23,36 @@ class HomeScreen extends ConsumerWidget {
 
     // Define a retry action
     retryAction() async {
-      await ref.read(servicesNotifierProvider.notifier).refresh();
+      await ref.read(servicesProvider.notifier).refresh();
     }
 
     // Define the UI state
-    final homeUiState = ref.watch(homeStateProvider).when(
-          error: (error, stack) => HomeErrorState(error.toString()),
-          loading: () => const HomeLoadingState(),
+    final homeUiState = ref
+        .watch(homeStateProvider)
+        .when(
+          error: (error, stack) =>
+              HomeError(message: error.toString()),
+          loading: () => const HomeLoading(),
           data: (state) => state,
         );
 
     // Get the ui view
     final homeUiView = switch (homeUiState) {
-      HomeLoadingState() => const LoadingScreen(),
-      HomeErrorState() => ErrorScreen(
-          title: homeUiState.message.capitalize(),
-          showErrorImage: true,
-          retryAction: retryAction,
-        ),
-      HomeNoInternetState() => ErrorScreen(
-          title: homeUiState.message.capitalize(),
-          showInternetErrorImage: true,
-          retryAction: retryAction,
-        ),
-      HomeUiState() => _HomeUi(
-          emergencyServices: homeUiState.emergencyServices,
-          emergencyButtonAction: homeUiState.emergencyButtonAction,
-        ),
+      HomeLoading() => const LoadingScreen(),
+      HomeError() => ErrorScreen(
+        title: homeUiState.message.capitalize(),
+        showErrorImage: true,
+        retryAction: retryAction,
+      ),
+      HomeNoInternet() => ErrorScreen(
+        title: homeUiState.message.capitalize(),
+        showInternetErrorImage: true,
+        retryAction: retryAction,
+      ),
+      HomeLoaded() => _HomeUi(
+        emergencyServices: homeUiState.services,
+        emergencyButtonAction: homeUiState.emergencyButtonAction,
+      ),
     };
 
     // Return the view
@@ -91,19 +95,26 @@ class _HomeUi extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const Spacer(),
+              const Gap(16.0),
               _TitleSet(
                 theme: theme,
-                title: t.pages.home.primary_title.capitalizeAll(),
-                subtitle: t.pages.home.primary_subtitle.capitalize(),
+                title: t.pages.home.primary_title
+                    .capitalizeAll(),
+                subtitle: t.pages.home.primary_subtitle
+                    .capitalize(),
               ),
-              const SizedBox(height: 32.0),
+              const Spacer(),
+              const Gap(32.0),
               _EmergencyButton(
                 theme: theme,
                 onTap: null,
                 onLongPress: () {
                   final Service emergencyService;
 
-                  if (emergencyButtonAction.identifier.isNotEmpty) {
+                  if (emergencyButtonAction
+                      .identifier
+                      .isNotEmpty) {
                     emergencyService = emergencyButtonAction;
                   } else {
                     emergencyService = emergencyServices.first;
@@ -115,12 +126,17 @@ class _HomeUi extends ConsumerWidget {
                   );
                 },
               ),
-              const SizedBox(height: 32.0),
+              const Spacer(),
+              const Gap(32.0),
               _TitleSet(
                 theme: theme,
-                title: t.pages.home.secondary_title.capitalizeAll(),
-                subtitle: t.pages.home.secondary_subtitle.capitalize(),
+                title: t.pages.home.secondary_title
+                    .capitalizeAll(),
+                subtitle: t.pages.home.secondary_subtitle
+                    .capitalize(),
               ),
+              const Spacer(),
+              const Gap(32.0),
               _EmergencyListView(
                 onTap: (service) {
                   context.navigateToPreCall(
@@ -129,10 +145,11 @@ class _HomeUi extends ConsumerWidget {
                   );
                 },
               ),
-              const SizedBox(height: 8.0),
+              const Spacer(),
+              const Gap(16.0),
             ],
           ),
-        )
+        ),
       ],
     );
   }
@@ -156,7 +173,10 @@ class _HomeUi extends ConsumerWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 8.0,
+          ),
           child: Text(
             subtitle,
             style: theme.textTheme.bodyMedium?.copyWith(
@@ -165,7 +185,7 @@ class _HomeUi extends ConsumerWidget {
             ),
             textAlign: TextAlign.center,
           ),
-        )
+        ),
       ],
     );
   }
@@ -180,7 +200,7 @@ class _HomeUi extends ConsumerWidget {
       onLongPress: onLongPress,
       style: ElevatedButton.styleFrom(
         backgroundColor: theme.colorScheme.error,
-        fixedSize: const Size(200, 200),
+        fixedSize: const Size(230, 230),
         shape: const CircleBorder(),
       ),
       child: Icon(

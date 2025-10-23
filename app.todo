@@ -2,15 +2,13 @@
 
 ============ OPTIMIZATIONS ============
 [1] Improve navigation and router
-[2] Search functionality
-[3] navigation animations for android
-[4] Improve service & icons caching 
+[3] Improve service & icons caching 
 
 ============ TODOS ============
 // FIXME(Fix jank in some parts of the app)
 
 ============ FEATURES ============
 // FEAT(Add search history functionality)
-// FEAT(Implement dynamic color change for Android AND/OR Iphone)
+// FEAT(Implement medium and high contrast)
 // FEAT(Implement push notifications for cyclone using FCM)
 

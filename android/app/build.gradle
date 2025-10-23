@@ -2,6 +2,9 @@ buildscript {
     ext {
         // Application Dependencies
         app_id = "com.th3pl4gu3.mauritius_emergency_services"
+        ndkVersion = "28.2.13676358"
+        minSdkApi = 24
+        targetSdkApi = 36
     }
 }
 
@@ -19,8 +22,8 @@ android {
     }
 
     namespace = "$app_id"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk = targetSdkApi
+    ndkVersion = ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -33,8 +36,8 @@ android {
 
     defaultConfig {
         applicationId = app_id
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        minSdk = minSdkApi
+        targetSdk = targetSdkApi
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
@@ -51,6 +54,13 @@ android {
             minifyEnabled false
             shrinkResources false
             signingConfig signingConfigs.debug
+        }
+    }
+
+    // Disable legacy packaging
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = false
         }
     }
 }

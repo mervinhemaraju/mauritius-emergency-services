@@ -1,32 +1,26 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mauritius_emergency_services/models/cyclone_guidelines.dart';
 import 'package:mauritius_emergency_services/models/cyclone_report.dart';
 
-sealed class CycloneReportState {
-  const CycloneReportState();
-}
+part '../../../generated/pages/cyclone/cyclone_r_state.freezed.dart';
 
-class CycloneReportLoadingState extends CycloneReportState {
-  const CycloneReportLoadingState();
-}
+@freezed
+sealed class CycloneReportState with _$CycloneReportState {
+  const factory CycloneReportState.Warning({
+    required CycloneReport cycloneReport,
+    required CycloneGuidelines? cycloneGuidelines,
+  }) = CycloneReportWarning;
 
-class CycloneReportErrorState extends CycloneReportState {
-  final String message;
-  const CycloneReportErrorState(this.message);
-}
+  const factory CycloneReportState.NoWarning({
+    required CycloneReport cycloneReport,
+    required CycloneGuidelines? cycloneGuidelines,
+  }) = CycloneReportNoWarning;
 
-class CycloneReportNoInternetState extends CycloneReportState {
-  final String message;
-  const CycloneReportNoInternetState(this.message);
-}
+  const factory CycloneReportState.Error({required String message}) =
+      CycloneReportError;
 
-class CycloneReportWarningState extends CycloneReportState {
-  final CycloneReport cycloneReport;
-  final CycloneGuidelines cycloneGuidelines;
-  const CycloneReportWarningState(this.cycloneReport, this.cycloneGuidelines);
-}
+  const factory CycloneReportState.Loading() = CycloneReportLoading;
 
-class CycloneReportNoWarningState extends CycloneReportState {
-  final CycloneReport cycloneReport;
-  final CycloneGuidelines cycloneGuidelines;
-  const CycloneReportNoWarningState(this.cycloneReport, this.cycloneGuidelines);
+  const factory CycloneReportState.NoInternet({required String message}) =
+      CycloneReportNoInternet;
 }

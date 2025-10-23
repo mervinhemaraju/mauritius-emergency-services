@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/models/cyclone_names.dart';
+import 'package:mauritius_emergency_services/models/cyclone_name.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
@@ -22,26 +22,26 @@ class CycloneNamesSheet extends ConsumerWidget {
     // Get the ui state
     final uiState = ref.watch(cycloneNamesProvider).when(
           data: (state) => state,
-          loading: () => const CycloneNamesLoadingState(),
-          error: (error, stack) => CycloneNamesErrorState(
-            error.toString().capitalize(),
+          loading: () => const CycloneNamesLoading(),
+          error: (error, stack) => CycloneNamesError(
+            message: error.toString().capitalize(),
           ),
         );
 
     // Get the ui view
     final uiView = switch (uiState) {
-      CycloneNamesLoadingState() => const LoadingScreen(),
-      CycloneNamesErrorState() => ErrorScreen(
+      CycloneNamesLoading() => const LoadingScreen(),
+      CycloneNamesError() => ErrorScreen(
           title: uiState.message.capitalize(),
           showErrorImage: true,
           retryAction: retryAction,
         ),
-      CycloneNamesNoInternetState() => ErrorScreen(
+      CycloneNamesNoInternet() => ErrorScreen(
           title: uiState.message.capitalize(),
           showInternetErrorImage: true,
           retryAction: retryAction,
         ),
-      CycloneNamesUiState() => _CycloneNamesUi(
+      CycloneNamesLoaded() => _CycloneNamesUi(
           cycloneNames: uiState.cycloneNames,
         ),
     };
@@ -68,7 +68,7 @@ class CycloneNamesSheet extends ConsumerWidget {
 }
 
 class _CycloneNamesUi extends StatelessWidget {
-  final List<CycloneNames> cycloneNames;
+  final List<CycloneName> cycloneNames;
 
   const _CycloneNamesUi({
     required this.cycloneNames,

@@ -3,7 +3,7 @@ import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:mauritius_emergency_services/data/sources/mes.dart';
 
 class MesServiceApiDataSource implements MesDataSource {
-  static final endpoint = "https://mes.mervinhemaraju.com/api";
+  static final endpoint = "https://mes.plagueworks.org/api";
   static final version = "v1";
 
   final Dio dio;

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/models/locale.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:mauritius_emergency_services/models/settings.dart';
@@ -28,6 +27,14 @@ class MesSettingsNotifier extends _$MesSettingsNotifier {
     state = await _repository.getSettings();
   }
 
+  Future<void> markDisclaimerAsRead() async {
+    final newSettings = state.copyWith(
+      disclaimerAcknowledged: true,
+    );
+    await _repository.updateSettings(newSettings);
+    state = newSettings;
+  }
+
   Future<void> markAsOnboarded() async {
     final newSettings = state.copyWith(isOnboarded: true);
     await _repository.updateSettings(newSettings);
@@ -52,8 +59,12 @@ class MesSettingsNotifier extends _$MesSettingsNotifier {
     state = newSettings;
   }
 
-  Future<void> updateEmergencyButtonAction(Service service) async {
-    final newSettings = state.copyWith(emergencyButtonAction: service);
+  Future<void> updateEmergencyButtonAction(
+    Service service,
+  ) async {
+    final newSettings = state.copyWith(
+      emergencyButtonAction: service,
+    );
     await _repository.updateSettings(newSettings);
     state = newSettings;
   }

@@ -30,8 +30,12 @@ class MesDrawerItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       selected: isSelected,
-      selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
-      selectedTileColor: Theme.of(context).colorScheme.primaryContainer,
+      selectedColor: Theme.of(
+        context,
+      ).colorScheme.onPrimaryContainer,
+      selectedTileColor: Theme.of(
+        context,
+      ).colorScheme.primaryContainer,
       leading: leadingIcon,
       title: Text(
         title,
@@ -45,36 +49,6 @@ class MesDrawerItem extends StatelessWidget {
         ),
       ),
       onTap: onTap,
-    );
-  }
-}
-
-// A search item
-class SearchItem extends StatelessWidget {
-  final Service service;
-  final void Function(Service service) onTap;
-
-  const SearchItem({
-    super.key,
-    required this.service,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
-        child: Text(service.name),
-      ),
-      subtitle: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
-        child: Text(service.mainContact.toString()),
-      ),
-      trailing: const Icon(Icons.open_in_new),
-      onTap: () {
-        onTap(service);
-      },
     );
   }
 }
@@ -105,26 +79,25 @@ class AboutHeaderListItem extends StatelessWidget {
           color: background,
           shape: BoxShape.circle,
         ),
-        child: Icon(
-          Icons.person,
-          size: 28,
-          color: foreground,
-        ),
+        child: Icon(Icons.person, size: 28, color: foreground),
       ),
       title: Padding(
         padding: const EdgeInsets.only(bottom: 4.0),
         child: Text(
           title,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+          style: Theme.of(context).textTheme.bodyMedium
+              ?.copyWith(
+                color: Theme.of(
+                  context,
+                ).colorScheme.onPrimaryContainer,
               ),
         ),
       ),
       subtitle: Text(
         subtitle,
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.secondary,
-            ),
+          color: Theme.of(context).colorScheme.secondary,
+        ),
       ),
       onTap: onTap,
     );
@@ -155,10 +128,7 @@ class AboutSectionListItem extends StatelessWidget {
     return ListTile(
       titleAlignment: ListTileTitleAlignment.top,
       minVerticalPadding: 12.0,
-      leading: Icon(
-        icon,
-        color: theme.colorScheme.primary,
-      ),
+      leading: Icon(icon, color: theme.colorScheme.primary),
       title: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: Text(
@@ -193,7 +163,9 @@ class MesEmergencyTileItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context).colorScheme.surfaceContainerLow,
+      color: Theme.of(
+        context,
+      ).colorScheme.tintedSurface(level: 8.0),
       child: InkWell(
         onTap: onTap,
         child: Container(
@@ -205,17 +177,22 @@ class MesEmergencyTileItem extends StatelessWidget {
               Text(
                 service.name,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.secondary,
+                style: Theme.of(context).textTheme.bodyLarge
+                    ?.copyWith(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.secondary,
                       fontWeight: FontWeight.w400,
                     ),
               ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: service.iconData.loadImage(
-                    networkImageUrl: service.icon,
-                    memoryPlaceholderImage: AssetsManager.ANIMATED_LOADING,
-                    size: 48),
+                  networkImageUrl: service.icon,
+                  memoryPlaceholderImage:
+                      AssetsManager.ANIMATED_LOADING,
+                  size: 48,
+                ),
               ),
             ],
           ),
@@ -250,10 +227,7 @@ class SettingsItem extends StatelessWidget {
     // Return the view
     return ListTile(
       titleAlignment: ListTileTitleAlignment.center,
-      leading: Icon(
-        icon,
-        color: theme.colorScheme.primary,
-      ),
+      leading: Icon(icon, color: theme.colorScheme.primary),
       title: Text(
         title,
         style: theme.textTheme.bodyMedium?.copyWith(
@@ -305,7 +279,10 @@ class ExpandableDismissibleService extends StatelessWidget {
         HapticFeedback.lightImpact();
 
         // Navigate to pre call
-        context.navigateToPreCall(service, service.mainContact.toString());
+        context.navigateToPreCall(
+          service,
+          service.mainContact.toString(),
+        );
 
         // Return false to prevent tiel from dismiss
         return false;
@@ -315,22 +292,27 @@ class ExpandableDismissibleService extends StatelessWidget {
           {
             toggleDismissibleBackgroundColor(
               theme.colorScheme.primary,
-            )
+            ),
           }
         else
           {
             toggleDismissibleBackgroundColor(
               theme.colorScheme.secondary,
-            )
-          }
+            ),
+          },
       },
       direction: DismissDirection.endToStart,
-      dismissThresholds: const {DismissDirection.endToStart: 0.5},
+      dismissThresholds: const {
+        DismissDirection.endToStart: 0.5,
+      },
       background: Container(
         alignment: Alignment.centerRight,
         color: dismissibleBackgroundColor,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 21.0),
+          padding: const EdgeInsets.symmetric(
+            vertical: 8.0,
+            horizontal: 21.0,
+          ),
           child: Icon(
             Icons.call_outlined,
             color: theme.colorScheme.onSecondary,
@@ -339,17 +321,21 @@ class ExpandableDismissibleService extends StatelessWidget {
       ),
       child: Container(
         color: isExpanded
-            ? theme.colorScheme.surfaceContainerHigh
-            : theme.colorScheme.surface,
+            ? theme.colorScheme.tintedSurface(level: 48.0)
+            : theme.colorScheme.tintedSurface(),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 12.0,
+                horizontal: 16.0,
+              ),
               leading: service.iconData.loadImage(
-                  networkImageUrl: service.icon,
-                  memoryPlaceholderImage: AssetsManager.ANIMATED_LOADING),
+                networkImageUrl: service.icon,
+                memoryPlaceholderImage:
+                    AssetsManager.ANIMATED_LOADING,
+              ),
               title: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(
@@ -362,24 +348,53 @@ class ExpandableDismissibleService extends StatelessWidget {
               ),
               subtitle: Row(
                 children: [
-                  Text(service.mainContact.toString(),
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.secondary,
-                      )),
+                  Text(
+                    service.mainContact.toString(),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.secondary,
+                    ),
+                  ),
                   if (service.isTollFree) ...[
                     const SizedBox(width: 12.0),
-                    MesChip(label: t.actions.toll_free.capitalizeAll())
+                    MesChip(
+                      label: t.actions.toll_free.capitalizeAll(),
+                    ),
                   ],
                 ],
               ),
-              trailing: IconButton(
-                onPressed: onToggle,
-                icon: Icon(
-                  isExpanded
-                      ? Icons.arrow_drop_up_outlined
-                      : Icons.arrow_drop_down_outlined,
-                ),
-              ),
+              trailing: !service.hasExtraContacts
+                  ? null
+                  : Wrap(
+                      direction: Axis.vertical,
+                      crossAxisAlignment:
+                          WrapCrossAlignment.center,
+                      children: [
+                        Badge(
+                          label: isExpanded
+                              ? null
+                              : Text(
+                                  (service.otherContacts.length +
+                                          service.emails.length)
+                                      .toString(),
+                                ),
+
+                          textColor: Theme.of(
+                            context,
+                          ).colorScheme.onTertiary,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.tertiary,
+                        ),
+                        Icon(
+                          isExpanded
+                              ? Icons.arrow_drop_up_outlined
+                              : Icons.arrow_drop_down_outlined,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.tertiary,
+                        ),
+                      ],
+                    ),
               onTap: onToggle,
             ),
             AnimatedSize(
@@ -398,12 +413,17 @@ class ExpandableDismissibleService extends StatelessWidget {
                         ? _ExtraContactView(
                             emails: service.emails,
                             otherContacts: service.otherContacts,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.tertiary,
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.tertiary,
                             onTap: (contact) {
-                              if (contact.toString().isNumeric()) {
+                              if (contact
+                                  .toString()
+                                  .isNumeric()) {
                                 context.navigateToPreCall(
-                                    service, contact.toString());
+                                  service,
+                                  contact.toString(),
+                                );
                               } else {
                                 // Build the uri
                                 final uri = Uri(
@@ -413,9 +433,12 @@ class ExpandableDismissibleService extends StatelessWidget {
 
                                 launchUrl(uri);
                               }
-                            })
+                            },
+                          )
                         : Text(
-                            t.messages.info.no_other_contacts.capitalizeAll()),
+                            t.messages.info.no_other_contacts
+                                .capitalizeAll(),
+                          ),
                   ),
                 ),
               ),
@@ -431,49 +454,45 @@ class ExpandableDismissibleService extends StatelessWidget {
     required final List<int> otherContacts,
     required final Color backgroundColor,
     required final Function(dynamic) onTap,
-  }) =>
-      Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
+  }) => Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Text(t.messages.info.other_contacts.capitalizeAll()),
+      const SizedBox(height: 8.0),
+      Wrap(
+        spacing: 8.0, // horizontal spacing between badges
+        runSpacing: 8.0, // vertical spacing between lines
         children: [
-          Text(t.messages.info.other_contacts.capitalizeAll()),
-          const SizedBox(height: 8.0),
-          Wrap(
-            spacing: 8.0, // horizontal spacing between badges
-            runSpacing: 8.0, // vertical spacing between lines
-            children: [
-              ...emails.map(
-                (email) => MesChip(
-                  icon: Icons.email_outlined,
-                  label: email,
-                  padding: const EdgeInsets.all(8.0),
-                  backgroundColor: backgroundColor,
-                  onTap: () => onTap(email),
-                ),
-              ),
-              ...otherContacts.map(
-                (contact) => MesChip(
-                  icon: Icons.phone_outlined,
-                  label: contact.toString(),
-                  padding: const EdgeInsets.all(8.0),
-                  backgroundColor: backgroundColor,
-                  onTap: () => onTap(contact),
-                ),
-              ),
-            ],
+          ...emails.map(
+            (email) => MesChip(
+              icon: Icons.email_outlined,
+              label: email,
+              padding: const EdgeInsets.all(8.0),
+              backgroundColor: backgroundColor,
+              onTap: () => onTap(email),
+            ),
+          ),
+          ...otherContacts.map(
+            (contact) => MesChip(
+              icon: Icons.phone_outlined,
+              label: contact.toString(),
+              padding: const EdgeInsets.all(8.0),
+              backgroundColor: backgroundColor,
+              onTap: () => onTap(contact),
+            ),
           ),
         ],
-      );
+      ),
+    ],
+  );
 }
 
 // The cyclone news item
 class CycloneNewsItem extends StatelessWidget {
   final String news;
 
-  const CycloneNewsItem({
-    super.key,
-    required this.news,
-  });
+  const CycloneNewsItem({super.key, required this.news});
 
   @override
   Widget build(BuildContext context) {
@@ -510,12 +529,11 @@ class WelcomeCarouselItem extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            width: double.infinity,
-            child: Image.asset(
-              asset,
-              fit: BoxFit.contain,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
             ),
+            width: double.infinity,
+            child: Image.asset(asset, fit: BoxFit.contain),
           ),
         ),
         Padding(
@@ -530,9 +548,7 @@ class WelcomeCarouselItem extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(
-          height: 12.0,
-        ),
+        const SizedBox(height: 12.0),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
@@ -544,9 +560,7 @@ class WelcomeCarouselItem extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(
-          height: 21.0,
-        )
+        const SizedBox(height: 21.0),
       ],
     );
   }
@@ -606,7 +620,8 @@ class LanguageSelectorItem extends StatelessWidget {
       selectedColor: Theme.of(context).colorScheme.onTertiary,
       selectedTileColor: Theme.of(context).colorScheme.tertiary,
       title: Text(
-        t.others.language[locale.name.toString()]?.capitalize() ??
+        t.others.language[locale.name.toString()]
+                ?.capitalize() ??
             t.others.language.entries.first.value.capitalize(),
       ),
       trailing: isSelected

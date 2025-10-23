@@ -13,10 +13,7 @@ import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 class ServicesScreen extends ConsumerWidget {
   final String searchQuery;
 
-  const ServicesScreen({
-    super.key,
-    this.searchQuery = "",
-  });
+  const ServicesScreen({super.key, this.searchQuery = ""});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,35 +22,37 @@ class ServicesScreen extends ConsumerWidget {
 
     // Define a retry action
     retryAction() async {
-      await ref.read(servicesNotifierProvider.notifier).refresh();
+      await ref.read(servicesProvider.notifier).refresh();
     }
 
     // Define the UI state
-    final servicesUiState = ref.watch(servicesStateProvider).when(
-          error: (error, stack) => ServicesErrorState(error.toString()),
-          loading: () => const ServicesLoadingState(),
+    final servicesUiState = ref
+        .watch(servicesStateProvider)
+        .when(
+          error: (error, stack) =>
+              ServicesError(message: error.toString()),
+          loading: () => const ServicesLoading(),
           data: (state) => state,
         );
 
     // Define the UI view
     final servicesUiView = switch (servicesUiState) {
-      ServicesLoadingState() => const LoadingScreen(),
-      ServicesErrorState() => ErrorScreen(
-          title: servicesUiState.message.capitalize(),
-          showErrorImage: true,
-          retryAction: retryAction,
+      ServicesLoading() => const LoadingScreen(),
+      ServicesError() => ErrorScreen(
+        title: servicesUiState.message.capitalize(),
+        showErrorImage: true,
+        retryAction: retryAction,
+      ),
+      ServicesNoInternet() => ErrorScreen(
+        title: servicesUiState.message.capitalize(),
+        showInternetErrorImage: true,
+        retryAction: retryAction,
+      ),
+      ServicesLoaded() => ServicesList(
+        services: servicesUiState.services.search(
+          query: searchQuery,
         ),
-      ServicesNoInternetState() => ErrorScreen(
-          title: servicesUiState.message.capitalize(),
-          showInternetErrorImage: true,
-          retryAction: retryAction,
-        ),
-      ServicesUiState() => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: ServicesList(
-            services: servicesUiState.services.search(query: searchQuery),
-          ),
-        ),
+      ),
     };
 
     // Return the view

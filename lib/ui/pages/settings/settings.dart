@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
+import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_simple.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/pages/settings/emergency_button_dialog.dart';
@@ -24,25 +26,48 @@ class SettingsScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // _SettingsHeaderTitle(
-            //   title: "Display",
-            // ),
-            // SettingsItem(
-            //   icon: Icons.color_lens_outlined,
-            //   title: "Dynamic Colors",
-            //   subtitle:
-            //       "Apply dynamic colors, based on your wallpaper (Material YOU)",
-            //   trailing: _DynamicColorSwitch(),
-            // ),
+            if (Platform.isAndroid) ...[
+              _SettingsHeaderTitle(
+                title: t.pages.settings.section_display.title
+                    .capitalizeAll(),
+              ),
+              SettingsItem(
+                icon: Icons.color_lens_outlined,
+                title: t
+                    .pages
+                    .settings
+                    .section_display
+                    .dynamic_colors
+                    .tile_title
+                    .capitalizeAll(),
+                subtitle: t
+                    .pages
+                    .settings
+                    .section_display
+                    .dynamic_colors
+                    .tile_subtitle
+                    .capitalize(),
+                trailing: const _DynamicColorSwitch(),
+              ),
+            ],
             _SettingsHeaderTitle(
-              title: t.pages.settings.section_feature.title.capitalize(),
+              title: t.pages.settings.section_feature.title
+                  .capitalize(),
             ),
             SettingsItem(
               icon: Icons.emergency_outlined,
-              title: t.pages.settings.section_feature.emergency_button_action
+              title: t
+                  .pages
+                  .settings
+                  .section_feature
+                  .emergency_button_action
                   .tile_title
                   .capitalizeAll(),
-              subtitle: t.pages.settings.section_feature.emergency_button_action
+              subtitle: t
+                  .pages
+                  .settings
+                  .section_feature
+                  .emergency_button_action
                   .tile_subtitle
                   .capitalize(),
               onTap: () {
@@ -54,20 +79,30 @@ class SettingsScreen extends ConsumerWidget {
               },
             ),
             _SettingsHeaderTitle(
-              title: t.pages.settings.section_application.title.capitalize(),
+              title: t.pages.settings.section_application.title
+                  .capitalize(),
             ),
             SettingsItem(
               icon: Icons.language_outlined,
               title: t
-                  .pages.settings.section_application.change_language.tile_title
+                  .pages
+                  .settings
+                  .section_application
+                  .change_language
+                  .tile_title
                   .capitalizeAll(),
-              subtitle: t.pages.settings.section_application.change_language
+              subtitle: t
+                  .pages
+                  .settings
+                  .section_application
+                  .change_language
                   .tile_subtitle
                   .capitalize(),
               onTap: () {
                 showDialog<String>(
                   context: context,
-                  builder: (BuildContext context) => const LanguageDialog(),
+                  builder: (BuildContext context) =>
+                      const LanguageDialog(),
                 );
               },
             ),
@@ -78,21 +113,21 @@ class SettingsScreen extends ConsumerWidget {
   }
 }
 
-// Simple switch widget
-// class _DynamicColorSwitch extends ConsumerWidget {
-//   const _DynamicColorSwitch();
+class _DynamicColorSwitch extends ConsumerWidget {
+  const _DynamicColorSwitch();
 
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final settings = ref.watch(settingsProvider);
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(mesSettingsProvider);
 
-//     return Switch(
-//       value: settings.isDynamicEnabled,
-//       onChanged: (value) =>
-//           ref.read(settingsProvider.notifier).toggleDynamic(value),
-//     );
-//   }
-// }
+    return Switch(
+      value: settings.isDynamicEnabled,
+      onChanged: (value) => ref
+          .read(mesSettingsProvider.notifier)
+          .toggleDynamic(value),
+    );
+  }
+}
 
 class _SettingsHeaderTitle extends StatelessWidget {
   final String title;
@@ -106,9 +141,9 @@ class _SettingsHeaderTitle extends StatelessWidget {
       child: Text(
         title,
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.secondary,
-            ),
+          fontWeight: FontWeight.w500,
+          color: Theme.of(context).colorScheme.secondary,
+        ),
       ),
     );
   }

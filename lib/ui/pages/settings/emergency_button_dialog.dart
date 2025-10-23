@@ -16,7 +16,7 @@ class EmergencyButtonDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Get the emergency button action
     final emergencyButtonAction = ref.watch(
-      mesSettingsNotifierProvider.select((s) => s.emergencyButtonAction),
+      mesSettingsProvider.select((s) => s.emergencyButtonAction),
     );
 
     // Get the services ui view
@@ -27,7 +27,7 @@ class EmergencyButtonDialog extends ConsumerWidget {
             onServiceSelected: (service) {
               // Update the action
               ref
-                  .read(mesSettingsNotifierProvider.notifier)
+                  .read(mesSettingsProvider.notifier)
                   .updateEmergencyButtonAction(service);
 
               // Show snackbar

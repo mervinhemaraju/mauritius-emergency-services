@@ -15,7 +15,7 @@ MesCycloneRepository mesCycloneRepository(Ref ref) {
 
   // Watch the locale settings
   final locale = ref.watch(
-    mesSettingsNotifierProvider.select((settings) => settings.locale),
+    mesSettingsProvider.select((settings) => settings.locale),
   );
 
   // Return the cyclone api repo

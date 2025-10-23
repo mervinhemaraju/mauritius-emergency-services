@@ -8,6 +8,11 @@ final class WelcomeRoute extends MesRoute {
   static const String path = '/welcome';
 }
 
+final class DisclaimerRoute extends MesRoute {
+  static const String name = 'Disclaimer';
+  static const String path = '/disclaimer';
+}
+
 final class HomeRoute extends MesRoute {
   static const String name = 'Home';
   static const String path = '/';

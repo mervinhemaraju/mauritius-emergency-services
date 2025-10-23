@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part '../generated/providers/services_providers.g.dart';
 
 @riverpod
-Future<List<Service>> services(Ref ref) async {
+Future<List<Service>> mesServices(Ref ref) async {
   /*
   * Basic provider that gets the list of services from the service repository
   * To be used for basic purposes such as getting immutable data
@@ -17,7 +17,7 @@ Future<List<Service>> services(Ref ref) async {
 
   // Watch the locale settings
   final locale = ref.watch(
-    mesSettingsNotifierProvider.select((settings) => settings.locale),
+    mesSettingsProvider.select((settings) => settings.locale),
   );
 
   // Return the list of services
@@ -40,7 +40,7 @@ class ServicesNotifier extends _$ServicesNotifier {
 
     // Watch the locale settings
     final locale = ref.watch(
-      mesSettingsNotifierProvider.select((settings) => settings.locale),
+      mesSettingsProvider.select((settings) => settings.locale),
     );
 
     // Return the list of services

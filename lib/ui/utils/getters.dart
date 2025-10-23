@@ -18,21 +18,23 @@ Duration getRotationSpeedFromCycloneLevel({required int level}) {
 }
 
 // Returns the system UI overlay style
-SystemUiOverlayStyle getSystemUiOverlayStyle(Brightness brightness) {
+SystemUiOverlayStyle getSystemUiOverlayStyle(
+  Brightness brightness, {
+  Color statusBarColor = Colors.transparent,
+  Color systemNavigationBarColor = Colors.transparent,
+}) {
   return SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    systemNavigationBarColor: Colors.transparent,
-    statusBarIconBrightness:
-        brightness == Brightness.dark ? Brightness.light : Brightness.dark,
+    statusBarColor: statusBarColor,
+    systemNavigationBarColor: systemNavigationBarColor,
+    statusBarIconBrightness: brightness == Brightness.dark
+        ? Brightness.light
+        : Brightness.dark,
   );
 }
 
 void enableEdgeToEdge() {
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.edgeToEdge,
-    overlays: [
-      SystemUiOverlay.top,
-      SystemUiOverlay.bottom,
-    ],
+    overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
   );
 }

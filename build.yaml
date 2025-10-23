@@ -5,10 +5,25 @@ targets:
         generate_for:
           - lib/providers/**.dart
           - lib/ui/pages/**/*_provider.dart
+          - lib/models/**.dart
         options:
           build_extensions:
             '^lib/providers/{{}}.dart': 'lib/generated/providers/{{}}.g.dart'
             '^lib/ui/pages/{{}}_provider.dart': 'lib/generated/pages/{{}}_provider.g.dart'
+            '^lib/models/{{}}.dart': 'lib/generated/models/{{}}.g.dart'
+      
+      # Configure freezed
+      freezed:
+        generate_for:
+          - lib/models/*.dart
+          - lib/ui/pages/**.dart
+          - lib/ui/components/**.dart
+        options:
+          build_extensions:
+            '^lib/models/{{}}.dart': 'lib/generated/models/{{}}.freezed.dart'
+            '^lib/ui/pages/{{}}.dart': 'lib/generated/pages/{{}}.freezed.dart'
+            '^lib/ui/components/{{}}.dart': 'lib/generated/components/{{}}.freezed.dart'
+
       slang_build_runner:
         options:
           input_directory: assets/i18n

@@ -1,19 +1,16 @@
-class CycloneGuidelines {
-  final int level;
-  final String description;
-  final List<String> precautions;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const CycloneGuidelines({
-    required this.level,
-    required this.description,
-    required this.precautions,
-  });
+part '../generated/models/cyclone_guidelines.freezed.dart';
+part '../generated/models/cyclone_guidelines.g.dart';
 
-  factory CycloneGuidelines.fromJson(Map<String, dynamic> json) {
-    return CycloneGuidelines(
-      level: json['level'],
-      description: json['description'],
-      precautions: List<String>.from(json['precautions']),
-    );
-  }
+@freezed
+abstract class CycloneGuidelines with _$CycloneGuidelines {
+  const factory CycloneGuidelines({
+    required int level,
+    required String description,
+    required List<String> precautions,
+  }) = _CycloneGuidelines;
+
+  factory CycloneGuidelines.fromJson(Map<String, dynamic> json) =>
+      _$CycloneGuidelinesFromJson(json);
 }

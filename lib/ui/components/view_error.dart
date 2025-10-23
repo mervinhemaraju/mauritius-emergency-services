@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
+import 'package:mauritius_emergency_services/ui/theme/mapper.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class ErrorScreen extends StatelessWidget {
@@ -39,14 +41,25 @@ class ErrorScreen extends StatelessWidget {
             spacing: 8.0,
             children: [
               if (showErrorImage)
-                Image.asset(
+                SvgPicture.asset(
                   AssetsManager.STATIC_ERROR,
                   width: 200,
-                  height: 200,
+                  colorMapper: MesColorMapper(
+                    primaryColor: Theme.of(
+                      context,
+                    ).colorScheme.primary,
+                    secondaryColor: Theme.of(
+                      context,
+                    ).colorScheme.secondary,
+                    tertiaryColor: Theme.of(
+                      context,
+                    ).colorScheme.tertiary,
+                  ),
                 ),
               if (showInternetErrorImage)
                 Icon(
-                  Icons.signal_wifi_statusbar_connected_no_internet_4_outlined,
+                  Icons
+                      .signal_wifi_statusbar_connected_no_internet_4_outlined,
                   size: 200,
                   color: theme.colorScheme.primary,
                 ),
@@ -65,12 +78,14 @@ class ErrorScreen extends StatelessWidget {
                   color: theme.colorScheme.secondary,
                   fontWeight: FontWeight.w400,
                 ),
-              )
+              ),
             ],
           ),
           if (retryAction != null) ...[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 32.0,
+              ),
               child: ElevatedButton(
                 onPressed: retryAction,
                 style: ElevatedButton.styleFrom(
@@ -80,7 +95,7 @@ class ErrorScreen extends StatelessWidget {
                 child: Text(t.actions.retry.capitalize()),
               ),
             ),
-          ]
+          ],
         ],
       ),
     );

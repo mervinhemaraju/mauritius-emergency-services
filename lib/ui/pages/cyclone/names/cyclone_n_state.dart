@@ -1,24 +1,19 @@
-import 'package:mauritius_emergency_services/models/cyclone_names.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:mauritius_emergency_services/models/cyclone_name.dart';
 
-sealed class CycloneNamesState {
-  const CycloneNamesState();
-}
+part '../../../../generated/pages/cyclone/names/cyclone_n_state.freezed.dart';
 
-class CycloneNamesLoadingState extends CycloneNamesState {
-  const CycloneNamesLoadingState();
-}
+@freezed
+sealed class CycloneNamesState with _$CycloneNamesState {
+  const factory CycloneNamesState.Loaded({
+    required List<CycloneName> cycloneNames,
+  }) = CycloneNamesLoaded;
 
-class CycloneNamesErrorState extends CycloneNamesState {
-  final String message;
-  const CycloneNamesErrorState(this.message);
-}
+  const factory CycloneNamesState.Error({required String message}) =
+      CycloneNamesError;
 
-class CycloneNamesNoInternetState extends CycloneNamesState {
-  final String message;
-  const CycloneNamesNoInternetState(this.message);
-}
+  const factory CycloneNamesState.Loading() = CycloneNamesLoading;
 
-class CycloneNamesUiState extends CycloneNamesState {
-  final List<CycloneNames> cycloneNames;
-  const CycloneNamesUiState(this.cycloneNames);
+  const factory CycloneNamesState.NoInternet({required String message}) =
+      CycloneNamesNoInternet;
 }
