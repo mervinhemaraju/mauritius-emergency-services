@@ -84,8 +84,8 @@
                 "header_precautions_title": "précautions"
             }
         },
-        "vicinity_alerts": {
-            "title": "alertes de proximité"
+        "power_outages": {
+            "title": "pannes de courant"
         },
         "precall": {
             "title": "démarrage d'un appel vers",
