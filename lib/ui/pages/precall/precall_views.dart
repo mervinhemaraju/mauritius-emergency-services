@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
-import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -69,8 +69,7 @@ class PreCallWideRightView extends StatelessWidget {
                     onError: () {
                       // Show on snack bar
                       context.showSimpleSnackbar(
-                        t.messages.error.cannot_launch_phone_app
-                            .capitalize(),
+                        t.messages.error.cannot_launch_phone_app.capitalize(),
                       );
                     },
                   );
@@ -119,8 +118,7 @@ class PreCallNarrowView extends StatelessWidget {
                 onError: () {
                   // Show on snack bar
                   context.showSimpleSnackbar(
-                    t.messages.error.cannot_launch_phone_app
-                        .capitalize(),
+                    t.messages.error.cannot_launch_phone_app.capitalize(),
                   );
                 },
               );
@@ -149,15 +147,12 @@ class _IconView extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(
-            color: theme.colorScheme.tertiary,
-            width: 4.0,
-          ),
+          border: Border.all(color: theme.colorScheme.tertiary, width: 4.0),
         ),
         width: MediaQuery.sizeOf(context).width,
         child: service.iconData.loadImage(
           networkImageUrl: service.icon,
-          memoryPlaceholderImage: AssetsManager.ANIMATED_LOADING,
+          memoryPlaceholderImage: AssetsManager.animatedLoading,
           size: 60,
           fit: BoxFit.contain,
         ),
@@ -167,10 +162,7 @@ class _IconView extends StatelessWidget {
 }
 
 class _HeaderView extends StatelessWidget {
-  const _HeaderView({
-    required this.service,
-    required this.number,
-  });
+  const _HeaderView({required this.service, required this.number});
   final Service service;
   final String number;
 
@@ -229,12 +221,8 @@ class _SlideToCancelState extends State<_SlideToCancel> {
       borderRadius: BorderRadius.circular(50.0),
       child: Dismissible(
         direction: DismissDirection.endToStart,
-        dismissThresholds: const {
-          DismissDirection.endToStart: 0.5,
-        },
-        background: _SlideToCancelBackBody(
-          isOverThreshold: isOverThreshold,
-        ),
+        dismissThresholds: const {DismissDirection.endToStart: 0.5},
+        background: _SlideToCancelBackBody(isOverThreshold: isOverThreshold),
         key: const Key("swipe_to_cancel"),
         // Provide a function that tells the app
         // what to do after an item has been swiped away.
@@ -284,18 +272,13 @@ class _SlideToCancelBackBody extends StatelessWidget {
 
     // Return the view
     return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 12.0,
-        horizontal: 32.0,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 32.0),
       alignment: Alignment.centerRight,
       color: isOverThreshold
           ? theme.colorScheme.error
           : theme.colorScheme.secondary,
       child: Icon(
-        isOverThreshold
-            ? Icons.call_end_outlined
-            : Icons.call_outlined,
+        isOverThreshold ? Icons.call_end_outlined : Icons.call_outlined,
         color: isOverThreshold
             ? theme.colorScheme.onError
             : theme.colorScheme.onSecondary,
@@ -314,9 +297,7 @@ class _SlideToCancelFrontBody extends StatelessWidget {
 
     // Return the view
     return Container(
-      decoration: BoxDecoration(
-        color: theme.colorScheme.onPrimaryContainer,
-      ),
+      decoration: BoxDecoration(color: theme.colorScheme.onPrimaryContainer),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -339,10 +320,7 @@ class _SlideToCancelFrontBody extends StatelessWidget {
               ),
               child: Transform.flip(
                 flipX: true,
-                child: const Icon(
-                  Icons.double_arrow_outlined,
-                  size: 48.0,
-                ),
+                child: const Icon(Icons.double_arrow_outlined, size: 48.0),
               ),
             ),
           ),
@@ -376,16 +354,10 @@ class _CountdownTimerState extends State<_CountdownTimer>
       vsync: this,
     );
 
-    _slideAnimation =
-        Tween<Offset>(
-          begin: const Offset(0, 0),
-          end: const Offset(-1.5, 0),
-        ).animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: Curves.easeInOut,
-          ),
-        );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0),
+      end: const Offset(-1.5, 0),
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     _startCountdown();
   }
@@ -423,11 +395,10 @@ class _CountdownTimerState extends State<_CountdownTimer>
       child: Text(
         '$count',
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.displayMedium
-            ?.copyWith(
-              color: Theme.of(context).colorScheme.secondary,
-              fontWeight: FontWeight.w600,
-            ),
+        style: Theme.of(context).textTheme.displayMedium?.copyWith(
+          color: Theme.of(context).colorScheme.secondary,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

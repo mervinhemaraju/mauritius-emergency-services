@@ -1,17 +1,14 @@
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/models/cyclone_guidelines.dart';
 import 'package:mauritius_emergency_services/models/network_info.dart';
-import 'package:mauritius_emergency_services/providers/api_providers.dart';
+import 'package:mauritius_emergency_services/providers/mes_cyclone_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part "../../../generated/pages/cyclone/cyclone_r_provider.g.dart";
 
 @riverpod
-Future<CycloneGuidelines?> cycloneGuidelineByLevel(
-  Ref ref,
-  int level,
-) async {
+Future<CycloneGuidelines?> cycloneGuidelineByLevel(Ref ref, int level) async {
   try {
     final repository = ref.watch(mesCycloneRepositoryProvider);
 
@@ -57,9 +54,13 @@ class CycloneReportNotifier extends _$CycloneReportNotifier {
       // Get the report and guidelines
       return report.level > 0
           ? CycloneReportWarning(
-              cycloneReport: report, cycloneGuidelines: guideline)
+              cycloneReport: report,
+              cycloneGuidelines: guideline,
+            )
           : CycloneReportNoWarning(
-              cycloneReport: report, cycloneGuidelines: guideline);
+              cycloneReport: report,
+              cycloneGuidelines: guideline,
+            );
     } catch (e) {
       return CycloneReportError(
         message: t.messages.error.cannot_load_cyclone_report,

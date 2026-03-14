@@ -1,15 +1,17 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:mauritius_emergency_services/data/repository/app_settings_repository.dart';
 import 'package:mauritius_emergency_services/models/locale.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:mauritius_emergency_services/models/settings.dart';
-import 'package:mauritius_emergency_services/data/repository/app_settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part '../generated/providers/settings_providers.g.dart';
 
 @riverpod
 AppSettingsRepository settingsRepository(Ref ref) {
-  throw UnimplementedError('Repository must be initialized');
+  throw UnimplementedError(
+    'settingsRepositoryProvider must be overridden at app initialisation.',
+  );
 }
 
 @riverpod
@@ -27,44 +29,24 @@ class MesSettingsNotifier extends _$MesSettingsNotifier {
     state = await _repository.getSettings();
   }
 
-  Future<void> markDisclaimerAsRead() async {
-    final newSettings = state.copyWith(
-      disclaimerAcknowledged: true,
-    );
-    await _repository.updateSettings(newSettings);
-    state = newSettings;
-  }
+  Future<void> markDisclaimerAsRead() =>
+      _update(state.copyWith(disclaimerAcknowledged: true));
 
-  Future<void> markAsOnboarded() async {
-    final newSettings = state.copyWith(isOnboarded: true);
-    await _repository.updateSettings(newSettings);
-    state = newSettings;
-  }
+  Future<void> markAsOnboarded() => _update(state.copyWith(isOnboarded: true));
 
-  Future<void> toggleDynamic(bool value) async {
-    final newSettings = state.copyWith(isDynamicEnabled: value);
-    await _repository.updateSettings(newSettings);
-    state = newSettings;
-  }
+  Future<void> toggleDynamic(bool value) =>
+      _update(state.copyWith(isDynamicEnabled: value));
 
-  Future<void> updateTheme(ThemeMode theme) async {
-    final newSettings = state.copyWith(theme: theme);
-    await _repository.updateSettings(newSettings);
-    state = newSettings;
-  }
+  Future<void> updateTheme(ThemeMode theme) =>
+      _update(state.copyWith(theme: theme));
 
-  Future<void> updateLocale(MesLocale locale) async {
-    final newSettings = state.copyWith(locale: locale);
-    await _repository.updateSettings(newSettings);
-    state = newSettings;
-  }
+  Future<void> updateLocale(MesLocale locale) =>
+      _update(state.copyWith(locale: locale));
 
-  Future<void> updateEmergencyButtonAction(
-    Service service,
-  ) async {
-    final newSettings = state.copyWith(
-      emergencyButtonAction: service,
-    );
+  Future<void> updateEmergencyButtonAction(Service service) =>
+      _update(state.copyWith(emergencyButtonAction: service));
+
+  Future<void> _update(MesSettings newSettings) async {
     await _repository.updateSettings(newSettings);
     state = newSettings;
   }

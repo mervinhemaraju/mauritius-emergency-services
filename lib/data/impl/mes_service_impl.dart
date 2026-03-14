@@ -1,47 +1,37 @@
-import 'package:mauritius_emergency_services/data/local/mes_services.dart';
+import 'package:mauritius_emergency_services/data/local/mes_service_local.dart';
+import 'package:mauritius_emergency_services/data/repository/mes_service_repository.dart';
+import 'package:mauritius_emergency_services/data/sources/mes_service_source.dart';
 import 'package:mauritius_emergency_services/models/network_info.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
-import 'package:mauritius_emergency_services/data/repository/mes_service.dart';
-import 'package:mauritius_emergency_services/data/sources/mes.dart';
 
-// Create a repository implementation that handles both local and remote data
-class MesServiceCacheImpl implements MesServiceRepository {
-  final MesDataSource remoteDataSource;
-  final MesServiceLocalDataSource localDataSource;
+/// Offline-first strategy:
+/// 1. Always read from local cache first.
+/// 2. When online, fetch fresh data from remote and update the cache.
+/// 3. Return remote data if available, otherwise fall back to cache.
+class MesServiceImpl implements MesServiceRepository {
+  final MesServiceSource remoteSource;
+  final MesServiceLocal localSource;
   final NetworkInfo networkInfo;
 
-  MesServiceCacheImpl(
-    this.remoteDataSource,
-    this.localDataSource,
-    this.networkInfo,
-  );
+  const MesServiceImpl({
+    required this.remoteSource,
+    required this.localSource,
+    required this.networkInfo,
+  });
 
   @override
   Future<List<Service>> getAllServices([String lang = defaultLanguage]) async {
-    // Add into a try except to catch errors
-    try {
-      // Get the services offline first
-      final localServices = await localDataSource.getAllServices(lang);
+    final localServices = await localSource.getAllServices(lang);
+    final isConnected = await networkInfo.isConnectedToInternet;
 
-      // Get network connection info
-      final isConnected = await networkInfo.isConnectedToInternet;
+    if (!isConnected) return localServices;
 
-      // If connected to network
-      if (isConnected) {
-        // Fetch services from API
-        final remoteServices = await remoteDataSource.getAllServices(lang);
-
-        // Update the cache
-        localDataSource.cacheServices(remoteServices);
-
-        // Return the remote services
-        return remoteServices;
-      }
-
-      // Return the services
-      return localServices;
-    } catch (e) {
-      rethrow;
-    }
+    final remoteServices = await remoteSource.getAllServices(lang);
+    // Fire-and-forget cache update — don't block the return value.
+    unawaited(localSource.cacheServices(remoteServices));
+    return remoteServices;
   }
 }
+
+/// Silences the "unawaited future" lint without importing async.
+void unawaited(Future<void> future) {}

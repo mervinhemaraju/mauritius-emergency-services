@@ -6,10 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mauritius_emergency_services/data/impl/app_settings_impl.dart';
+import 'package:mauritius_emergency_services/data/repository/app_settings_repository.dart';
 import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/routes/router.dart';
 import 'package:mauritius_emergency_services/routes/routes.dart';
-import 'package:mauritius_emergency_services/data/impl/app_settings_impl.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/theme/colors.dart';
 import 'package:mauritius_emergency_services/ui/theme/theme.dart';
@@ -43,7 +44,7 @@ main() async {
   final prefs = await SharedPreferences.getInstance();
 
   // Intialize the app settings
-  final repository = AppSettingsImpl(prefs);
+  final AppSettingsRepository repository = AppSettingsImpl(prefs);
 
   // Make screen edge to edge
   enableEdgeToEdge();
@@ -55,11 +56,7 @@ main() async {
   runApp(
     TranslationProvider(
       child: ProviderScope(
-        overrides: [
-          settingsRepositoryProvider.overrideWithValue(
-            repository,
-          ),
-        ],
+        overrides: [settingsRepositoryProvider.overrideWithValue(repository)],
         child: const MesMaterialApp(),
       ),
     ),
@@ -76,25 +73,18 @@ class MesMaterialApp extends ConsumerWidget {
       mesSettingsProvider.select((s) => s.isOnboarded),
     );
     final disclaimerAcknowledged = ref.watch(
-      mesSettingsProvider.select(
-        (s) => s.disclaimerAcknowledged,
-      ),
+      mesSettingsProvider.select((s) => s.disclaimerAcknowledged),
     );
 
     // Determine the initial location
-    String initialLocation = switch ((
-      isOnboarded,
-      disclaimerAcknowledged,
-    )) {
+    String initialLocation = switch ((isOnboarded, disclaimerAcknowledged)) {
       (false, _) => WelcomeRoute.path,
       (true, false) => DisclaimerRoute.path,
       (true, true) => HomeRoute.path,
     };
 
     // Get the theme mode
-    final themeMode = ref.watch(
-      mesSettingsProvider.select((s) => s.theme),
-    );
+    final themeMode = ref.watch(mesSettingsProvider.select((s) => s.theme));
 
     // Get the dynamic color activation
     final isDynamicEnabled = ref.watch(
@@ -115,48 +105,39 @@ class MesMaterialApp extends ConsumerWidget {
     final router = MesAppRouter.instance.getRouter();
 
     // Create the text theme
-    TextTheme textTheme = createTextTheme(
-      context,
-      "Poppins",
-      "Lato",
-    );
+    TextTheme textTheme = createTextTheme(context, "Poppins", "Lato");
 
     // Create the material theme
     MaterialTheme theme = MaterialTheme(textTheme);
 
     // Dynamic color builder for Material YOU
     return DynamicColorBuilder(
-      builder:
-          (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-            // Build the condition for dynamic color eligibility
-            final bool isEligibleForDc =
-                (lightDynamic != null && darkDynamic != null) &&
-                isDynamicEnabled;
+      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+        // Build the condition for dynamic color eligibility
+        final bool isEligibleForDc =
+            (lightDynamic != null && darkDynamic != null) && isDynamicEnabled;
 
-            // Build light and dark color schemes
-            final ThemeData lightTheme = isEligibleForDc
-                ? theme.build(lightDynamic.harmonized())
-                : theme.build(MesColorSchemes.light);
-            final ThemeData darkTheme = isEligibleForDc
-                ? theme.build(darkDynamic.harmonized())
-                : theme.build(MesColorSchemes.dark);
+        // Build light and dark color schemes
+        final ThemeData lightTheme = isEligibleForDc
+            ? theme.build(lightDynamic.harmonized())
+            : theme.build(MesColorSchemes.light);
+        final ThemeData darkTheme = isEligibleForDc
+            ? theme.build(darkDynamic.harmonized())
+            : theme.build(MesColorSchemes.dark);
 
-            // Return the Material App
-            return MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              title: t.app.name.capitalizeAll(),
-              theme: lightTheme,
-              darkTheme: darkTheme,
-              themeMode: themeMode,
-              locale: TranslationProvider.of(
-                context,
-              ).flutterLocale,
-              supportedLocales: AppLocaleUtils.supportedLocales,
-              localizationsDelegates:
-                  GlobalMaterialLocalizations.delegates,
-              routerConfig: router,
-            );
-          },
+        // Return the Material App
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: t.app.name.capitalizeAll(),
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: themeMode,
+          locale: TranslationProvider.of(context).flutterLocale,
+          supportedLocales: AppLocaleUtils.supportedLocales,
+          localizationsDelegates: GlobalMaterialLocalizations.delegates,
+          routerConfig: router,
+        );
+      },
     );
   }
 }

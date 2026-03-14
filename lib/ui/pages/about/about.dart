@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/models/about.dart';
 import 'package:mauritius_emergency_services/providers/package_version.dart';
-import 'package:mauritius_emergency_services/data/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_simple.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
@@ -40,11 +40,7 @@ class AboutScreen extends StatelessWidget {
                   otherSection.add(
                     About(
                       icon: Icons.info_outlined,
-                      title: t
-                          .pages
-                          .about
-                          .other_section
-                          .version_title
+                      title: t.pages.about.other_section.version_title
                           .capitalize(),
                       body: info.version,
                     ),
@@ -60,13 +56,11 @@ class AboutScreen extends StatelessWidget {
                 children: [
                   const AboutHeader(),
                   AboutSection(
-                    title: t.pages.about.support_section.title
-                        .toUpperCase(),
+                    title: t.pages.about.support_section.title.toUpperCase(),
                     section: About.getSupportSection(),
                   ),
                   AboutSection(
-                    title: t.pages.about.other_section.title
-                        .toUpperCase(),
+                    title: t.pages.about.other_section.title.toUpperCase(),
                     section: otherSection,
                   ),
                   // const DisclaimerSection(),
@@ -150,11 +144,7 @@ class AboutSection extends StatelessWidget {
   final List<About> section;
   final String title;
 
-  const AboutSection({
-    super.key,
-    required this.section,
-    required this.title,
-  });
+  const AboutSection({super.key, required this.section, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -192,9 +182,7 @@ class AboutSection extends StatelessWidget {
             itemBuilder: (context, index) {
               final about = section[index];
               return AboutSectionListItem(
-                key: ValueKey(
-                  about.title,
-                ), // Add key for better reconciliation
+                key: ValueKey(about.title), // Add key for better reconciliation
                 icon: about.icon,
                 title: about.title,
                 subtitle: about.body,
@@ -242,7 +230,7 @@ class AboutHeader extends StatelessWidget {
             child: SvgPicture.asset(
               width: 56,
               height: 56,
-              AssetsManager.STATIC_MES,
+              AssetsManager.staticMes,
               colorFilter: ColorFilter.mode(
                 theme.colorScheme.secondary,
                 BlendMode.srcIn,
@@ -250,21 +238,16 @@ class AboutHeader extends StatelessWidget {
             ),
           ),
           AboutHeaderListItem(
-            title: t.pages.about.header.developer_name
-                .capitalizeAll(),
-            subtitle: t.pages.about.header.developer_title
-                .capitalizeAll(),
+            title: t.pages.about.header.developer_name.capitalizeAll(),
+            subtitle: t.pages.about.header.developer_title.capitalizeAll(),
             background: theme.colorScheme.primaryContainer,
             foreground: theme.colorScheme.onPrimaryContainer,
-            onTap: () async => await launchUrl(
-              Uri.parse(URI_DEVELOPER_WEBSITE),
-            ),
+            onTap: () async =>
+                await launchUrl(Uri.parse(URI_DEVELOPER_WEBSITE)),
           ),
           AboutHeaderListItem(
-            title: t.pages.about.header.designer_name
-                .capitalizeAll(),
-            subtitle: t.pages.about.header.designer_title
-                .capitalizeAll(),
+            title: t.pages.about.header.designer_name.capitalizeAll(),
+            subtitle: t.pages.about.header.designer_title.capitalizeAll(),
             background: theme.colorScheme.tertiaryContainer,
             foreground: theme.colorScheme.onTertiaryContainer,
           ),

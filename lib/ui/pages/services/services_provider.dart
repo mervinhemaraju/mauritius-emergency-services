@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/models/network_info.dart';
-import 'package:mauritius_emergency_services/providers/services_providers.dart';
+import 'package:mauritius_emergency_services/providers/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part '../../../generated/pages/services/services_provider.g.dart';
@@ -34,9 +34,7 @@ Future<ServicesState> servicesState(Ref ref) async {
     // Set the UI state
     return ServicesLoaded(services: services);
   } catch (e) {
-    return ServicesError(
-      message: t.messages.error.cannot_load_data,
-    );
+    return ServicesError(message: t.messages.error.cannot_load_data);
   }
 }
 

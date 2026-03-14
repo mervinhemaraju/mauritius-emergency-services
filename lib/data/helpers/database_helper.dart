@@ -22,7 +22,7 @@ class LocalDatabase {
     return _database!;
   }
 
-// Loads the databsae
+  // Loads the databsae
   Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
     return await openDatabase(
@@ -34,8 +34,7 @@ class LocalDatabase {
 
   // The onCreate function of the DB
   Future _onCreate(Database db, int version) async {
-    await db.execute(
-      '''
+    await db.execute('''
       CREATE TABLE $table (
         identifier TEXT PRIMARY KEY,
         name TEXT NOT NULL,
@@ -46,7 +45,6 @@ class LocalDatabase {
         other_contacts TEXT NOT NULL,
         icon_data BLOB
       )
-    ''',
-    );
+    ''');
   }
 }

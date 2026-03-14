@@ -1,11 +1,12 @@
-import 'package:mauritius_emergency_services/data/repository/runtime_permissions.dart';
+import 'package:mauritius_emergency_services/data/repository/rt_permissions_repository.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class RuntimePermissions implements RuntimePermissionsRepository {
+class RuntimePermissionsImpl implements RuntimePermissionsRepository {
+  const RuntimePermissionsImpl();
+
   @override
-  Future<PermissionStatus> checkPhonePermissionStatus() async {
-    return await Permission.phone.status;
-  }
+  Future<PermissionStatus> checkPhonePermissionStatus() =>
+      Permission.phone.status;
 
   @override
   Future<bool> requestAllPermissions() async {
@@ -13,8 +14,7 @@ class RuntimePermissions implements RuntimePermissionsRepository {
       Permission.notification,
       Permission.phone,
     ].request();
-
-    return statuses.values.every((status) => status.isGranted);
+    return statuses.values.every((s) => s.isGranted);
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/data/assets_manager.dart';
+import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
@@ -24,18 +24,12 @@ class PermissionsDialog extends ConsumerWidget {
     // Return the view
     return SimpleDialog(
       children: [
-        Image.asset(
-          AssetsManager.STATIC_PERMISSIONS,
-          width: 100,
-          height: 100,
-        ),
+        Image.asset(AssetsManager.staticPermissions, width: 100, height: 100),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             t.pages.welcome.permissions_dialog
-                .primary_text(
-                  app_name_short: t.app.short_name.toUpperCase(),
-                )
+                .primary_text(app_name_short: t.app.short_name.toUpperCase())
                 .capitalizeAll(),
             style: theme.textTheme.headlineSmall?.copyWith(
               color: theme.colorScheme.onSurface,
@@ -68,10 +62,7 @@ class PermissionsDialog extends ConsumerWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        _PermissionsActions(
-          onProceed: onProceed,
-          onCancel: onComplete,
-        )
+        _PermissionsActions(onProceed: onProceed, onCancel: onComplete),
       ],
     );
   }
@@ -81,10 +72,7 @@ class _PermissionsActions extends StatelessWidget {
   final Function() onProceed;
   final Function() onCancel;
 
-  const _PermissionsActions({
-    required this.onProceed,
-    required this.onCancel,
-  });
+  const _PermissionsActions({required this.onProceed, required this.onCancel});
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +89,10 @@ class _PermissionsActions extends StatelessWidget {
         children: [
           MaterialButton(
             onPressed: onProceed,
-            padding:
-                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(
+              vertical: 16.0,
+              horizontal: 8.0,
+            ),
             color: theme.colorScheme.primary,
             textColor: theme.colorScheme.onPrimary,
             shape: const StadiumBorder(),

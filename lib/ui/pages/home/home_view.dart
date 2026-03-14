@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/providers/services_providers.dart';
+import 'package:mauritius_emergency_services/providers/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
@@ -30,8 +30,7 @@ class HomeScreen extends ConsumerWidget {
     final homeUiState = ref
         .watch(homeStateProvider)
         .when(
-          error: (error, stack) =>
-              HomeError(message: error.toString()),
+          error: (error, stack) => HomeError(message: error.toString()),
           loading: () => const HomeLoading(),
           data: (state) => state,
         );
@@ -99,10 +98,8 @@ class _HomeUi extends ConsumerWidget {
               const Gap(16.0),
               _TitleSet(
                 theme: theme,
-                title: t.pages.home.primary_title
-                    .capitalizeAll(),
-                subtitle: t.pages.home.primary_subtitle
-                    .capitalize(),
+                title: t.pages.home.primary_title.capitalizeAll(),
+                subtitle: t.pages.home.primary_subtitle.capitalize(),
               ),
               const Spacer(),
               const Gap(32.0),
@@ -112,9 +109,7 @@ class _HomeUi extends ConsumerWidget {
                 onLongPress: () {
                   final Service emergencyService;
 
-                  if (emergencyButtonAction
-                      .identifier
-                      .isNotEmpty) {
+                  if (emergencyButtonAction.identifier.isNotEmpty) {
                     emergencyService = emergencyButtonAction;
                   } else {
                     emergencyService = emergencyServices.first;
@@ -130,10 +125,8 @@ class _HomeUi extends ConsumerWidget {
               const Gap(32.0),
               _TitleSet(
                 theme: theme,
-                title: t.pages.home.secondary_title
-                    .capitalizeAll(),
-                subtitle: t.pages.home.secondary_subtitle
-                    .capitalize(),
+                title: t.pages.home.secondary_title.capitalizeAll(),
+                subtitle: t.pages.home.secondary_subtitle.capitalize(),
               ),
               const Spacer(),
               const Gap(32.0),
@@ -173,10 +166,7 @@ class _HomeUi extends ConsumerWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12.0,
-            vertical: 8.0,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           child: Text(
             subtitle,
             style: theme.textTheme.bodyMedium?.copyWith(

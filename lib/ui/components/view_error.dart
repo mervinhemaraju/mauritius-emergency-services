@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mauritius_emergency_services/data/assets_manager.dart';
+import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/theme/mapper.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
@@ -28,10 +28,7 @@ class ErrorScreen extends StatelessWidget {
 
     // Return the view
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 16.0,
-        horizontal: 32.0,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -42,24 +39,17 @@ class ErrorScreen extends StatelessWidget {
             children: [
               if (showErrorImage)
                 SvgPicture.asset(
-                  AssetsManager.STATIC_ERROR,
+                  AssetsManager.staticError,
                   width: 200,
                   colorMapper: MesColorMapper(
-                    primaryColor: Theme.of(
-                      context,
-                    ).colorScheme.primary,
-                    secondaryColor: Theme.of(
-                      context,
-                    ).colorScheme.secondary,
-                    tertiaryColor: Theme.of(
-                      context,
-                    ).colorScheme.tertiary,
+                    primaryColor: Theme.of(context).colorScheme.primary,
+                    secondaryColor: Theme.of(context).colorScheme.secondary,
+                    tertiaryColor: Theme.of(context).colorScheme.tertiary,
                   ),
                 ),
               if (showInternetErrorImage)
                 Icon(
-                  Icons
-                      .signal_wifi_statusbar_connected_no_internet_4_outlined,
+                  Icons.signal_wifi_statusbar_connected_no_internet_4_outlined,
                   size: 200,
                   color: theme.colorScheme.primary,
                 ),
@@ -83,9 +73,7 @@ class ErrorScreen extends StatelessWidget {
           ),
           if (retryAction != null) ...[
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 32.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 32.0),
               child: ElevatedButton(
                 onPressed: retryAction,
                 style: ElevatedButton.styleFrom(

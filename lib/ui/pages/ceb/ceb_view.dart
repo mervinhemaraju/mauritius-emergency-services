@@ -1,71 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:mauritius_emergency_services/models/outage/mes_district_outage.dart';
+import 'package:mauritius_emergency_services/models/outage/mes_outage.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
-import 'package:mauritius_emergency_services/ui/pages/ceb/test.dart';
+import 'package:mauritius_emergency_services/ui/components/view_error.dart';
+import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
+import 'package:mauritius_emergency_services/ui/pages/ceb/ceb_provider.dart';
+import 'package:mauritius_emergency_services/ui/pages/ceb/ceb_state.dart';
 
-class CebScreen extends StatelessWidget {
-  const CebScreen({super.key});
+class OutagesScreen extends ConsumerWidget {
+  const OutagesScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
+
+    void retryAction() {
+      ref.read(outagesProvider.notifier).refresh();
+    }
+
+    final uiState = ref
+        .watch(outagesProvider)
+        .when(
+          data: (state) => state,
+          loading: () => const CebLoading(),
+          error: (error, _) => CebError(message: error.toString()),
+        );
+
+    final uiView = switch (uiState) {
+      CebLoading() => const LoadingScreen(),
+      CebError() => ErrorScreen(
+        title: uiState.message,
+        showErrorImage: true,
+        retryAction: retryAction,
+      ),
+      CebNoInternet() => ErrorScreen(
+        title: uiState.message,
+        showInternetErrorImage: true,
+        retryAction: retryAction,
+      ),
+      CebEmpty() => const _EmptyState(),
+      CebLoaded() => _CebBody(districtOutages: uiState.districtOutages),
+    };
 
     return Scaffold(
       key: scaffoldKey,
       appBar: MesAppSearchBar(
-        openDrawer: () {
-          scaffoldKey.currentState?.openDrawer();
-        },
+        openDrawer: () => scaffoldKey.currentState?.openDrawer(),
       ),
       drawer: const MesDrawer(),
-      body: _CebBody(
-        districtOutages:
-            (outages['district_outages'] as List?)
-                ?.cast<Map<String, dynamic>>() ??
-            [],
+      body: RefreshIndicator(
+        color: Theme.of(context).colorScheme.onPrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        onRefresh: () async => ref.read(outagesProvider.notifier).refresh(),
+        child: uiView,
       ),
     );
   }
 }
 
-// ─── Models ──────────────────────────────────────────────────────────────────
-
-class _Outage {
-  final String district;
-  final String locality;
-  final DateTime start;
-  final DateTime end;
-  final List<String> streets;
-
-  const _Outage({
-    required this.district,
-    required this.locality,
-    required this.start,
-    required this.end,
-    required this.streets,
-  });
-
-  bool get isOngoing {
-    final now = DateTime.now();
-    return now.isAfter(start) && now.isBefore(end);
-  }
-
-  bool get isToday {
-    final now = DateTime.now();
-    return start.year == now.year &&
-        start.month == now.month &&
-        start.day == now.day;
-  }
-
-  String get dateKey =>
-      '${start.year}-${start.month.toString().padLeft(2, '0')}-${start.day.toString().padLeft(2, '0')}';
-}
-
 // ─── Body ────────────────────────────────────────────────────────────────────
 
 class _CebBody extends StatefulWidget {
-  final List<Map<String, dynamic>> districtOutages;
+  final List<CebDistrictOutage> districtOutages;
 
   const _CebBody({required this.districtOutages});
 
@@ -76,39 +75,28 @@ class _CebBody extends StatefulWidget {
 class _CebBodyState extends State<_CebBody> {
   String? _selectedDistrict;
 
-  List<_Outage> get _allOutages {
-    final list = <_Outage>[];
+  List<_FlatOutage> get _allOutages {
+    final list = <_FlatOutage>[];
     for (final d in widget.districtOutages) {
-      final district = d['district'] as String;
-      for (final o in (d['outages'] as List)) {
-        final map = o as Map<String, dynamic>;
-        list.add(
-          _Outage(
-            district: district,
-            locality: map['locality'] as String,
-            start: DateTime.parse(map['start_datetime'] as String),
-            end: DateTime.parse(map['end_datetime'] as String),
-            streets: (map['streets'] as List).cast<String>(),
-          ),
-        );
+      for (final o in d.outages) {
+        list.add(_FlatOutage(district: d.district, outage: o));
       }
     }
-    list.sort((a, b) => a.start.compareTo(b.start));
+    list.sort(
+      (a, b) => a.outage.startDatetime.compareTo(b.outage.startDatetime),
+    );
     return list;
   }
 
-  List<String> get _affectedDistricts {
-    return _allOutages.map((o) => o.district).toSet().toList()..sort();
-  }
+  List<String> get _affectedDistricts =>
+      _allOutages.map((o) => o.district).toSet().toList()..sort();
 
-  List<_Outage> get _filtered {
-    if (_selectedDistrict == null) return _allOutages;
-    return _allOutages.where((o) => o.district == _selectedDistrict).toList();
-  }
+  List<_FlatOutage> get _filtered => _selectedDistrict == null
+      ? _allOutages
+      : _allOutages.where((o) => o.district == _selectedDistrict).toList();
 
-  /// Groups outages by date key
-  Map<String, List<_Outage>> get _grouped {
-    final map = <String, List<_Outage>>{};
+  Map<String, List<_FlatOutage>> get _grouped {
+    final map = <String, List<_FlatOutage>>{};
     for (final o in _filtered) {
       map.putIfAbsent(o.dateKey, () => []).add(o);
     }
@@ -119,18 +107,13 @@ class _CebBodyState extends State<_CebBody> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
-
-    if (_allOutages.isEmpty) {
-      return _EmptyState();
-    }
-
     final grouped = _grouped;
     final dateKeys = grouped.keys.toList()..sort();
     final affected = _affectedDistricts;
 
     return Column(
       children: [
-        // ── Status bar ──
+        // ── Status banner ──
         Container(
           margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -164,7 +147,7 @@ class _CebBodyState extends State<_CebBody> {
                     ),
                     const Gap(4),
                     Text(
-                      'Across ${_affectedDistricts.length} district${_affectedDistricts.length != 1 ? 's' : ''}',
+                      'Across ${affected.length} district${affected.length != 1 ? 's' : ''}',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: cs.onErrorContainer.withValues(alpha: 0.6),
                       ),
@@ -177,34 +160,37 @@ class _CebBodyState extends State<_CebBody> {
         ),
 
         // ── District filter chips ──
-        if (affected.length > 1) const Gap(16),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.fromLTRB(16, 14, 16, 6),
-          child: Row(
-            children: [
-              _FilterChip(
-                label: 'All',
-                selected: _selectedDistrict == null,
-                onTap: () => setState(() => _selectedDistrict = null),
-              ),
-              const SizedBox(width: 8),
-              ...affected.map(
-                (d) => Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: _FilterChip(
-                    label: _fmtDistrict(d),
-                    selected: _selectedDistrict == d,
-                    onTap: () => setState(
-                      () =>
-                          _selectedDistrict = _selectedDistrict == d ? null : d,
+        if (affected.length > 1) ...[
+          const Gap(4),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 6),
+            child: Row(
+              children: [
+                _FilterChip(
+                  label: 'All',
+                  selected: _selectedDistrict == null,
+                  onTap: () => setState(() => _selectedDistrict = null),
+                ),
+                const SizedBox(width: 8),
+                ...affected.map(
+                  (d) => Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: _FilterChip(
+                      label: _fmtDistrict(d),
+                      selected: _selectedDistrict == d,
+                      onTap: () => setState(
+                        () => _selectedDistrict = _selectedDistrict == d
+                            ? null
+                            : d,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
 
         // ── Timeline ──
         Expanded(
@@ -238,36 +224,44 @@ class _CebBodyState extends State<_CebBody> {
 // ─── Empty State ─────────────────────────────────────────────────────────────
 
 class _EmptyState extends StatelessWidget {
+  const _EmptyState();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.power_rounded,
-            size: 56,
-            color: cs.primary.withValues(alpha: 0.3),
+    // Wrap in scroll view so RefreshIndicator works even on the empty state
+    return CustomScrollView(
+      slivers: [
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.power_rounded,
+                size: 56,
+                color: cs.primary.withValues(alpha: 0.3),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'All Clear',
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'No power interruptions scheduled.',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: cs.onSurface.withValues(alpha: 0.5),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
-          Text(
-            'All Clear',
-            style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'No power interruptions scheduled.',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: cs.onSurface.withValues(alpha: 0.5),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -316,7 +310,7 @@ class _FilterChip extends StatelessWidget {
 
 class _DateGroup extends StatelessWidget {
   final String dateKey;
-  final List<_Outage> outages;
+  final List<_FlatOutage> outages;
 
   const _DateGroup({required this.dateKey, required this.outages});
 
@@ -394,79 +388,35 @@ class _DateGroup extends StatelessWidget {
               ],
             ),
           ),
-
-          // Outage tiles under this date
-          ...outages.map((o) => _OutageTile(outage: o)),
+          ...outages.map((o) => _OutageTile(flat: o)),
         ],
       ),
     );
   }
 
-  String _dayName(DateTime dt) {
-    const days = [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday',
-    ];
-    return days[dt.weekday - 1];
-  }
+  String _dayName(DateTime dt) => const [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ][dt.weekday - 1];
 
-  String _monthYear(DateTime dt) {
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    return '${months[dt.month - 1]} ${dt.year}';
-  }
+  String _monthYear(DateTime dt) =>
+      '${const ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][dt.month - 1]} ${dt.year}';
 
-  String _fullDate(DateTime dt) {
-    const days = [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday',
-    ];
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    return '${days[dt.weekday - 1]}, ${dt.day} ${months[dt.month - 1]}';
-  }
+  String _fullDate(DateTime dt) =>
+      '${_dayName(dt)}, ${dt.day} ${const ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][dt.month - 1]}';
 }
 
 // ─── Outage Tile ─────────────────────────────────────────────────────────────
 
 class _OutageTile extends StatefulWidget {
-  final _Outage outage;
+  final _FlatOutage flat;
 
-  const _OutageTile({required this.outage});
+  const _OutageTile({required this.flat});
 
   @override
   State<_OutageTile> createState() => _OutageTileState();
@@ -479,7 +429,10 @@ class _OutageTileState extends State<_OutageTile> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
-    final o = widget.outage;
+    final o = widget.flat.outage;
+    final now = DateTime.now();
+    final isOngoing =
+        now.isAfter(o.startDatetime) && now.isBefore(o.endDatetime);
 
     return GestureDetector(
       onTap: () => setState(() => _expanded = !_expanded),
@@ -488,7 +441,7 @@ class _OutageTileState extends State<_OutageTile> {
         decoration: BoxDecoration(
           color: cs.surfaceContainerLow,
           borderRadius: BorderRadius.circular(12),
-          border: o.isOngoing
+          border: isOngoing
               ? Border.all(color: cs.error.withValues(alpha: 0.5), width: 1.5)
               : null,
         ),
@@ -505,10 +458,10 @@ class _OutageTileState extends State<_OutageTile> {
                     child: Column(
                       children: [
                         Text(
-                          _fmtTime(o.start),
+                          _fmt(o.startDatetime),
                           style: theme.textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.w700,
-                            color: o.isOngoing ? cs.error : cs.onSurface,
+                            color: isOngoing ? cs.error : cs.onSurface,
                           ),
                         ),
                         Container(
@@ -518,7 +471,7 @@ class _OutageTileState extends State<_OutageTile> {
                           color: cs.outlineVariant,
                         ),
                         Text(
-                          _fmtTime(o.end),
+                          _fmt(o.endDatetime),
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: cs.onSurface.withValues(alpha: 0.5),
                           ),
@@ -541,7 +494,7 @@ class _OutageTileState extends State<_OutageTile> {
                         ),
                         const SizedBox(height: 3),
                         Text(
-                          '${_fmtDistrict(o.district)} · ${_duration(o.start, o.end)}',
+                          '${_fmtDistrict(widget.flat.district)} · ${_duration(o.startDatetime, o.endDatetime)}',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: cs.onSurface.withValues(alpha: 0.5),
                           ),
@@ -550,8 +503,8 @@ class _OutageTileState extends State<_OutageTile> {
                     ),
                   ),
 
-                  // Status + expand
-                  if (o.isOngoing)
+                  // Ongoing dot + chevron
+                  if (isOngoing)
                     Container(
                       width: 8,
                       height: 8,
@@ -640,7 +593,7 @@ class _OutageTileState extends State<_OutageTile> {
     );
   }
 
-  String _fmtTime(DateTime dt) =>
+  String _fmt(DateTime dt) =>
       '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
 
   String _titleCase(String raw) => raw
@@ -663,5 +616,21 @@ class _OutageTileState extends State<_OutageTile> {
     final h = d.inHours;
     final m = d.inMinutes % 60;
     return m == 0 ? '${h}h' : '${h}h ${m}m';
+  }
+}
+
+// ─── Flat outage helper ───────────────────────────────────────────────────────
+// Combines district name with a single outage so widgets don't need to
+// carry both separately.
+
+class _FlatOutage {
+  final String district;
+  final CebOutage outage;
+
+  const _FlatOutage({required this.district, required this.outage});
+
+  String get dateKey {
+    final s = outage.startDatetime;
+    return '${s.year}-${s.month.toString().padLeft(2, '0')}-${s.day.toString().padLeft(2, '0')}';
   }
 }

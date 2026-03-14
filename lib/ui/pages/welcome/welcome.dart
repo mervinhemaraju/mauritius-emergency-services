@@ -4,9 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/models/welcome.dart';
+import 'package:mauritius_emergency_services/providers/rt_permissions_provider.dart';
 import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/routes/routes.dart';
-import 'package:mauritius_emergency_services/data/impl/runtime_permissions_impl.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/adaptive_screen.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
@@ -83,9 +83,7 @@ class _WideViewRight extends ConsumerWidget {
           runSpacing: 8.0,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
                 t.pages.welcome.header.title.capitalize(),
                 style: theme.textTheme.titleMedium?.copyWith(
@@ -115,21 +113,13 @@ class _WideViewRight extends ConsumerWidget {
               color: theme.colorScheme.secondary,
               size: 36,
             ),
-            Icon(
-              Icons.storm,
-              color: theme.colorScheme.secondary,
-              size: 36,
-            ),
+            Icon(Icons.storm, color: theme.colorScheme.secondary, size: 36),
             Icon(
               Icons.local_hospital,
               color: theme.colorScheme.secondary,
               size: 36,
             ),
-            Icon(
-              Icons.emergency,
-              color: theme.colorScheme.secondary,
-              size: 36,
-            ),
+            Icon(Icons.emergency, color: theme.colorScheme.secondary, size: 36),
           ],
         ),
         MaterialButton(
@@ -140,10 +130,7 @@ class _WideViewRight extends ConsumerWidget {
           color: theme.colorScheme.primary,
           textColor: theme.colorScheme.onPrimary,
           shape: const StadiumBorder(),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12.0,
-            vertical: 16.0,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             spacing: 12.0,
@@ -195,8 +182,7 @@ class _NarrowScreenUi extends StatelessWidget {
   }
 }
 
-class _WelcomeCarouselWithIndicator
-    extends ConsumerStatefulWidget {
+class _WelcomeCarouselWithIndicator extends ConsumerStatefulWidget {
   final Color backgroundColor;
   final bool isNarrowUi;
   const _WelcomeCarouselWithIndicator({
@@ -217,8 +203,7 @@ class _WelcomeCarouselWithIndicatorState
 
   void _carouselListener() {
     final position = carouselController.position;
-    final width =
-        (maxWidth ?? MediaQuery.sizeOf(context).width) - 32;
+    final width = (maxWidth ?? MediaQuery.sizeOf(context).width) - 32;
     if (position.hasPixels) {
       final index = (position.pixels / width).round();
       setState(() {
@@ -243,14 +228,13 @@ class _WelcomeCarouselWithIndicatorState
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder:
-          (BuildContext context, BoxConstraints constraints) {
-            maxWidth = constraints.maxWidth;
+      builder: (BuildContext context, BoxConstraints constraints) {
+        maxWidth = constraints.maxWidth;
 
-            return widget.isNarrowUi
-                ? _build1(constraints.maxWidth)
-                : _build2(constraints.maxWidth);
-          },
+        return widget.isNarrowUi
+            ? _build1(constraints.maxWidth)
+            : _build2(constraints.maxWidth);
+      },
     );
   }
 
@@ -349,10 +333,7 @@ class _WideViewNavigator extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 28.0,
-        vertical: 16.0,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 16.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -375,6 +356,8 @@ class _WideViewNavigator extends ConsumerWidget {
 }
 
 void _onNavigate(BuildContext context, WidgetRef ref) {
+  final permissions = ref.read(runtimePermissionsProvider);
+
   // Define the go disclaimer route function
   goHome() {
     // Mark user as onboarded
@@ -394,10 +377,7 @@ void _onNavigate(BuildContext context, WidgetRef ref) {
       context: context,
       builder: (context) => PermissionsDialog(
         onProceed: () async {
-          // Request all permissions
-          await RuntimePermissions()
-              .requestAllPermissions()
-              .whenComplete(goHome);
+          await permissions.requestAllPermissions().whenComplete(goHome);
         },
         onComplete: goHome,
       ),

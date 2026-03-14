@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mauritius_emergency_services/data/assets_manager.dart';
+import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 
 part '../generated/models/welcome.freezed.dart';
@@ -22,30 +22,30 @@ abstract class Welcome with _$Welcome {
       _$WelcomeFromJson(json);
 
   static List<Welcome> get welcomeItems => [
-        Welcome(
-          asset: AssetsManager.STATIC_SMARTPHONE_DATA,
-          title: t.pages.welcome.carousel.title_1,
-          subtitle: t.pages.welcome.carousel.subtitle_1,
-        ),
-        Welcome(
-          asset: AssetsManager.STATIC_STORM,
-          title: t.pages.welcome.carousel.title_2,
-          subtitle: t.pages.welcome.carousel.subtitle_2,
-        ),
-        Welcome(
-          asset: AssetsManager.STATIC_POLICE,
-          title: t.pages.welcome.carousel.title_3,
-          subtitle: t.pages.welcome.carousel.subtitle_3,
-        ),
-        Welcome(
-          asset: AssetsManager.STATIC_SOS,
-          title: t.pages.welcome.carousel.title_4,
-          subtitle: t.pages.welcome.carousel.subtitle_4,
-        ),
-        Welcome(
-          asset: AssetsManager.STATIC_OFFLINE,
-          title: t.pages.welcome.carousel.title_5,
-          subtitle: t.pages.welcome.carousel.subtitle_5,
-        ),
-      ];
+    Welcome(
+      asset: AssetsManager.staticSmartphoneData,
+      title: t.pages.welcome.carousel.title_1,
+      subtitle: t.pages.welcome.carousel.subtitle_1,
+    ),
+    Welcome(
+      asset: AssetsManager.staticStorm,
+      title: t.pages.welcome.carousel.title_2,
+      subtitle: t.pages.welcome.carousel.subtitle_2,
+    ),
+    Welcome(
+      asset: AssetsManager.staticPolice,
+      title: t.pages.welcome.carousel.title_3,
+      subtitle: t.pages.welcome.carousel.subtitle_3,
+    ),
+    Welcome(
+      asset: AssetsManager.staticSos,
+      title: t.pages.welcome.carousel.title_4,
+      subtitle: t.pages.welcome.carousel.subtitle_4,
+    ),
+    Welcome(
+      asset: AssetsManager.staticOffline,
+      title: t.pages.welcome.carousel.title_5,
+      subtitle: t.pages.welcome.carousel.subtitle_5,
+    ),
+  ];
 }

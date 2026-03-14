@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
-import 'package:mauritius_emergency_services/providers/services_providers.dart';
+import 'package:mauritius_emergency_services/providers/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/list_items.dart';
@@ -20,7 +20,9 @@ class EmergencyButtonDialog extends ConsumerWidget {
     );
 
     // Get the services ui view
-    final servicesUiView = ref.watch(servicesProvider).when(
+    final servicesUiView = ref
+        .watch(servicesProvider)
+        .when(
           data: (services) => ServiceListView(
             services: services,
             selectedService: emergencyButtonAction,
@@ -75,9 +77,7 @@ class EmergencyButtonDialog extends ConsumerWidget {
           onPressed: () {
             context.pop();
           },
-          child: Text(
-            t.actions.close.capitalize(),
-          ),
+          child: Text(t.actions.close.capitalize()),
         ),
       ],
     );

@@ -97,7 +97,7 @@ class MesAppRouter {
           name: CebRoute.name,
           path: CebRoute.path,
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return const CebScreen().withScaleTransition(state.pageKey);
+            return const OutagesScreen().withScaleTransition(state.pageKey);
           },
         ),
         GoRoute(

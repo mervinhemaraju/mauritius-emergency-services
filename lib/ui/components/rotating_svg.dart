@@ -1,16 +1,13 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mauritius_emergency_services/data/assets_manager.dart';
+import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 
 class RotatingSvg extends StatefulWidget {
   // The rotation duration
   final Duration duration;
 
-  const RotatingSvg({
-    super.key,
-    required this.duration,
-  });
+  const RotatingSvg({super.key, required this.duration});
 
   @override
   RotatingSvgState createState() => RotatingSvgState();
@@ -45,7 +42,7 @@ class RotatingSvgState extends State<RotatingSvg>
           child: SvgPicture.asset(
             width: 160,
             height: 160,
-            AssetsManager.STATIC_CYCLONE,
+            AssetsManager.staticCyclone,
             colorFilter: ColorFilter.mode(
               Theme.of(context).colorScheme.secondary,
               BlendMode.srcIn,

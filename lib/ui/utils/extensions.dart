@@ -3,10 +3,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mauritius_emergency_services/data/impl/rt_permissions_impl.dart';
 import 'package:mauritius_emergency_services/models/about.dart';
 import 'package:mauritius_emergency_services/models/service.dart';
 import 'package:mauritius_emergency_services/routes/routes.dart';
-import 'package:mauritius_emergency_services/data/impl/runtime_permissions_impl.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/pages/welcome/permissions_dialog.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
@@ -23,11 +23,7 @@ extension ColorSchemeExtension on ColorScheme {
 
     // Use ElevationOverlay to apply the tint.
     // The third parameter is the elevation.
-    return ElevationOverlay.applySurfaceTint(
-      surface,
-      surfaceTintColor,
-      level,
-    );
+    return ElevationOverlay.applySurfaceTint(surface, surfaceTintColor, level);
   }
 }
 
@@ -49,7 +45,7 @@ extension NavigationExtension on BuildContext {
       };
 
       // Retrieve the runtime permissions
-      final runtimePermissions = RuntimePermissions();
+      const runtimePermissions = RuntimePermissionsImpl();
 
       // Get the permission status for phone
       final phonePermissions = await runtimePermissions
@@ -60,9 +56,9 @@ extension NavigationExtension on BuildContext {
         // Check if permission is permanently denied
         if (!phonePermissions.isPermanentlyDenied) {
           onProceed = () async {
-            await runtimePermissions
-                .requestPhonePermissions()
-                .whenComplete(() => goBack());
+            await runtimePermissions.requestPhonePermissions().whenComplete(
+              () => goBack(),
+            );
           };
         }
 
@@ -97,13 +93,9 @@ extension ServiceExtension on List<Service> {
       (service) =>
           service.name.toLowerCase().contains(query) ||
           service.mainContact.toString().contains(query) ||
-          service.emails
-              .where((email) => email.contains(query))
-              .isNotEmpty ||
+          service.emails.where((email) => email.contains(query)).isNotEmpty ||
           service.otherContacts
-              .where(
-                (contact) => contact.toString().contains(query),
-              )
+              .where((contact) => contact.toString().contains(query))
               .isNotEmpty,
     ).toList();
   }
@@ -135,10 +127,7 @@ extension StringExtension on String {
       // First check if the name is empty
       if (length < 2) return Pair(name, name);
 
-      return Pair(
-        name[0].toUpperCase(),
-        name.substring(1).toLowerCase(),
-      );
+      return Pair(name[0].toUpperCase(), name.substring(1).toLowerCase());
     }).toList();
   }
 }
@@ -168,12 +157,7 @@ extension BytesExtensions on Uint8List? {
             height: size,
             fit: fit,
           )
-        : Image.memory(
-            this!,
-            width: size,
-            height: size,
-            fit: fit,
-          );
+        : Image.memory(this!, width: size, height: size, fit: fit);
   }
 }
 
@@ -184,9 +168,7 @@ extension AboutExtensions on About {
           .share_app_title(app_name_short: t.app.short_name)
           .toLowerCase(),
     )) {
-      SharePlus.instance.share(
-        ShareParams(uri: Uri.parse(URI_MES_PLAYSTORE)),
-      );
+      SharePlus.instance.share(ShareParams(uri: Uri.parse(URI_MES_PLAYSTORE)));
     } else {
       if (url != null) {
         await launchUrl(url!);
@@ -197,9 +179,7 @@ extension AboutExtensions on About {
 
 extension SnackbarExtensions on BuildContext {
   void showSimpleSnackbar(String message) {
-    ScaffoldMessenger.of(
-      this,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(this).showSnackBar(SnackBar(content: Text(message)));
   }
 }
 
@@ -208,22 +188,18 @@ extension ViewAnimations on Widget {
     return CustomTransitionPage(
       key: pageKey,
       child: this,
-      transitionsBuilder:
-          (context, animation, secondaryAnimation, child) {
-            const begin = Offset(1.0, 0.0);
-            const end = Offset.zero;
-            const curve = Curves.easeInOut;
-            var tween = Tween(
-              begin: begin,
-              end: end,
-            ).chain(CurveTween(curve: curve));
-            var offsetAnimation = animation.drive(tween);
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.easeInOut;
+        var tween = Tween(
+          begin: begin,
+          end: end,
+        ).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
 
-            return SlideTransition(
-              position: offsetAnimation,
-              child: child,
-            );
-          },
+        return SlideTransition(position: offsetAnimation, child: child);
+      },
     );
   }
 
@@ -231,16 +207,12 @@ extension ViewAnimations on Widget {
     return CustomTransitionPage(
       key: pageKey,
       child: this,
-      transitionsBuilder:
-          (context, animation, secondaryAnimation, child) {
-            return ScaleTransition(
-              scale: Tween<double>(
-                begin: 0.95,
-                end: 1.0,
-              ).animate(animation),
-              child: child,
-            );
-          },
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return ScaleTransition(
+          scale: Tween<double>(begin: 0.95, end: 1.0).animate(animation),
+          child: child,
+        );
+      },
     );
   }
 }

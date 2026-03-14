@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/providers/services_providers.dart';
+import 'package:mauritius_emergency_services/providers/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
@@ -29,8 +29,7 @@ class ServicesScreen extends ConsumerWidget {
     final servicesUiState = ref
         .watch(servicesStateProvider)
         .when(
-          error: (error, stack) =>
-              ServicesError(message: error.toString()),
+          error: (error, stack) => ServicesError(message: error.toString()),
           loading: () => const ServicesLoading(),
           data: (state) => state,
         );
@@ -49,9 +48,7 @@ class ServicesScreen extends ConsumerWidget {
         retryAction: retryAction,
       ),
       ServicesLoaded() => ServicesList(
-        services: servicesUiState.services.search(
-          query: searchQuery,
-        ),
+        services: servicesUiState.services.search(query: searchQuery),
       ),
     };
 
