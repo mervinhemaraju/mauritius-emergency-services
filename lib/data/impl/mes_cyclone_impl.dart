@@ -1,9 +1,9 @@
 import 'package:mauritius_emergency_services/data/repository/mes_cyclone_repository.dart';
 import 'package:mauritius_emergency_services/data/repository/mes_service_repository.dart';
 import 'package:mauritius_emergency_services/data/sources/mes_cyclone_source.dart';
-import 'package:mauritius_emergency_services/models/cyclone_guidelines.dart';
-import 'package:mauritius_emergency_services/models/cyclone_name.dart';
-import 'package:mauritius_emergency_services/models/cyclone_report.dart';
+import 'package:mauritius_emergency_services/models/cyclone/cyclone_guidelines.dart';
+import 'package:mauritius_emergency_services/models/cyclone/cyclone_name.dart';
+import 'package:mauritius_emergency_services/models/cyclone/cyclone_report.dart';
 
 class MesCycloneImpl implements MesCycloneRepository {
   final MesCycloneSource remoteSource;

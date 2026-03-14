@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mauritius_emergency_services/models/cyclone_guidelines.dart';
-import 'package:mauritius_emergency_services/models/cyclone_report.dart';
+import 'package:mauritius_emergency_services/models/cyclone/cyclone_guidelines.dart';
+import 'package:mauritius_emergency_services/models/cyclone/cyclone_report.dart';
 
 part '../../../generated/pages/cyclone/cyclone_r_state.freezed.dart';
 

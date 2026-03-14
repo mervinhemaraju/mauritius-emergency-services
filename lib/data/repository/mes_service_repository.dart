@@ -1,4 +1,4 @@
-import 'package:mauritius_emergency_services/models/service.dart';
+import 'package:mauritius_emergency_services/models/service/service.dart';
 
 const defaultLanguage = "en";
 

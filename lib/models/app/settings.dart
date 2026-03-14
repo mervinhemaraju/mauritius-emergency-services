@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mauritius_emergency_services/models/locale.dart';
-import 'package:mauritius_emergency_services/models/service.dart';
+import 'package:mauritius_emergency_services/models/app/locale.dart';
+import 'package:mauritius_emergency_services/models/service/service.dart';
 
-part '../generated/models/settings.freezed.dart';
+part '../../generated/models/settings.freezed.dart';
 
 @freezed
 abstract class MesSettings with _$MesSettings {

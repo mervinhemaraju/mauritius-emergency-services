@@ -2,8 +2,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 
-part '../generated/models/welcome.freezed.dart';
-part '../generated/models/welcome.g.dart';
+part '../../generated/models/welcome.freezed.dart';
+part '../../generated/models/welcome.g.dart';
 
 @freezed
 abstract class Welcome with _$Welcome {

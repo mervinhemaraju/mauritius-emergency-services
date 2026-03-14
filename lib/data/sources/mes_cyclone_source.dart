@@ -1,6 +1,6 @@
-import 'package:mauritius_emergency_services/models/cyclone_guidelines.dart';
-import 'package:mauritius_emergency_services/models/cyclone_name.dart';
-import 'package:mauritius_emergency_services/models/cyclone_report.dart';
+import 'package:mauritius_emergency_services/models/cyclone/cyclone_guidelines.dart';
+import 'package:mauritius_emergency_services/models/cyclone/cyclone_name.dart';
+import 'package:mauritius_emergency_services/models/cyclone/cyclone_report.dart';
 
 /// Contract for any data source that can provide cyclone data.
 abstract class MesCycloneSource {

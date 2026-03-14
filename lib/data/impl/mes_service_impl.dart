@@ -1,8 +1,8 @@
 import 'package:mauritius_emergency_services/data/local/mes_service_local.dart';
 import 'package:mauritius_emergency_services/data/repository/mes_service_repository.dart';
 import 'package:mauritius_emergency_services/data/sources/mes_service_source.dart';
-import 'package:mauritius_emergency_services/models/network_info.dart';
-import 'package:mauritius_emergency_services/models/service.dart';
+import 'package:mauritius_emergency_services/models/app/network_info.dart';
+import 'package:mauritius_emergency_services/models/service/service.dart';
 
 /// Offline-first strategy:
 /// 1. Always read from local cache first.

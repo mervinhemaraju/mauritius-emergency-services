@@ -8,19 +8,27 @@ targets:
           - lib/models/**.dart
         options:
           build_extensions:
+            # Models
+            '^lib/models/{{}}.dart': 'lib/generated/models/{{}}.g.dart'
+            # '^lib/models/cyclone/{{}}.dart': 'lib/generated/models/cyclone/{{}}.g.dart'
+
+            # Others
             '^lib/providers/{{}}.dart': 'lib/generated/providers/{{}}.g.dart'
             '^lib/ui/pages/{{}}_provider.dart': 'lib/generated/pages/{{}}_provider.g.dart'
-            '^lib/models/{{}}.dart': 'lib/generated/models/{{}}.g.dart'
       
       # Configure freezed
       freezed:
         generate_for:
-          - lib/models/*.dart
+          - lib/models/**.dart
           - lib/ui/pages/**.dart
           - lib/ui/components/**.dart
         options:
           build_extensions:
+            # Models
             '^lib/models/{{}}.dart': 'lib/generated/models/{{}}.freezed.dart'
+            # '^lib/models/cyclone/{{}}.dart': 'lib/generated/models/cyclone/{{}}.freezed.dart'
+
+            # Others
             '^lib/ui/pages/{{}}.dart': 'lib/generated/pages/{{}}.freezed.dart'
             '^lib/ui/components/{{}}.dart': 'lib/generated/components/{{}}.freezed.dart'
 

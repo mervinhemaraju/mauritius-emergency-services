@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part '../generated/models/cyclone_report.freezed.dart';
+part '../../generated/models/cyclone/cyclone_report.freezed.dart';
 
 @freezed
 abstract class CycloneReport with _$CycloneReport {

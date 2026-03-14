@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mauritius_emergency_services/models/welcome.dart';
+import 'package:mauritius_emergency_services/models/app/welcome.dart';
 import 'package:mauritius_emergency_services/providers/rt_permissions_provider.dart';
 import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/routes/routes.dart';

@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:mauritius_emergency_services/data/helpers/database_helper.dart';
 import 'package:mauritius_emergency_services/data/sources/mes_service_source.dart';
-import 'package:mauritius_emergency_services/models/service.dart';
+import 'package:mauritius_emergency_services/models/service/service.dart';
 import 'package:sqflite/sqflite.dart';
 
 class MesServiceLocal implements MesServiceSource {

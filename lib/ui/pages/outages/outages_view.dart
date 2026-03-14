@@ -7,8 +7,8 @@ import 'package:mauritius_emergency_services/ui/components/appbar_search/search_
 import 'package:mauritius_emergency_services/ui/components/drawer.dart';
 import 'package:mauritius_emergency_services/ui/components/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
-import 'package:mauritius_emergency_services/ui/pages/ceb/ceb_provider.dart';
-import 'package:mauritius_emergency_services/ui/pages/ceb/ceb_state.dart';
+import 'package:mauritius_emergency_services/ui/pages/outages/outages_provider.dart';
+import 'package:mauritius_emergency_services/ui/pages/outages/outages_state.dart';
 
 class OutagesScreen extends ConsumerWidget {
   const OutagesScreen({super.key});

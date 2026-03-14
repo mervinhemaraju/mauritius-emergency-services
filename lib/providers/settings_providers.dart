@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mauritius_emergency_services/data/repository/app_settings_repository.dart';
-import 'package:mauritius_emergency_services/models/locale.dart';
-import 'package:mauritius_emergency_services/models/service.dart';
-import 'package:mauritius_emergency_services/models/settings.dart';
+import 'package:mauritius_emergency_services/models/app/locale.dart';
+import 'package:mauritius_emergency_services/models/service/service.dart';
+import 'package:mauritius_emergency_services/models/app/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part '../generated/providers/settings_providers.g.dart';

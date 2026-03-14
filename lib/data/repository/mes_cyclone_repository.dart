@@ -1,6 +1,6 @@
-import 'package:mauritius_emergency_services/models/cyclone_guidelines.dart';
-import 'package:mauritius_emergency_services/models/cyclone_name.dart';
-import 'package:mauritius_emergency_services/models/cyclone_report.dart';
+import 'package:mauritius_emergency_services/models/cyclone/cyclone_guidelines.dart';
+import 'package:mauritius_emergency_services/models/cyclone/cyclone_name.dart';
+import 'package:mauritius_emergency_services/models/cyclone/cyclone_report.dart';
 
 abstract class MesCycloneRepository {
   Future<CycloneReport> getCycloneReport([String lang]);

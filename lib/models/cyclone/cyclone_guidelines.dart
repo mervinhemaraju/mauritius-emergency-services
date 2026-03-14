@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part '../generated/models/cyclone_guidelines.freezed.dart';
-part '../generated/models/cyclone_guidelines.g.dart';
+part '../../generated/models/cyclone/cyclone_guidelines.freezed.dart';
+part '../../generated/models/cyclone/cyclone_guidelines.g.dart';
 
 @freezed
 abstract class CycloneGuidelines with _$CycloneGuidelines {

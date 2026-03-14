@@ -57,10 +57,10 @@ class MesDrawer extends StatelessWidget {
             MesDrawerItem(
               leadingIcon: const Icon(Icons.electric_bolt_outlined),
               title: t.pages.power_outages.title.capitalizeAll(),
-              isSelected: false,
+              isSelected: OutagesRoute.path == currentRoute,
               onTap: () {
                 context.pop();
-                context.go(CebRoute.path);
+                context.go(OutagesRoute.path);
               },
             ),
             MesDrawerItem(

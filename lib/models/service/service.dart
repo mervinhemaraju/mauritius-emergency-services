@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part '../generated/models/service.freezed.dart';
-part '../generated/models/service.g.dart';
+part '../../generated/models/service/service.freezed.dart';
+part '../../generated/models/service/service.g.dart';
 
 @freezed
 abstract class Service with _$Service {

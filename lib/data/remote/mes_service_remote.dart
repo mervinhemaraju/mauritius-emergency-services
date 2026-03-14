@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:mauritius_emergency_services/data/helpers/api_constants.dart';
 import 'package:mauritius_emergency_services/data/sources/mes_service_source.dart';
-import 'package:mauritius_emergency_services/models/service.dart';
+import 'package:mauritius_emergency_services/models/service/service.dart';
 
 class MesServiceRemote implements MesServiceSource {
   final Dio dio;
