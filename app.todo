@@ -1,8 +1,7 @@
 
 
 ============ OPTIMIZATIONS ============
-[1] Improve navigation and router
-[3] Improve service & icons caching 
+[1] Improve service & icons caching 
 
 ============ TODOS ============
 // FIXME(Fix jank in some parts of the app)

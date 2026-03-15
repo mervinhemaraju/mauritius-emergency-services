@@ -1,16 +1,21 @@
 targets:
   $default:
     builders:
+
       source_gen|combining_builder:
         generate_for:
           - lib/providers/**.dart
           - lib/ui/pages/**/*_provider.dart
           - lib/models/**.dart
+          - lib/routes/**.dart
         options:
           build_extensions:
             # Models
             '^lib/models/{{}}.dart': 'lib/generated/models/{{}}.g.dart'
             # '^lib/models/cyclone/{{}}.dart': 'lib/generated/models/cyclone/{{}}.g.dart'
+
+            # Router
+            '^lib/routes/{{}}.dart': 'lib/generated/routes/{{}}.g.dart'
 
             # Others
             '^lib/providers/{{}}.dart': 'lib/generated/providers/{{}}.g.dart'

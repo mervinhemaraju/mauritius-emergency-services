@@ -1,6 +1,4 @@
-// import 'dart:io';
 import 'dart:io';
-
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -10,7 +8,6 @@ import 'package:mauritius_emergency_services/data/impl/app_settings_impl.dart';
 import 'package:mauritius_emergency_services/data/repository/app_settings_repository.dart';
 import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/routes/router.dart';
-import 'package:mauritius_emergency_services/routes/routes.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/theme/colors.dart';
 import 'package:mauritius_emergency_services/ui/theme/theme.dart';
@@ -31,7 +28,7 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 // The main runner app
-main() async {
+void main() async {
   // Ensure the widgets are initialized
   final binding = WidgetsFlutterBinding.ensureInitialized();
 
@@ -68,67 +65,37 @@ class MesMaterialApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Retrieve setting flags
-    final isOnboarded = ref.watch(
-      mesSettingsProvider.select((s) => s.isOnboarded),
-    );
-    final disclaimerAcknowledged = ref.watch(
-      mesSettingsProvider.select((s) => s.disclaimerAcknowledged),
-    );
-    final isAwareOfNewFeature = ref.watch(
-      mesSettingsProvider.select((s) => s.isAwareOfNewFeature),
-    );
-
-    // Determine the initial location
-    String initialLocation = switch ((isOnboarded, disclaimerAcknowledged)) {
-      (false, _) => WelcomeRoute.path,
-      (true, false) => DisclaimerRoute.path,
-      (true, true) => HomeRoute.path,
-    };
-
-    // Get the theme mode
     final themeMode = ref.watch(mesSettingsProvider.select((s) => s.theme));
-
-    // Get the dynamic color activation
     final isDynamicEnabled = ref.watch(
       mesSettingsProvider.select((s) => s.isDynamicEnabled),
     );
 
-    // Update the app locale
+    // Update locale reactively
     ref.watch(
       mesSettingsProvider.select(
         (s) => LocaleSettings.setLocaleRaw(s.locale.lang),
       ),
     );
 
-    // Set the initial location
-    MesAppRouter.instance.setInitialLocation(initialLocation);
+    // Get the router from the provider — rebuilds automatically when
+    // settings flags change, so redirects fire immediately
+    final router = ref.watch(mesAppRouterProvider);
 
-    // Get the router instance
-    final router = MesAppRouter.instance.getRouter();
+    final textTheme = createTextTheme(context, "Poppins", "Lato");
+    final theme = MaterialTheme(textTheme);
 
-    // Create the text theme
-    TextTheme textTheme = createTextTheme(context, "Poppins", "Lato");
-
-    // Create the material theme
-    MaterialTheme theme = MaterialTheme(textTheme);
-
-    // Dynamic color builder for Material YOU
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-        // Build the condition for dynamic color eligibility
-        final bool isEligibleForDc =
+        final isEligibleForDc =
             (lightDynamic != null && darkDynamic != null) && isDynamicEnabled;
 
-        // Build light and dark color schemes
-        final ThemeData lightTheme = isEligibleForDc
+        final lightTheme = isEligibleForDc
             ? theme.build(lightDynamic.harmonized())
             : theme.build(MesColorSchemes.light);
-        final ThemeData darkTheme = isEligibleForDc
+        final darkTheme = isEligibleForDc
             ? theme.build(darkDynamic.harmonized())
             : theme.build(MesColorSchemes.dark);
 
-        // Return the Material App
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
           title: t.app.name.capitalizeAll(),

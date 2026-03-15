@@ -1,28 +1,22 @@
-/// A single scheduled power outage window for a locality.
-class CebOutage {
-  final DateTime startDatetime;
-  final DateTime endDatetime;
-  final String locality;
-  final List<String> streets;
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:mauritius_emergency_services/ui/utils/convertors.dart';
 
-  const CebOutage({
-    required this.startDatetime,
-    required this.endDatetime,
-    required this.locality,
-    required this.streets,
-  });
+part '../../generated/models/outage/mes_outage.freezed.dart';
+part '../../generated/models/outage/mes_outage.g.dart';
 
-  factory CebOutage.fromJson(Map<String, dynamic> json) => CebOutage(
-    startDatetime: DateTime.parse(json['start_datetime'] as String),
-    endDatetime: DateTime.parse(json['end_datetime'] as String),
-    locality: json['locality'] as String,
-    streets: List<String>.from(json['streets'] as List),
-  );
+@freezed
+abstract class CebOutage with _$CebOutage {
+  const factory CebOutage({
+    @DateTimeConverter()
+    @JsonKey(name: 'start_datetime')
+    required DateTime startDatetime,
+    @DateTimeConverter()
+    @JsonKey(name: 'end_datetime')
+    required DateTime endDatetime,
+    required String locality,
+    required List<String> streets,
+  }) = _CebOutage;
 
-  Map<String, dynamic> toJson() => {
-    'start_datetime': startDatetime.toIso8601String(),
-    'end_datetime': endDatetime.toIso8601String(),
-    'locality': locality,
-    'streets': streets,
-  };
+  factory CebOutage.fromJson(Map<String, dynamic> json) =>
+      _$CebOutageFromJson(json);
 }

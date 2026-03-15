@@ -8,7 +8,6 @@ abstract class CycloneName with _$CycloneName {
   const factory CycloneName({
     required String name,
     required String gender,
-    // FIXME(Find a fix for the JsonKey)
     @JsonKey(name: 'provided_by') required String providedBy,
   }) = _CycloneName;
 
