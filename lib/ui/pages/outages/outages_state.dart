@@ -1,21 +1,22 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mauritius_emergency_services/models/outage/mes_district_outage.dart';
 
-part '../../../generated/pages/ceb/ceb_state.freezed.dart';
+part '../../../generated/pages/outages/outages_state.freezed.dart';
 
 @freezed
-sealed class CebState with _$CebState {
+sealed class OutagesState with _$OutagesState {
   /// Data loaded and at least one outage exists across any district.
-  const factory CebState.Loaded({
+  const factory OutagesState.Loaded({
     required List<CebDistrictOutage> districtOutages,
-  }) = CebLoaded;
+  }) = OutagesLoaded;
 
   /// Data loaded but no outages scheduled — "all clear" screen.
-  const factory CebState.Empty() = CebEmpty;
+  const factory OutagesState.Empty() = OutagesEmpty;
 
-  const factory CebState.Error({required String message}) = CebError;
+  const factory OutagesState.Error({required String message}) = OutagesError;
 
-  const factory CebState.Loading() = CebLoading;
+  const factory OutagesState.Loading() = OutagesLoading;
 
-  const factory CebState.NoInternet({required String message}) = CebNoInternet;
+  const factory OutagesState.NoInternet({required String message}) =
+      OutagesNoInternet;
 }

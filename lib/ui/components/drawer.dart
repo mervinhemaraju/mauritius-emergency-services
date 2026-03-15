@@ -57,6 +57,7 @@ class MesDrawer extends StatelessWidget {
             MesDrawerItem(
               leadingIcon: const Icon(Icons.electric_bolt_outlined),
               title: t.pages.power_outages.title.capitalizeAll(),
+              trailing: MesChip(label: t.actions.is_new.capitalizeAll()),
               isSelected: OutagesRoute.path == currentRoute,
               onTap: () {
                 context.pop();

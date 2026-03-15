@@ -41,6 +41,11 @@ final class OutagesRoute extends MesRoute {
   static const String path = '/outages';
 }
 
+final class NewFeatureRoute extends MesRoute {
+  static const String name = 'NewFeature';
+  static const String path = '/new_feature';
+}
+
 final class AboutRoute extends MesRoute {
   static const String name = 'About';
   static const String path = '/about';

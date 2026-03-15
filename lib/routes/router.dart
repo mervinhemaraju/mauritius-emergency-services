@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/pages/about/about.dart';
+import 'package:mauritius_emergency_services/ui/pages/newfeature/new_feature_view.dart';
 import 'package:mauritius_emergency_services/ui/pages/outages/outages_view.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_view.dart';
 import 'package:mauritius_emergency_services/ui/pages/disclaimer/disclaimer.dart';
@@ -100,6 +101,17 @@ class MesAppRouter {
             return const OutagesScreen().withScaleTransition(state.pageKey);
           },
         ),
+
+        GoRoute(
+          name: NewFeatureRoute.name,
+          path: NewFeatureRoute.path,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return const NewFeatureAnnouncementScreen().withSlideTransition(
+              state.pageKey,
+            );
+          },
+        ),
+
         GoRoute(
           name: PrecallRoute.name,
           path: PrecallRoute.path,

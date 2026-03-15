@@ -4,7 +4,7 @@ import 'package:mauritius_emergency_services/generated/translations/strings.g.da
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
-part '../../generated/models/about.freezed.dart';
+part '../../generated/models/app/about.freezed.dart';
 
 @freezed
 abstract class About with _$About {

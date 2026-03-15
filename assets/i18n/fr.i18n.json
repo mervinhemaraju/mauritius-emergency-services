@@ -40,7 +40,7 @@
                 {
                     "icon": "📋",
                     "title": "sources des données",
-                    "message": "Les numéros d'urgence proviennent de :\n• Le site officiel du gouvernement (govmu.org)\n• Le site officiel Maurinet (maurinet.com)\n• Répertoires de services publics\n\nLes informations cycloniques proviennent des Services Météorologiques de Maurice (metservice.intnet.mu) et sont relayées via notre API pour votre commodité."
+                    "message": "Toutes les informations proviennent de :\n• Le site officiel du gouvernement (govmu.org)\n• Le site officiel Maurinet (maurinet.com)\n• Le site officiel Central Electricity Board (ceb.mu)\n• Répertoires de services publics\n\nLes informations cycloniques proviennent des Services Météorologiques de Maurice (metservice.intnet.mu) et sont relayées via notre API pour votre commodité."
                 },
                 {
                     "icon": "ℹ️",
@@ -187,7 +187,8 @@
         "contact_us": "contactez-nous",
         "coming_soon": "bientôt disponible",
         "toll_free": "gratuit",
-        "retry": "réessayer"
+        "retry": "réessayer",
+        "is_new": "nouveau"
     },
     "others": {
         "hour_abbr": "h",

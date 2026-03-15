@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mauritius_emergency_services/models/app/locale.dart';
 import 'package:mauritius_emergency_services/models/service/service.dart';
 
-part '../../generated/models/settings.freezed.dart';
+part '../../generated/models/app/settings.freezed.dart';
 
 @freezed
 abstract class MesSettings with _$MesSettings {
@@ -13,6 +13,7 @@ abstract class MesSettings with _$MesSettings {
   */
   const factory MesSettings({
     required bool disclaimerAcknowledged,
+    required bool isAwareOfNewFeature,
     required bool isOnboarded,
     required bool isDynamicEnabled,
     required ThemeMode theme,
@@ -22,6 +23,7 @@ abstract class MesSettings with _$MesSettings {
 
   factory MesSettings.initial() => const MesSettings(
     disclaimerAcknowledged: false,
+    isAwareOfNewFeature: false,
     isOnboarded: false,
     isDynamicEnabled: false,
     theme: ThemeMode.system,

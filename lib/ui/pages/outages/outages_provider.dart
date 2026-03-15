@@ -7,21 +7,21 @@ import 'package:mauritius_emergency_services/ui/pages/outages/outages_state.dart
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part '../../../generated/pages/ceb/ceb_provider.g.dart';
+part '../../../generated/pages/outages/outages_provider.g.dart';
 
 @riverpod
 class OutagesNotifier extends _$OutagesNotifier {
   @override
-  Future<CebState> build() async {
+  Future<OutagesState> build() async {
     return _fetch();
   }
 
-  Future<CebState> _fetch() async {
+  Future<OutagesState> _fetch() async {
     try {
       final isConnected = await NetworkInfo().isConnectedToInternet;
 
       if (!isConnected) {
-        return CebNoInternet(
+        return OutagesNoInternet(
           message: t.messages.error.no_internet_connection.capitalize(),
         );
       }
@@ -35,10 +35,10 @@ class OutagesNotifier extends _$OutagesNotifier {
       final hasAnyOutage = districtOutages.any((d) => d.outages.isNotEmpty);
 
       return hasAnyOutage
-          ? CebLoaded(districtOutages: districtOutages)
-          : const CebEmpty();
+          ? OutagesLoaded(districtOutages: districtOutages)
+          : const OutagesEmpty();
     } catch (e) {
-      return CebError(message: "Error loading");
+      return OutagesError(message: "Error loading");
     }
   }
 

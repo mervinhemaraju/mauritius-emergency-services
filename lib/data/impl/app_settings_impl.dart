@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppSettingsImpl implements AppSettingsRepository {
   static const _keyDisclaimerAcknowledged = 'disclaimerAcknowledged';
+  static const _keyIsAwareOfNewFeature = 'isAwareOfNewFeature';
   static const _keyIsOnboarded = 'isOnboarded';
   static const _keyDynamicEnabled = 'isDynamicEnabled';
   static const _keyTheme = 'theme';
@@ -22,6 +23,8 @@ class AppSettingsImpl implements AppSettingsRepository {
   Future<MesSettings> getSettings() async {
     final disclaimerAcknowledged =
         _prefs.getBool(_keyDisclaimerAcknowledged) ?? false;
+    final isAwareOfNewFeature =
+        _prefs.getBool(_keyIsAwareOfNewFeature) ?? false;
     final isOnboarded = _prefs.getBool(_keyIsOnboarded) ?? false;
     final isDynamicEnabled = _prefs.getBool(_keyDynamicEnabled) ?? false;
     final themeIndex = _prefs.getInt(_keyTheme) ?? 0;
@@ -34,6 +37,7 @@ class AppSettingsImpl implements AppSettingsRepository {
 
     return MesSettings(
       disclaimerAcknowledged: disclaimerAcknowledged,
+      isAwareOfNewFeature: isAwareOfNewFeature,
       isOnboarded: isOnboarded,
       isDynamicEnabled: isDynamicEnabled,
       theme: ThemeMode.values[themeIndex],
@@ -49,6 +53,7 @@ class AppSettingsImpl implements AppSettingsRepository {
         _keyDisclaimerAcknowledged,
         settings.disclaimerAcknowledged,
       ),
+      _prefs.setBool(_keyIsAwareOfNewFeature, settings.isAwareOfNewFeature),
       _prefs.setBool(_keyIsOnboarded, settings.isOnboarded),
       _prefs.setBool(_keyDynamicEnabled, settings.isDynamicEnabled),
       _prefs.setInt(_keyTheme, settings.theme.index),

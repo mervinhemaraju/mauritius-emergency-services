@@ -40,7 +40,7 @@
                 {
                     "icon": "📋",
                     "title": "data sources",
-                    "message": "Emergency contact numbers are sourced from:\n• The official government website (govmu.org)\n• Maurinet official website (maurinet.com)\n• Public service directories\n\nCyclone information is sourced from the Mauritius Meteorological Services (metservice.intnet.mu) and relayed through our API for convenience."
+                    "message": "All informations are sourced from:\n• The official government website (govmu.org)\n• Maurinet official website (maurinet.com)\n• Central Electricity Board website (ceb.mu)\n• Public service directories\n\nCyclone information is sourced from the Mauritius Meteorological Services (metservice.intnet.mu) and relayed through our API for convenience."
                 },
                 {
                     "icon": "ℹ️",
@@ -187,7 +187,8 @@
         "contact_us": "contact us",
         "coming_soon": "coming soon",
         "toll_free": "toll free",
-        "retry": "retry"
+        "retry": "retry",
+        "is_new": "new"
     },
     "others": {
         "hour_abbr": "hr",

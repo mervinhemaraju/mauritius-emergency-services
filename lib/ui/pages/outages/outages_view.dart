@@ -25,24 +25,24 @@ class OutagesScreen extends ConsumerWidget {
         .watch(outagesProvider)
         .when(
           data: (state) => state,
-          loading: () => const CebLoading(),
-          error: (error, _) => CebError(message: error.toString()),
+          loading: () => const OutagesLoading(),
+          error: (error, _) => OutagesError(message: error.toString()),
         );
 
     final uiView = switch (uiState) {
-      CebLoading() => const LoadingScreen(),
-      CebError() => ErrorScreen(
+      OutagesLoading() => const LoadingScreen(),
+      OutagesError() => ErrorScreen(
         title: uiState.message,
         showErrorImage: true,
         retryAction: retryAction,
       ),
-      CebNoInternet() => ErrorScreen(
+      OutagesNoInternet() => ErrorScreen(
         title: uiState.message,
         showInternetErrorImage: true,
         retryAction: retryAction,
       ),
-      CebEmpty() => const _EmptyState(),
-      CebLoaded() => _CebBody(districtOutages: uiState.districtOutages),
+      OutagesEmpty() => const _EmptyState(),
+      OutagesLoaded() => _CebBody(districtOutages: uiState.districtOutages),
     };
 
     return Scaffold(

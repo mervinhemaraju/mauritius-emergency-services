@@ -75,6 +75,9 @@ class MesMaterialApp extends ConsumerWidget {
     final disclaimerAcknowledged = ref.watch(
       mesSettingsProvider.select((s) => s.disclaimerAcknowledged),
     );
+    final isAwareOfNewFeature = ref.watch(
+      mesSettingsProvider.select((s) => s.isAwareOfNewFeature),
+    );
 
     // Determine the initial location
     String initialLocation = switch ((isOnboarded, disclaimerAcknowledged)) {

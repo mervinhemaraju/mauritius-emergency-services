@@ -32,6 +32,9 @@ class MesSettingsNotifier extends _$MesSettingsNotifier {
   Future<void> markDisclaimerAsRead() =>
       _update(state.copyWith(disclaimerAcknowledged: true));
 
+  Future<void> markAsAwareOfNewFeature() =>
+      _update(state.copyWith(isAwareOfNewFeature: true));
+
   Future<void> markAsOnboarded() => _update(state.copyWith(isOnboarded: true));
 
   Future<void> toggleDynamic(bool value) =>
