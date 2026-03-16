@@ -118,6 +118,17 @@ extension StringExtension on String {
     return int.tryParse(this) != null;
   }
 
+  /// Strips all characters except digits and leading '+' to prevent
+  /// tel: URI injection (e.g. DTMF tones via `;`, `,`, `#`, `*`).
+  String sanitizeForTelUri() {
+    // Keep only digits and a leading '+' for international format
+    final digits = replaceAll(RegExp(r'[^\d]'), '');
+    if (startsWith('+')) {
+      return '+$digits';
+    }
+    return digits;
+  }
+
   List<Pair<String, String>> getStyleHeaderName() {
     // Split the name
     final names = split(" ");
