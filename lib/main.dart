@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -16,23 +15,10 @@ import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/utils/getters.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Only enable this for development purposes
-// ad the following in main() -> HttpOverrides.global = MyHttpOverrides();
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
-}
-
 // The main runner app
 void main() async {
   // Ensure the widgets are initialized
   final binding = WidgetsFlutterBinding.ensureInitialized();
-
-  HttpOverrides.global = MyHttpOverrides();
 
   // Preserve the splash screen
   FlutterNativeSplash.preserve(widgetsBinding: binding);
