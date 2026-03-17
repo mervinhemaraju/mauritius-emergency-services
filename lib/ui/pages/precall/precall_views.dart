@@ -411,12 +411,16 @@ void onCountdownComplete({
   required Function() onError,
 }) async {
   if (Platform.isAndroid) {
+    // Strip non-digit characters to prevent tel: URI injection
+    // (e.g. DTMF tones via ';', ',', '#', '*')
+    final sanitized = number.sanitizeForTelUri();
+
     // Define the data
-    String numberUri = 'tel:$number';
+    String numberUri = 'tel:$sanitized';
 
     // Check if the number is an emergency number
     if (service.type.toUpperCase() == "E") {
-      numberUri = 'tel:$number+';
+      numberUri = 'tel:$sanitized+';
     }
 
     // Build the android intent
@@ -428,8 +432,8 @@ void onCountdownComplete({
     // Launch the intent
     await intent.launch();
   } else {
-    // Build the URI
-    final uri = Uri(scheme: 'tel', path: number);
+    // Build the URI with sanitized number
+    final uri = Uri(scheme: 'tel', path: number.sanitizeForTelUri());
 
     // Launch the URL with explicit LaunchMode
     if (!await launchUrl(uri)) {
