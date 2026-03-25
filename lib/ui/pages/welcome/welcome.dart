@@ -8,12 +8,12 @@ import 'package:mauritius_emergency_services/providers/rt_permissions_provider.d
 import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/routes/routes.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/ui/components/adaptive_screen.dart';
-import 'package:mauritius_emergency_services/ui/components/list_items.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_adaptive.dart';
 import 'package:mauritius_emergency_services/ui/pages/welcome/permissions_dialog.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/utils/getters.dart';
+import 'package:mauritius_emergency_services/ui/widgets/items/item_welcome_carousel.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});

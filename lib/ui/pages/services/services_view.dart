@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/providers/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
-import 'package:mauritius_emergency_services/ui/components/drawer.dart';
-import 'package:mauritius_emergency_services/ui/components/view_error.dart';
-import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
+import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_list.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_state.dart';
@@ -60,7 +60,7 @@ class ServicesScreen extends ConsumerWidget {
           scaffoldKey.currentState?.openDrawer();
         },
       ),
-      drawer: const MesDrawer(),
+      drawer: const MesDrawerPrimary(),
       body: RefreshIndicator(
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,

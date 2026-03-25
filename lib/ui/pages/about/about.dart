@@ -5,11 +5,12 @@ import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/models/app/about.dart';
 import 'package:mauritius_emergency_services/providers/package_version.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/ui/components/appbar_simple.dart';
-import 'package:mauritius_emergency_services/ui/components/list_items.dart';
+import 'package:mauritius_emergency_services/ui/widgets/appbars/appbar_primary.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
+import 'package:mauritius_emergency_services/ui/widgets/items/item_list_about_header.dart';
+import 'package:mauritius_emergency_services/ui/widgets/items/item_list_about_section.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class AboutScreen extends StatelessWidget {
     // Return the view
     return Scaffold(
       extendBody: true,
-      appBar: MesAppBar(
+      appBar: MesAppBarPrimary(
         title: t.pages.about.title.capitalize(),
         goBack: () => context.goBack(),
       ),

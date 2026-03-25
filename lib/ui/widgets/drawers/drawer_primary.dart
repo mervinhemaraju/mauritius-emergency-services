@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/routes/routes.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/ui/components/list_items.dart';
-import 'package:mauritius_emergency_services/ui/components/widgets.dart';
-import 'package:mauritius_emergency_services/ui/pages/theme_selector/theme.dart';
+import 'package:mauritius_emergency_services/ui/widgets/chips/chip_primary.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
+import 'package:mauritius_emergency_services/ui/widgets/items/item_drawer.dart';
+import 'package:mauritius_emergency_services/ui/widgets/texts/text_special_header.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MesDrawer extends StatelessWidget {
-  const MesDrawer({super.key});
+class MesDrawerPrimary extends StatelessWidget {
+  const MesDrawerPrimary({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +44,14 @@ class MesDrawer extends StatelessWidget {
                 context.go(ServicesRoute.path);
               },
             ),
+            // TODO(Complete this drawer item)
+            MesDrawerItem(
+              leadingIcon: const Icon(Icons.warning_amber_outlined),
+              title: "Alerts",
+              trailing: MesChipPrimary(label: t.actions.is_new.capitalizeAll()),
+              isSelected: OutagesRoute.path == currentRoute,
+              onTap: () {},
+            ),
             MesDrawerItem(
               leadingIcon: const Icon(Icons.cyclone_outlined),
               title: t.pages.cyclone.title.capitalizeAll(),
@@ -57,12 +65,24 @@ class MesDrawer extends StatelessWidget {
             MesDrawerItem(
               leadingIcon: const Icon(Icons.electric_bolt_outlined),
               title: t.pages.power_outages.title.capitalizeAll(),
-              trailing: MesChip(label: t.actions.is_new.capitalizeAll()),
+              trailing: MesChipPrimary(label: t.actions.is_new.capitalizeAll()),
               isSelected: OutagesRoute.path == currentRoute,
               onTap: () {
                 context.pop();
                 context.go(OutagesRoute.path);
               },
+            ),
+            // TODO(Complete this drawer item)
+            MesDrawerItem(
+              leadingIcon: const Icon(Icons.brightness_4),
+              title: "Sun, Moon & Tides",
+              trailing: MesChipPrimary(label: t.actions.is_new.capitalizeAll()),
+              isSelected: OutagesRoute.path == currentRoute,
+              onTap: () {},
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+              child: Divider(),
             ),
             MesDrawerItem(
               leadingIcon: const Icon(Icons.info_outline),
@@ -80,22 +100,18 @@ class MesDrawer extends StatelessWidget {
                 context.push(SettingsRoute.path);
               },
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-              child: Divider(),
-            ),
-            MesDrawerItem(
-              leadingIcon: const Icon(Icons.brightness_4_outlined),
-              title: t.pages.theme_selector.title.capitalizeAll(),
-              isSelected: false,
-              onTap: () {
-                context.pop();
-                showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => const ThemeDialog(),
-                );
-              },
-            ),
+            // MesDrawerItem(
+            //   leadingIcon: const Icon(Icons.brightness_4_outlined),
+            //   title: t.pages.theme_selector.title.capitalizeAll(),
+            //   isSelected: false,
+            //   onTap: () {
+            //     context.pop();
+            //     showDialog<String>(
+            //       context: context,
+            //       builder: (BuildContext context) => const ThemeDialog(),
+            //     );
+            //   },
+            // ),
             MesDrawerItem(
               leadingIcon: const Icon(Icons.email_outlined),
               title: t.actions.contact_us.capitalizeAll(),

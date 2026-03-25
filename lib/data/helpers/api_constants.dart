@@ -3,7 +3,7 @@
 class ApiConstants {
   ApiConstants._();
 
-  static const String baseUrl = "https://staging-mesapi.plagueworks.org";
+  static const String baseUrl = "https://mesapi.plagueworks.org";
   static const String version = "v1";
 
   static String versioned(String lang, String path) =>

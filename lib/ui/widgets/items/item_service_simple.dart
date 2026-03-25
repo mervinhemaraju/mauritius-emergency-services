@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+import 'package:mauritius_emergency_services/models/service/service.dart';
+
+class SimpleServiceItem extends StatelessWidget {
+  const SimpleServiceItem({
+    super.key,
+    required this.isSelected,
+    required this.service,
+    required this.onServiceSelected,
+  });
+
+  final bool isSelected;
+  final Service service;
+  final Function(Service service) onServiceSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      selected: isSelected,
+      selectedColor: Theme.of(context).colorScheme.onTertiary,
+      selectedTileColor: Theme.of(context).colorScheme.tertiary,
+      title: Text(service.name),
+      subtitle: Text(service.mainContact.toString()),
+      trailing: isSelected
+          ? Icon(
+              Icons.check_outlined,
+              color: Theme.of(context).colorScheme.onTertiary,
+            )
+          : null,
+      onTap: () {
+        onServiceSelected(service);
+      },
+    );
+  }
+}

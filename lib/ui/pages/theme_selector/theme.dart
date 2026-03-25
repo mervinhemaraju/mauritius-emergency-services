@@ -5,6 +5,7 @@ import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
+// TODO(Move this to settings completely)
 class ThemeDialog extends StatelessWidget {
   // Constructor
   const ThemeDialog({super.key});
@@ -26,38 +27,34 @@ class ThemeDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            ...ThemeMode.values.map(
-              (theme) {
-                return Consumer(
-                  builder: (context, ref, child) {
-                    // Get the current theme
-                    final currentTheme = ref.watch(
-                      mesSettingsProvider.select(
-                        (s) => s.theme,
+            ...ThemeMode.values.map((theme) {
+              return Consumer(
+                builder: (context, ref, child) {
+                  // Get the current theme
+                  final currentTheme = ref.watch(
+                    mesSettingsProvider.select((s) => s.theme),
+                  );
+                  return RadioGroup(
+                    groupValue: currentTheme,
+                    onChanged: (ThemeMode? newTheme) {
+                      if (newTheme != null) {
+                        ref
+                            .read(mesSettingsProvider.notifier)
+                            .updateTheme(newTheme);
+                      }
+                    },
+                    child: RadioListTile<ThemeMode>(
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(
+                        t.others.themes[theme.name]?.capitalize() ??
+                            t.others.themes.entries.first.value.capitalize(),
                       ),
-                    );
-                    return RadioGroup(
-                      groupValue: currentTheme,
-                      onChanged: (ThemeMode? newTheme) {
-                        if (newTheme != null) {
-                          ref
-                              .read(mesSettingsProvider.notifier)
-                              .updateTheme(newTheme);
-                        }
-                      },
-                      child: RadioListTile<ThemeMode>(
-                        contentPadding: EdgeInsets.zero,
-                        title: Text(
-                          t.others.themes[theme.name]?.capitalize() ??
-                              t.others.themes.entries.first.value.capitalize(),
-                        ),
-                        value: theme,
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
+                      value: theme,
+                    ),
+                  );
+                },
+              );
+            }),
           ],
         ),
       ),
@@ -67,7 +64,7 @@ class ThemeDialog extends StatelessWidget {
             context.pop();
           },
           child: Text(t.actions.close.capitalize()),
-        )
+        ),
       ],
     );
   }

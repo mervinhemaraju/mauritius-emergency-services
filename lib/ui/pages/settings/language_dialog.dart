@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/models/app/locale.dart';
 import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
+import 'package:mauritius_emergency_services/ui/widgets/items/item_language_selector.dart';
 
 class LanguageDialog extends StatelessWidget {
   const LanguageDialog({super.key});

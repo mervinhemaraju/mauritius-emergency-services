@@ -1,14 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
 import 'package:mauritius_emergency_services/models/outage/mes_district_outage.dart';
 import 'package:mauritius_emergency_services/models/outage/mes_outage.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
-import 'package:mauritius_emergency_services/ui/components/drawer.dart';
-import 'package:mauritius_emergency_services/ui/components/view_error.dart';
-import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
+import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/pages/outages/outages_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/outages/outages_state.dart';
+
+// TODO(Update UI and centralize widgets)
+
+// ─── Flat outage helper ───────────────────────────────────────────────────────
+class _FlatOutage {
+  final String district;
+  final CebOutage outage;
+
+  const _FlatOutage({required this.district, required this.outage});
+
+  String get dateKey {
+    final s = outage.startDatetime;
+    return '${s.year}-${s.month.toString().padLeft(2, '0')}-${s.day.toString().padLeft(2, '0')}';
+  }
+
+  bool get isOngoing {
+    final now = DateTime.now();
+    return now.isAfter(outage.startDatetime) &&
+        now.isBefore(outage.endDatetime);
+  }
+
+  bool get isPast => DateTime.now().isAfter(outage.endDatetime);
+}
+
+// ─── Screen ──────────────────────────────────────────────────────────────────
 
 class OutagesScreen extends ConsumerWidget {
   const OutagesScreen({super.key});
@@ -17,10 +41,6 @@ class OutagesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
-    void retryAction() {
-      ref.read(outagesProvider.notifier).refresh();
-    }
-
     final uiState = ref
         .watch(outagesProvider)
         .when(
@@ -28,6 +48,8 @@ class OutagesScreen extends ConsumerWidget {
           loading: () => const OutagesLoading(),
           error: (error, _) => OutagesError(message: error.toString()),
         );
+
+    void retryAction() => ref.read(outagesProvider.notifier).refresh();
 
     final uiView = switch (uiState) {
       OutagesLoading() => const LoadingScreen(),
@@ -42,7 +64,7 @@ class OutagesScreen extends ConsumerWidget {
         retryAction: retryAction,
       ),
       OutagesEmpty() => const _EmptyState(),
-      OutagesLoaded() => _CebBody(districtOutages: uiState.districtOutages),
+      OutagesLoaded() => _OutagesBody(districtOutages: uiState.districtOutages),
     };
 
     return Scaffold(
@@ -50,7 +72,7 @@ class OutagesScreen extends ConsumerWidget {
       appBar: MesAppSearchBar(
         openDrawer: () => scaffoldKey.currentState?.openDrawer(),
       ),
-      drawer: const MesDrawer(),
+      drawer: const MesDrawerPrimary(),
       body: RefreshIndicator(
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -61,19 +83,23 @@ class OutagesScreen extends ConsumerWidget {
   }
 }
 
-// ─── Body ────────────────────────────────────────────────────────────────────
+// ─── Main Body ────────────────────────────────────────────────────────────────
 
-class _CebBody extends StatefulWidget {
+class _OutagesBody extends StatefulWidget {
   final List<CebDistrictOutage> districtOutages;
 
-  const _CebBody({required this.districtOutages});
+  const _OutagesBody({required this.districtOutages});
 
   @override
-  State<_CebBody> createState() => _CebBodyState();
+  State<_OutagesBody> createState() => _OutagesBodyState();
 }
 
-class _CebBodyState extends State<_CebBody> {
+class _OutagesBodyState extends State<_OutagesBody>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   String? _selectedDistrict;
+
+  // ── Derived data ──────────────────────────────────────────────────────────
 
   List<_FlatOutage> get _allOutages {
     final list = <_FlatOutage>[];
@@ -88,216 +114,348 @@ class _CebBodyState extends State<_CebBody> {
     return list;
   }
 
-  List<String> get _affectedDistricts =>
+  List<String> get _sortedDateKeys =>
+      _allOutages.map((o) => o.dateKey).toSet().toList()..sort();
+
+  List<String> get _districts =>
       _allOutages.map((o) => o.district).toSet().toList()..sort();
 
-  List<_FlatOutage> get _filtered => _selectedDistrict == null
-      ? _allOutages
-      : _allOutages.where((o) => o.district == _selectedDistrict).toList();
+  List<_FlatOutage> _outagesForDate(String dateKey) => _allOutages.where((o) {
+    final matchDate = o.dateKey == dateKey;
+    final matchDistrict =
+        _selectedDistrict == null || o.district == _selectedDistrict;
+    return matchDate && matchDistrict;
+  }).toList();
 
-  Map<String, List<_FlatOutage>> get _grouped {
-    final map = <String, List<_FlatOutage>>{};
-    for (final o in _filtered) {
-      map.putIfAbsent(o.dateKey, () => []).add(o);
-    }
-    return map;
+  int get _ongoingCount => _allOutages.where((o) => o.isOngoing).length;
+
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+  @override
+  void initState() {
+    super.initState();
+    final dateKeys = _sortedDateKeys;
+    final now = DateTime.now();
+    final todayKey =
+        '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+    final todayIndex = dateKeys.indexOf(todayKey);
+
+    _tabController = TabController(
+      length: dateKeys.isEmpty ? 1 : dateKeys.length,
+      vsync: this,
+      initialIndex: todayIndex >= 0 ? todayIndex : 0,
+    );
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
-    final grouped = _grouped;
-    final dateKeys = grouped.keys.toList()..sort();
-    final affected = _affectedDistricts;
+    final dateKeys = _sortedDateKeys;
+    final allOutages = _allOutages;
+    final districts = _districts;
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ── Status banner ──
-        Container(
-          margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          decoration: BoxDecoration(
-            color: cs.errorContainer,
-            borderRadius: BorderRadius.circular(14),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 34,
-                height: 34,
-                decoration: BoxDecoration(
-                  color: cs.error.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                alignment: Alignment.center,
-                child: Icon(Icons.bolt_rounded, size: 18, color: cs.error),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${_allOutages.length} Interruption${_allOutages.length != 1 ? 's' : ''} Scheduled',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: cs.onErrorContainer,
-                      ),
-                    ),
-                    const Gap(4),
-                    Text(
-                      'Across ${affected.length} district${affected.length != 1 ? 's' : ''}',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: cs.onErrorContainer.withValues(alpha: 0.6),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+        // ── Hero header ─────────────────────────────────────────────────
+        _HeroHeader(
+          total: allOutages.length,
+          ongoingCount: _ongoingCount,
+          districtCount: districts.length,
+          theme: theme,
+          cs: cs,
         ),
 
-        // ── District filter chips ──
-        if (affected.length > 1) ...[
-          const Gap(4),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.fromLTRB(16, 14, 16, 6),
-            child: Row(
-              children: [
-                _FilterChip(
-                  label: 'All',
-                  selected: _selectedDistrict == null,
-                  onTap: () => setState(() => _selectedDistrict = null),
-                ),
-                const SizedBox(width: 8),
-                ...affected.map(
-                  (d) => Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: _FilterChip(
-                      label: _fmtDistrict(d),
-                      selected: _selectedDistrict == d,
-                      onTap: () => setState(
-                        () => _selectedDistrict = _selectedDistrict == d
-                            ? null
-                            : d,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+        // ── District filter chips ────────────────────────────────────────
+        if (districts.length > 1)
+          _DistrictFilter(
+            districts: districts,
+            selected: _selectedDistrict,
+            onChanged: (d) => setState(
+              () => _selectedDistrict = _selectedDistrict == d ? null : d,
             ),
+            theme: theme,
+            cs: cs,
           ),
-        ],
 
-        // ── Timeline ──
+        // ── Date tab bar ─────────────────────────────────────────────────
+        if (dateKeys.isNotEmpty)
+          _DateTabBar(
+            dateKeys: dateKeys,
+            controller: _tabController,
+            allOutages: allOutages,
+            theme: theme,
+            cs: cs,
+          ),
+
+        // ── Tab content ──────────────────────────────────────────────────
         Expanded(
-          child: _filtered.isEmpty
-              ? Center(
-                  child: Text(
-                    'No outages for this district.',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: cs.onSurface.withValues(alpha: 0.4),
-                    ),
-                  ),
-                )
-              : ListView.builder(
-                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 32),
-                  itemCount: dateKeys.length,
-                  itemBuilder: (context, i) {
-                    final key = dateKeys[i];
-                    final items = grouped[key]!;
-                    return _DateGroup(dateKey: key, outages: items);
-                  },
+          child: dateKeys.isEmpty
+              ? const _EmptyState()
+              : TabBarView(
+                  controller: _tabController,
+                  children: dateKeys.map((dk) {
+                    final outages = _outagesForDate(dk);
+                    if (outages.isEmpty) {
+                      return _NoDistrictResults(cs: cs, theme: theme);
+                    }
+                    return _OutageList(outages: outages);
+                  }).toList(),
                 ),
-        ),
-      ],
-    );
-  }
-
-  String _fmtDistrict(String raw) =>
-      raw.split('-').map((w) => w[0].toUpperCase() + w.substring(1)).join(' ');
-}
-
-// ─── Empty State ─────────────────────────────────────────────────────────────
-
-class _EmptyState extends StatelessWidget {
-  const _EmptyState();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
-
-    // Wrap in scroll view so RefreshIndicator works even on the empty state
-    return CustomScrollView(
-      slivers: [
-        SliverFillRemaining(
-          hasScrollBody: false,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.power_rounded,
-                size: 56,
-                color: cs.primary.withValues(alpha: 0.3),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'All Clear',
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                'No power interruptions scheduled.',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: cs.onSurface.withValues(alpha: 0.5),
-                ),
-              ),
-            ],
-          ),
         ),
       ],
     );
   }
 }
 
-// ─── Filter Chip ─────────────────────────────────────────────────────────────
+// ─── Hero Header ─────────────────────────────────────────────────────────────
 
-class _FilterChip extends StatelessWidget {
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
+class _HeroHeader extends StatelessWidget {
+  final int total;
+  final int ongoingCount;
+  final int districtCount;
+  final ThemeData theme;
+  final ColorScheme cs;
 
-  const _FilterChip({
-    required this.label,
-    required this.selected,
-    required this.onTap,
+  const _HeroHeader({
+    required this.total,
+    required this.ongoingCount,
+    required this.districtCount,
+    required this.theme,
+    required this.cs,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 18),
+      decoration: BoxDecoration(
+        color: cs.errorContainer.withValues(alpha: 0.45),
+        border: Border(
+          bottom: BorderSide(color: cs.outlineVariant.withValues(alpha: 0.25)),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Big count display
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '$total',
+                    style: theme.textTheme.displaySmall?.copyWith(
+                      fontWeight: FontWeight.w900,
+                      color: cs.error,
+                      height: 1,
+                      letterSpacing: -2,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, bottom: 5),
+                    child: Text(
+                      'outage${total != 1 ? 's' : ''}',
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: cs.onErrorContainer.withValues(alpha: 0.65),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 3),
+              Text(
+                'Across $districtCount district${districtCount != 1 ? 's' : ''}',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: cs.onErrorContainer.withValues(alpha: 0.5),
+                ),
+              ),
+            ],
+          ),
+          const Spacer(),
+          // Status chips
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (ongoingCount > 0) ...[
+                _StatusChip(
+                  dot: true,
+                  label: '$ongoingCount live now',
+                  bg: cs.error,
+                  fg: cs.onError,
+                ),
+                const SizedBox(height: 6),
+              ],
+              _StatusChip(
+                icon: Icons.bolt_rounded,
+                label: 'CEB outages',
+                bg: cs.surfaceContainerHighest,
+                fg: cs.onSurface.withValues(alpha: 0.55),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
 
+class _StatusChip extends StatelessWidget {
+  final String label;
+  final Color bg;
+  final Color fg;
+  final bool dot;
+  final IconData? icon;
+
+  const _StatusChip({
+    required this.label,
+    required this.bg,
+    required this.fg,
+    this.dot = false,
+    this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (dot)
+            Container(
+              width: 6,
+              height: 6,
+              margin: const EdgeInsets.only(right: 5),
+              decoration: BoxDecoration(
+                color: fg.withValues(alpha: 0.8),
+                shape: BoxShape.circle,
+              ),
+            ),
+          if (icon != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Icon(icon, size: 12, color: fg),
+            ),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: fg,
+              letterSpacing: 0.1,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── District Filter ──────────────────────────────────────────────────────────
+
+class _DistrictFilter extends StatelessWidget {
+  final List<String> districts;
+  final String? selected;
+  final void Function(String) onChanged;
+  final ThemeData theme;
+  final ColorScheme cs;
+
+  const _DistrictFilter({
+    required this.districts,
+    required this.selected,
+    required this.onChanged,
+    required this.theme,
+    required this.cs,
+  });
+
+  String _fmt(String raw) => raw
+      .split('-')
+      .map((w) => w.isNotEmpty ? w[0].toUpperCase() + w.substring(1) : '')
+      .join(' ');
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 48,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        children: [
+          _Chip(
+            label: 'All',
+            selected: selected == null,
+            onTap: () {
+              if (selected != null) onChanged(selected!);
+            },
+            cs: cs,
+            theme: theme,
+          ),
+          ...districts.map(
+            (d) => Padding(
+              padding: const EdgeInsets.only(left: 6),
+              child: _Chip(
+                label: _fmt(d),
+                selected: selected == d,
+                onTap: () => onChanged(d),
+                cs: cs,
+                theme: theme,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Chip extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+  final ColorScheme cs;
+  final ThemeData theme;
+
+  const _Chip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+    required this.cs,
+    required this.theme,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         decoration: BoxDecoration(
-          color: selected ? cs.primaryContainer : cs.surfaceContainerHigh,
-          borderRadius: BorderRadius.circular(20),
+          color: selected ? cs.primary : cs.surfaceContainerHigh,
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
           label,
-          style: theme.textTheme.labelMedium?.copyWith(
-            fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+          style: theme.textTheme.labelSmall?.copyWith(
+            fontWeight: FontWeight.w600,
             color: selected
-                ? cs.onPrimaryContainer
+                ? cs.onPrimary
                 : cs.onSurface.withValues(alpha: 0.6),
           ),
         ),
@@ -306,95 +464,38 @@ class _FilterChip extends StatelessWidget {
   }
 }
 
-// ─── Date Group ──────────────────────────────────────────────────────────────
+// ─── Date Tab Bar ─────────────────────────────────────────────────────────────
 
-class _DateGroup extends StatelessWidget {
-  final String dateKey;
-  final List<_FlatOutage> outages;
+class _DateTabBar extends StatelessWidget {
+  final List<String> dateKeys;
+  final TabController controller;
+  final List<_FlatOutage> allOutages;
+  final ThemeData theme;
+  final ColorScheme cs;
 
-  const _DateGroup({required this.dateKey, required this.outages});
+  const _DateTabBar({
+    required this.dateKeys,
+    required this.controller,
+    required this.allOutages,
+    required this.theme,
+    required this.cs,
+  });
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
-    final dt = DateTime.parse(dateKey);
-    final now = DateTime.now();
-    final isToday =
-        dt.year == now.year && dt.month == now.month && dt.day == now.day;
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Date header
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
-            child: Row(
-              children: [
-                Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    color: isToday ? cs.primary : cs.surfaceContainerHighest,
-                    shape: BoxShape.circle,
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    '${dt.day}',
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: isToday ? cs.onPrimary : cs.onSurface,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      isToday ? 'Today' : _dayName(dt),
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      isToday ? _fullDate(dt) : _monthYear(dt),
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: cs.onSurface.withValues(alpha: 0.5),
-                      ),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 3,
-                  ),
-                  decoration: BoxDecoration(
-                    color: cs.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    '${outages.length}',
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: cs.onSurface.withValues(alpha: 0.6),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          ...outages.map((o) => _OutageTile(flat: o)),
-        ],
-      ),
-    );
-  }
-
-  String _dayName(DateTime dt) => const [
+  static const _months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  static const _days = [
     'Monday',
     'Tuesday',
     'Wednesday',
@@ -402,201 +503,207 @@ class _DateGroup extends StatelessWidget {
     'Friday',
     'Saturday',
     'Sunday',
-  ][dt.weekday - 1];
-
-  String _monthYear(DateTime dt) =>
-      '${const ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][dt.month - 1]} ${dt.year}';
-
-  String _fullDate(DateTime dt) =>
-      '${_dayName(dt)}, ${dt.day} ${const ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][dt.month - 1]}';
-}
-
-// ─── Outage Tile ─────────────────────────────────────────────────────────────
-
-class _OutageTile extends StatefulWidget {
-  final _FlatOutage flat;
-
-  const _OutageTile({required this.flat});
-
-  @override
-  State<_OutageTile> createState() => _OutageTileState();
-}
-
-class _OutageTileState extends State<_OutageTile> {
-  bool _expanded = false;
+  ];
+  static const _daysShort = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
-    final o = widget.flat.outage;
     final now = DateTime.now();
-    final isOngoing =
-        now.isAfter(o.startDatetime) && now.isBefore(o.endDatetime);
 
-    return GestureDetector(
-      onTap: () => setState(() => _expanded = !_expanded),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        decoration: BoxDecoration(
-          color: cs.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(12),
-          border: isOngoing
-              ? Border.all(color: cs.error.withValues(alpha: 0.5), width: 1.5)
-              : null,
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: cs.outlineVariant.withValues(alpha: 0.3)),
         ),
+      ),
+      child: TabBar(
+        controller: controller,
+        isScrollable: true,
+        tabAlignment: TabAlignment.start,
+        indicatorColor: cs.primary,
+        indicatorWeight: 3,
+        dividerColor: Colors.transparent,
+        labelPadding: const EdgeInsets.symmetric(horizontal: 4),
+        tabs: dateKeys.map((dk) {
+          final dt = DateTime.parse(dk);
+          final isToday =
+              dt.year == now.year && dt.month == now.month && dt.day == now.day;
+          final isTomorrow =
+              dt.difference(DateTime(now.year, now.month, now.day)).inDays == 1;
+          final count = allOutages.where((o) => o.dateKey == dk).length;
+          final hasOngoing = allOutages.any(
+            (o) => o.dateKey == dk && o.isOngoing,
+          );
+
+          final String dayLabel;
+          if (isToday) {
+            dayLabel = 'Today';
+          } else if (isTomorrow) {
+            dayLabel = 'Tomorrow';
+          } else {
+            dayLabel = _daysShort[dt.weekday - 1];
+          }
+
+          return _DateTab(
+            dayLabel: dayLabel,
+            dateLabel: '${dt.day} ${_months[dt.month - 1]}',
+            count: count,
+            isToday: isToday,
+            hasOngoing: hasOngoing,
+            cs: cs,
+            theme: theme,
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+class _DateTab extends StatelessWidget {
+  final String dayLabel;
+  final String dateLabel;
+  final int count;
+  final bool isToday;
+  final bool hasOngoing;
+  final ColorScheme cs;
+  final ThemeData theme;
+
+  const _DateTab({
+    required this.dayLabel,
+    required this.dateLabel,
+    required this.count,
+    required this.isToday,
+    required this.hasOngoing,
+    required this.cs,
+    required this.theme,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Tab(
+      height: 58,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // ── Main row ──
-            Padding(
-              padding: const EdgeInsets.all(14),
-              child: Row(
-                children: [
-                  // Time column
-                  SizedBox(
-                    width: 52,
-                    child: Column(
-                      children: [
-                        Text(
-                          _fmt(o.startDatetime),
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: isOngoing ? cs.error : cs.onSurface,
-                          ),
-                        ),
-                        Container(
-                          width: 1,
-                          height: 14,
-                          margin: const EdgeInsets.symmetric(vertical: 2),
-                          color: cs.outlineVariant,
-                        ),
-                        Text(
-                          _fmt(o.endDatetime),
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: cs.onSurface.withValues(alpha: 0.5),
-                          ),
-                        ),
-                      ],
-                    ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  dayLabel,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    fontWeight: isToday ? FontWeight.w800 : FontWeight.w600,
                   ),
-                  const SizedBox(width: 14),
-
-                  // Locality & district
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          _titleCase(o.locality),
-                          style: theme.textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 3),
-                        Text(
-                          '${_fmtDistrict(widget.flat.district)} · ${_duration(o.startDatetime, o.endDatetime)}',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: cs.onSurface.withValues(alpha: 0.5),
-                          ),
-                        ),
-                      ],
+                ),
+                if (hasOngoing) ...[
+                  const SizedBox(width: 4),
+                  Container(
+                    width: 6,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: cs.error,
+                      shape: BoxShape.circle,
                     ),
-                  ),
-
-                  // Ongoing dot + chevron
-                  if (isOngoing)
-                    Container(
-                      width: 8,
-                      height: 8,
-                      margin: const EdgeInsets.only(right: 8),
-                      decoration: BoxDecoration(
-                        color: cs.error,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  Icon(
-                    _expanded
-                        ? Icons.keyboard_arrow_up_rounded
-                        : Icons.keyboard_arrow_down_rounded,
-                    size: 20,
-                    color: cs.onSurface.withValues(alpha: 0.3),
                   ),
                 ],
+              ],
+            ),
+            const SizedBox(height: 2),
+            Text(
+              dateLabel,
+              style: theme.textTheme.bodySmall?.copyWith(
+                fontSize: 10,
+                color: cs.onSurface.withValues(alpha: 0.4),
               ),
             ),
-
-            // ── Expanded streets ──
-            if (_expanded)
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Divider(
-                      height: 1,
-                      color: cs.outlineVariant.withValues(alpha: 0.5),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      'Affected Areas',
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.5,
-                        color: cs.onSurface.withValues(alpha: 0.4),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    ...o.streets
-                        .where((s) => s.trim().isNotEmpty)
-                        .map(
-                          (s) => Padding(
-                            padding: const EdgeInsets.only(bottom: 6),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 6),
-                                  child: Container(
-                                    width: 4,
-                                    height: 4,
-                                    decoration: BoxDecoration(
-                                      color: cs.onSurface.withValues(
-                                        alpha: 0.3,
-                                      ),
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Text(
-                                    _capFirst(s.trim()),
-                                    style: theme.textTheme.bodySmall?.copyWith(
-                                      color: cs.onSurface.withValues(
-                                        alpha: 0.7,
-                                      ),
-                                      height: 1.4,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                  ],
+            const SizedBox(height: 4),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
+              decoration: BoxDecoration(
+                color: isToday
+                    ? cs.primary.withValues(alpha: 0.12)
+                    : cs.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                '$count',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                  color: isToday
+                      ? cs.primary
+                      : cs.onSurface.withValues(alpha: 0.45),
                 ),
               ),
+            ),
           ],
         ),
       ),
     );
   }
+}
 
-  String _fmt(DateTime dt) =>
+// ─── Outage List ──────────────────────────────────────────────────────────────
+
+class _OutageList extends StatelessWidget {
+  final List<_FlatOutage> outages;
+
+  const _OutageList({required this.outages});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 40),
+      itemCount: outages.length,
+      separatorBuilder: (_, __) => const SizedBox(height: 10),
+      itemBuilder: (_, i) => _OutageCard(flat: outages[i]),
+    );
+  }
+}
+
+// ─── Outage Card ──────────────────────────────────────────────────────────────
+
+class _OutageCard extends StatefulWidget {
+  final _FlatOutage flat;
+
+  const _OutageCard({required this.flat});
+
+  @override
+  State<_OutageCard> createState() => _OutageCardState();
+}
+
+class _OutageCardState extends State<_OutageCard>
+    with SingleTickerProviderStateMixin {
+  bool _expanded = false;
+  late final AnimationController _ctrl;
+  late final Animation<double> _anim;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 260),
+    );
+    _anim = CurvedAnimation(parent: _ctrl, curve: Curves.easeInOutCubic);
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  void _toggle() {
+    setState(() => _expanded = !_expanded);
+    _expanded ? _ctrl.forward() : _ctrl.reverse();
+  }
+
+  static String _fmt(DateTime dt) =>
       '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
 
-  String _titleCase(String raw) => raw
+  static String _titleCase(String raw) => raw
       .split(' ')
       .map(
         (w) => w.isNotEmpty
@@ -605,32 +712,436 @@ class _OutageTileState extends State<_OutageTile> {
       )
       .join(' ');
 
-  String _capFirst(String s) =>
-      s.isNotEmpty ? s[0].toUpperCase() + s.substring(1) : '';
+  static String _fmtDistrict(String raw) => raw
+      .split('-')
+      .map((w) => w.isNotEmpty ? w[0].toUpperCase() + w.substring(1) : '')
+      .join(' ');
 
-  String _fmtDistrict(String raw) =>
-      raw.split('-').map((w) => w[0].toUpperCase() + w.substring(1)).join(' ');
-
-  String _duration(DateTime s, DateTime e) {
+  static String _duration(DateTime s, DateTime e) {
     final d = e.difference(s);
     final h = d.inHours;
     final m = d.inMinutes % 60;
     return m == 0 ? '${h}h' : '${h}h ${m}m';
   }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final o = widget.flat.outage;
+    final isOngoing = widget.flat.isOngoing;
+    final isPast = widget.flat.isPast;
+    final streets = o.streets.where((s) => s.trim().isNotEmpty).toList();
+
+    final Color accentColor = isOngoing
+        ? cs.error
+        : isPast
+        ? cs.onSurface.withValues(alpha: 0.18)
+        : cs.primary;
+
+    return GestureDetector(
+      onTap: _toggle,
+      child: Container(
+        decoration: BoxDecoration(
+          color: cs.surfaceContainerLow,
+          borderRadius: BorderRadius.circular(14),
+          border: isOngoing
+              ? Border.all(color: cs.error.withValues(alpha: 0.4), width: 1.5)
+              : null,
+        ),
+        clipBehavior: Clip.hardEdge,
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Left accent stripe
+              Container(width: 4, color: accentColor),
+
+              // Content
+              Expanded(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(14, 14, 12, 14),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Time block
+                          SizedBox(
+                            width: 54,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _fmt(o.startDatetime),
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 16,
+                                    height: 1,
+                                    letterSpacing: -0.5,
+                                    color: isOngoing
+                                        ? cs.error
+                                        : isPast
+                                        ? cs.onSurface.withValues(alpha: 0.3)
+                                        : cs.onSurface,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 8,
+                                      height: 1.5,
+                                      color: cs.outlineVariant.withValues(
+                                        alpha: 0.7,
+                                      ),
+                                      margin: const EdgeInsets.only(right: 4),
+                                    ),
+                                    Text(
+                                      _fmt(o.endDatetime),
+                                      style: theme.textTheme.bodySmall
+                                          ?.copyWith(
+                                            fontSize: 11,
+                                            color: cs.onSurface.withValues(
+                                              alpha: isPast ? 0.25 : 0.45,
+                                            ),
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 5,
+                                    vertical: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: accentColor.withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    _duration(o.startDatetime, o.endDatetime),
+                                    style: TextStyle(
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.w700,
+                                      color: accentColor.withValues(
+                                        alpha: isPast ? 0.35 : 0.85,
+                                      ),
+                                      letterSpacing: 0.2,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // Vertical divider
+                          Container(
+                            width: 1,
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 14,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  cs.outlineVariant.withValues(alpha: 0),
+                                  cs.outlineVariant.withValues(alpha: 0.5),
+                                  cs.outlineVariant.withValues(alpha: 0),
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                            ),
+                          ),
+
+                          // Locality info
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (isOngoing)
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 5),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 5,
+                                          height: 5,
+                                          margin: const EdgeInsets.only(
+                                            right: 5,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: cs.error,
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                        Text(
+                                          'ONGOING',
+                                          style: TextStyle(
+                                            fontSize: 9,
+                                            fontWeight: FontWeight.w800,
+                                            color: cs.error,
+                                            letterSpacing: 1.0,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                Text(
+                                  _titleCase(o.locality),
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: -0.3,
+                                    color: isPast
+                                        ? cs.onSurface.withValues(alpha: 0.35)
+                                        : null,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.place_outlined,
+                                      size: 11,
+                                      color: cs.onSurface.withValues(
+                                        alpha: 0.35,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 3),
+                                    Text(
+                                      _fmtDistrict(widget.flat.district),
+                                      style: theme.textTheme.bodySmall
+                                          ?.copyWith(
+                                            fontSize: 11,
+                                            color: cs.onSurface.withValues(
+                                              alpha: 0.4,
+                                            ),
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // Chevron + street count
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AnimatedRotation(
+                                turns: _expanded ? 0.5 : 0,
+                                duration: const Duration(milliseconds: 260),
+                                curve: Curves.easeInOutCubic,
+                                child: Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  size: 22,
+                                  color: cs.onSurface.withValues(alpha: 0.3),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 7,
+                                  vertical: 3,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: cs.surfaceContainerHighest,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Text(
+                                  '${streets.length} st.',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                    color: cs.onSurface.withValues(alpha: 0.4),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Animated streets expansion
+                    SizeTransition(
+                      sizeFactor: _anim,
+                      axisAlignment: -1,
+                      child: _StreetPanel(
+                        streets: streets,
+                        accentColor: accentColor,
+                        cs: cs,
+                        theme: theme,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-// ─── Flat outage helper ───────────────────────────────────────────────────────
-// Combines district name with a single outage so widgets don't need to
-// carry both separately.
+// ─── Street Panel ─────────────────────────────────────────────────────────────
 
-class _FlatOutage {
-  final String district;
-  final CebOutage outage;
+class _StreetPanel extends StatelessWidget {
+  final List<String> streets;
+  final Color accentColor;
+  final ColorScheme cs;
+  final ThemeData theme;
 
-  const _FlatOutage({required this.district, required this.outage});
+  const _StreetPanel({
+    required this.streets,
+    required this.accentColor,
+    required this.cs,
+    required this.theme,
+  });
 
-  String get dateKey {
-    final s = outage.startDatetime;
-    return '${s.year}-${s.month.toString().padLeft(2, '0')}-${s.day.toString().padLeft(2, '0')}';
+  String _capFirst(String s) =>
+      s.isNotEmpty ? s[0].toUpperCase() + s.substring(1) : '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: cs.surfaceContainer.withValues(alpha: 0.55),
+        border: Border(
+          top: BorderSide(color: accentColor.withValues(alpha: 0.15)),
+        ),
+      ),
+      padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'AFFECTED STREETS',
+            style: TextStyle(
+              fontSize: 9,
+              fontWeight: FontWeight.w800,
+              color: accentColor.withValues(alpha: 0.65),
+              letterSpacing: 1.2,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: streets
+                .map(
+                  (s) => Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 9,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: cs.surface,
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(
+                        color: cs.outlineVariant.withValues(alpha: 0.45),
+                        width: 0.5,
+                      ),
+                    ),
+                    child: Text(
+                      _capFirst(s.trim()),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        fontSize: 11,
+                        color: cs.onSurface.withValues(alpha: 0.7),
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── No district results ──────────────────────────────────────────────────────
+
+class _NoDistrictResults extends StatelessWidget {
+  final ColorScheme cs;
+  final ThemeData theme;
+
+  const _NoDistrictResults({required this.cs, required this.theme});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.filter_alt_off_outlined,
+            size: 32,
+            color: cs.onSurface.withValues(alpha: 0.2),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'No outages for this district.',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: cs.onSurface.withValues(alpha: 0.4),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Empty state ──────────────────────────────────────────────────────────────
+
+class _EmptyState extends StatelessWidget {
+  const _EmptyState();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    return CustomScrollView(
+      slivers: [
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 72,
+                height: 72,
+                decoration: BoxDecoration(
+                  color: cs.primary.withValues(alpha: 0.07),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.power_rounded,
+                  size: 36,
+                  color: cs.primary.withValues(alpha: 0.35),
+                ),
+              ),
+              const SizedBox(height: 18),
+              Text(
+                'All Clear',
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'No power interruptions scheduled.',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: cs.onSurface.withValues(alpha: 0.45),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

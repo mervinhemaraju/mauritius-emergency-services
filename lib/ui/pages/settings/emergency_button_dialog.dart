@@ -5,9 +5,9 @@ import 'package:mauritius_emergency_services/models/service/service.dart';
 import 'package:mauritius_emergency_services/providers/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/ui/components/list_items.dart';
-import 'package:mauritius_emergency_services/ui/components/view_error.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
+import 'package:mauritius_emergency_services/ui/widgets/items/item_service_simple.dart';
 
 class EmergencyButtonDialog extends ConsumerWidget {
   const EmergencyButtonDialog({super.key});

@@ -5,12 +5,11 @@ import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/models/cyclone/cyclone_report.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
-import 'package:mauritius_emergency_services/ui/components/drawer.dart';
-import 'package:mauritius_emergency_services/ui/components/list_items.dart';
-import 'package:mauritius_emergency_services/ui/components/rotating_svg.dart';
-import 'package:mauritius_emergency_services/ui/components/view_error.dart';
-import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
-import 'package:mauritius_emergency_services/ui/components/widgets.dart';
+import 'package:mauritius_emergency_services/ui/widgets/cards/card_timer.dart';
+import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
+import 'package:mauritius_emergency_services/ui/widgets/canvas/rotating_svg.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/guidelines/cyclone_g_view.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_n_view.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_provider.dart';
@@ -18,6 +17,7 @@ import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_state.da
 import 'package:mauritius_emergency_services/ui/theme/mapper.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/utils/getters.dart';
+import 'package:mauritius_emergency_services/ui/widgets/items/item_cyclone_news.dart';
 
 class CycloneScreen extends ConsumerWidget {
   const CycloneScreen({super.key});
@@ -108,7 +108,7 @@ class CycloneScreen extends ConsumerWidget {
           scaffoldKey.currentState?.openDrawer();
         },
       ),
-      drawer: const MesDrawer(),
+      drawer: const MesDrawerPrimary(),
       body: RefreshIndicator(
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -237,6 +237,8 @@ class _CycloneWarningUi extends StatelessWidget {
                     duration: getRotationSpeedFromCycloneLevel(
                       level: cycloneReport.level,
                     ),
+                    svgImage: AssetsManager.staticCyclone,
+                    size: 160,
                   ),
                 ),
                 _SectionTitle(

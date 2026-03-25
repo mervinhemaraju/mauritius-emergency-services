@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/models/service/service.dart';
-import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_provider.dart';
+import 'package:mauritius_emergency_services/ui/widgets/items/item_expandable_dismissable_service.dart';
 
 class ServicesList extends ConsumerWidget {
   final List<Service> services;
