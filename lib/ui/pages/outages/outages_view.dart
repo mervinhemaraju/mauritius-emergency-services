@@ -1,38 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
+import 'package:mauritius_emergency_services/models/outage/flat_outage.dart';
 import 'package:mauritius_emergency_services/models/outage/mes_district_outage.dart';
-import 'package:mauritius_emergency_services/models/outage/mes_outage.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
+import 'package:mauritius_emergency_services/ui/widgets/chips/chip_selectable.dart';
+import 'package:mauritius_emergency_services/ui/widgets/chips/chip_status.dart';
 import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
 import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/views/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/pages/outages/outages_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/outages/outages_state.dart';
-
-// TODO(Update UI and centralize widgets)
-
-// ─── Flat outage helper ───────────────────────────────────────────────────────
-class _FlatOutage {
-  final String district;
-  final CebOutage outage;
-
-  const _FlatOutage({required this.district, required this.outage});
-
-  String get dateKey {
-    final s = outage.startDatetime;
-    return '${s.year}-${s.month.toString().padLeft(2, '0')}-${s.day.toString().padLeft(2, '0')}';
-  }
-
-  bool get isOngoing {
-    final now = DateTime.now();
-    return now.isAfter(outage.startDatetime) &&
-        now.isBefore(outage.endDatetime);
-  }
-
-  bool get isPast => DateTime.now().isAfter(outage.endDatetime);
-}
-
-// ─── Screen ──────────────────────────────────────────────────────────────────
 
 class OutagesScreen extends ConsumerWidget {
   const OutagesScreen({super.key});
@@ -101,11 +79,11 @@ class _OutagesBodyState extends State<_OutagesBody>
 
   // ── Derived data ──────────────────────────────────────────────────────────
 
-  List<_FlatOutage> get _allOutages {
-    final list = <_FlatOutage>[];
+  List<MesFlatOutage> get _allOutages {
+    final list = <MesFlatOutage>[];
     for (final d in widget.districtOutages) {
       for (final o in d.outages) {
-        list.add(_FlatOutage(district: d.district, outage: o));
+        list.add(MesFlatOutage(district: d.district, outage: o));
       }
     }
     list.sort(
@@ -120,7 +98,7 @@ class _OutagesBodyState extends State<_OutagesBody>
   List<String> get _districts =>
       _allOutages.map((o) => o.district).toSet().toList()..sort();
 
-  List<_FlatOutage> _outagesForDate(String dateKey) => _allOutages.where((o) {
+  List<MesFlatOutage> _outagesForDate(String dateKey) => _allOutages.where((o) {
     final matchDate = o.dateKey == dateKey;
     final matchDistrict =
         _selectedDistrict == null || o.district == _selectedDistrict;
@@ -234,6 +212,18 @@ class _HeroHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final outageLabel = total == 1
+        ? t.pages.power_outages.hero.outage_singular
+        : t.pages.power_outages.hero.outage_plural;
+
+    final districtLabel = districtCount == 1
+        ? t.pages.power_outages.hero.across_districts_singular(
+            count: districtCount,
+          )
+        : t.pages.power_outages.hero.across_districts_plural(
+            count: districtCount,
+          );
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 18),
@@ -246,7 +236,6 @@ class _HeroHeader extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Big count display
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -265,7 +254,7 @@ class _HeroHeader extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 8, bottom: 5),
                     child: Text(
-                      'outage${total != 1 ? 's' : ''}',
+                      outageLabel,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w500,
                         color: cs.onErrorContainer.withValues(alpha: 0.65),
@@ -276,7 +265,7 @@ class _HeroHeader extends StatelessWidget {
               ),
               const SizedBox(height: 3),
               Text(
-                'Across $districtCount district${districtCount != 1 ? 's' : ''}',
+                districtLabel,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: cs.onErrorContainer.withValues(alpha: 0.5),
                 ),
@@ -284,82 +273,27 @@ class _HeroHeader extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          // Status chips
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               if (ongoingCount > 0) ...[
-                _StatusChip(
-                  dot: true,
-                  label: '$ongoingCount live now',
-                  bg: cs.error,
-                  fg: cs.onError,
+                MesChipStatus(
+                  label: t.pages.power_outages.hero.live_now(
+                    count: ongoingCount,
+                  ),
+                  backgroundColor: cs.error,
+                  foregroundColor: cs.onError,
+                  icon: Icons.fiber_manual_record,
                 ),
                 const SizedBox(height: 6),
               ],
-              _StatusChip(
+              MesChipStatus(
+                label: t.pages.power_outages.hero.ceb_outages,
+                backgroundColor: cs.surfaceContainerHighest,
+                foregroundColor: cs.onSurface.withValues(alpha: 0.55),
                 icon: Icons.bolt_rounded,
-                label: 'CEB outages',
-                bg: cs.surfaceContainerHighest,
-                fg: cs.onSurface.withValues(alpha: 0.55),
               ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _StatusChip extends StatelessWidget {
-  final String label;
-  final Color bg;
-  final Color fg;
-  final bool dot;
-  final IconData? icon;
-
-  const _StatusChip({
-    required this.label,
-    required this.bg,
-    required this.fg,
-    this.dot = false,
-    this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (dot)
-            Container(
-              width: 6,
-              height: 6,
-              margin: const EdgeInsets.only(right: 5),
-              decoration: BoxDecoration(
-                color: fg.withValues(alpha: 0.8),
-                shape: BoxShape.circle,
-              ),
-            ),
-          if (icon != null)
-            Padding(
-              padding: const EdgeInsets.only(right: 5),
-              child: Icon(icon, size: 12, color: fg),
-            ),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
-              color: fg,
-              letterSpacing: 0.1,
-            ),
           ),
         ],
       ),
@@ -397,68 +331,25 @@ class _DistrictFilter extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         children: [
-          _Chip(
-            label: 'All',
+          MesChipSelectable(
+            label: t.pages.power_outages.filter.all,
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
             selected: selected == null,
             onTap: () {
               if (selected != null) onChanged(selected!);
             },
-            cs: cs,
-            theme: theme,
           ),
           ...districts.map(
             (d) => Padding(
               padding: const EdgeInsets.only(left: 6),
-              child: _Chip(
+              child: MesChipSelectable(
                 label: _fmt(d),
                 selected: selected == d,
                 onTap: () => onChanged(d),
-                cs: cs,
-                theme: theme,
               ),
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _Chip extends StatelessWidget {
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-  final ColorScheme cs;
-  final ThemeData theme;
-
-  const _Chip({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-    required this.cs,
-    required this.theme,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        decoration: BoxDecoration(
-          color: selected ? cs.primary : cs.surfaceContainerHigh,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          label,
-          style: theme.textTheme.labelSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: selected
-                ? cs.onPrimary
-                : cs.onSurface.withValues(alpha: 0.6),
-          ),
-        ),
       ),
     );
   }
@@ -469,7 +360,7 @@ class _Chip extends StatelessWidget {
 class _DateTabBar extends StatelessWidget {
   final List<String> dateKeys;
   final TabController controller;
-  final List<_FlatOutage> allOutages;
+  final List<MesFlatOutage> allOutages;
   final ThemeData theme;
   final ColorScheme cs;
 
@@ -481,34 +372,38 @@ class _DateTabBar extends StatelessWidget {
     required this.cs,
   });
 
-  static const _months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
+  // Weekday index 1=Mon … 7=Sun, matching DateTime.weekday
+  static List<String> _localizedDays() => [
+    t.others.days['mon']!,
+    t.others.days['tue']!,
+    t.others.days['wed']!,
+    t.others.days['thu']!,
+    t.others.days['fri']!,
+    t.others.days['sat']!,
+    t.others.days['sun']!,
   ];
-  static const _days = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
+
+  // Month index 0=Jan … 11=Dec, matching DateTime.month - 1
+  static List<String> _localizedMonths() => [
+    t.others.months['jan']!,
+    t.others.months['feb']!,
+    t.others.months['mar']!,
+    t.others.months['apr']!,
+    t.others.months['may']!,
+    t.others.months['jun']!,
+    t.others.months['jul']!,
+    t.others.months['aug']!,
+    t.others.months['sep']!,
+    t.others.months['oct']!,
+    t.others.months['nov']!,
+    t.others.months['dec']!,
   ];
-  static const _daysShort = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
+    final days = _localizedDays();
+    final months = _localizedMonths();
 
     return Container(
       decoration: BoxDecoration(
@@ -537,16 +432,16 @@ class _DateTabBar extends StatelessWidget {
 
           final String dayLabel;
           if (isToday) {
-            dayLabel = 'Today';
+            dayLabel = t.others.today;
           } else if (isTomorrow) {
-            dayLabel = 'Tomorrow';
+            dayLabel = t.others.tomorrow;
           } else {
-            dayLabel = _daysShort[dt.weekday - 1];
+            dayLabel = days[dt.weekday - 1];
           }
 
           return _DateTab(
             dayLabel: dayLabel,
-            dateLabel: '${dt.day} ${_months[dt.month - 1]}',
+            dateLabel: '${dt.day} ${months[dt.month - 1]}',
             count: count,
             isToday: isToday,
             hasOngoing: hasOngoing,
@@ -612,8 +507,7 @@ class _DateTab extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               dateLabel,
-              style: theme.textTheme.bodySmall?.copyWith(
-                fontSize: 10,
+              style: theme.textTheme.labelSmall?.copyWith(
                 color: cs.onSurface.withValues(alpha: 0.4),
               ),
             ),
@@ -628,8 +522,7 @@ class _DateTab extends StatelessWidget {
               ),
               child: Text(
                 '$count',
-                style: TextStyle(
-                  fontSize: 10,
+                style: theme.textTheme.labelSmall?.copyWith(
                   fontWeight: FontWeight.w700,
                   color: isToday
                       ? cs.primary
@@ -647,7 +540,7 @@ class _DateTab extends StatelessWidget {
 // ─── Outage List ──────────────────────────────────────────────────────────────
 
 class _OutageList extends StatelessWidget {
-  final List<_FlatOutage> outages;
+  final List<MesFlatOutage> outages;
 
   const _OutageList({required this.outages});
 
@@ -665,7 +558,7 @@ class _OutageList extends StatelessWidget {
 // ─── Outage Card ──────────────────────────────────────────────────────────────
 
 class _OutageCard extends StatefulWidget {
-  final _FlatOutage flat;
+  final MesFlatOutage flat;
 
   const _OutageCard({required this.flat});
 
@@ -821,8 +714,7 @@ class _OutageCardState extends State<_OutageCard>
                                   ),
                                   child: Text(
                                     _duration(o.startDatetime, o.endDatetime),
-                                    style: TextStyle(
-                                      fontSize: 9,
+                                    style: theme.textTheme.labelSmall?.copyWith(
                                       fontWeight: FontWeight.w700,
                                       color: accentColor.withValues(
                                         alpha: isPast ? 0.35 : 0.85,
@@ -877,13 +769,13 @@ class _OutageCardState extends State<_OutageCard>
                                           ),
                                         ),
                                         Text(
-                                          'ONGOING',
-                                          style: TextStyle(
-                                            fontSize: 9,
-                                            fontWeight: FontWeight.w800,
-                                            color: cs.error,
-                                            letterSpacing: 1.0,
-                                          ),
+                                          t.pages.power_outages.card.ongoing,
+                                          style: theme.textTheme.labelSmall
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.w800,
+                                                color: cs.error,
+                                                letterSpacing: 1.0,
+                                              ),
                                         ),
                                       ],
                                     ),
@@ -951,9 +843,10 @@ class _OutageCardState extends State<_OutageCard>
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
-                                  '${streets.length} st.',
-                                  style: TextStyle(
-                                    fontSize: 10,
+                                  t.pages.power_outages.tabs.street_count(
+                                    count: streets.length,
+                                  ),
+                                  style: theme.textTheme.labelSmall?.copyWith(
                                     fontWeight: FontWeight.w600,
                                     color: cs.onSurface.withValues(alpha: 0.4),
                                   ),
@@ -1019,9 +912,8 @@ class _StreetPanel extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'AFFECTED STREETS',
-            style: TextStyle(
-              fontSize: 9,
+            t.pages.power_outages.card.affected_streets,
+            style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w800,
               color: accentColor.withValues(alpha: 0.65),
               letterSpacing: 1.2,
@@ -1084,7 +976,7 @@ class _NoDistrictResults extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'No outages for this district.',
+            t.pages.power_outages.no_district_results,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: cs.onSurface.withValues(alpha: 0.4),
             ),
@@ -1126,14 +1018,14 @@ class _EmptyState extends StatelessWidget {
               ),
               const SizedBox(height: 18),
               Text(
-                'All Clear',
+                t.pages.power_outages.empty.title,
                 style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: 6),
               Text(
-                'No power interruptions scheduled.',
+                t.pages.power_outages.empty.subtitle,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: cs.onSurface.withValues(alpha: 0.45),
                 ),

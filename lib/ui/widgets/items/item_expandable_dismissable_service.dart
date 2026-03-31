@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/models/service/service.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/ui/widgets/chips/chip_primary.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
+import 'package:mauritius_emergency_services/ui/widgets/chips/chip_status.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ExpandableDismissibleService extends StatelessWidget {
@@ -94,7 +94,7 @@ class ExpandableDismissibleService extends StatelessWidget {
                   ),
                   if (service.isTollFree) ...[
                     const SizedBox(width: 12.0),
-                    MesChipPrimary(label: t.actions.toll_free.capitalizeAll()),
+                    MesChipStatus(label: t.actions.toll_free.capitalizeAll()),
                   ],
                 ],
               ),
@@ -193,7 +193,7 @@ class ExpandableDismissibleService extends StatelessWidget {
         runSpacing: 8.0, // vertical spacing between lines
         children: [
           ...emails.map(
-            (email) => MesChipPrimary(
+            (email) => MesChipStatus(
               icon: Icons.email_outlined,
               label: email,
               padding: const EdgeInsets.all(8.0),
@@ -202,7 +202,7 @@ class ExpandableDismissibleService extends StatelessWidget {
             ),
           ),
           ...otherContacts.map(
-            (contact) => MesChipPrimary(
+            (contact) => MesChipStatus(
               icon: Icons.phone_outlined,
               label: contact.toString(),
               padding: const EdgeInsets.all(8.0),

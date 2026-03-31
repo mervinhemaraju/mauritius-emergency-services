@@ -3,20 +3,22 @@
 */
 import 'package:flutter/material.dart';
 
-class MesChipPrimary extends StatelessWidget {
+class MesChipStatus extends StatelessWidget {
   final String label;
   final EdgeInsets padding;
   final Color? backgroundColor;
+  final Color? foregroundColor;
   final IconData? icon;
   final Function()? onTap;
 
-  const MesChipPrimary({
+  const MesChipStatus({
     super.key,
     required this.label,
     this.icon,
     this.backgroundColor,
-    this.padding = const EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
+    this.foregroundColor,
     this.onTap,
+    this.padding = const EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
   });
 
   @override
@@ -37,13 +39,17 @@ class MesChipPrimary extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (icon != null) ...[
-              Icon(icon, size: 16.0, color: theme.colorScheme.onPrimary),
+              Icon(
+                icon,
+                size: 16.0,
+                color: foregroundColor ?? theme.colorScheme.onPrimary,
+              ),
               const SizedBox(width: 4.0),
             ],
             Text(
               label,
               style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.onPrimary,
+                color: foregroundColor ?? theme.colorScheme.onPrimary,
               ),
             ),
           ],

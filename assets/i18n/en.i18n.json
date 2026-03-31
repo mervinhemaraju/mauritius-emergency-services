@@ -85,7 +85,30 @@
             }
         },
         "power_outages": {
-            "title": "power outages"
+            "title": "power outages",
+            "hero": {
+                "outage_singular": "outage",
+                "outage_plural": "outages",
+                "across_districts_singular": "Across $count district",
+                "across_districts_plural": "Across $count districts",
+                "live_now": "$count live now",
+                "ceb_outages": "CEB outages"
+            },
+            "filter": {
+                "all": "All"
+            },
+            "tabs": {
+                "street_count": "$count st."
+            },
+            "card": {
+                "ongoing": "ONGOING",
+                "affected_streets": "AFFECTED STREETS"
+            },
+            "empty": {
+                "title": "All Clear",
+                "subtitle": "No power interruptions scheduled."
+            },
+            "no_district_results": "No outages for this district."
         },
         "precall": {
             "title": "starting a call to",
@@ -194,6 +217,8 @@
         "hour_abbr": "hr",
         "minute_abbr": "min",
         "ooops": "ooops!",
+        "today": "Today",
+        "tomorrow": "Tomorrow",
         "themes(map)": {
             "light": "light",
             "dark": "dark",
@@ -202,6 +227,29 @@
         "language(map)": {
             "english": "english",
             "french": "french"
+        },
+        "days(map)": {
+            "mon": "Mon",
+            "tue": "Tue",
+            "wed": "Wed",
+            "thu": "Thu",
+            "fri": "Fri",
+            "sat": "Sat",
+            "sun": "Sun"
+        },
+        "months(map)": {
+            "jan": "Jan",
+            "feb": "Feb",
+            "mar": "Mar",
+            "apr": "Apr",
+            "may": "May",
+            "jun": "Jun",
+            "jul": "Jul",
+            "aug": "Aug",
+            "sep": "Sep",
+            "oct": "Oct",
+            "nov": "Nov",
+            "dec": "Dec"
         }
     }
 }

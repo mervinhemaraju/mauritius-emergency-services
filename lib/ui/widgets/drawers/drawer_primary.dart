@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/routes/routes.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/ui/widgets/chips/chip_primary.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
+import 'package:mauritius_emergency_services/ui/widgets/chips/chip_status.dart';
 import 'package:mauritius_emergency_services/ui/widgets/items/item_drawer.dart';
 import 'package:mauritius_emergency_services/ui/widgets/texts/text_special_header.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -48,7 +48,7 @@ class MesDrawerPrimary extends StatelessWidget {
             MesDrawerItem(
               leadingIcon: const Icon(Icons.warning_amber_outlined),
               title: "Alerts",
-              trailing: MesChipPrimary(label: t.actions.is_new.capitalizeAll()),
+              trailing: MesChipStatus(label: t.actions.is_new.capitalizeAll()),
               isSelected: OutagesRoute.path == currentRoute,
               onTap: () {},
             ),
@@ -65,7 +65,7 @@ class MesDrawerPrimary extends StatelessWidget {
             MesDrawerItem(
               leadingIcon: const Icon(Icons.electric_bolt_outlined),
               title: t.pages.power_outages.title.capitalizeAll(),
-              trailing: MesChipPrimary(label: t.actions.is_new.capitalizeAll()),
+              trailing: MesChipStatus(label: t.actions.is_new.capitalizeAll()),
               isSelected: OutagesRoute.path == currentRoute,
               onTap: () {
                 context.pop();
@@ -76,7 +76,7 @@ class MesDrawerPrimary extends StatelessWidget {
             MesDrawerItem(
               leadingIcon: const Icon(Icons.brightness_4),
               title: "Sun, Moon & Tides",
-              trailing: MesChipPrimary(label: t.actions.is_new.capitalizeAll()),
+              trailing: MesChipStatus(label: t.actions.is_new.capitalizeAll()),
               isSelected: OutagesRoute.path == currentRoute,
               onTap: () {},
             ),

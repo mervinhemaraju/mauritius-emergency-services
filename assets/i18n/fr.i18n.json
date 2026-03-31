@@ -85,7 +85,30 @@
             }
         },
         "power_outages": {
-            "title": "pannes de courant"
+            "title": "pannes de courant",
+            "hero": {
+                "outage_singular": "panne",
+                "outage_plural": "pannes",
+                "across_districts_singular": "Dans $count district",
+                "across_districts_plural": "Dans $count districts",
+                "live_now": "$count en cours",
+                "ceb_outages": "pannes CEB"
+            },
+            "filter": {
+                "all": "Tous"
+            },
+            "tabs": {
+                "street_count": "$count rue(s)"
+            },
+            "card": {
+                "ongoing": "EN COURS",
+                "affected_streets": "RUES AFFECTÉES"
+            },
+            "empty": {
+                "title": "Tout est normal",
+                "subtitle": "Aucune interruption de courant prévue."
+            },
+            "no_district_results": "Aucune panne dans ce district."
         },
         "precall": {
             "title": "démarrage d'un appel vers",
@@ -194,6 +217,8 @@
         "hour_abbr": "h",
         "minute_abbr": "min",
         "ooops": "ooups!",
+        "today": "Aujourd'hui",
+        "tomorrow": "Demain",
         "themes(map)": {
             "light": "clair",
             "dark": "sombre",
@@ -202,6 +227,29 @@
         "language(map)": {
             "english": "anglais",
             "french": "français"
+        },
+        "days(map)": {
+            "mon": "Lun",
+            "tue": "Mar",
+            "wed": "Mer",
+            "thu": "Jeu",
+            "fri": "Ven",
+            "sat": "Sam",
+            "sun": "Dim"
+        },
+        "months(map)": {
+            "jan": "Jan",
+            "feb": "Fév",
+            "mar": "Mar",
+            "apr": "Avr",
+            "may": "Mai",
+            "jun": "Juin",
+            "jul": "Juil",
+            "aug": "Aoû",
+            "sep": "Sep",
+            "oct": "Oct",
+            "nov": "Nov",
+            "dec": "Déc"
         }
     }
 }
