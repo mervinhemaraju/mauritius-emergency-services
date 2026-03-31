@@ -10,8 +10,8 @@ class SimpleServiceItem extends StatelessWidget {
   });
 
   final bool isSelected;
-  final Service service;
-  final Function(Service service) onServiceSelected;
+  final MesService service;
+  final Function(MesService service) onServiceSelected;
 
   @override
   Widget build(BuildContext context) {

@@ -120,9 +120,6 @@
             "title": "démarrage d'un appel vers",
             "calling_in": "appel dans"
         },
-        "theme_selector": {
-            "title": "préférences de thème"
-        },
         "about": {
             "title": "à propos",
             "header": {

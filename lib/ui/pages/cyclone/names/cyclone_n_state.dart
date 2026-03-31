@@ -5,7 +5,7 @@ part '../../../../generated/pages/cyclone/names/cyclone_n_state.freezed.dart';
 @freezed
 sealed class CycloneNamesState with _$CycloneNamesState {
   const factory CycloneNamesState.Loaded({
-    required List<CycloneName> cycloneNames,
+    required List<MesCycloneName> cycloneNames,
   }) = CycloneNamesLoaded;
 
   const factory CycloneNamesState.Error({required String message}) =

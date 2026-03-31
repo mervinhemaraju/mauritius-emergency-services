@@ -17,7 +17,8 @@ Future<HomeState> homeState(Ref ref) async {
     // If the services list is empty, check the internet connection
     if (services.isEmpty) {
       // Get the network info
-      final isConnectedToInternet = await NetworkInfo().isConnectedToInternet;
+      final isConnectedToInternet =
+          await MesNetworkInfo().isConnectedToInternet;
 
       // If not connected to internet
       if (!isConnectedToInternet) {

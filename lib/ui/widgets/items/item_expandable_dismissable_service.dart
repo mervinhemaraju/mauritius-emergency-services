@@ -8,7 +8,7 @@ import 'package:mauritius_emergency_services/ui/widgets/chips/chip_status.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ExpandableDismissibleService extends StatelessWidget {
-  final Service service;
+  final MesService service;
   final bool isExpanded;
   final Color dismissibleBackgroundColor;
   final Function() onToggle;

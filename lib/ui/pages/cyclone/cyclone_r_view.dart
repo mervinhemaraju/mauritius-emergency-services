@@ -146,7 +146,7 @@ class CycloneScreen extends ConsumerWidget {
 }
 
 class _CycloneNoWarningUi extends StatelessWidget {
-  final CycloneReport cycloneReport;
+  final MesCycloneReport cycloneReport;
 
   const _CycloneNoWarningUi({required this.cycloneReport});
 
@@ -194,7 +194,7 @@ class _CycloneNoWarningUi extends StatelessWidget {
 }
 
 class _CycloneWarningUi extends StatelessWidget {
-  final CycloneReport cycloneReport;
+  final MesCycloneReport cycloneReport;
 
   const _CycloneWarningUi({required this.cycloneReport});
 

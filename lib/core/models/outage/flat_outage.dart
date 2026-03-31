@@ -5,12 +5,12 @@ part '../../../generated/core/models/outage/flat_outage.freezed.dart';
 
 @freezed
 abstract class MesFlatOutage with _$MesFlatOutage {
-  const MesFlatOutage._();
-
   const factory MesFlatOutage({
     required String district,
     required CebOutage outage,
   }) = _MesFlatOutage;
+
+  const MesFlatOutage._();
 
   String get dateKey {
     final s = outage.startDatetime;

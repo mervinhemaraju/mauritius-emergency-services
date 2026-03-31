@@ -9,6 +9,7 @@ analyzer:
     invalid_annotation_target: ignore
     public_member_api_docs: ignore
     avoid_dynamic_calls: false
+    lines_longer_than_80_chars: false
 
 linter:
   rules:

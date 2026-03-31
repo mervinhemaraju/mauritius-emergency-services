@@ -17,7 +17,7 @@ Future<CycloneNamesState> cycloneNames(Ref ref) async {
     final repository = ref.watch(mesCycloneRepositoryProvider);
 
     // Get the network info
-    final isConnectedToInternet = await NetworkInfo().isConnectedToInternet;
+    final isConnectedToInternet = await MesNetworkInfo().isConnectedToInternet;
 
     // Check if not connected to internet
     if (!isConnectedToInternet) {

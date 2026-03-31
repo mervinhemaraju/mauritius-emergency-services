@@ -4,13 +4,13 @@ part '../../../generated/core/models/cyclone/cyclone_guidelines.freezed.dart';
 part '../../../generated/core/models/cyclone/cyclone_guidelines.g.dart';
 
 @freezed
-abstract class CycloneGuidelines with _$CycloneGuidelines {
-  const factory CycloneGuidelines({
+abstract class MesCycloneGuidelines with _$MesCycloneGuidelines {
+  const factory MesCycloneGuidelines({
     required int level,
     required String description,
     required List<String> precautions,
-  }) = _CycloneGuidelines;
+  }) = _MesCycloneGuidelines;
 
-  factory CycloneGuidelines.fromJson(Map<String, dynamic> json) =>
-      _$CycloneGuidelinesFromJson(json);
+  factory MesCycloneGuidelines.fromJson(Map<String, dynamic> json) =>
+      _$MesCycloneGuidelinesFromJson(json);
 }

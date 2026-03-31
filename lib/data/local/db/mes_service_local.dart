@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
-import 'package:mauritius_emergency_services/data/local/db/local_database.dart';
-import 'package:mauritius_emergency_services/data/contracts/services/mes_service_source.dart';
 import 'package:mauritius_emergency_services/core/models/service/service.dart';
+import 'package:mauritius_emergency_services/data/contracts/services/mes_service_source.dart';
+import 'package:mauritius_emergency_services/data/local/db/local_database.dart';
 import 'package:sqflite/sqflite.dart';
 
 class MesServiceLocal implements MesServiceSource {
@@ -16,23 +16,23 @@ class MesServiceLocal implements MesServiceSource {
   // ---------------------------------------------------------------------------
 
   @override
-  Future<List<Service>> getAllServices(String _) async {
+  Future<List<MesService>> getAllServices(String _) async {
     final db = await localDatabase.database;
     final rows = await db.query(LocalDatabase.table);
 
     return rows
         .map(
-          (row) => Service(
-            identifier: row['identifier'] as String,
-            name: row['name'] as String,
-            type: row['type'] as String,
-            icon: row['icon'] as String,
+          (row) => MesService(
+            identifier: row['identifier']! as String,
+            name: row['name']! as String,
+            type: row['type']! as String,
+            icon: row['icon']! as String,
             emails: List<String>.from(
-              jsonDecode(row['emails'] as String) as List,
+              jsonDecode(row['emails']! as String) as List,
             ),
-            mainContact: row['main_contact'] as int,
+            mainContact: row['main_contact']! as int,
             otherContacts: List<int>.from(
-              jsonDecode(row['other_contacts'] as String) as List,
+              jsonDecode(row['other_contacts']! as String) as List,
             ),
             iconData: row['icon_data'] as Uint8List?,
           ),
@@ -44,7 +44,7 @@ class MesServiceLocal implements MesServiceSource {
   // Cache management
   // ---------------------------------------------------------------------------
 
-  Future<void> cacheServices(List<Service> services) async {
+  Future<void> cacheServices(List<MesService> services) async {
     final db = await localDatabase.database;
 
     // Build a lookup map of what is already cached (icon URL + blob).
@@ -53,7 +53,7 @@ class MesServiceLocal implements MesServiceSource {
       columns: ['identifier', 'icon', 'icon_data'],
     );
     final existingMap = <String, Map<String, Object?>>{
-      for (final row in existing) row['identifier'] as String: row,
+      for (final row in existing) row['identifier']! as String: row,
     };
 
     await db.transaction((txn) async {

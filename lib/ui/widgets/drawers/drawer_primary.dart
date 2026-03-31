@@ -96,22 +96,9 @@ class MesDrawerPrimary extends StatelessWidget {
                 context.push(SettingsRoute.path);
               },
             ),
-            // MesDrawerItem(
-            //   leadingIcon: const Icon(Icons.brightness_4_outlined),
-            //   title: t.pages.theme_selector.title.capitalizeAll(),
-            //   isSelected: false,
-            //   onTap: () {
-            //     context.pop();
-            //     showDialog<String>(
-            //       context: context,
-            //       builder: (BuildContext context) => const ThemeDialog(),
-            //     );
-            //   },
-            // ),
             MesDrawerItem(
               leadingIcon: const Icon(Icons.email_outlined),
               title: t.actions.contact_us.capitalizeAll(),
-              isSelected: false,
               trailing: IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.open_in_new_outlined),

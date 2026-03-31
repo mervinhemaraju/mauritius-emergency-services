@@ -32,8 +32,8 @@ class AppSettingsImpl implements AppSettingsRepository {
     final serviceJson = _prefs.getString(_keyEmergencyButtonAction);
 
     final emergencyButtonAction = serviceJson == null
-        ? const Service()
-        : Service.fromJson(jsonDecode(serviceJson) as Map<String, dynamic>);
+        ? const MesService()
+        : MesService.fromJson(jsonDecode(serviceJson) as Map<String, dynamic>);
 
     return MesSettings(
       disclaimerAcknowledged: disclaimerAcknowledged,

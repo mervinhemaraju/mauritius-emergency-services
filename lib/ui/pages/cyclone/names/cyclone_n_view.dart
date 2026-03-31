@@ -69,7 +69,7 @@ class CycloneNamesSheet extends ConsumerWidget {
 }
 
 class _CycloneNamesUi extends StatelessWidget {
-  final List<CycloneName> cycloneNames;
+  final List<MesCycloneName> cycloneNames;
 
   const _CycloneNamesUi({required this.cycloneNames});
 

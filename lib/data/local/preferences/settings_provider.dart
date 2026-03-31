@@ -46,7 +46,7 @@ class MesSettingsNotifier extends _$MesSettingsNotifier {
   Future<void> updateLocale(MesLocale locale) =>
       _update(state.copyWith(locale: locale));
 
-  Future<void> updateEmergencyButtonAction(Service service) =>
+  Future<void> updateEmergencyButtonAction(MesService service) =>
       _update(state.copyWith(emergencyButtonAction: service));
 
   Future<void> _update(MesSettings newSettings) async {

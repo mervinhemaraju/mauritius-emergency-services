@@ -11,7 +11,7 @@ import 'package:mauritius_emergency_services/core/models/service/service.dart';
 class MesServiceImpl implements MesServiceRepository {
   final MesServiceSource remoteSource;
   final MesServiceLocal localSource;
-  final NetworkInfo networkInfo;
+  final MesNetworkInfo networkInfo;
 
   const MesServiceImpl({
     required this.remoteSource,
@@ -20,7 +20,9 @@ class MesServiceImpl implements MesServiceRepository {
   });
 
   @override
-  Future<List<Service>> getAllServices([String lang = defaultLanguage]) async {
+  Future<List<MesService>> getAllServices([
+    String lang = defaultLanguage,
+  ]) async {
     final localServices = await localSource.getAllServices(lang);
     final isConnected = await networkInfo.isConnectedToInternet;
 

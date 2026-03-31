@@ -120,9 +120,6 @@
             "title": "starting a call to",
             "calling_in": "calling in"
         },
-        "theme_selector": {
-            "title": "theme preferences"
-        },
         "about": {
             "title": "about",
             "header": {

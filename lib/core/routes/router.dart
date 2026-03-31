@@ -125,7 +125,7 @@ GoRouter mesAppRouter(Ref ref) {
         pageBuilder: (context, state) {
           final data = (state.extra! as Map<String, dynamic>);
           return PreCallScreen(
-            service: data[PrecallRoute.extraService] as Service,
+            service: data[PrecallRoute.extraService] as MesService,
             number: data[PrecallRoute.extraNumber].toString(),
             onComplete: () => context.goBack(),
           ).withSlideTransition(state.pageKey);

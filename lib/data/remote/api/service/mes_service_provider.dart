@@ -21,14 +21,14 @@ MesServiceRepository mesServiceRepository(Ref ref) {
   return MesServiceImpl(
     remoteSource: ref.watch(mesServiceRemoteProvider),
     localSource: ref.watch(mesServiceLocalProvider),
-    networkInfo: NetworkInfo(),
+    networkInfo: MesNetworkInfo(),
   );
 }
 
 /// Simple one-shot provider — use when you just need the list with no
 /// manual refresh capability.
 @riverpod
-Future<List<Service>> mesServices(Ref ref) async {
+Future<List<MesService>> mesServices(Ref ref) async {
   final lang = ref.watch(mesSettingsProvider.select((s) => s.locale.lang));
   return ref.watch(mesServiceRepositoryProvider).getAllServices(lang);
 }
@@ -37,9 +37,9 @@ Future<List<Service>> mesServices(Ref ref) async {
 @riverpod
 class ServicesNotifier extends _$ServicesNotifier {
   @override
-  Future<List<Service>> build() => _fetch();
+  Future<List<MesService>> build() => _fetch();
 
-  Future<List<Service>> _fetch() {
+  Future<List<MesService>> _fetch() {
     final lang = ref.watch(mesSettingsProvider.select((s) => s.locale.lang));
     return ref.watch(mesServiceRepositoryProvider).getAllServices(lang);
   }

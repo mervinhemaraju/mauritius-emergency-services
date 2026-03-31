@@ -18,7 +18,7 @@ class OutagesNotifier extends _$OutagesNotifier {
 
   Future<OutagesState> _fetch() async {
     try {
-      final isConnected = await NetworkInfo().isConnectedToInternet;
+      final isConnected = await MesNetworkInfo().isConnectedToInternet;
 
       if (!isConnected) {
         return OutagesNoInternet(

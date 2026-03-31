@@ -3,21 +3,21 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part '../../../generated/core/models/cyclone/cyclone_report.freezed.dart';
 
 @freezed
-abstract class CycloneReport with _$CycloneReport {
-  const factory CycloneReport({
+abstract class MesCycloneReport with _$MesCycloneReport {
+  const factory MesCycloneReport({
     required int level,
     String? nextBulletin,
     required List<String> news,
-  }) = _CycloneReport;
+  }) = _MesCycloneReport;
 
-  const CycloneReport._();
+  const MesCycloneReport._();
 
-  factory CycloneReport.fromJson(Map<String, dynamic> json) {
+  factory MesCycloneReport.fromJson(Map<String, dynamic> json) {
     // Handle the custom logic for next_bulletin
     var nextBulletin = json['next_bulletin'] as String?;
     nextBulletin = nextBulletin ?? '00:00:00';
 
-    return CycloneReport(
+    return MesCycloneReport(
       level: json['level'] as int,
       nextBulletin: nextBulletin,
       news: List<String>.from(json['news'] as List),

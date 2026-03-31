@@ -69,8 +69,8 @@ class HomeScreen extends ConsumerWidget {
 }
 
 class _HomeUi extends ConsumerWidget {
-  final List<Service> emergencyServices;
-  final Service emergencyButtonAction;
+  final List<MesService> emergencyServices;
+  final MesService emergencyButtonAction;
   // final MesSettings settings;
 
   const _HomeUi({
@@ -107,7 +107,7 @@ class _HomeUi extends ConsumerWidget {
                 theme: theme,
                 onTap: null,
                 onLongPress: () {
-                  final Service emergencyService;
+                  final MesService emergencyService;
 
                   if (emergencyButtonAction.identifier.isNotEmpty) {
                     emergencyService = emergencyButtonAction;
@@ -201,13 +201,13 @@ class _HomeUi extends ConsumerWidget {
     );
   }
 
-  Widget _EmergencyListView({required Function(Service) onTap}) {
+  Widget _EmergencyListView({required Function(MesService) onTap}) {
     return SizedBox(
       height: 180,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         prototypeItem: const MesEmergencyTileItem(
-          service: Service(),
+          service: MesService(),
           onTap: null,
         ),
         itemCount: emergencyServices.length,

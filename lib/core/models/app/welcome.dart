@@ -6,43 +6,43 @@ part '../../../generated/core/models/app/welcome.freezed.dart';
 part '../../../generated/core/models/app/welcome.g.dart';
 
 @freezed
-abstract class Welcome with _$Welcome {
+abstract class MesWelcome with _$MesWelcome {
   /*
     This is the Welcome model class which 
     provides a static list of data for the
     welcome class carousel slider 
   */
-  const factory Welcome({
+  const factory MesWelcome({
     required String asset,
     required String title,
     required String subtitle,
-  }) = _Welcome;
+  }) = _MesWelcome;
 
-  factory Welcome.fromJson(Map<String, dynamic> json) =>
-      _$WelcomeFromJson(json);
+  factory MesWelcome.fromJson(Map<String, dynamic> json) =>
+      _$MesWelcomeFromJson(json);
 
-  static List<Welcome> get welcomeItems => [
-    Welcome(
+  static List<MesWelcome> get welcomeItems => [
+    MesWelcome(
       asset: AssetsManager.staticSmartphoneData,
       title: t.pages.welcome.carousel.title_1,
       subtitle: t.pages.welcome.carousel.subtitle_1,
     ),
-    Welcome(
+    MesWelcome(
       asset: AssetsManager.staticStorm,
       title: t.pages.welcome.carousel.title_2,
       subtitle: t.pages.welcome.carousel.subtitle_2,
     ),
-    Welcome(
+    MesWelcome(
       asset: AssetsManager.staticPolice,
       title: t.pages.welcome.carousel.title_3,
       subtitle: t.pages.welcome.carousel.subtitle_3,
     ),
-    Welcome(
+    MesWelcome(
       asset: AssetsManager.staticSos,
       title: t.pages.welcome.carousel.title_4,
       subtitle: t.pages.welcome.carousel.subtitle_4,
     ),
-    Welcome(
+    MesWelcome(
       asset: AssetsManager.staticOffline,
       title: t.pages.welcome.carousel.title_5,
       subtitle: t.pages.welcome.carousel.subtitle_5,

@@ -12,8 +12,7 @@ class LocalDatabase {
   const LocalDatabase._privateConstructor();
 
   // An instance of the database
-  static final LocalDatabase instance =
-      const LocalDatabase._privateConstructor();
+  static const LocalDatabase instance = LocalDatabase._privateConstructor();
 
   // Get the database
   Future<Database> get database async {
@@ -24,8 +23,8 @@ class LocalDatabase {
 
   // Loads the databsae
   Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), _databaseName);
-    return await openDatabase(
+    final String path = join(await getDatabasesPath(), _databaseName);
+    return openDatabase(
       path,
       version: _databaseVersion,
       onCreate: _onCreate,
@@ -33,7 +32,7 @@ class LocalDatabase {
   }
 
   // The onCreate function of the DB
-  Future _onCreate(Database db, int version) async {
+  Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE $table (
         identifier TEXT PRIMARY KEY,

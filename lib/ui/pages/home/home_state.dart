@@ -6,8 +6,8 @@ part '../../../generated/pages/home/home_state.freezed.dart';
 @freezed
 sealed class HomeState with _$HomeState {
   const factory HomeState.Loaded({
-    required List<Service> services,
-    required Service emergencyButtonAction,
+    required List<MesService> services,
+    required MesService emergencyButtonAction,
   }) = HomeLoaded;
 
   const factory HomeState.Error({required String message}) = HomeError;

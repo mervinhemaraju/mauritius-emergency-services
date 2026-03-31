@@ -7,13 +7,13 @@ part '../../../generated/pages/cyclone/cyclone_r_state.freezed.dart';
 @freezed
 sealed class CycloneReportState with _$CycloneReportState {
   const factory CycloneReportState.Warning({
-    required CycloneReport cycloneReport,
-    required CycloneGuidelines? cycloneGuidelines,
+    required MesCycloneReport cycloneReport,
+    required MesCycloneGuidelines? cycloneGuidelines,
   }) = CycloneReportWarning;
 
   const factory CycloneReportState.NoWarning({
-    required CycloneReport cycloneReport,
-    required CycloneGuidelines? cycloneGuidelines,
+    required MesCycloneReport cycloneReport,
+    required MesCycloneGuidelines? cycloneGuidelines,
   }) = CycloneReportNoWarning;
 
   const factory CycloneReportState.Error({required String message}) =

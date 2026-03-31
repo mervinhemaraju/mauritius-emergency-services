@@ -1,63 +1,52 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
+import 'package:gap/gap.dart';
 import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
-import 'package:mauritius_emergency_services/ui/widgets/appbars/appbar_primary.dart';
+import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/pages/settings/emergency_button_dialog.dart';
 import 'package:mauritius_emergency_services/ui/pages/settings/language_dialog.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
+import 'package:mauritius_emergency_services/ui/widgets/appbars/appbar_primary.dart';
 import 'package:mauritius_emergency_services/ui/widgets/items/item_settings.dart';
 
-// TODO(Update UI and centralize widgets)
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Return the view
     return Scaffold(
       appBar: MesAppBarPrimary(
         title: t.pages.settings.title.capitalize(),
         goBack: () => context.goBack(),
       ),
       body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // DISPLAY SECTION (Always visible for Theme)
+            const Gap(18.0),
+
+            const _ThemeSelectionPill(),
+
+            const Gap(18.0),
+
             _SettingsHeaderTitle(
               title: t.pages.settings.section_display.title.capitalizeAll(),
             ),
 
-            // NEW CREATIVE UI: Fluid Theme Sliding Pill
-            const _ThemeSelectionPill(),
+            SettingsItem(
+              icon: Icons.color_lens_outlined,
+              title: t.pages.settings.section_display.dynamic_colors.tile_title
+                  .capitalizeAll(),
+              subtitle: t
+                  .pages
+                  .settings
+                  .section_display
+                  .dynamic_colors
+                  .tile_subtitle
+                  .capitalize(),
+              trailing: const _DynamicColorSwitch(),
+            ),
 
-            // Dynamic colors remain Android-only
-            if (Platform.isAndroid) ...[
-              SettingsItem(
-                icon: Icons.color_lens_outlined,
-                title: t
-                    .pages
-                    .settings
-                    .section_display
-                    .dynamic_colors
-                    .tile_title
-                    .capitalizeAll(),
-                subtitle: t
-                    .pages
-                    .settings
-                    .section_display
-                    .dynamic_colors
-                    .tile_subtitle
-                    .capitalize(),
-                trailing: const _DynamicColorSwitch(),
-              ),
-            ],
-
-            // FEATURE SECTION
             _SettingsHeaderTitle(
               title: t.pages.settings.section_feature.title.capitalize(),
             ),
@@ -86,7 +75,6 @@ class SettingsScreen extends ConsumerWidget {
               },
             ),
 
-            // APPLICATION SECTION
             _SettingsHeaderTitle(
               title: t.pages.settings.section_application.title.capitalize(),
             ),
@@ -120,47 +108,40 @@ class SettingsScreen extends ConsumerWidget {
   }
 }
 
-// --- NEW WIDGET: Fluid Theme Pill ---
-class _ThemeSelectionPill extends StatefulWidget {
+class _ThemeSelectionPill extends ConsumerWidget {
   const _ThemeSelectionPill();
 
   @override
-  State<_ThemeSelectionPill> createState() => _ThemeSelectionPillState();
-}
-
-class _ThemeSelectionPillState extends State<_ThemeSelectionPill> {
-  // 0: System, 1: Light, 2: Dark
-  // Note: Since you only want UI, this is local state.
-  // You can later wire this up to Riverpod just like the dynamic color switch!
-  int _selectedIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    // Leveraging Material 3 colors to match your existing app theme perfectly
+  Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
+
+    final currentTheme = ref.watch(
+      mesSettingsProvider.select((s) => s.theme),
+    );
+
+    // ThemeMode.values order: system(0), light(1), dark(2)
+    // which matches the themes map keys in slang: system, light, dark
+    final selectedIndex = ThemeMode.values.indexOf(currentTheme);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
-        height: 65, // Gives enough room for icon + text
+        height: 65,
         padding: const EdgeInsets.all(4.0),
         decoration: BoxDecoration(
-          color: colorScheme.surfaceContainerHighest.withOpacity(
-            0.5,
-          ), // Subtle background
+          color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(30),
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final itemWidth = constraints.maxWidth / 3;
+            final itemWidth = constraints.maxWidth / ThemeMode.values.length;
 
             return Stack(
               children: [
-                // 1. The Animated Sliding Background Bubble
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 250),
                   curve: Curves.easeOutCubic,
-                  left: _selectedIndex * itemWidth,
+                  left: selectedIndex * itemWidth,
                   top: 0,
                   bottom: 0,
                   width: itemWidth,
@@ -168,42 +149,22 @@ class _ThemeSelectionPillState extends State<_ThemeSelectionPill> {
                     decoration: BoxDecoration(
                       color: colorScheme.primaryContainer,
                       borderRadius: BorderRadius.circular(26),
-                      boxShadow: [
-                        BoxShadow(
-                          color: colorScheme.shadow.withOpacity(0.05),
-                          blurRadius: 4,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
                     ),
                   ),
                 ),
-
-                // 2. The Clickable Options overlaying the bubble
                 Row(
-                  children: [
-                    _buildThemeOption(
-                      index: 0,
-                      icon: Icons.settings_suggest_outlined,
-                      label: 'System', // Swap with slang: t.pages...
+                  children: ThemeMode.values.map((theme) {
+                    return _ThemeOption(
+                      theme: theme,
+                      isSelected: theme == currentTheme,
                       width: itemWidth,
-                      colorScheme: colorScheme,
-                    ),
-                    _buildThemeOption(
-                      index: 1,
-                      icon: Icons.light_mode_outlined,
-                      label: 'Light', // Swap with slang: t.pages...
-                      width: itemWidth,
-                      colorScheme: colorScheme,
-                    ),
-                    _buildThemeOption(
-                      index: 2,
-                      icon: Icons.dark_mode_outlined,
-                      label: 'Dark', // Swap with slang: t.pages...
-                      width: itemWidth,
-                      colorScheme: colorScheme,
-                    ),
-                  ],
+                      onTap: () {
+                        ref
+                            .read(mesSettingsProvider.notifier)
+                            .updateTheme(theme);
+                      },
+                    );
+                  }).toList(),
                 ),
               ],
             );
@@ -212,23 +173,34 @@ class _ThemeSelectionPillState extends State<_ThemeSelectionPill> {
       ),
     );
   }
+}
 
-  Widget _buildThemeOption({
-    required int index,
-    required IconData icon,
-    required String label,
-    required double width,
-    required ColorScheme colorScheme,
-  }) {
-    final isSelected = _selectedIndex == index;
+class _ThemeOption extends StatelessWidget {
+  final ThemeMode theme;
+  final bool isSelected;
+  final double width;
+  final VoidCallback onTap;
+
+  const _ThemeOption({
+    required this.theme,
+    required this.isSelected,
+    required this.width,
+    required this.onTap,
+  });
+
+  IconData get _icon => switch (theme) {
+    ThemeMode.system => Icons.settings_suggest_outlined,
+    ThemeMode.light => Icons.light_mode_outlined,
+    ThemeMode.dark => Icons.dark_mode_outlined,
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedIndex = index;
-        });
-      },
-      // Ensures the empty space around the icon is clickable
+      onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: SizedBox(
         width: width,
@@ -236,21 +208,21 @@ class _ThemeSelectionPillState extends State<_ThemeSelectionPill> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              icon,
+              _icon,
               size: 22,
               color: isSelected
                   ? colorScheme.onPrimaryContainer
-                  : colorScheme.onSurfaceVariant.withOpacity(0.7),
+                  : colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
             ),
             const SizedBox(height: 2),
             Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+              t.others.themes[theme.name]?.capitalize() ??
+                  theme.name.capitalize(),
+              style: textTheme.labelSmall?.copyWith(
+                fontWeight: isSelected ? FontWeight.w500 : FontWeight.w400,
                 color: isSelected
                     ? colorScheme.onPrimaryContainer
-                    : colorScheme.onSurfaceVariant.withOpacity(0.7),
+                    : colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
               ),
             ),
           ],
@@ -259,7 +231,6 @@ class _ThemeSelectionPillState extends State<_ThemeSelectionPill> {
     );
   }
 }
-// --- END NEW WIDGET ---
 
 class _DynamicColorSwitch extends ConsumerWidget {
   const _DynamicColorSwitch();

@@ -4,7 +4,7 @@ import 'package:mauritius_emergency_services/core/models/service/service.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class MesEmergencyTileItem extends StatelessWidget {
-  final Service service;
+  final MesService service;
   final Function()? onTap;
 
   const MesEmergencyTileItem({

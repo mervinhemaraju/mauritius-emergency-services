@@ -19,7 +19,7 @@ class PreCallWideLeftView extends StatelessWidget {
     required this.number,
   });
 
-  final Service service;
+  final MesService service;
   final String number;
 
   @override
@@ -45,7 +45,7 @@ class PreCallWideRightView extends StatelessWidget {
     required this.onComplete,
   });
 
-  final Service service;
+  final MesService service;
   final String number;
   final void Function() onComplete;
 
@@ -92,7 +92,7 @@ class PreCallNarrowView extends StatelessWidget {
     required this.onComplete,
   });
 
-  final Service service;
+  final MesService service;
   final String number;
   final void Function() onComplete;
 
@@ -134,7 +134,7 @@ class PreCallNarrowView extends StatelessWidget {
 class _IconView extends StatelessWidget {
   const _IconView({required this.service});
 
-  final Service service;
+  final MesService service;
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +163,7 @@ class _IconView extends StatelessWidget {
 
 class _HeaderView extends StatelessWidget {
   const _HeaderView({required this.service, required this.number});
-  final Service service;
+  final MesService service;
   final String number;
 
   @override
@@ -405,7 +405,7 @@ class _CountdownTimerState extends State<_CountdownTimer>
 }
 
 void onCountdownComplete({
-  required Service service,
+  required MesService service,
   required String number,
   required Function() onComplete,
   required Function() onError,

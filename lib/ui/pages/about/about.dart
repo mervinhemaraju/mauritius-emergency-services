@@ -35,11 +35,11 @@ class AboutScreen extends StatelessWidget {
               final packageInfo = ref.watch(packageInfoProvider);
 
               // Load the version data
-              final List<About> otherSection = packageInfo.when(
+              final List<MesAbout> otherSection = packageInfo.when(
                 data: (info) {
-                  final otherSection = About.getOtherSection();
+                  final otherSection = MesAbout.getOtherSection();
                   otherSection.add(
-                    About(
+                    MesAbout(
                       icon: Icons.info_outlined,
                       title: t.pages.about.other_section.version_title
                           .capitalize(),
@@ -58,7 +58,7 @@ class AboutScreen extends StatelessWidget {
                   const AboutHeader(),
                   AboutSection(
                     title: t.pages.about.support_section.title.toUpperCase(),
-                    section: About.getSupportSection(),
+                    section: MesAbout.getSupportSection(),
                   ),
                   AboutSection(
                     title: t.pages.about.other_section.title.toUpperCase(),
@@ -142,7 +142,7 @@ class AboutScreen extends StatelessWidget {
 // }
 
 class AboutSection extends StatelessWidget {
-  final List<About> section;
+  final List<MesAbout> section;
   final String title;
 
   const AboutSection({super.key, required this.section, required this.title});

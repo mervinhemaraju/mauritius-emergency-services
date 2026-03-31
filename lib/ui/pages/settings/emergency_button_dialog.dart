@@ -85,9 +85,9 @@ class EmergencyButtonDialog extends ConsumerWidget {
 }
 
 class ServiceListView extends StatelessWidget {
-  final List<Service> services;
-  final Service selectedService;
-  final Function(Service) onServiceSelected;
+  final List<MesService> services;
+  final MesService selectedService;
+  final Function(MesService) onServiceSelected;
 
   const ServiceListView({
     super.key,
@@ -102,7 +102,7 @@ class ServiceListView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       prototypeItem: SimpleServiceItem(
         isSelected: false,
-        service: const Service(),
+        service: const MesService(),
         onServiceSelected: onServiceSelected,
       ),
       itemCount: services.length,

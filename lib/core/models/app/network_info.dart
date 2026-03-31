@@ -1,14 +1,14 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-class NetworkInfo {
-  static final NetworkInfo _instance = NetworkInfo._internal();
+class MesNetworkInfo {
+  static final MesNetworkInfo _instance = MesNetworkInfo._internal();
   final Connectivity connectivity = Connectivity();
 
-  factory NetworkInfo() {
+  factory MesNetworkInfo() {
     return _instance;
   }
 
-  NetworkInfo._internal();
+  MesNetworkInfo._internal();
 
   Future<bool> get isConnectedToInternet async {
     final result = await connectivity.checkConnectivity();

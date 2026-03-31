@@ -5,7 +5,7 @@ import 'package:mauritius_emergency_services/ui/pages/services/services_provider
 import 'package:mauritius_emergency_services/ui/widgets/items/item_expandable_dismissable_service.dart';
 
 class ServicesList extends ConsumerWidget {
-  final List<Service> services;
+  final List<MesService> services;
 
   const ServicesList({super.key, required this.services});
 

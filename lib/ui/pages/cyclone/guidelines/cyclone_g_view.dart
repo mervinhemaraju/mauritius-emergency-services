@@ -5,7 +5,7 @@ import 'package:mauritius_emergency_services/generated/translations/strings.g.da
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class CycloneGuidelinesSheet extends ConsumerWidget {
-  final CycloneGuidelines cycloneGuidelines;
+  final MesCycloneGuidelines cycloneGuidelines;
 
   const CycloneGuidelinesSheet({super.key, required this.cycloneGuidelines});
 
@@ -25,7 +25,7 @@ class CycloneGuidelinesSheet extends ConsumerWidget {
 }
 
 class _CycloneGuidelinesUi extends StatelessWidget {
-  final CycloneGuidelines cycloneGuidelines;
+  final MesCycloneGuidelines cycloneGuidelines;
   final ScrollController scrollController;
 
   const _CycloneGuidelinesUi({

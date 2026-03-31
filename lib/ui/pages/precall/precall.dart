@@ -4,7 +4,7 @@ import 'package:mauritius_emergency_services/ui/components/views/view_adaptive.d
 import 'package:mauritius_emergency_services/ui/pages/precall/precall_views.dart';
 
 class PreCallScreen extends StatelessWidget {
-  final Service service;
+  final MesService service;
   final String number;
   final void Function() onComplete;
 

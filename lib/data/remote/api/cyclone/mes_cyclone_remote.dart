@@ -11,36 +11,40 @@ class MesCycloneRemote implements MesCycloneSource {
   const MesCycloneRemote(this.dio);
 
   @override
-  Future<CycloneReport> getCycloneReport(String lang) => _fetch(
+  Future<MesCycloneReport> getCycloneReport(String lang) => _fetch(
     lang,
     'cyclone/report',
-    (data) => CycloneReport.fromJson(data['report'] as Map<String, dynamic>),
+    (data) => MesCycloneReport.fromJson(data['report'] as Map<String, dynamic>),
   );
 
   @override
-  Future<CycloneReport> getCycloneReportTesting(String lang) => _fetch(
+  Future<MesCycloneReport> getCycloneReportTesting(String lang) => _fetch(
     lang,
     'cyclone/report/testing',
-    (data) => CycloneReport.fromJson(data['report'] as Map<String, dynamic>),
+    (data) => MesCycloneReport.fromJson(data['report'] as Map<String, dynamic>),
   );
 
   @override
-  Future<List<CycloneName>> getCycloneNames(String lang) => _fetch(
+  Future<List<MesCycloneName>> getCycloneNames(String lang) => _fetch(
     lang,
     'cyclone/names',
     (data) => (data['names'] as List)
-        .map((json) => CycloneName.fromJson(json as Map<String, dynamic>))
+        .map((json) => MesCycloneName.fromJson(json as Map<String, dynamic>))
         .toList(),
   );
 
   @override
-  Future<List<CycloneGuidelines>> getCycloneGuidelines(String lang) => _fetch(
-    lang,
-    'cyclone/guidelines',
-    (data) => (data['guidelines'] as List)
-        .map((json) => CycloneGuidelines.fromJson(json as Map<String, dynamic>))
-        .toList(),
-  );
+  Future<List<MesCycloneGuidelines>> getCycloneGuidelines(String lang) =>
+      _fetch(
+        lang,
+        'cyclone/guidelines',
+        (data) => (data['guidelines'] as List)
+            .map(
+              (json) =>
+                  MesCycloneGuidelines.fromJson(json as Map<String, dynamic>),
+            )
+            .toList(),
+      );
 
   // ---------------------------------------------------------------------------
 

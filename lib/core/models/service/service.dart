@@ -5,8 +5,8 @@ part '../../../generated/core/models/service/service.freezed.dart';
 part '../../../generated/core/models/service/service.g.dart';
 
 @freezed
-abstract class Service with _$Service {
-  const factory Service({
+abstract class MesService with _$MesService {
+  const factory MesService({
     @Default("") String identifier,
     @Default("") String name,
     @Default("") String type,
@@ -15,12 +15,12 @@ abstract class Service with _$Service {
     @JsonKey(name: 'main_contact') @Default(0) int mainContact,
     @JsonKey(name: 'other_contacts') @Default([]) List<int> otherContacts,
     @JsonKey(includeFromJson: false, includeToJson: false) Uint8List? iconData,
-  }) = _Service;
+  }) = _MesService;
 
-  const Service._();
+  const MesService._();
 
-  factory Service.fromJson(Map<String, dynamic> json) =>
-      _$ServiceFromJson(json);
+  factory MesService.fromJson(Map<String, dynamic> json) =>
+      _$MesServiceFromJson(json);
 
   // Custom getters
   bool get hasExtraContacts => emails.isNotEmpty || otherContacts.isNotEmpty;

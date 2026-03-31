@@ -8,7 +8,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part "../../../generated/pages/cyclone/cyclone_r_provider.g.dart";
 
 @riverpod
-Future<CycloneGuidelines?> cycloneGuidelineByLevel(Ref ref, int level) async {
+Future<MesCycloneGuidelines?> cycloneGuidelineByLevel(
+  Ref ref,
+  int level,
+) async {
   try {
     final repository = ref.watch(mesCycloneRepositoryProvider);
 
@@ -35,7 +38,8 @@ class CycloneReportNotifier extends _$CycloneReportNotifier {
   Future<CycloneReportState> build() async {
     try {
       final repository = ref.watch(mesCycloneRepositoryProvider);
-      final isConnectedToInternet = await NetworkInfo().isConnectedToInternet;
+      final isConnectedToInternet =
+          await MesNetworkInfo().isConnectedToInternet;
 
       if (!isConnectedToInternet) {
         return CycloneReportNoInternet(

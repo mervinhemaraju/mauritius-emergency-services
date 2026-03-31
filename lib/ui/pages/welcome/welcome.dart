@@ -283,7 +283,7 @@ class _WelcomeCarouselView extends StatelessWidget {
         itemExtent: MediaQuery.sizeOf(context).width,
         itemSnapping: true,
         shrinkExtent: shrinkExtent,
-        children: Welcome.welcomeItems
+        children: MesWelcome.welcomeItems
             .map(
               (item) => WelcomeCarouselItem(
                 asset: item.asset,

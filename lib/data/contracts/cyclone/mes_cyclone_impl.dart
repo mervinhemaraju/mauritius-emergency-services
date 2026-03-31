@@ -11,20 +11,21 @@ class MesCycloneImpl implements MesCycloneRepository {
   const MesCycloneImpl({required this.remoteSource});
 
   @override
-  Future<CycloneReport> getCycloneReport([String lang = defaultLanguage]) =>
+  Future<MesCycloneReport> getCycloneReport([String lang = defaultLanguage]) =>
       remoteSource.getCycloneReport(lang);
 
   @override
-  Future<CycloneReport> getCycloneReportTesting([
+  Future<MesCycloneReport> getCycloneReportTesting([
     String lang = defaultLanguage,
   ]) => remoteSource.getCycloneReportTesting(lang);
 
   @override
-  Future<List<CycloneName>> getCycloneNames([String lang = defaultLanguage]) =>
-      remoteSource.getCycloneNames(lang);
+  Future<List<MesCycloneName>> getCycloneNames([
+    String lang = defaultLanguage,
+  ]) => remoteSource.getCycloneNames(lang);
 
   @override
-  Future<List<CycloneGuidelines>> getCycloneGuidelines([
+  Future<List<MesCycloneGuidelines>> getCycloneGuidelines([
     String lang = defaultLanguage,
   ]) => remoteSource.getCycloneGuidelines(lang);
 }

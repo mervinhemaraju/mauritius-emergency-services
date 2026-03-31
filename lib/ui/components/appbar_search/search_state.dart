@@ -8,7 +8,7 @@ sealed class SearchState with _$SearchState {
 
   const factory SearchState.Loading() = SearchLoading;
 
-  const factory SearchState.Matched({required List<Service> services}) =
+  const factory SearchState.Matched({required List<MesService> services}) =
       SearchMatched;
 
   const factory SearchState.NoMatch() = SearchNoMatch;

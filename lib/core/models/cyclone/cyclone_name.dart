@@ -4,13 +4,13 @@ part '../../../generated/core/models/cyclone/cyclone_name.freezed.dart';
 part '../../../generated/core/models/cyclone/cyclone_name.g.dart';
 
 @freezed
-abstract class CycloneName with _$CycloneName {
-  const factory CycloneName({
+abstract class MesCycloneName with _$MesCycloneName {
+  const factory MesCycloneName({
     required String name,
     required String gender,
     @JsonKey(name: 'provided_by') required String providedBy,
-  }) = _CycloneName;
+  }) = _MesCycloneName;
 
-  factory CycloneName.fromJson(Map<String, dynamic> json) =>
-      _$CycloneNameFromJson(json);
+  factory MesCycloneName.fromJson(Map<String, dynamic> json) =>
+      _$MesCycloneNameFromJson(json);
 }

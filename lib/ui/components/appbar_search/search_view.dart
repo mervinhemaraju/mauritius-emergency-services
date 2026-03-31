@@ -26,7 +26,7 @@ class _MesSearchBar extends ConsumerWidget {
   const _MesSearchBar({required this.openDrawer});
 
   // Define the on load function
-  SearchState _onLoad(String query, List<Service> services) {
+  SearchState _onLoad(String query, List<MesService> services) {
     if (query.isEmpty) {
       return const SearchInitial();
     }
@@ -188,8 +188,8 @@ class _SearchUiNoMatch extends StatelessWidget {
 }
 
 class _SearchUiMatch extends StatelessWidget {
-  final List<Service> services;
-  final void Function(Service) onTap;
+  final List<MesService> services;
+  final void Function(MesService) onTap;
 
   const _SearchUiMatch({required this.services, required this.onTap});
 

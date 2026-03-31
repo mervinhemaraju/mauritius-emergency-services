@@ -18,7 +18,7 @@ abstract class MesSettings with _$MesSettings {
     required bool isDynamicEnabled,
     required ThemeMode theme,
     required MesLocale locale,
-    required Service emergencyButtonAction,
+    required MesService emergencyButtonAction,
   }) = _MesSettings;
 
   factory MesSettings.initial() => const MesSettings(
@@ -28,6 +28,6 @@ abstract class MesSettings with _$MesSettings {
     isDynamicEnabled: false,
     theme: ThemeMode.system,
     locale: MesLocale.english,
-    emergencyButtonAction: Service(),
+    emergencyButtonAction: MesService(),
   );
 }
