@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mauritius_emergency_services/ui/theme/shapes.dart';
 
 // The MES Drawer Item
 class MesDrawerItem extends StatelessWidget {
@@ -9,10 +10,10 @@ class MesDrawerItem extends StatelessWidget {
   final Widget? trailing;
 
   const MesDrawerItem({
-    super.key,
     required this.leadingIcon,
     required this.title,
     required this.onTap,
+    super.key,
     this.trailing,
     this.isSelected = false,
   });
@@ -26,12 +27,7 @@ class MesDrawerItem extends StatelessWidget {
       leading: leadingIcon,
       title: Text(title, style: Theme.of(context).textTheme.bodyMedium),
       trailing: trailing,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.horizontal(
-          right: Radius.circular(25), // Apply stadium effect
-          left: Radius.zero, // No effect on the left
-        ),
-      ),
+      shape: MesShapes.drawerItem,
       onTap: onTap,
     );
   }

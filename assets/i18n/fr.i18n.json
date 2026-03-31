@@ -116,6 +116,20 @@
             },
             "no_district_results": "Aucune panne dans ce district."
         },
+        "new_feature": {
+            "pill_label": "quoi de neuf",
+            "headline_line1": "calendrier des\ncoupures,",
+            "headline_line2": "en un coup d'œil.",
+            "body": "anticipez les interruptions planifiées par la CEB dans tous les districts — disponible hors ligne.",
+            "feature_1_label": "chronologie par date",
+            "feature_1_description": "pannes triées par jour pour ne jamais être pris de court",
+            "feature_2_label": "filtrer par district",
+            "feature_2_description": "accédez directement à ce qui concerne votre zone",
+            "feature_3_label": "indicateur en direct",
+            "feature_3_description": "interruptions en cours signalées en temps réel",
+            "cta_explore": "voir le calendrier des pannes",
+            "cta_dismiss": "plus tard"
+        },
         "precall": {
             "title": "démarrage d'un appel vers",
             "calling_in": "appel dans"

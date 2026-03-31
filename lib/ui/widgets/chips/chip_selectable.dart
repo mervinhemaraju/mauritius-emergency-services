@@ -2,6 +2,7 @@
 * The MES Chip component
 */
 import 'package:flutter/material.dart';
+import 'package:mauritius_emergency_services/ui/theme/shapes.dart';
 
 class MesChipSelectable extends StatelessWidget {
   final String label;
@@ -11,8 +12,8 @@ class MesChipSelectable extends StatelessWidget {
   final bool selected;
 
   const MesChipSelectable({
-    super.key,
     required this.label,
+    super.key,
     this.icon,
     this.onTap,
     this.padding = const EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
@@ -32,7 +33,7 @@ class MesChipSelectable extends StatelessWidget {
           color: selected
               ? theme.colorScheme.primary
               : theme.colorScheme.surfaceContainerHigh,
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: MesBorders.chip,
         ),
         padding: padding,
         child: Row(

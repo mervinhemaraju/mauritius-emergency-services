@@ -2,6 +2,7 @@
 * The MES Chip component
 */
 import 'package:flutter/material.dart';
+import 'package:mauritius_emergency_services/ui/theme/shapes.dart';
 
 class MesChipStatus extends StatelessWidget {
   final String label;
@@ -12,8 +13,8 @@ class MesChipStatus extends StatelessWidget {
   final Function()? onTap;
 
   const MesChipStatus({
-    super.key,
     required this.label,
+    super.key,
     this.icon,
     this.backgroundColor,
     this.foregroundColor,
@@ -32,7 +33,7 @@ class MesChipStatus extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: backgroundColor ?? theme.colorScheme.primary,
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: MesBorders.chip,
         ),
         padding: padding,
         child: Row(

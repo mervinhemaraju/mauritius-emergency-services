@@ -9,6 +9,7 @@ import 'package:mauritius_emergency_services/generated/translations/strings.g.da
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_state.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_list.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
+import 'package:mauritius_emergency_services/ui/theme/shapes.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 AppBar MesAppSearchBar({required void Function() openDrawer}) {
@@ -52,6 +53,7 @@ class _MesSearchBar extends ConsumerWidget {
 
     // Return the view
     return SearchAnchor.bar(
+      barShape: const WidgetStatePropertyAll(MesShapes.searchBar),
       searchController: searchController,
       barBackgroundColor: WidgetStatePropertyAll(
         Theme.of(context).colorScheme.tintedSurface(level: 56.0),

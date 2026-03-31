@@ -5,6 +5,7 @@ import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_report.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
+import 'package:mauritius_emergency_services/ui/theme/shapes.dart';
 import 'package:mauritius_emergency_services/ui/widgets/cards/card_timer.dart';
 import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
 import 'package:mauritius_emergency_services/ui/widgets/canvas/rotating_svg.dart';
@@ -82,7 +83,7 @@ class CycloneScreen extends ConsumerWidget {
                   heroTag: null,
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                  child: const Icon(Icons.cyclone_outlined),
+                  shape: MesShapes.fab,
                   onPressed: () {
                     showModalBottomSheet<void>(
                       context: context,
@@ -95,6 +96,7 @@ class CycloneScreen extends ConsumerWidget {
                       ),
                     );
                   },
+                  child: const Icon(Icons.cyclone_outlined),
                 ),
               ]
             : [],
@@ -126,6 +128,7 @@ class CycloneScreen extends ConsumerWidget {
             heroTag: null,
             backgroundColor: Theme.of(context).colorScheme.secondary,
             foregroundColor: Theme.of(context).colorScheme.onSecondary,
+            shape: MesShapes.fab,
             child: const Icon(Icons.list_alt_outlined),
             onPressed: () {
               showModalBottomSheet<void>(
@@ -200,7 +203,7 @@ class _CycloneWarningUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
+    final theme = Theme.of(context);
     return CustomScrollView(
       slivers: <Widget>[
         SliverFillRemaining(

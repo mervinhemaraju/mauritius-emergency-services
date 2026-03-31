@@ -116,6 +116,20 @@
             },
             "no_district_results": "No outages for this district."
         },
+        "new_feature": {
+            "pill_label": "what's new",
+            "headline_line1": "power outage\nschedules,",
+            "headline_line2": "at a glance.",
+            "body": "stay ahead of CEB planned interruptions across all districts — fully offline-ready.",
+            "feature_1_label": "date-grouped timeline",
+            "feature_1_description": "outages sorted by day so you're never caught off guard",
+            "feature_2_label": "filter by district",
+            "feature_2_description": "jump straight to what affects your area",
+            "feature_3_label": "live status indicator",
+            "feature_3_description": "ongoing interruptions highlighted in real time",
+            "cta_explore": "view outage schedule",
+            "cta_dismiss": "maybe later"
+        },
         "precall": {
             "title": "starting a call to",
             "calling_in": "calling in"

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
+import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
+import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
+import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
-// TODO(Add this to page to translations)
 class NewFeatureAnnouncementScreen extends ConsumerWidget {
   const NewFeatureAnnouncementScreen({super.key});
 
@@ -24,7 +25,6 @@ class NewFeatureAnnouncementScreen extends ConsumerWidget {
     final cs = theme.colorScheme;
 
     return PopScope(
-      // Intercept back swipe / back button and go home instead
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) _onDismiss(ref, context);
@@ -64,7 +64,7 @@ class NewFeatureAnnouncementScreen extends ConsumerWidget {
                           ),
                         ),
                         Text(
-                          "What's new",
+                          t.pages.new_feature.pill_label.capitalizeAll(),
                           style: theme.textTheme.labelSmall?.copyWith(
                             color: cs.onPrimaryContainer,
                             fontWeight: FontWeight.w600,
@@ -80,7 +80,7 @@ class NewFeatureAnnouncementScreen extends ConsumerWidget {
 
                 // ── Headline ─────────────────────────────────────────────
                 Text(
-                  'Power outage\nschedules,',
+                  t.pages.new_feature.headline_line1.capitalize(),
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.w800,
                     height: 1.15,
@@ -89,7 +89,7 @@ class NewFeatureAnnouncementScreen extends ConsumerWidget {
                   ),
                 ),
                 Text(
-                  'at a glance.',
+                  t.pages.new_feature.headline_line2.capitalize(),
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.w800,
                     height: 1.15,
@@ -101,7 +101,7 @@ class NewFeatureAnnouncementScreen extends ConsumerWidget {
                 const SizedBox(height: 16),
 
                 Text(
-                  'Stay ahead of CEB planned interruptions across all districts — fully offline-ready.',
+                  t.pages.new_feature.body.capitalize(),
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: cs.onSurface.withValues(alpha: 0.55),
                     height: 1.5,
@@ -118,25 +118,27 @@ class NewFeatureAnnouncementScreen extends ConsumerWidget {
                 // ── Feature highlights ───────────────────────────────────
                 _FeatureRow(
                   icon: Icons.calendar_today_outlined,
-                  label: 'Date-grouped timeline',
-                  description:
-                      "Outages sorted by day so you're never caught off guard",
+                  label: t.pages.new_feature.feature_1_label.capitalizeAll(),
+                  description: t.pages.new_feature.feature_1_description
+                      .capitalize(),
                   cs: cs,
                   theme: theme,
                 ),
                 const SizedBox(height: 14),
                 _FeatureRow(
                   icon: Icons.place_outlined,
-                  label: 'Filter by district',
-                  description: 'Jump straight to what affects your area',
+                  label: t.pages.new_feature.feature_2_label.capitalizeAll(),
+                  description: t.pages.new_feature.feature_2_description
+                      .capitalize(),
                   cs: cs,
                   theme: theme,
                 ),
                 const SizedBox(height: 14),
                 _FeatureRow(
                   icon: Icons.bolt_rounded,
-                  label: 'Live status indicator',
-                  description: 'Ongoing interruptions highlighted in real time',
+                  label: t.pages.new_feature.feature_3_label.capitalizeAll(),
+                  description: t.pages.new_feature.feature_3_description
+                      .capitalize(),
                   cs: cs,
                   theme: theme,
                 ),
@@ -158,10 +160,10 @@ class NewFeatureAnnouncementScreen extends ConsumerWidget {
                     children: [
                       const Icon(Icons.bolt_rounded, size: 18),
                       Text(
-                        'View outage schedule',
+                        t.pages.new_feature.cta_explore.capitalizeAll(),
                         style: theme.textTheme.labelLarge?.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: Theme.of(context).colorScheme.onPrimary,
+                          color: cs.onPrimary,
                         ),
                       ),
                     ],
@@ -179,7 +181,7 @@ class NewFeatureAnnouncementScreen extends ConsumerWidget {
                     ),
                   ),
                   child: Text(
-                    'Maybe later',
+                    t.pages.new_feature.cta_dismiss.capitalize(),
                     style: theme.textTheme.labelLarge?.copyWith(
                       color: cs.onSurface.withValues(alpha: 0.45),
                       fontWeight: FontWeight.w500,
@@ -212,7 +214,7 @@ class _IllustrationCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: cs.primaryContainer.withValues(alpha: 0.45),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: cs.primary.withValues(alpha: 0.12), width: 1),
+        border: Border.all(color: cs.primary.withValues(alpha: 0.12)),
       ),
       padding: const EdgeInsets.all(20),
       child: Row(

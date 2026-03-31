@@ -64,9 +64,9 @@ class DisclaimerScreen extends StatelessWidget {
 
 class InformationSection extends StatelessWidget {
   const InformationSection({
-    super.key,
     required this.colorScheme,
     required this.textTheme,
+    super.key,
   });
 
   final ColorScheme colorScheme;
@@ -90,7 +90,6 @@ class InformationSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.0),
                 border: Border.all(
                   color: colorScheme.outlineVariant,
-                  width: 1.0,
                 ),
               ),
               child: Column(
