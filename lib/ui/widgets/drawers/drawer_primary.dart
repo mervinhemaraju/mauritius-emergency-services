@@ -31,8 +31,7 @@ class MesDrawerPrimary extends StatelessWidget {
               title: t.pages.home.title.capitalizeAll(),
               isSelected: HomeRoute.path == currentRoute,
               onTap: () {
-                context.pop();
-                context.go(HomeRoute.path);
+                context.popAndGo(HomeRoute.path);
               },
             ),
             MesDrawerItem(
@@ -40,26 +39,24 @@ class MesDrawerPrimary extends StatelessWidget {
               title: t.pages.services.title.capitalizeAll(),
               isSelected: ServicesRoute.path == currentRoute,
               onTap: () {
-                context.pop();
-                context.go(ServicesRoute.path);
+                context.popAndGo(ServicesRoute.path);
               },
             ),
-            // TODO(Complete this drawer item)
             MesDrawerItem(
               leadingIcon: const Icon(Icons.warning_amber_outlined),
-              title: "Alerts",
+              title: t.pages.alerts.title.capitalizeAll(),
               trailing: MesChipStatus(label: t.actions.is_new.capitalizeAll()),
-              isSelected: OutagesRoute.path == currentRoute,
-              onTap: () {},
+              isSelected: AlertsRoute.path == currentRoute,
+              onTap: () {
+                context.popAndGo(AlertsRoute.path);
+              },
             ),
             MesDrawerItem(
               leadingIcon: const Icon(Icons.cyclone_outlined),
               title: t.pages.cyclone.title.capitalizeAll(),
               isSelected: CycloneReportRoute.path == currentRoute,
               onTap: () {
-                // TODO(Find better way to handle pop and go in a single instance)
-                context.pop();
-                context.go(CycloneReportRoute.path);
+                context.popAndGo(CycloneReportRoute.path);
               },
             ),
             MesDrawerItem(
@@ -68,16 +65,17 @@ class MesDrawerPrimary extends StatelessWidget {
               trailing: MesChipStatus(label: t.actions.is_new.capitalizeAll()),
               isSelected: OutagesRoute.path == currentRoute,
               onTap: () {
-                context.pop();
-                context.go(OutagesRoute.path);
+                context.popAndGo(OutagesRoute.path);
               },
             ),
-            // TODO(Complete this drawer item)
             MesDrawerItem(
               leadingIcon: const Icon(Icons.brightness_4),
-              title: "Sun, Moon & Tides",
-              trailing: MesChipStatus(label: t.actions.is_new.capitalizeAll()),
-              isSelected: OutagesRoute.path == currentRoute,
+              title: t.pages.sun_moon_tides.title.capitalizeAll(),
+              trailing: MesChipStatus(
+                label: t.actions.coming_soon.capitalizeAll(),
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                foregroundColor: Theme.of(context).colorScheme.onSecondary,
+              ),
               onTap: () {},
             ),
             const Padding(
@@ -87,7 +85,6 @@ class MesDrawerPrimary extends StatelessWidget {
             MesDrawerItem(
               leadingIcon: const Icon(Icons.info_outline),
               title: t.pages.about.title.capitalizeAll(),
-              isSelected: false,
               onTap: () {
                 context.push(AboutRoute.path);
               },
@@ -95,7 +92,6 @@ class MesDrawerPrimary extends StatelessWidget {
             MesDrawerItem(
               leadingIcon: const Icon(Icons.settings_outlined),
               title: t.pages.settings.title.capitalizeAll(),
-              isSelected: false,
               onTap: () {
                 context.push(SettingsRoute.path);
               },
@@ -122,7 +118,7 @@ class MesDrawerPrimary extends StatelessWidget {
               ),
               onTap: () async {
                 final Uri emailLaunchUri = Uri.parse(URI_MES_CONTACT_US);
-                launchUrl(emailLaunchUri);
+                await launchUrl(emailLaunchUri);
               },
             ),
           ],

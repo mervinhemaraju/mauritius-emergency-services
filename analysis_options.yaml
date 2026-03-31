@@ -1,7 +1,18 @@
-include: package:flutter_lints/flutter.yaml
+include: package:solid_lints/analysis_options.yaml
+
+analyzer:
+  plugins:
+    - custom_lint
+  errors:
+    todo: ignore
+    non_constant_identifier_names: ignore
+    invalid_annotation_target: ignore
+    public_member_api_docs: ignore
+    avoid_dynamic_calls: false
 
 linter:
   rules:
+    # Flutter basics
     avoid_print: true
     prefer_const_constructors_in_immutables: true
     prefer_const_constructors: true
@@ -10,9 +21,22 @@ linter:
     unnecessary_breaks: true
     use_key_in_widget_constructors: true
 
-analyzer:
-  errors:
-    todo: ignore
-    non_constant_identifier_names: ignore
-    invalid_annotation_target: ignore
+    # Stricter rules
+    always_declare_return_types: true
+    avoid_returning_null_for_void: true
+    avoid_unused_constructor_parameters: true
+    cancel_subscriptions: true
+    close_sinks: true
+    literal_only_boolean_expressions: true
+    no_adjacent_strings_in_list: true
+    prefer_final_locals: true
+    throw_in_finally: true
+    unnecessary_statements: true
 
+solid_lints:
+  avoid_hardcoded_strings:
+    severity: warning
+    # allow strings that are clearly not UI copy
+    exclude_pattern:
+      - "^[a-zA-Z0-9_\\-\\.:/]+$"   # identifiers, URLs, asset paths
+      - "^\\s*$"                       # whitespace-only

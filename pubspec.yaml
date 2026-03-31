@@ -71,6 +71,8 @@ dev_dependencies:
   riverpod_lint: ^3.0.0
   json_serializable: ^6.11.1
   freezed: ^3.2.3
+  custom_lint: ^0.8.1
+  solid_lints: ^0.3.3
 
 objectbox:
   # Writes objectbox-model.json and objectbox.g.dart to lib/custom (and test/custom).

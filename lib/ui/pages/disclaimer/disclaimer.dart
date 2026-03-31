@@ -2,9 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
+import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
+import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class DisclaimerScreen extends StatelessWidget {
@@ -100,7 +100,7 @@ class InformationSection extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        section.icon,
+                        (section.icon) as String,
                         style: const TextStyle(fontSize: 24.0),
                       ),
                       const SizedBox(width: 12.0),

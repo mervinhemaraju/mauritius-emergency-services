@@ -28,6 +28,15 @@ extension ColorSchemeExtension on ColorScheme {
 }
 
 extension NavigationExtension on BuildContext {
+  void popAndGo(String location, {Object? extra}) {
+    // Pop the drawer first
+    if (canPop()) {
+      pop();
+    }
+    // Then navigate to the new route
+    go(location, extra: extra);
+  }
+
   void goBack() {
     if (canPop()) {
       pop();

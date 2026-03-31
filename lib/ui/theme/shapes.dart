@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// TODO(Centralize all shapes and corners)
 class MesShapes {
   static const chip = StadiumBorder();
   static const card = RoundedRectangleBorder(

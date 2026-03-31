@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:mauritius_emergency_services/data/helpers/api_constants.dart';
-import 'package:mauritius_emergency_services/data/contracts/cyclone/mes_cyclone_source.dart';
 import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_guidelines.dart';
 import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_name.dart';
 import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_report.dart';
+import 'package:mauritius_emergency_services/data/contracts/cyclone/mes_cyclone_source.dart';
+import 'package:mauritius_emergency_services/data/helpers/api_constants.dart';
 
 class MesCycloneRemote implements MesCycloneSource {
   final Dio dio;
@@ -14,14 +14,14 @@ class MesCycloneRemote implements MesCycloneSource {
   Future<CycloneReport> getCycloneReport(String lang) => _fetch(
     lang,
     'cyclone/report',
-    (data) => CycloneReport.fromJson(data['report']),
+    (data) => CycloneReport.fromJson(data['report'] as Map<String, dynamic>),
   );
 
   @override
   Future<CycloneReport> getCycloneReportTesting(String lang) => _fetch(
     lang,
     'cyclone/report/testing',
-    (data) => CycloneReport.fromJson(data['report']),
+    (data) => CycloneReport.fromJson(data['report'] as Map<String, dynamic>),
   );
 
   @override

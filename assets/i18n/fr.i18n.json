@@ -64,6 +64,12 @@
         "services": {
             "title": "services"
         },
+        "alerts": {
+            "title": "alertes"
+        },
+        "sun_moon_tides": {
+            "title": "soleil, lune & marées"
+        },
         "cyclone": {
             "title": "rapport cyclonique",
             "no_warning": "il n'y a actuellement aucune alerte cyclonique à Maurice",

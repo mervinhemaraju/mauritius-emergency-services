@@ -64,6 +64,12 @@
         "services": {
             "title": "services"
         },
+        "alerts": {
+            "title": "alerts"
+        },
+        "sun_moon_tides": {
+            "title": "sun, moon & tides"
+        },
         "cyclone": {
             "title": "cyclone report",
             "no_warning": "there's currently no cyclone warning in Mauritius",

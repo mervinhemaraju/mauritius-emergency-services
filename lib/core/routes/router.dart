@@ -1,8 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mauritius_emergency_services/core/models/service/service.dart';
 import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/pages/about/about.dart';
+import 'package:mauritius_emergency_services/ui/pages/alerts/alerts_view.dart';
 import 'package:mauritius_emergency_services/ui/pages/newfeature/new_feature_view.dart';
 import 'package:mauritius_emergency_services/ui/pages/outages/outages_view.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_view.dart';
@@ -89,9 +91,15 @@ GoRouter mesAppRouter(Ref ref) {
                   as Map<String, dynamic>?)?[ServicesRoute.extraQuery] ??
               "";
           return ServicesScreen(
-            searchQuery: query,
+            searchQuery: query as String,
           ).withScaleTransition(state.pageKey);
         },
+      ),
+      GoRoute(
+        name: AlertsRoute.name,
+        path: AlertsRoute.path,
+        pageBuilder: (context, state) =>
+            const AlertsScreen().withScaleTransition(state.pageKey),
       ),
       GoRoute(
         name: CycloneReportRoute.name,
@@ -115,9 +123,9 @@ GoRouter mesAppRouter(Ref ref) {
         name: PrecallRoute.name,
         path: PrecallRoute.path,
         pageBuilder: (context, state) {
-          final data = state.extra! as Map<String, dynamic>;
+          final data = (state.extra! as Map<String, dynamic>);
           return PreCallScreen(
-            service: data[PrecallRoute.extraService],
+            service: data[PrecallRoute.extraService] as Service,
             number: data[PrecallRoute.extraNumber].toString(),
             onComplete: () => context.goBack(),
           ).withSlideTransition(state.pageKey);

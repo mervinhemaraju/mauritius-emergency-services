@@ -36,6 +36,11 @@ final class CycloneReportRoute extends MesRoute {
   static const String path = '/cyclone_report';
 }
 
+final class AlertsRoute extends MesRoute {
+  static const String name = 'Alerts';
+  static const String path = '/alerts';
+}
+
 final class OutagesRoute extends MesRoute {
   static const String name = 'Outages';
   static const String path = '/outages';
