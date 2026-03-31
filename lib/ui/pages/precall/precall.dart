@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mauritius_emergency_services/models/service/service.dart';
+import 'package:mauritius_emergency_services/core/models/service/service.dart';
 import 'package:mauritius_emergency_services/ui/components/views/view_adaptive.dart';
 import 'package:mauritius_emergency_services/ui/pages/precall/precall_views.dart';
 

@@ -3,7 +3,7 @@ import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
-import 'package:mauritius_emergency_services/models/service/service.dart';
+import 'package:mauritius_emergency_services/core/models/service/service.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:url_launcher/url_launcher.dart';

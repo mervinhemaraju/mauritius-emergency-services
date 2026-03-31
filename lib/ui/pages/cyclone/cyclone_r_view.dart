@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/models/cyclone/cyclone_report.dart';
+import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_report.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
 import 'package:mauritius_emergency_services/ui/widgets/cards/card_timer.dart';
 import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';

@@ -6,37 +6,40 @@ targets:
         generate_for:
           - lib/providers/**.dart
           - lib/ui/pages/**/*_provider.dart
-          - lib/models/**.dart
-          - lib/routes/**.dart
+          - lib/data/**/*_provider.dart
+          - lib/core/**.dart
         options:
           build_extensions:
-            # Models
-            '^lib/models/{{}}.dart': 'lib/generated/models/{{}}.g.dart'
-            # '^lib/models/cyclone/{{}}.dart': 'lib/generated/models/cyclone/{{}}.g.dart'
+            # Core
+            '^lib/core/{{}}.dart': 'lib/generated/core/{{}}.g.dart'
 
-            # Router
-            '^lib/routes/{{}}.dart': 'lib/generated/routes/{{}}.g.dart'
-
-            # Others
+            # Global Infra Providers
             '^lib/providers/{{}}.dart': 'lib/generated/providers/{{}}.g.dart'
+            
+            # UI Providers
             '^lib/ui/pages/{{}}_provider.dart': 'lib/generated/pages/{{}}_provider.g.dart'
+
+            # Data Providers
+            '^lib/data/{{}}_provider.dart': 'lib/generated/data/{{}}_provider.g.dart'
       
       # Configure freezed
       freezed:
         generate_for:
-          - lib/models/**.dart
+          - lib/core/**.dart
           - lib/ui/pages/**.dart
           - lib/ui/components/**.dart
         options:
           build_extensions:
             # Models
-            '^lib/models/{{}}.dart': 'lib/generated/models/{{}}.freezed.dart'
-            # '^lib/models/cyclone/{{}}.dart': 'lib/generated/models/cyclone/{{}}.freezed.dart'
+            '^lib/core/{{}}.dart': 'lib/generated/core/{{}}.freezed.dart'
 
-            # Others
+            # UI Pages
             '^lib/ui/pages/{{}}.dart': 'lib/generated/pages/{{}}.freezed.dart'
+
+            # UI Components
             '^lib/ui/components/{{}}.dart': 'lib/generated/components/{{}}.freezed.dart'
 
+      # Configure slang localizations
       slang_build_runner:
         options:
           input_directory: assets/i18n

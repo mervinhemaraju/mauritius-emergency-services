@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mauritius_emergency_services/models/service/service.dart';
+import 'package:mauritius_emergency_services/core/models/service/service.dart';
 
 class SimpleServiceItem extends StatelessWidget {
   const SimpleServiceItem({

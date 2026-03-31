@@ -1,7 +1,7 @@
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/models/cyclone/cyclone_guidelines.dart';
-import 'package:mauritius_emergency_services/models/app/network_info.dart';
-import 'package:mauritius_emergency_services/providers/mes_cyclone_provider.dart';
+import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_guidelines.dart';
+import 'package:mauritius_emergency_services/core/models/app/network_info.dart';
+import 'package:mauritius_emergency_services/data/remote/api/cyclone/mes_cyclone_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/models/app/network_info.dart';
-import 'package:mauritius_emergency_services/providers/mes_service_provider.dart';
+import 'package:mauritius_emergency_services/core/models/app/network_info.dart';
+import 'package:mauritius_emergency_services/data/remote/api/service/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part '../../../generated/pages/services/services_provider.g.dart';

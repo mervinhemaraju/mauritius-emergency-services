@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mauritius_emergency_services/models/outage/mes_district_outage.dart';
+import 'package:mauritius_emergency_services/core/models/outage/mes_district_outage.dart';
 
 part '../../../generated/pages/outages/outages_state.freezed.dart';
 

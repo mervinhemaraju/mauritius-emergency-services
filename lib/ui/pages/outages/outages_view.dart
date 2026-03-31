@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/models/outage/flat_outage.dart';
-import 'package:mauritius_emergency_services/models/outage/mes_district_outage.dart';
+import 'package:mauritius_emergency_services/core/models/outage/flat_outage.dart';
+import 'package:mauritius_emergency_services/core/models/outage/mes_district_outage.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
 import 'package:mauritius_emergency_services/ui/widgets/chips/chip_selectable.dart';
 import 'package:mauritius_emergency_services/ui/widgets/chips/chip_status.dart';

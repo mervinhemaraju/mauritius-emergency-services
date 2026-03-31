@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/models/cyclone/cyclone_name.dart';
+import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_name.dart';
 import 'package:mauritius_emergency_services/ui/components/views/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_n_provider.dart';

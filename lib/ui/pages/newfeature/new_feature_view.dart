@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mauritius_emergency_services/providers/settings_providers.dart';
-import 'package:mauritius_emergency_services/routes/routes.dart';
+import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
+import 'package:mauritius_emergency_services/core/routes/routes.dart';
 
 // TODO(Add this to page to translations)
 class NewFeatureAnnouncementScreen extends ConsumerWidget {

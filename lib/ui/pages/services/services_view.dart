@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/providers/mes_service_provider.dart';
+import 'package:mauritius_emergency_services/data/remote/api/service/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
 import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
 import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';

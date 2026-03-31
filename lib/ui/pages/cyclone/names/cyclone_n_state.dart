@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mauritius_emergency_services/models/cyclone/cyclone_name.dart';
+import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_name.dart';
 part '../../../../generated/pages/cyclone/names/cyclone_n_state.freezed.dart';
 
 @freezed
