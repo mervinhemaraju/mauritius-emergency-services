@@ -182,7 +182,8 @@
             "services_unavailable": "looks like no services are available. Make sure you are connected to the internet the first time for $app_name_short to download the services.",
             "cannot_load_cyclone_report": "looks like something went wrong and we couldn't load the cyclone report.",
             "cannot_load_cyclone_names": "an error occurred while fetching the cyclone names.",
-            "cannot_launch_phone_app": "Oops! We couldn't launch your phone app."
+            "cannot_launch_phone_app": "Oops! We couldn't launch your phone app.",
+            "cannot_load_alert": "an error occurred while fetching the alert."
         },
         "success": {
             "language_updated": "app language successfully set to: $language.",
@@ -191,9 +192,11 @@
         "info": {
             "loading_component": "loading...",
             "unknown_component": "unknown",
-            "no_match_for_query": "Ooops, your query didn't match any services. Try something else?",
             "other_contacts": "other contacts",
-            "no_other_contacts": "no other contacts"
+            "active_alert": "active alert",
+            "no_match_for_query": "Ooops, your query didn't match any services. Try something else?",
+            "no_other_contacts": "no other contacts",
+            "no_active_alert": "there are no active alerts at this time"
         }
     },
     "components": {
