@@ -39,7 +39,7 @@ class LoadingScreenState extends State<LoadingScreen>
     _startAnimations();
   }
 
-  void _startAnimations() async {
+  Future<void> _startAnimations() async {
     while (true) {
       await _controller1.forward();
       await _controller1.reverse();

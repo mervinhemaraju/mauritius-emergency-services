@@ -14,8 +14,8 @@ class ErrorScreen extends StatelessWidget {
 
   // Constructor
   const ErrorScreen({
-    super.key,
     required this.title,
+    super.key,
     this.retryAction,
     this.showErrorImage = false,
     this.showInternetErrorImage = false,
@@ -30,7 +30,6 @@ class ErrorScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
       child: Column(
-        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

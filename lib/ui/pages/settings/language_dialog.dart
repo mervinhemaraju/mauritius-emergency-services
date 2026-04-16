@@ -61,8 +61,7 @@ class LanguageDialog extends StatelessWidget {
                       t.messages.success
                           .language_updated(
                             language:
-                                t.others.language[locale.name.toString()]
-                                    ?.capitalize() ??
+                                t.others.language[locale.name]?.capitalize() ??
                                 t.others.language.entries.first.value
                                     .capitalize(),
                           )

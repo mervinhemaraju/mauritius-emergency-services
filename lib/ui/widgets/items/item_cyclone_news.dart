@@ -5,7 +5,7 @@ import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 class CycloneNewsItem extends StatelessWidget {
   final String news;
 
-  const CycloneNewsItem({super.key, required this.news});
+  const CycloneNewsItem({required this.news, super.key});
 
   @override
   Widget build(BuildContext context) {

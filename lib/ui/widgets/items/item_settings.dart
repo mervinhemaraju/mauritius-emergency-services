@@ -9,12 +9,12 @@ class SettingsItem extends StatelessWidget {
   final Function()? onTap;
 
   const SettingsItem({
-    super.key,
-    this.trailing,
-    this.onTap,
     required this.icon,
     required this.title,
     required this.subtitle,
+    super.key,
+    this.trailing,
+    this.onTap,
   });
 
   @override

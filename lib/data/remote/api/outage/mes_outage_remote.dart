@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:mauritius_emergency_services/data/helpers/api_constants.dart';
-import 'package:mauritius_emergency_services/data/contracts/outages/mes_outage_source.dart';
 import 'package:mauritius_emergency_services/core/models/outage/mes_district_outage.dart';
+import 'package:mauritius_emergency_services/data/contracts/outages/mes_outage_source.dart';
+import 'package:mauritius_emergency_services/data/helpers/api_constants.dart';
 
 class CebOutageRemote implements CebOutageSource {
   final Dio dio;

@@ -8,11 +8,11 @@ class AboutHeaderListItem extends StatelessWidget {
   final Function()? onTap;
 
   const AboutHeaderListItem({
-    super.key,
     required this.title,
     required this.subtitle,
     required this.background,
     required this.foreground,
+    super.key,
     this.onTap,
   });
 

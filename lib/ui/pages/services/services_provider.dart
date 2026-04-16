@@ -57,7 +57,11 @@ class DismissibleBackgroundColorState
   @override
   Color? build() => null;
 
-  void setColor(Color color) {
-    state = color;
+  // The getter
+  Color? get color => state;
+
+  // The setter
+  set color(Color? value) {
+    state = value;
   }
 }

@@ -1,5 +1,5 @@
-import 'package:mauritius_emergency_services/core/models/service/service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:mauritius_emergency_services/core/models/service/service.dart';
 
 part '../../../generated/pages/services/services_state.freezed.dart';
 

@@ -7,7 +7,7 @@ import 'package:mauritius_emergency_services/ui/widgets/items/item_expandable_di
 class ServicesList extends ConsumerWidget {
   final List<MesService> services;
 
-  const ServicesList({super.key, required this.services});
+  const ServicesList({required this.services, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,9 +27,9 @@ class ServicesList extends ConsumerWidget {
           onToggle: () => ref
               .read(expandedServiceStateProvider.notifier)
               .toggleExpansion(service.identifier),
-          toggleDismissibleBackgroundColor: (color) => ref
-              .read(dismissibleBackgroundColorStateProvider.notifier)
-              .setColor(color),
+          toggleDismissibleBackgroundColor: (color) =>
+              ref.read(dismissibleBackgroundColorStateProvider.notifier).color =
+                  color,
         );
       },
     );

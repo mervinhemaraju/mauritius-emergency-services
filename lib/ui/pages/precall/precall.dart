@@ -9,10 +9,10 @@ class PreCallScreen extends StatelessWidget {
   final void Function() onComplete;
 
   const PreCallScreen({
-    super.key,
     required this.service,
     required this.number,
     required this.onComplete,
+    super.key,
   });
 
   @override

@@ -11,9 +11,9 @@ class PermissionsDialog extends ConsumerWidget {
 
   // Constructor
   const PermissionsDialog({
-    super.key,
     required this.onComplete,
     required this.onProceed,
+    super.key,
   });
 
   @override
@@ -84,7 +84,6 @@ class _PermissionsActions extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.max,
         spacing: 16.0,
         children: [
           MaterialButton(

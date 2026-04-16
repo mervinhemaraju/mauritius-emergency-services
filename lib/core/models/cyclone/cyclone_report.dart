@@ -6,8 +6,8 @@ part '../../../generated/core/models/cyclone/cyclone_report.freezed.dart';
 abstract class MesCycloneReport with _$MesCycloneReport {
   const factory MesCycloneReport({
     required int level,
-    String? nextBulletin,
     required List<String> news,
+    String? nextBulletin,
   }) = _MesCycloneReport;
 
   const MesCycloneReport._();

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mauritius_emergency_services/data/contracts/settings/app_settings_repository.dart';
 import 'package:mauritius_emergency_services/core/models/app/locale.dart';
-import 'package:mauritius_emergency_services/core/models/service/service.dart';
 import 'package:mauritius_emergency_services/core/models/app/settings.dart';
+import 'package:mauritius_emergency_services/core/models/service/service.dart';
+import 'package:mauritius_emergency_services/data/contracts/settings/app_settings_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part '../../../generated/data/local/preferences/settings_provider.g.dart';
@@ -37,7 +37,7 @@ class MesSettingsNotifier extends _$MesSettingsNotifier {
 
   Future<void> markAsOnboarded() => _update(state.copyWith(isOnboarded: true));
 
-  Future<void> toggleDynamic(bool value) =>
+  Future<void> toggleDynamic({required bool value}) =>
       _update(state.copyWith(isDynamicEnabled: value));
 
   Future<void> updateTheme(ThemeMode theme) =>

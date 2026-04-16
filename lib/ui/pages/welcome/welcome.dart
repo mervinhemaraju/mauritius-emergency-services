@@ -4,9 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/app/welcome.dart';
+import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/data/local/permissions/rt_permissions_provider.dart';
 import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
-import 'package:mauritius_emergency_services/core/routes/routes.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/views/view_adaptive.dart';
 import 'package:mauritius_emergency_services/ui/pages/welcome/permissions_dialog.dart';
@@ -69,14 +69,11 @@ class _WideViewRight extends ConsumerWidget {
 
     // Return the view
     return Column(
-      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
       spacing: 16.0,
       children: [
         const SizedBox(),
         Wrap(
-          direction: Axis.horizontal,
           crossAxisAlignment: WrapCrossAlignment.center,
           runAlignment: WrapAlignment.center,
           alignment: WrapAlignment.center,
@@ -157,7 +154,6 @@ class _NarrowScreenUi extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.max,
       children: [
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -252,7 +248,6 @@ class _WelcomeCarouselWithIndicatorState
 
   Widget _build2(double shrinkExtent) {
     return Column(
-      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _WelcomeCarouselView(
@@ -335,7 +330,6 @@ class _WideViewNavigator extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 16.0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _CarouselIndicator(currentIndex: currentIndex),
           const Spacer(),
@@ -359,7 +353,7 @@ void _onNavigate(BuildContext context, WidgetRef ref) {
   final permissions = ref.read(runtimePermissionsProvider);
 
   // Define the go disclaimer route function
-  goHome() {
+  void goHome() {
     // Mark user as onboarded
     ref.read(mesSettingsProvider.notifier).markAsOnboarded();
 

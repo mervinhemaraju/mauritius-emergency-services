@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service/service.dart';
-import 'package:mauritius_emergency_services/data/remote/api/service/mes_service_provider.dart';
-import 'package:mauritius_emergency_services/providers/search_controller.dart';
 import 'package:mauritius_emergency_services/core/routes/routes.dart';
+import 'package:mauritius_emergency_services/data/remote/api/service/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
+import 'package:mauritius_emergency_services/providers/search_controller.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_state.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_list.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
@@ -143,8 +143,6 @@ class _SearchUiInitial extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
       child: Column(
-        mainAxisSize: MainAxisSize.max,
-        // crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
@@ -164,9 +162,7 @@ class _SearchUiNoMatch extends StatelessWidget {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
       child: Column(
-        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
             Icons.search_off_outlined,

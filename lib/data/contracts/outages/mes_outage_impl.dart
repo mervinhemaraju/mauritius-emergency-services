@@ -1,7 +1,7 @@
-import 'package:mauritius_emergency_services/data/contracts/outages/mes_outage_repository.dart';
-import 'package:mauritius_emergency_services/data/contracts/services/mes_service_repository.dart';
-import 'package:mauritius_emergency_services/data/contracts/outages/mes_outage_source.dart';
 import 'package:mauritius_emergency_services/core/models/outage/mes_district_outage.dart';
+import 'package:mauritius_emergency_services/data/contracts/outages/mes_outage_repository.dart';
+import 'package:mauritius_emergency_services/data/contracts/outages/mes_outage_source.dart';
+import 'package:mauritius_emergency_services/data/contracts/services/mes_service_repository.dart';
 
 class CebOutageImpl implements CebOutageRepository {
   final CebOutageSource remoteSource;

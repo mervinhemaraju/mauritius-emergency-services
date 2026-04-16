@@ -7,10 +7,10 @@ class AdaptiveView extends StatelessWidget {
   final Widget tabletRightView;
 
   const AdaptiveView({
-    super.key,
     required this.mobileView,
     required this.tabletLeftView,
     required this.tabletRightView,
+    super.key,
   });
 
   @override

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mauritius_emergency_services/core/models/service/service.dart';
-import 'package:mauritius_emergency_services/data/remote/api/service/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
+import 'package:mauritius_emergency_services/data/remote/api/service/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
@@ -36,8 +36,7 @@ class EmergencyButtonDialog extends ConsumerWidget {
               context.showSimpleSnackbar(
                 t.messages.success
                     .emergency_button_action_updated(
-                      action:
-                          "${service.name} - ${service.mainContact.toString()}",
+                      action: "${service.name} - ${service.mainContact}",
                     )
                     .capitalize(),
               );
@@ -90,10 +89,10 @@ class ServiceListView extends StatelessWidget {
   final Function(MesService) onServiceSelected;
 
   const ServiceListView({
-    super.key,
     required this.services,
     required this.selectedService,
     required this.onServiceSelected,
+    super.key,
   });
 
   @override

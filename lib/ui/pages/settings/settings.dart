@@ -243,7 +243,7 @@ class _DynamicColorSwitch extends ConsumerWidget {
     return Switch(
       value: settings.isDynamicEnabled,
       onChanged: (value) =>
-          ref.read(mesSettingsProvider.notifier).toggleDynamic(value),
+          ref.read(mesSettingsProvider.notifier).toggleDynamic(value: value),
     );
   }
 }

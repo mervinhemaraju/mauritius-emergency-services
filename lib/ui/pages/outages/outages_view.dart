@@ -235,7 +235,6 @@ class _HeroHeader extends StatelessWidget {
         ),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -406,7 +405,7 @@ class _DateTabBar extends StatelessWidget {
     final days = _localizedDays();
     final months = _localizedMonths();
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(color: cs.outlineVariant.withValues(alpha: 0.3)),

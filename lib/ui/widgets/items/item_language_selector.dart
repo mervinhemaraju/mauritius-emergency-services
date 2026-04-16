@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/core/models/app/locale.dart';
+import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class LanguageSelectorItem extends StatelessWidget {
@@ -9,10 +9,10 @@ class LanguageSelectorItem extends StatelessWidget {
   final Function(MesLocale) onTap;
 
   const LanguageSelectorItem({
-    super.key,
     required this.isSelected,
     required this.locale,
     required this.onTap,
+    super.key,
   });
 
   @override
@@ -22,7 +22,7 @@ class LanguageSelectorItem extends StatelessWidget {
       selectedColor: Theme.of(context).colorScheme.onTertiary,
       selectedTileColor: Theme.of(context).colorScheme.tertiary,
       title: Text(
-        t.others.language[locale.name.toString()]?.capitalize() ??
+        t.others.language[locale.name]?.capitalize() ??
             t.others.language.entries.first.value.capitalize(),
       ),
       trailing: isSelected

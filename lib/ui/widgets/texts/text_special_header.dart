@@ -8,9 +8,9 @@ class SpecialHeaderTitle extends StatelessWidget {
   final String title;
 
   const SpecialHeaderTitle({
-    super.key,
     required this.leadingCharacter,
     required this.title,
+    super.key,
   });
 
   @override

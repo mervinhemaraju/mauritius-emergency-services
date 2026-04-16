@@ -11,10 +11,10 @@ class RotatingSvg extends StatefulWidget {
   final double size;
 
   const RotatingSvg({
-    super.key,
     required this.duration,
     required this.svgImage,
     required this.size,
+    super.key,
   });
 
   @override

@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/core/models/service/service.dart';
+import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/widgets/chips/chip_status.dart';
@@ -15,12 +17,12 @@ class ExpandableDismissibleService extends StatelessWidget {
   final Function(Color) toggleDismissibleBackgroundColor;
 
   const ExpandableDismissibleService({
-    super.key,
     required this.service,
     required this.dismissibleBackgroundColor,
     required this.isExpanded,
     required this.onToggle,
     required this.toggleDismissibleBackgroundColor,
+    super.key,
   });
 
   @override
@@ -31,10 +33,13 @@ class ExpandableDismissibleService extends StatelessWidget {
       key: Key(service.identifier),
       confirmDismiss: (direction) async {
         // Send haptic feedback to user
-        HapticFeedback.lightImpact();
+        unawaited(HapticFeedback.lightImpact());
 
         // Navigate to pre call
-        context.navigateToPreCall(service, service.mainContact.toString());
+        await context.navigateToPreCall(
+          service,
+          service.mainContact.toString(),
+        );
 
         // Return false to prevent tiel from dismiss
         return false;
@@ -58,7 +63,7 @@ class ExpandableDismissibleService extends StatelessWidget {
           ),
         ),
       ),
-      child: Container(
+      child: ColoredBox(
         color: isExpanded
             ? theme.colorScheme.tintedSurface(level: 48.0)
             : theme.colorScheme.tintedSurface(),
@@ -176,42 +181,55 @@ class ExpandableDismissibleService extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _ExtraContactView({
-    required final List<String> emails,
-    required final List<int> otherContacts,
-    required final Color backgroundColor,
-    required final Function(dynamic) onTap,
-  }) => Column(
-    mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      Text(t.messages.info.other_contacts.capitalizeAll()),
-      const SizedBox(height: 8.0),
-      Wrap(
-        spacing: 8.0, // horizontal spacing between badges
-        runSpacing: 8.0, // vertical spacing between lines
-        children: [
-          ...emails.map(
-            (email) => MesChipStatus(
-              icon: Icons.email_outlined,
-              label: email,
-              padding: const EdgeInsets.all(8.0),
-              backgroundColor: backgroundColor,
-              onTap: () => onTap(email),
+class _ExtraContactView extends StatelessWidget {
+  final List<String> emails;
+  final List<int> otherContacts;
+  final Color backgroundColor;
+  final Function(dynamic) onTap;
+
+  const _ExtraContactView({
+    required this.emails,
+    required this.otherContacts,
+    required this.backgroundColor,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Translations.of(context);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(t.messages.info.other_contacts.capitalizeAll()),
+        const SizedBox(height: 8.0),
+        Wrap(
+          spacing: 8.0, // horizontal spacing between badges
+          runSpacing: 8.0, // vertical spacing between lines
+          children: [
+            ...emails.map(
+              (email) => MesChipStatus(
+                icon: Icons.email_outlined,
+                label: email,
+                padding: const EdgeInsets.all(8.0),
+                backgroundColor: backgroundColor,
+                onTap: () => onTap(email),
+              ),
             ),
-          ),
-          ...otherContacts.map(
-            (contact) => MesChipStatus(
-              icon: Icons.phone_outlined,
-              label: contact.toString(),
-              padding: const EdgeInsets.all(8.0),
-              backgroundColor: backgroundColor,
-              onTap: () => onTap(contact),
+            ...otherContacts.map(
+              (contact) => MesChipStatus(
+                icon: Icons.phone_outlined,
+                label: contact.toString(),
+                padding: const EdgeInsets.all(8.0),
+                backgroundColor: backgroundColor,
+                onTap: () => onTap(contact),
+              ),
             ),
-          ),
-        ],
-      ),
-    ],
-  );
+          ],
+        ),
+      ],
+    );
+  }
 }

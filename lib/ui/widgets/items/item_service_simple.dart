@@ -3,10 +3,10 @@ import 'package:mauritius_emergency_services/core/models/service/service.dart';
 
 class SimpleServiceItem extends StatelessWidget {
   const SimpleServiceItem({
-    super.key,
     required this.isSelected,
     required this.service,
     required this.onServiceSelected,
+    super.key,
   });
 
   final bool isSelected;

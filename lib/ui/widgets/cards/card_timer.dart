@@ -8,7 +8,7 @@ class TimerCard extends StatelessWidget {
   final String time;
   final String subtitle;
 
-  const TimerCard({super.key, required this.time, required this.subtitle});
+  const TimerCard({required this.time, required this.subtitle, super.key});
 
   @override
   Widget build(BuildContext context) {

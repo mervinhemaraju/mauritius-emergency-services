@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/data/remote/api/service/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
-import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
 import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/views/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_list.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
+import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
 
 class ServicesScreen extends ConsumerWidget {
   final String searchQuery;
@@ -21,7 +21,7 @@ class ServicesScreen extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
     // Define a retry action
-    retryAction() async {
+    Future<void> retryAction() async {
       await ref.read(servicesProvider.notifier).refresh();
     }
 

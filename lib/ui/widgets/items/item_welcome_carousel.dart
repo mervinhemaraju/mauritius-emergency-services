@@ -7,10 +7,10 @@ class WelcomeCarouselItem extends StatelessWidget {
   final String subtitle;
 
   const WelcomeCarouselItem({
-    super.key,
     required this.asset,
     required this.title,
     required this.subtitle,
+    super.key,
   });
 
   @override

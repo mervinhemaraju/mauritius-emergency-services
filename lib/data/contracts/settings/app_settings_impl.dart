@@ -1,9 +1,10 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:mauritius_emergency_services/data/contracts/settings/app_settings_repository.dart';
 import 'package:mauritius_emergency_services/core/models/app/locale.dart';
-import 'package:mauritius_emergency_services/core/models/service/service.dart';
 import 'package:mauritius_emergency_services/core/models/app/settings.dart';
+import 'package:mauritius_emergency_services/core/models/service/service.dart';
+import 'package:mauritius_emergency_services/data/contracts/settings/app_settings_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppSettingsImpl implements AppSettingsRepository {
