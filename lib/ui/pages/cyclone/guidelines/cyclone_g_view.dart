@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_guidelines.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
+import 'package:mauritius_emergency_services/ui/theme/shapes.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class CycloneGuidelinesSheet extends ConsumerWidget {
   final MesCycloneGuidelines cycloneGuidelines;
 
-  const CycloneGuidelinesSheet({super.key, required this.cycloneGuidelines});
+  const CycloneGuidelinesSheet({required this.cycloneGuidelines, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,7 +45,6 @@ class _CycloneGuidelinesUi extends StatelessWidget {
       children: [
         // ── Header ──
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               width: 44,
@@ -107,7 +107,7 @@ class _CycloneGuidelinesUi extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               decoration: BoxDecoration(
                 color: cs.surfaceContainerLow,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: MesBorders.card,
                 border: Border.all(
                   color: cs.outlineVariant.withValues(alpha: 0.5),
                   width: 0.5,
@@ -117,7 +117,7 @@ class _CycloneGuidelinesUi extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${(entry.$1 + 1).toString().padLeft(2, '0')}',
+                    (entry.$1 + 1).toString().padLeft(2, '0'),
                     style: theme.textTheme.labelSmall?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: cs.onSurface.withValues(alpha: 0.35),

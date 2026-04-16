@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/core/models/app/about.dart';
-import 'package:mauritius_emergency_services/providers/package_version.dart';
+import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/ui/widgets/appbars/appbar_primary.dart';
+import 'package:mauritius_emergency_services/providers/package_version.dart';
+import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
+import 'package:mauritius_emergency_services/ui/theme/shapes.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
-import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
+import 'package:mauritius_emergency_services/ui/widgets/appbars/appbar_primary.dart';
 import 'package:mauritius_emergency_services/ui/widgets/items/item_list_about_header.dart';
 import 'package:mauritius_emergency_services/ui/widgets/items/item_list_about_section.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -26,7 +27,6 @@ class AboutScreen extends StatelessWidget {
         goBack: () => context.goBack(),
       ),
       body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 21.0),
           child: Consumer(
@@ -64,7 +64,6 @@ class AboutScreen extends StatelessWidget {
                     title: t.pages.about.other_section.title.toUpperCase(),
                     section: otherSection,
                   ),
-                  // const DisclaimerSection(),
                 ],
               );
             },
@@ -75,77 +74,11 @@ class AboutScreen extends StatelessWidget {
   }
 }
 
-// class DisclaimerSection extends StatelessWidget {
-//   const DisclaimerSection({
-//     super.key,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // Define the theme
-//     final theme = Theme.of(context);
-
-//     // Return the view
-//     return Card(
-//       elevation: MesElevation.card,
-//       margin: const EdgeInsets.all(8.0),
-//       surfaceTintColor: theme.colorScheme.surface,
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.stretch,
-//         spacing: 16.0,
-//         children: [
-//           Padding(
-//             padding: const EdgeInsets.only(
-//               left: 12.0,
-//               right: 12.0,
-//               top: 16.0,
-//             ),
-//             child: Text(
-//               t.pages.about.disclaimer.title.toUpperCase(),
-//               style: theme.textTheme.labelSmall?.copyWith(
-//                 color: theme.colorScheme.secondary,
-//               ),
-//             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.only(
-//               left: 12.0,
-//               right: 12.0,
-//               bottom: 8.0,
-//             ),
-//             child: Text(
-//               t.pages.about.disclaimer.message_1(
-//                 app_name_short: t.app.short_name.toUpperCase(),
-//               ),
-//               style: theme.textTheme.bodySmall?.copyWith(
-//                 color: theme.colorScheme.secondary,
-//               ),
-//             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.only(
-//               left: 12.0,
-//               right: 12.0,
-//               bottom: 8.0,
-//             ),
-//             child: Text(
-//               t.pages.about.disclaimer.message_2,
-//               style: theme.textTheme.bodySmall?.copyWith(
-//                 color: theme.colorScheme.secondary,
-//               ),
-//             ),
-//           )
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 class AboutSection extends StatelessWidget {
   final List<MesAbout> section;
   final String title;
 
-  const AboutSection({super.key, required this.section, required this.title});
+  const AboutSection({required this.section, required this.title, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +90,7 @@ class AboutSection extends StatelessWidget {
       elevation: MesElevation.card,
       margin: const EdgeInsets.all(8.0),
       surfaceTintColor: theme.colorScheme.surface,
+      shape: MesShapes.card,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -209,6 +143,7 @@ class AboutHeader extends StatelessWidget {
       elevation: MesElevation.card,
       margin: const EdgeInsets.all(8.0),
       surfaceTintColor: theme.colorScheme.surface,
+      shape: MesShapes.card,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -243,8 +178,7 @@ class AboutHeader extends StatelessWidget {
             subtitle: t.pages.about.header.developer_title.capitalizeAll(),
             background: theme.colorScheme.primaryContainer,
             foreground: theme.colorScheme.onPrimaryContainer,
-            onTap: () async =>
-                await launchUrl(Uri.parse(URI_DEVELOPER_WEBSITE)),
+            onTap: () async => launchUrl(Uri.parse(URI_DEVELOPER_WEBSITE)),
           ),
           AboutHeaderListItem(
             title: t.pages.about.header.designer_name.capitalizeAll(),

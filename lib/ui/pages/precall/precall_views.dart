@@ -1,22 +1,23 @@
 import 'dart:io';
+
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
+import 'package:logging/logging.dart';
 import 'package:mauritius_emergency_services/core/models/service/service.dart';
+import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:logging/logging.dart';
 
 // Initialize the logger
 final Logger log = Logger('pre_call_views.dart');
 
 class PreCallWideLeftView extends StatelessWidget {
   const PreCallWideLeftView({
-    super.key,
     required this.service,
     required this.number,
+    super.key,
   });
 
   final MesService service;
@@ -39,10 +40,10 @@ class PreCallWideLeftView extends StatelessWidget {
 
 class PreCallWideRightView extends StatelessWidget {
   const PreCallWideRightView({
-    super.key,
     required this.service,
     required this.number,
     required this.onComplete,
+    super.key,
   });
 
   final MesService service;
@@ -62,7 +63,7 @@ class PreCallWideRightView extends StatelessWidget {
             child: Center(
               child: _CountdownTimer(
                 onComplete: () async {
-                  onCountdownComplete(
+                  await onCountdownComplete(
                     service: service,
                     number: number,
                     onComplete: onComplete,
@@ -86,10 +87,10 @@ class PreCallWideRightView extends StatelessWidget {
 
 class PreCallNarrowView extends StatelessWidget {
   const PreCallNarrowView({
-    super.key,
     required this.service,
     required this.number,
     required this.onComplete,
+    super.key,
   });
 
   final MesService service;
@@ -102,7 +103,6 @@ class PreCallNarrowView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
-        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         spacing: 80.0,
@@ -111,7 +111,7 @@ class PreCallNarrowView extends StatelessWidget {
           _IconView(service: service),
           _CountdownTimer(
             onComplete: () async {
-              onCountdownComplete(
+              await onCountdownComplete(
                 service: service,
                 number: number,
                 onComplete: onComplete,
@@ -296,10 +296,9 @@ class _SlideToCancelFrontBody extends StatelessWidget {
     final theme = Theme.of(context);
 
     // Return the view
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(color: theme.colorScheme.onPrimaryContainer),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
@@ -355,14 +354,14 @@ class _CountdownTimerState extends State<_CountdownTimer>
     );
 
     _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0),
+      begin: Offset.zero,
       end: const Offset(-1.5, 0),
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     _startCountdown();
   }
 
-  void _startCountdown() async {
+  Future<void> _startCountdown() async {
     while (count > 0) {
       await Future.delayed(const Duration(milliseconds: 400));
       if (mounted) {
@@ -404,7 +403,7 @@ class _CountdownTimerState extends State<_CountdownTimer>
   }
 }
 
-void onCountdownComplete({
+Future<void> onCountdownComplete({
   required MesService service,
   required String number,
   required Function() onComplete,

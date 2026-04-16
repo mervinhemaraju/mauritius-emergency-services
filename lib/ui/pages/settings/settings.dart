@@ -5,6 +5,7 @@ import 'package:mauritius_emergency_services/data/local/preferences/settings_pro
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/pages/settings/emergency_button_dialog.dart';
 import 'package:mauritius_emergency_services/ui/pages/settings/language_dialog.dart';
+import 'package:mauritius_emergency_services/ui/theme/shapes.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/widgets/appbars/appbar_primary.dart';
 import 'package:mauritius_emergency_services/ui/widgets/items/item_settings.dart';
@@ -130,7 +131,7 @@ class _ThemeSelectionPill extends ConsumerWidget {
         padding: const EdgeInsets.all(4.0),
         decoration: BoxDecoration(
           color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: MesBorders.pillOuter,
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -148,7 +149,7 @@ class _ThemeSelectionPill extends ConsumerWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       color: colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(26),
+                      borderRadius: MesBorders.pillInner,
                     ),
                   ),
                 ),

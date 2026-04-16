@@ -1,10 +1,13 @@
-import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_guidelines.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/app/network_info.dart';
+import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_guidelines.dart';
+import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
 import 'package:mauritius_emergency_services/data/remote/api/cyclone/mes_cyclone_provider.dart';
+import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part "../../../generated/pages/cyclone/cyclone_r_provider.g.dart";
 
 @riverpod
@@ -13,10 +16,13 @@ Future<MesCycloneGuidelines?> cycloneGuidelineByLevel(
   int level,
 ) async {
   try {
-    final repository = ref.watch(mesCycloneRepositoryProvider);
+    // Get the language
+    final lang = ref.watch(mesSettingsProvider.select((s) => s.locale.lang));
 
     // Get the cyclone guidelines
-    final guidelines = await repository.getCycloneGuidelines();
+    final guidelines = await ref.watch(
+      mesCycloneGuidelinesProvider(lang).future,
+    );
 
     // Get the guideline by the report level
     final guideline = guidelines
@@ -37,7 +43,6 @@ class CycloneReportNotifier extends _$CycloneReportNotifier {
   @override
   Future<CycloneReportState> build() async {
     try {
-      final repository = ref.watch(mesCycloneRepositoryProvider);
       final isConnectedToInternet =
           await MesNetworkInfo().isConnectedToInternet;
 
@@ -47,8 +52,11 @@ class CycloneReportNotifier extends _$CycloneReportNotifier {
         );
       }
 
+      // Get the language
+      final lang = ref.watch(mesSettingsProvider.select((s) => s.locale.lang));
+
       // Get the cyclone report
-      final report = await repository.getCycloneReport();
+      final report = await ref.watch(mesCycloneReportProvider(lang).future);
 
       // Get the guideline by the report level
       final guideline = await ref.watch(

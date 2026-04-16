@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/core/models/outage/flat_outage.dart';
 import 'package:mauritius_emergency_services/core/models/outage/mes_district_outage.dart';
+import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
-import 'package:mauritius_emergency_services/ui/widgets/chips/chip_selectable.dart';
-import 'package:mauritius_emergency_services/ui/widgets/chips/chip_status.dart';
-import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
 import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/views/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/pages/outages/outages_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/outages/outages_state.dart';
+import 'package:mauritius_emergency_services/ui/theme/shapes.dart';
+import 'package:mauritius_emergency_services/ui/widgets/chips/chip_selectable.dart';
+import 'package:mauritius_emergency_services/ui/widgets/chips/chip_status.dart';
+import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
 
 class OutagesScreen extends ConsumerWidget {
   const OutagesScreen({super.key});
@@ -518,7 +519,7 @@ class _DateTab extends StatelessWidget {
                 color: isToday
                     ? cs.primary.withValues(alpha: 0.12)
                     : cs.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: MesBorders.chip,
               ),
               child: Text(
                 '$count',
@@ -637,7 +638,7 @@ class _OutageCardState extends State<_OutageCard>
       child: Container(
         decoration: BoxDecoration(
           color: cs.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: MesBorders.card,
           border: isOngoing
               ? Border.all(color: cs.error.withValues(alpha: 0.4), width: 1.5)
               : null,
@@ -710,7 +711,7 @@ class _OutageCardState extends State<_OutageCard>
                                   ),
                                   decoration: BoxDecoration(
                                     color: accentColor.withValues(alpha: 0.1),
-                                    borderRadius: BorderRadius.circular(4),
+                                    borderRadius: MesBorders.chip,
                                   ),
                                   child: Text(
                                     _duration(o.startDatetime, o.endDatetime),
@@ -840,7 +841,7 @@ class _OutageCardState extends State<_OutageCard>
                                 ),
                                 decoration: BoxDecoration(
                                   color: cs.surfaceContainerHighest,
-                                  borderRadius: BorderRadius.circular(6),
+                                  borderRadius: MesBorders.chip,
                                 ),
                                 child: Text(
                                   t.pages.power_outages.tabs.street_count(
@@ -932,7 +933,7 @@ class _StreetPanel extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: cs.surface,
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: MesBorders.chip,
                       border: Border.all(
                         color: cs.outlineVariant.withValues(alpha: 0.45),
                         width: 0.5,

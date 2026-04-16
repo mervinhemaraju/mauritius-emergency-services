@@ -1,9 +1,12 @@
-import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mauritius_emergency_services/core/models/app/network_info.dart';
+import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
 import 'package:mauritius_emergency_services/data/remote/api/cyclone/mes_cyclone_provider.dart';
+import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_n_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part "../../../../generated/pages/cyclone/names/cyclone_n_provider.g.dart";
 
 @riverpod
@@ -13,9 +16,6 @@ Future<CycloneNamesState> cycloneNames(Ref ref) async {
   */
 
   try {
-    // Get the cyclone repository provider
-    final repository = ref.watch(mesCycloneRepositoryProvider);
-
     // Get the network info
     final isConnectedToInternet = await MesNetworkInfo().isConnectedToInternet;
 
@@ -25,9 +25,11 @@ Future<CycloneNamesState> cycloneNames(Ref ref) async {
         message: t.messages.error.no_internet_connection.capitalize(),
       );
     }
+    // Get the language
+    final lang = ref.watch(mesSettingsProvider.select((s) => s.locale.lang));
 
     // Get the cyclone names
-    final names = await repository.getCycloneNames();
+    final names = await ref.watch(mesCycloneNamesProvider(lang).future);
 
     // Return the view
     return CycloneNamesLoaded(cycloneNames: names);

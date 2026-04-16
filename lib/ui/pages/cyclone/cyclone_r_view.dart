@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_report.dart';
 import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_report.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
-import 'package:mauritius_emergency_services/ui/theme/shapes.dart';
-import 'package:mauritius_emergency_services/ui/widgets/cards/card_timer.dart';
-import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
-import 'package:mauritius_emergency_services/ui/widgets/canvas/rotating_svg.dart';
 import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
 import 'package:mauritius_emergency_services/ui/components/views/view_loading.dart';
-import 'package:mauritius_emergency_services/ui/pages/cyclone/guidelines/cyclone_g_view.dart';
-import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_n_view.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_state.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/guidelines/cyclone_g_view.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_n_view.dart';
 import 'package:mauritius_emergency_services/ui/theme/mapper.dart';
+import 'package:mauritius_emergency_services/ui/theme/shapes.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/utils/getters.dart';
+import 'package:mauritius_emergency_services/ui/widgets/canvas/rotating_svg.dart';
+import 'package:mauritius_emergency_services/ui/widgets/cards/card_timer.dart';
+import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
 import 'package:mauritius_emergency_services/ui/widgets/items/item_cyclone_news.dart';
 
 class CycloneScreen extends ConsumerWidget {
@@ -29,8 +29,8 @@ class CycloneScreen extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
     // Create a retry action
-    void retryAction() async {
-      ref.read(cycloneReportProvider.notifier).refresh();
+    Future<void> retryAction() async {
+      await ref.read(cycloneReportProvider.notifier).refresh();
     }
 
     // Get the cyclone view state
@@ -47,12 +47,12 @@ class CycloneScreen extends ConsumerWidget {
     final cycloneReportUiView = switch (cycloneReportUiState) {
       CycloneReportLoading() => const LoadingScreen(),
       CycloneReportError() => ErrorScreen(
-        title: cycloneReportUiState.message.toString().capitalize(),
+        title: cycloneReportUiState.message.capitalize(),
         showErrorImage: true,
         retryAction: retryAction,
       ),
       CycloneReportNoInternet() => ErrorScreen(
-        title: cycloneReportUiState.message.toString().capitalize(),
+        title: cycloneReportUiState.message.capitalize(),
         showInternetErrorImage: true,
         retryAction: retryAction,
       ),
@@ -89,7 +89,6 @@ class CycloneScreen extends ConsumerWidget {
                       context: context,
                       isScrollControlled: true,
                       showDragHandle: true,
-                      enableDrag: true,
                       useSafeArea: true,
                       builder: (BuildContext context) => CycloneGuidelinesSheet(
                         cycloneGuidelines: cycloneGuidelines,
@@ -135,7 +134,6 @@ class CycloneScreen extends ConsumerWidget {
                 context: context,
                 isScrollControlled: true,
                 showDragHandle: true,
-                enableDrag: true,
                 useSafeArea: true,
                 builder: (BuildContext context) => const CycloneNamesSheet(),
               );

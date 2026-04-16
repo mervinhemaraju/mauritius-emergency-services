@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/core/models/app/network_info.dart';
-import 'package:mauritius_emergency_services/data/remote/api/outage/mes_outage_provider.dart';
 import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
+import 'package:mauritius_emergency_services/data/remote/api/outage/mes_outage_provider.dart';
+import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/pages/outages/outages_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -38,7 +38,7 @@ class OutagesNotifier extends _$OutagesNotifier {
           ? OutagesLoaded(districtOutages: districtOutages)
           : const OutagesEmpty();
     } catch (e) {
-      return OutagesError(message: "Error loading");
+      return const OutagesError(message: "Error loading");
     }
   }
 

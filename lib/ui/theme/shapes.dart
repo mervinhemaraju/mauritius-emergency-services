@@ -25,4 +25,7 @@ class MesShapes {
 
 class MesBorders {
   static final chip = BorderRadius.circular(8.0);
+  static final pillOuter = BorderRadius.circular(16.0);
+  static final pillInner = BorderRadius.circular(12.0);
+  static final card = BorderRadius.circular(14.0);
 }

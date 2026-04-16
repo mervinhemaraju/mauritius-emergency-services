@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/data/contracts/services/mes_service_impl.dart';
-import 'package:mauritius_emergency_services/data/remote/api/service/mes_service_remote.dart';
-import 'package:mauritius_emergency_services/data/contracts/services/mes_service_repository.dart';
 import 'package:mauritius_emergency_services/core/models/app/network_info.dart';
 import 'package:mauritius_emergency_services/core/models/service/service.dart';
+import 'package:mauritius_emergency_services/data/contracts/services/mes_service_impl.dart';
+import 'package:mauritius_emergency_services/data/contracts/services/mes_service_repository.dart';
 import 'package:mauritius_emergency_services/data/local/db/database_provider.dart';
-import 'package:mauritius_emergency_services/data/remote/api/dio_provider.dart';
 import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
+import 'package:mauritius_emergency_services/data/remote/api/dio_provider.dart';
+import 'package:mauritius_emergency_services/data/remote/api/service/mes_service_remote.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part '../../../../generated/data/remote/api/service/mes_service_provider.g.dart';
