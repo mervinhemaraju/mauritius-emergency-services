@@ -29,28 +29,28 @@
             }
         },
         "disclaimer_screen": {
-            "title": "important notice",
-            "header": "before you continue",
+            "title": "Important Notice",
+            "header": "Before You Continue",
             "sections": [
                 {
                     "icon": "⚠️",
                     "title": "no government affiliation",
-                    "message": "This application is NOT affiliated with, endorsed by, or connected to any government entity or agency, including the Mauritius Meteorological Services or emergency services. This is an independent service."
+                    "message": "this app is NOT affiliated with, endorsed by, or connected to any government entity or agency, including the Mauritius Meteorological Services or any emergency services. This is an independent, community-driven service."
                 },
                 {
                     "icon": "📋",
                     "title": "data sources",
-                    "message": "All informations are sourced from:\n• The official government website (govmu.org)\n• Maurinet official website (maurinet.com)\n• Central Electricity Board website (ceb.mu)\n• Public service directories\n\nCyclone information is sourced from the Mauritius Meteorological Services (metservice.intnet.mu) and relayed through our API for convenience."
+                    "message": "all information is sourced from:\n• Mauritius Police Force official website: https://police.govmu.org\n• Central Electricity Board official website: https://ceb.mu\n• Mauritius Meteorological Services (cyclone data): https://metservice.intnet.mu"
                 },
                 {
                     "icon": "ℹ️",
                     "title": "informational use only",
-                    "message": "All information provided in this app is for personal informational purposes only. Always verify critical information with official government sources during emergencies."
+                    "message": "all information provided in this app is for personal informational purposes only. Always verify critical information with official government sources during emergencies. This app does not replace official emergency services."
                 },
                 {
                     "icon": "🔒",
                     "title": "privacy & data",
-                    "message": "This app does not collect, store, or share any personal information. All data displayed is fetched from public sources and our API. For full details, please review our Privacy Policy."
+                    "message": "this app does not collect, store, or share any personal information. All data displayed is fetched from public sources and our API. For full details, please review our Privacy Policy."
                 }
             ]
         },

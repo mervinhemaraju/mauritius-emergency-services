@@ -29,28 +29,28 @@
             }
         },
         "disclaimer_screen": {
-            "title": "avis important",
-            "header": "avant de continuer",
+            "title": "Avis Important",
+            "header": "Avant de Continuer",
             "sections": [
                 {
                     "icon": "⚠️",
                     "title": "aucune affiliation gouvernementale",
-                    "message": "Cette application n'est PAS affiliée, endorsée ou liée à une entité gouvernementale ou agence, y compris les Services Météorologiques de Maurice ou les services d'urgence. Il s'agit d'un service indépendant."
+                    "message": "cette application N'EST PAS affiliée, approuvée ou liée à une entité ou agence gouvernementale, y compris les Services Météorologiques de Maurice ou tout service d'urgence. Il s'agit d'un service indépendant et communautaire."
                 },
                 {
                     "icon": "📋",
-                    "title": "sources des données",
-                    "message": "Toutes les informations proviennent de :\n• Le site officiel du gouvernement (govmu.org)\n• Le site officiel Maurinet (maurinet.com)\n• Le site officiel Central Electricity Board (ceb.mu)\n• Répertoires de services publics\n\nLes informations cycloniques proviennent des Services Météorologiques de Maurice (metservice.intnet.mu) et sont relayées via notre API pour votre commodité."
+                    "title": "sources de données",
+                    "message": "toutes les informations proviennent de :\n• Site officiel du Corps de Police de Maurice : https://police.govmu.org\n• Site officiel de la Central Electricity Board : https://ceb.mu\n• Services Météorologiques de Maurice (données cycloniques) : https://metservice.intnet.mu"
                 },
                 {
                     "icon": "ℹ️",
-                    "title": "usage informatif uniquement",
-                    "message": "Toutes les informations fournies dans cette application sont à titre informatif personnel uniquement. Vérifiez toujours les informations critiques auprès des sources gouvernementales officielles lors d'urgences."
+                    "title": "à titre informatif uniquement",
+                    "message": "toutes les informations fournies dans cette application sont à titre informatif uniquement. Vérifiez toujours les informations critiques auprès des sources gouvernementales officielles en cas d'urgence. Cette application ne remplace pas les services d'urgence officiels."
                 },
                 {
                     "icon": "🔒",
-                    "title": "confidentialité et données",
-                    "message": "Cette application ne collecte, ne stocke ni ne partage aucune information personnelle. Toutes les données affichées proviennent de sources publiques et de notre API. Pour plus de détails, veuillez consulter notre Politique de Confidentialité."
+                    "title": "confidentialité & données",
+                    "message": "cette application ne collecte, ne stocke ni ne partage aucune information personnelle. Toutes les données affichées sont récupérées depuis des sources publiques et notre API. Pour plus de détails, veuillez consulter notre Politique de Confidentialité."
                 }
             ]
         },
