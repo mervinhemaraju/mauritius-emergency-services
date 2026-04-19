@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/models/service.dart';
-import 'package:mauritius_emergency_services/ui/components/list_items.dart';
+import 'package:mauritius_emergency_services/core/models/service/service.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_provider.dart';
+import 'package:mauritius_emergency_services/ui/widgets/items/item_expandable_dismissable_service.dart';
 
 class ServicesList extends ConsumerWidget {
-  final List<Service> services;
+  final List<MesService> services;
 
-  const ServicesList({super.key, required this.services});
+  const ServicesList({required this.services, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,9 +27,9 @@ class ServicesList extends ConsumerWidget {
           onToggle: () => ref
               .read(expandedServiceStateProvider.notifier)
               .toggleExpansion(service.identifier),
-          toggleDismissibleBackgroundColor: (color) => ref
-              .read(dismissibleBackgroundColorStateProvider.notifier)
-              .setColor(color),
+          toggleDismissibleBackgroundColor: (color) =>
+              ref.read(dismissibleBackgroundColorStateProvider.notifier).color =
+                  color,
         );
       },
     );

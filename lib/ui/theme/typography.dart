@@ -6,13 +6,13 @@ TextTheme createTextTheme(
   String displayFontString,
 ) {
   // Get the base text theme
-  TextTheme baseTextTheme = Theme.of(context).textTheme;
+  final TextTheme baseTextTheme = Theme.of(context).textTheme;
 
   // Configure the body text theme
   // from the base text theme
   // TextTheme bodyTextTheme = baseTextTheme.apply(fontFamily: bodyFontString);
 
-  TextTheme mainTextTheme = baseTextTheme.copyWith(
+  final TextTheme mainTextTheme = baseTextTheme.copyWith(
     // Headlines & Titles
     displayLarge: baseTextTheme.displayLarge?.copyWith(
       fontFamily: displayFontString,

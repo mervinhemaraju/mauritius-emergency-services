@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mauritius_emergency_services/models/welcome.dart';
-import 'package:mauritius_emergency_services/providers/settings_providers.dart';
-import 'package:mauritius_emergency_services/routes/routes.dart';
-import 'package:mauritius_emergency_services/data/impl/runtime_permissions_impl.dart';
+import 'package:mauritius_emergency_services/core/models/app/welcome.dart';
+import 'package:mauritius_emergency_services/core/routes/routes.dart';
+import 'package:mauritius_emergency_services/data/local/permissions/rt_permissions_provider.dart';
+import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/ui/components/adaptive_screen.dart';
-import 'package:mauritius_emergency_services/ui/components/list_items.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_adaptive.dart';
 import 'package:mauritius_emergency_services/ui/pages/welcome/permissions_dialog.dart';
 import 'package:mauritius_emergency_services/ui/theme/elevation.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/utils/getters.dart';
+import 'package:mauritius_emergency_services/ui/widgets/items/item_welcome_carousel.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -69,23 +69,18 @@ class _WideViewRight extends ConsumerWidget {
 
     // Return the view
     return Column(
-      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
       spacing: 16.0,
       children: [
         const SizedBox(),
         Wrap(
-          direction: Axis.horizontal,
           crossAxisAlignment: WrapCrossAlignment.center,
           runAlignment: WrapAlignment.center,
           alignment: WrapAlignment.center,
           runSpacing: 8.0,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
                 t.pages.welcome.header.title.capitalize(),
                 style: theme.textTheme.titleMedium?.copyWith(
@@ -115,21 +110,13 @@ class _WideViewRight extends ConsumerWidget {
               color: theme.colorScheme.secondary,
               size: 36,
             ),
-            Icon(
-              Icons.storm,
-              color: theme.colorScheme.secondary,
-              size: 36,
-            ),
+            Icon(Icons.storm, color: theme.colorScheme.secondary, size: 36),
             Icon(
               Icons.local_hospital,
               color: theme.colorScheme.secondary,
               size: 36,
             ),
-            Icon(
-              Icons.emergency,
-              color: theme.colorScheme.secondary,
-              size: 36,
-            ),
+            Icon(Icons.emergency, color: theme.colorScheme.secondary, size: 36),
           ],
         ),
         MaterialButton(
@@ -140,10 +127,7 @@ class _WideViewRight extends ConsumerWidget {
           color: theme.colorScheme.primary,
           textColor: theme.colorScheme.onPrimary,
           shape: const StadiumBorder(),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12.0,
-            vertical: 16.0,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             spacing: 12.0,
@@ -170,7 +154,6 @@ class _NarrowScreenUi extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.max,
       children: [
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -195,8 +178,7 @@ class _NarrowScreenUi extends StatelessWidget {
   }
 }
 
-class _WelcomeCarouselWithIndicator
-    extends ConsumerStatefulWidget {
+class _WelcomeCarouselWithIndicator extends ConsumerStatefulWidget {
   final Color backgroundColor;
   final bool isNarrowUi;
   const _WelcomeCarouselWithIndicator({
@@ -217,8 +199,7 @@ class _WelcomeCarouselWithIndicatorState
 
   void _carouselListener() {
     final position = carouselController.position;
-    final width =
-        (maxWidth ?? MediaQuery.sizeOf(context).width) - 32;
+    final width = (maxWidth ?? MediaQuery.sizeOf(context).width) - 32;
     if (position.hasPixels) {
       final index = (position.pixels / width).round();
       setState(() {
@@ -243,14 +224,13 @@ class _WelcomeCarouselWithIndicatorState
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder:
-          (BuildContext context, BoxConstraints constraints) {
-            maxWidth = constraints.maxWidth;
+      builder: (BuildContext context, BoxConstraints constraints) {
+        maxWidth = constraints.maxWidth;
 
-            return widget.isNarrowUi
-                ? _build1(constraints.maxWidth)
-                : _build2(constraints.maxWidth);
-          },
+        return widget.isNarrowUi
+            ? _build1(constraints.maxWidth)
+            : _build2(constraints.maxWidth);
+      },
     );
   }
 
@@ -268,7 +248,6 @@ class _WelcomeCarouselWithIndicatorState
 
   Widget _build2(double shrinkExtent) {
     return Column(
-      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _WelcomeCarouselView(
@@ -299,7 +278,7 @@ class _WelcomeCarouselView extends StatelessWidget {
         itemExtent: MediaQuery.sizeOf(context).width,
         itemSnapping: true,
         shrinkExtent: shrinkExtent,
-        children: Welcome.welcomeItems
+        children: MesWelcome.welcomeItems
             .map(
               (item) => WelcomeCarouselItem(
                 asset: item.asset,
@@ -349,12 +328,8 @@ class _WideViewNavigator extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 28.0,
-        vertical: 16.0,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 16.0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _CarouselIndicator(currentIndex: currentIndex),
           const Spacer(),
@@ -375,8 +350,10 @@ class _WideViewNavigator extends ConsumerWidget {
 }
 
 void _onNavigate(BuildContext context, WidgetRef ref) {
+  final permissions = ref.read(runtimePermissionsProvider);
+
   // Define the go disclaimer route function
-  goHome() {
+  void goHome() {
     // Mark user as onboarded
     ref.read(mesSettingsProvider.notifier).markAsOnboarded();
 
@@ -394,10 +371,7 @@ void _onNavigate(BuildContext context, WidgetRef ref) {
       context: context,
       builder: (context) => PermissionsDialog(
         onProceed: () async {
-          // Request all permissions
-          await RuntimePermissions()
-              .requestAllPermissions()
-              .whenComplete(goHome);
+          await permissions.requestAllPermissions().whenComplete(goHome);
         },
         onComplete: goHome,
       ),

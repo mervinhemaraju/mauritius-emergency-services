@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:mauritius_emergency_services/models/service.dart';
+import 'package:mauritius_emergency_services/core/models/service/service.dart';
+import 'package:mauritius_emergency_services/data/remote/api/service/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
-import 'package:mauritius_emergency_services/ui/components/drawer.dart';
-import 'package:mauritius_emergency_services/ui/components/list_items.dart';
-import 'package:mauritius_emergency_services/ui/components/view_error.dart';
-import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/pages/home/home_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/home/home_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
+import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
+import 'package:mauritius_emergency_services/ui/widgets/items/item_service_emergency.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -22,7 +22,7 @@ class HomeScreen extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
     // Define a retry action
-    retryAction() async {
+    Future<void> retryAction() async {
       await ref.read(servicesProvider.notifier).refresh();
     }
 
@@ -30,8 +30,7 @@ class HomeScreen extends ConsumerWidget {
     final homeUiState = ref
         .watch(homeStateProvider)
         .when(
-          error: (error, stack) =>
-              HomeError(message: error.toString()),
+          error: (error, stack) => HomeError(message: error.toString()),
           loading: () => const HomeLoading(),
           data: (state) => state,
         );
@@ -63,15 +62,15 @@ class HomeScreen extends ConsumerWidget {
           scaffoldKey.currentState?.openDrawer();
         },
       ),
-      drawer: const MesDrawer(),
+      drawer: const MesDrawerPrimary(),
       body: homeUiView,
     );
   }
 }
 
 class _HomeUi extends ConsumerWidget {
-  final List<Service> emergencyServices;
-  final Service emergencyButtonAction;
+  final List<MesService> emergencyServices;
+  final MesService emergencyButtonAction;
   // final MesSettings settings;
 
   const _HomeUi({
@@ -82,12 +81,8 @@ class _HomeUi extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Define the theme
-    final theme = Theme.of(context);
-
     // Return the view
     return CustomScrollView(
-      scrollDirection: Axis.vertical,
       slivers: [
         SliverFillRemaining(
           hasScrollBody: false,
@@ -98,23 +93,17 @@ class _HomeUi extends ConsumerWidget {
               const Spacer(),
               const Gap(16.0),
               _TitleSet(
-                theme: theme,
-                title: t.pages.home.primary_title
-                    .capitalizeAll(),
-                subtitle: t.pages.home.primary_subtitle
-                    .capitalize(),
+                title: t.pages.home.primary_title.capitalizeAll(),
+                subtitle: t.pages.home.primary_subtitle.capitalize(),
               ),
               const Spacer(),
               const Gap(32.0),
               _EmergencyButton(
-                theme: theme,
                 onTap: null,
                 onLongPress: () {
-                  final Service emergencyService;
+                  final MesService emergencyService;
 
-                  if (emergencyButtonAction
-                      .identifier
-                      .isNotEmpty) {
+                  if (emergencyButtonAction.identifier.isNotEmpty) {
                     emergencyService = emergencyButtonAction;
                   } else {
                     emergencyService = emergencyServices.first;
@@ -129,15 +118,13 @@ class _HomeUi extends ConsumerWidget {
               const Spacer(),
               const Gap(32.0),
               _TitleSet(
-                theme: theme,
-                title: t.pages.home.secondary_title
-                    .capitalizeAll(),
-                subtitle: t.pages.home.secondary_subtitle
-                    .capitalize(),
+                title: t.pages.home.secondary_title.capitalizeAll(),
+                subtitle: t.pages.home.secondary_subtitle.capitalize(),
               ),
               const Spacer(),
               const Gap(32.0),
               _EmergencyListView(
+                emergencyServices: emergencyServices,
                 onTap: (service) {
                   context.navigateToPreCall(
                     service,
@@ -153,34 +140,38 @@ class _HomeUi extends ConsumerWidget {
       ],
     );
   }
+}
 
-  Widget _TitleSet({
-    required ThemeData theme,
-    required String title,
-    required String subtitle,
-  }) {
+class _TitleSet extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  const _TitleSet({
+    required this.title,
+    required this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Text(
             title,
-            style: theme.textTheme.headlineSmall?.copyWith(
-              color: theme.colorScheme.onSurface,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              color: Theme.of(context).colorScheme.onSurface,
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12.0,
-            vertical: 8.0,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           child: Text(
             subtitle,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.secondary,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.secondary,
               fontWeight: FontWeight.w400,
             ),
             textAlign: TextAlign.center,
@@ -189,35 +180,53 @@ class _HomeUi extends ConsumerWidget {
       ],
     );
   }
+}
 
-  Widget _EmergencyButton({
-    required ThemeData theme,
-    required Function() onLongPress,
-    required Function()? onTap,
-  }) {
+class _EmergencyButton extends StatelessWidget {
+  final Function() onLongPress;
+  final Function()? onTap;
+
+  const _EmergencyButton({
+    required this.onLongPress,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onTap,
       onLongPress: onLongPress,
       style: ElevatedButton.styleFrom(
-        backgroundColor: theme.colorScheme.error,
+        backgroundColor: Theme.of(context).colorScheme.error,
         fixedSize: const Size(230, 230),
         shape: const CircleBorder(),
       ),
       child: Icon(
         Icons.sensors_outlined,
-        color: theme.colorScheme.onError,
+        color: Theme.of(context).colorScheme.onError,
         size: 32,
       ),
     );
   }
+}
 
-  Widget _EmergencyListView({required Function(Service) onTap}) {
+class _EmergencyListView extends ConsumerWidget {
+  final List<MesService> emergencyServices;
+  final Function(MesService) onTap;
+
+  const _EmergencyListView({
+    required this.emergencyServices,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       height: 180,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         prototypeItem: const MesEmergencyTileItem(
-          service: Service(),
+          service: MesService(),
           onTap: null,
         ),
         itemCount: emergencyServices.length,

@@ -1,9 +1,11 @@
 import 'dart:ui';
+
+import 'package:mauritius_emergency_services/core/models/app/network_info.dart';
+import 'package:mauritius_emergency_services/data/remote/api/service/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/models/network_info.dart';
-import 'package:mauritius_emergency_services/providers/services_providers.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part '../../../generated/pages/services/services_provider.g.dart';
 
 @riverpod
@@ -16,7 +18,8 @@ Future<ServicesState> servicesState(Ref ref) async {
     // If the services list is empty, check the internet connection
     if (services.isEmpty) {
       // Get the network info
-      final isConnectedToInternet = await NetworkInfo().isConnectedToInternet;
+      final isConnectedToInternet =
+          await MesNetworkInfo().isConnectedToInternet;
 
       // If not connected to internet
       if (!isConnectedToInternet) {
@@ -34,9 +37,7 @@ Future<ServicesState> servicesState(Ref ref) async {
     // Set the UI state
     return ServicesLoaded(services: services);
   } catch (e) {
-    return ServicesError(
-      message: t.messages.error.cannot_load_data,
-    );
+    return ServicesError(message: t.messages.error.cannot_load_data);
   }
 }
 
@@ -56,7 +57,11 @@ class DismissibleBackgroundColorState
   @override
   Color? build() => null;
 
-  void setColor(Color color) {
-    state = color;
+  // The getter
+  Color? get color => state;
+
+  // The setter
+  set color(Color? value) {
+    state = value;
   }
 }

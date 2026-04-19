@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/providers/services_providers.dart';
+import 'package:mauritius_emergency_services/data/remote/api/service/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
-import 'package:mauritius_emergency_services/ui/components/drawer.dart';
-import 'package:mauritius_emergency_services/ui/components/view_error.dart';
-import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_list.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/services/services_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
+import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
 
 class ServicesScreen extends ConsumerWidget {
   final String searchQuery;
@@ -21,7 +21,7 @@ class ServicesScreen extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
     // Define a retry action
-    retryAction() async {
+    Future<void> retryAction() async {
       await ref.read(servicesProvider.notifier).refresh();
     }
 
@@ -29,8 +29,7 @@ class ServicesScreen extends ConsumerWidget {
     final servicesUiState = ref
         .watch(servicesStateProvider)
         .when(
-          error: (error, stack) =>
-              ServicesError(message: error.toString()),
+          error: (error, stack) => ServicesError(message: error.toString()),
           loading: () => const ServicesLoading(),
           data: (state) => state,
         );
@@ -49,9 +48,7 @@ class ServicesScreen extends ConsumerWidget {
         retryAction: retryAction,
       ),
       ServicesLoaded() => ServicesList(
-        services: servicesUiState.services.search(
-          query: searchQuery,
-        ),
+        services: servicesUiState.services.search(query: searchQuery),
       ),
     };
 
@@ -63,7 +60,7 @@ class ServicesScreen extends ConsumerWidget {
           scaffoldKey.currentState?.openDrawer();
         },
       ),
-      drawer: const MesDrawer(),
+      drawer: const MesDrawerPrimary(),
       body: RefreshIndicator(
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,

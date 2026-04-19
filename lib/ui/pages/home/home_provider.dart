@@ -1,10 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mauritius_emergency_services/core/models/app/network_info.dart';
+import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
+import 'package:mauritius_emergency_services/data/remote/api/service/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/models/network_info.dart';
-import 'package:mauritius_emergency_services/providers/services_providers.dart';
-import 'package:mauritius_emergency_services/providers/settings_providers.dart';
 import 'package:mauritius_emergency_services/ui/pages/home/home_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part '../../../generated/pages/home/home_provider.g.dart';
 
 @riverpod
@@ -17,7 +18,8 @@ Future<HomeState> homeState(Ref ref) async {
     // If the services list is empty, check the internet connection
     if (services.isEmpty) {
       // Get the network info
-      final isConnectedToInternet = await NetworkInfo().isConnectedToInternet;
+      final isConnectedToInternet =
+          await MesNetworkInfo().isConnectedToInternet;
 
       // If not connected to internet
       if (!isConnectedToInternet) {
@@ -35,13 +37,12 @@ Future<HomeState> homeState(Ref ref) async {
     );
 
     // Filter out emergency services
-    final emergencyServices =
-        services.where((service) => service.type == "E").toList();
+    final emergencyServices = services
+        .where((service) => service.type == "E")
+        .toList();
 
     // Sort the services
-    emergencyServices.sort(
-      (a, b) => a.name.compareTo(b.name),
-    );
+    emergencyServices.sort((a, b) => a.name.compareTo(b.name));
 
     // Set the UI state
     return HomeLoaded(
@@ -49,8 +50,6 @@ Future<HomeState> homeState(Ref ref) async {
       emergencyButtonAction: emergencyButtonAction,
     );
   } catch (e) {
-    return HomeError(
-      message: t.messages.error.cannot_load_data,
-    );
+    return HomeError(message: t.messages.error.cannot_load_data);
   }
 }

@@ -1,22 +1,28 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mauritius_emergency_services/core/models/app/network_info.dart';
+import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_guidelines.dart';
+import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
+import 'package:mauritius_emergency_services/data/remote/api/cyclone/mes_cyclone_provider.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/models/cyclone_guidelines.dart';
-import 'package:mauritius_emergency_services/models/network_info.dart';
-import 'package:mauritius_emergency_services/providers/api_providers.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part "../../../generated/pages/cyclone/cyclone_r_provider.g.dart";
 
 @riverpod
-Future<CycloneGuidelines?> cycloneGuidelineByLevel(
+Future<MesCycloneGuidelines?> cycloneGuidelineByLevel(
   Ref ref,
   int level,
 ) async {
   try {
-    final repository = ref.watch(mesCycloneRepositoryProvider);
+    // Get the language
+    final lang = ref.watch(mesSettingsProvider.select((s) => s.locale.lang));
 
     // Get the cyclone guidelines
-    final guidelines = await repository.getCycloneGuidelines();
+    final guidelines = await ref.watch(
+      mesCycloneGuidelinesProvider(lang).future,
+    );
 
     // Get the guideline by the report level
     final guideline = guidelines
@@ -37,8 +43,8 @@ class CycloneReportNotifier extends _$CycloneReportNotifier {
   @override
   Future<CycloneReportState> build() async {
     try {
-      final repository = ref.watch(mesCycloneRepositoryProvider);
-      final isConnectedToInternet = await NetworkInfo().isConnectedToInternet;
+      final isConnectedToInternet =
+          await MesNetworkInfo().isConnectedToInternet;
 
       if (!isConnectedToInternet) {
         return CycloneReportNoInternet(
@@ -46,8 +52,11 @@ class CycloneReportNotifier extends _$CycloneReportNotifier {
         );
       }
 
+      // Get the language
+      final lang = ref.watch(mesSettingsProvider.select((s) => s.locale.lang));
+
       // Get the cyclone report
-      final report = await repository.getCycloneReport();
+      final report = await ref.watch(mesCycloneReportProvider(lang).future);
 
       // Get the guideline by the report level
       final guideline = await ref.watch(
@@ -57,9 +66,13 @@ class CycloneReportNotifier extends _$CycloneReportNotifier {
       // Get the report and guidelines
       return report.level > 0
           ? CycloneReportWarning(
-              cycloneReport: report, cycloneGuidelines: guideline)
+              cycloneReport: report,
+              cycloneGuidelines: guideline,
+            )
           : CycloneReportNoWarning(
-              cycloneReport: report, cycloneGuidelines: guideline);
+              cycloneReport: report,
+              cycloneGuidelines: guideline,
+            );
     } catch (e) {
       return CycloneReportError(
         message: t.messages.error.cannot_load_cyclone_report,

@@ -2,9 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mauritius_emergency_services/core/routes/routes.dart';
+import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/providers/settings_providers.dart';
-import 'package:mauritius_emergency_services/routes/routes.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class DisclaimerScreen extends StatelessWidget {
@@ -38,8 +38,7 @@ class DisclaimerScreen extends StatelessWidget {
               spacing: 8.0,
               children: [
                 Text(
-                  t.pages.disclaimer_screen.title
-                      .capitalizeAll(),
+                  t.pages.disclaimer_screen.title.capitalizeAll(),
                   textAlign: TextAlign.center,
                   style: textTheme.headlineSmall?.copyWith(
                     color: onHeaderHighlight,
@@ -47,8 +46,7 @@ class DisclaimerScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  t.pages.disclaimer_screen.header
-                      .capitalizeAll(),
+                  t.pages.disclaimer_screen.header.capitalizeAll(),
                   textAlign: TextAlign.center,
                   style: textTheme.bodyLarge?.copyWith(
                     color: onHeaderHighlight,
@@ -57,10 +55,7 @@ class DisclaimerScreen extends StatelessWidget {
               ],
             ),
           ),
-          InformationSection(
-            colorScheme: colorScheme,
-            textTheme: textTheme,
-          ),
+          InformationSection(colorScheme: colorScheme, textTheme: textTheme),
         ],
       ),
     );
@@ -69,9 +64,9 @@ class DisclaimerScreen extends StatelessWidget {
 
 class InformationSection extends StatelessWidget {
   const InformationSection({
-    super.key,
     required this.colorScheme,
     required this.textTheme,
+    super.key,
   });
 
   final ColorScheme colorScheme;
@@ -83,14 +78,11 @@ class InformationSection extends StatelessWidget {
       child: ListView.separated(
         padding: const EdgeInsets.all(16.0),
         itemCount: t.pages.disclaimer_screen.sections.length + 1,
-        separatorBuilder: (context, index) =>
-            const SizedBox(height: 16.0),
+        separatorBuilder: (context, index) => const SizedBox(height: 16.0),
         itemBuilder: (context, index) {
           // Show sections
-          if (index <
-              t.pages.disclaimer_screen.sections.length) {
-            final section =
-                t.pages.disclaimer_screen.sections[index];
+          if (index < t.pages.disclaimer_screen.sections.length) {
+            final section = t.pages.disclaimer_screen.sections[index];
             return Container(
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
@@ -98,7 +90,6 @@ class InformationSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.0),
                 border: Border.all(
                   color: colorScheme.outlineVariant,
-                  width: 1.0,
                 ),
               ),
               child: Column(
@@ -108,15 +99,13 @@ class InformationSection extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        section.icon,
+                        (section.icon) as String,
                         style: const TextStyle(fontSize: 24.0),
                       ),
                       const SizedBox(width: 12.0),
                       Expanded(
                         child: Text(
-                          section.title
-                              .toString()
-                              .capitalizeAll(),
+                          section.title.toString().capitalizeAll(),
                           style: textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: colorScheme.primary,
@@ -169,9 +158,7 @@ class ActionButtons extends ConsumerWidget {
             child: FilledButton(
               onPressed: () {
                 // Mark disclaimer read as true
-                ref
-                    .read(mesSettingsProvider.notifier)
-                    .markDisclaimerAsRead();
+                ref.read(mesSettingsProvider.notifier).markDisclaimerAsRead();
 
                 // Navigate to the home screen
                 context.go(HomeRoute.path);

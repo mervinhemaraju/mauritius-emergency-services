@@ -1,95 +1,141 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/models/cyclone_guidelines.dart';
+import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_guidelines.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
+import 'package:mauritius_emergency_services/ui/theme/shapes.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 
 class CycloneGuidelinesSheet extends ConsumerWidget {
-  final CycloneGuidelines cycloneGuidelines;
+  final MesCycloneGuidelines cycloneGuidelines;
 
-  // Constructor
-  const CycloneGuidelinesSheet({
-    super.key,
-    required this.cycloneGuidelines,
-  });
+  const CycloneGuidelinesSheet({required this.cycloneGuidelines, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Return the view
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-      child: SingleChildScrollView(
-        child: _CycloneGuidelinesUi(
-          cycloneGuidelines: cycloneGuidelines,
-        ),
+    return DraggableScrollableSheet(
+      initialChildSize: 0.6,
+      minChildSize: 0.4,
+      maxChildSize: 0.92,
+      expand: false,
+      builder: (context, scrollController) => _CycloneGuidelinesUi(
+        cycloneGuidelines: cycloneGuidelines,
+        scrollController: scrollController,
       ),
     );
   }
 }
 
 class _CycloneGuidelinesUi extends StatelessWidget {
-  final CycloneGuidelines cycloneGuidelines;
+  final MesCycloneGuidelines cycloneGuidelines;
+  final ScrollController scrollController;
 
   const _CycloneGuidelinesUi({
     required this.cycloneGuidelines,
+    required this.scrollController,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Define the theme
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
 
-    // Return the view
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.start,
-        spacing: 8.0,
-        children: [
-          Text(
-            t.pages.cyclone.guidelines
-                .title(level: cycloneGuidelines.level)
-                .capitalizeAll(),
-            style: theme.textTheme.headlineSmall,
-            textAlign: TextAlign.start,
-          ),
-          const SizedBox(
-            height: 16.0,
-          ),
-          Text(
-            cycloneGuidelines.description,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.secondary,
+    return ListView(
+      controller: scrollController,
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
+      children: [
+        // ── Header ──
+        Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: cs.errorContainer,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(Icons.cyclone_outlined, size: 20, color: cs.error),
+            ),
+            const SizedBox(width: 14),
+            Text(
+              t.pages.cyclone.guidelines
+                  .title(level: cycloneGuidelines.level)
+                  .capitalizeAll(),
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 24),
+
+        // ── Description ──
+        Container(
+          padding: const EdgeInsets.only(left: 14),
+          decoration: BoxDecoration(
+            border: Border(
+              left: BorderSide(color: cs.outlineVariant, width: 2),
             ),
           ),
-          const SizedBox(
-            height: 24.0,
+          child: Text(
+            cycloneGuidelines.description,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: cs.onSurface.withValues(alpha: 0.6),
+              height: 1.6,
+            ),
           ),
-          Text(
-            t.pages.cyclone.guidelines.header_precautions_title.capitalizeAll(),
-            style: theme.textTheme.labelMedium,
-            textAlign: TextAlign.center,
+        ),
+
+        const SizedBox(height: 28),
+
+        // ── Precautions label ──
+        Text(
+          t.pages.cyclone.guidelines.header_precautions_title.toUpperCase(),
+          style: theme.textTheme.labelSmall?.copyWith(
+            letterSpacing: 0.8,
+            color: cs.onSurface.withValues(alpha: 0.5),
           ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          ...cycloneGuidelines.precautions.map((precaution) => Container(
-                padding: const EdgeInsets.all(12.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16.0),
-                  color: theme.colorScheme.secondaryContainer,
+        ),
+
+        const SizedBox(height: 12),
+
+        // ── Precaution items ──
+        ...cycloneGuidelines.precautions.indexed.map(
+          (entry) => Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              decoration: BoxDecoration(
+                color: cs.surfaceContainerLow,
+                borderRadius: MesBorders.card,
+                border: Border.all(
+                  color: cs.outlineVariant.withValues(alpha: 0.5),
+                  width: 0.5,
                 ),
-                child: Text(
-                  precaution,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSecondaryContainer,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    (entry.$1 + 1).toString().padLeft(2, '0'),
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: cs.onSurface.withValues(alpha: 0.35),
+                    ),
                   ),
-                ),
-              ))
-        ],
-      ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Text(
+                      entry.$2,
+                      style: theme.textTheme.bodyMedium?.copyWith(height: 1.55),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mauritius_emergency_services/models/cyclone_report.dart';
-import 'package:mauritius_emergency_services/data/assets_manager.dart';
+import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_report.dart';
+import 'package:mauritius_emergency_services/data/helpers/assets_manager.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/components/appbar_search/search_view.dart';
-import 'package:mauritius_emergency_services/ui/components/drawer.dart';
-import 'package:mauritius_emergency_services/ui/components/list_items.dart';
-import 'package:mauritius_emergency_services/ui/components/rotating_svg.dart';
-import 'package:mauritius_emergency_services/ui/components/view_error.dart';
-import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
-import 'package:mauritius_emergency_services/ui/components/widgets.dart';
-import 'package:mauritius_emergency_services/ui/pages/cyclone/guidelines/cyclone_g_view.dart';
-import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_n_view.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/cyclone_r_state.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/guidelines/cyclone_g_view.dart';
+import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_n_view.dart';
 import 'package:mauritius_emergency_services/ui/theme/mapper.dart';
+import 'package:mauritius_emergency_services/ui/theme/shapes.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
 import 'package:mauritius_emergency_services/ui/utils/getters.dart';
+import 'package:mauritius_emergency_services/ui/widgets/canvas/rotating_svg.dart';
+import 'package:mauritius_emergency_services/ui/widgets/cards/card_timer.dart';
+import 'package:mauritius_emergency_services/ui/widgets/drawers/drawer_primary.dart';
+import 'package:mauritius_emergency_services/ui/widgets/items/item_cyclone_news.dart';
 
 class CycloneScreen extends ConsumerWidget {
   const CycloneScreen({super.key});
@@ -28,8 +29,8 @@ class CycloneScreen extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
     // Create a retry action
-    void retryAction() async {
-      ref.read(cycloneReportProvider.notifier).refresh();
+    Future<void> retryAction() async {
+      await ref.read(cycloneReportProvider.notifier).refresh();
     }
 
     // Get the cyclone view state
@@ -46,16 +47,12 @@ class CycloneScreen extends ConsumerWidget {
     final cycloneReportUiView = switch (cycloneReportUiState) {
       CycloneReportLoading() => const LoadingScreen(),
       CycloneReportError() => ErrorScreen(
-        title: cycloneReportUiState.message
-            .toString()
-            .capitalize(),
+        title: cycloneReportUiState.message.capitalize(),
         showErrorImage: true,
         retryAction: retryAction,
       ),
       CycloneReportNoInternet() => ErrorScreen(
-        title: cycloneReportUiState.message
-            .toString()
-            .capitalize(),
+        title: cycloneReportUiState.message.capitalize(),
         showInternetErrorImage: true,
         retryAction: retryAction,
       ),
@@ -68,48 +65,41 @@ class CycloneScreen extends ConsumerWidget {
     };
 
     // Get the guidelines fab view
-    final List<Widget> guidelinesFabView =
-        switch (cycloneReportUiState) {
-          CycloneReportLoading() ||
-          CycloneReportError() ||
-          CycloneReportNoInternet() => [],
-          CycloneReportWarning(
-            cycloneReport: final _,
-            cycloneGuidelines: final cycloneGuidelines,
-          ) ||
-          CycloneReportNoWarning(
-            cycloneReport: final _,
-            cycloneGuidelines: final cycloneGuidelines,
-          ) =>
-            cycloneGuidelines != null
-                ? [
-                    FloatingActionButton(
-                      heroTag: null,
-                      backgroundColor: Theme.of(
-                        context,
-                      ).colorScheme.primary,
-                      foregroundColor: Theme.of(
-                        context,
-                      ).colorScheme.onPrimary,
-                      child: const Icon(Icons.cyclone_outlined),
-                      onPressed: () {
-                        showModalBottomSheet<void>(
-                          context: context,
-                          isScrollControlled: true,
-                          showDragHandle: true,
-                          enableDrag: true,
-                          useSafeArea: true,
-                          builder: (BuildContext context) =>
-                              CycloneGuidelinesSheet(
-                                cycloneGuidelines:
-                                    cycloneGuidelines,
-                              ),
-                        );
-                      },
-                    ),
-                  ]
-                : [],
-        };
+    final List<Widget> guidelinesFabView = switch (cycloneReportUiState) {
+      CycloneReportLoading() ||
+      CycloneReportError() ||
+      CycloneReportNoInternet() => [],
+      CycloneReportWarning(
+        cycloneReport: final _,
+        cycloneGuidelines: final cycloneGuidelines,
+      ) ||
+      CycloneReportNoWarning(
+        cycloneReport: final _,
+        cycloneGuidelines: final cycloneGuidelines,
+      ) =>
+        cycloneGuidelines != null
+            ? [
+                FloatingActionButton(
+                  heroTag: null,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                  shape: MesShapes.fab,
+                  onPressed: () {
+                    showModalBottomSheet<void>(
+                      context: context,
+                      isScrollControlled: true,
+                      showDragHandle: true,
+                      useSafeArea: true,
+                      builder: (BuildContext context) => CycloneGuidelinesSheet(
+                        cycloneGuidelines: cycloneGuidelines,
+                      ),
+                    );
+                  },
+                  child: const Icon(Icons.cyclone_outlined),
+                ),
+              ]
+            : [],
+    };
 
     // Return the view
     return Scaffold(
@@ -119,14 +109,12 @@ class CycloneScreen extends ConsumerWidget {
           scaffoldKey.currentState?.openDrawer();
         },
       ),
-      drawer: const MesDrawer(),
+      drawer: const MesDrawerPrimary(),
       body: RefreshIndicator(
         color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.primary,
         onRefresh: () async {
-          return ref
-              .read(cycloneReportProvider.notifier)
-              .refresh();
+          return ref.read(cycloneReportProvider.notifier).refresh();
         },
         child: cycloneReportUiView,
       ),
@@ -137,22 +125,17 @@ class CycloneScreen extends ConsumerWidget {
         children: [
           FloatingActionButton.small(
             heroTag: null,
-            backgroundColor: Theme.of(
-              context,
-            ).colorScheme.secondary,
-            foregroundColor: Theme.of(
-              context,
-            ).colorScheme.onSecondary,
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+            foregroundColor: Theme.of(context).colorScheme.onSecondary,
+            shape: MesShapes.fab,
             child: const Icon(Icons.list_alt_outlined),
             onPressed: () {
               showModalBottomSheet<void>(
                 context: context,
                 isScrollControlled: true,
                 showDragHandle: true,
-                enableDrag: true,
                 useSafeArea: true,
-                builder: (BuildContext context) =>
-                    const CycloneNamesSheet(),
+                builder: (BuildContext context) => const CycloneNamesSheet(),
               );
             },
           ),
@@ -164,7 +147,7 @@ class CycloneScreen extends ConsumerWidget {
 }
 
 class _CycloneNoWarningUi extends StatelessWidget {
-  final CycloneReport cycloneReport;
+  final MesCycloneReport cycloneReport;
 
   const _CycloneNoWarningUi({required this.cycloneReport});
 
@@ -180,18 +163,12 @@ class _CycloneNoWarningUi extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgPicture.asset(
-                  AssetsManager.STATIC_WEATHER,
+                  AssetsManager.staticWeather,
                   width: 200,
                   colorMapper: MesColorMapper(
-                    primaryColor: Theme.of(
-                      context,
-                    ).colorScheme.primary,
-                    secondaryColor: Theme.of(
-                      context,
-                    ).colorScheme.secondary,
-                    tertiaryColor: Theme.of(
-                      context,
-                    ).colorScheme.tertiary,
+                    primaryColor: Theme.of(context).colorScheme.primary,
+                    secondaryColor: Theme.of(context).colorScheme.onSurface,
+                    tertiaryColor: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 Padding(
@@ -202,13 +179,10 @@ class _CycloneNoWarningUi extends StatelessWidget {
                   child: Text(
                     t.pages.cyclone.no_warning.capitalize(),
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge
-                        ?.copyWith(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.secondary,
-                          fontWeight: FontWeight.w400,
-                        ),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
               ],
@@ -221,22 +195,19 @@ class _CycloneNoWarningUi extends StatelessWidget {
 }
 
 class _CycloneWarningUi extends StatelessWidget {
-  final CycloneReport cycloneReport;
+  final MesCycloneReport cycloneReport;
 
   const _CycloneWarningUi({required this.cycloneReport});
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
+    final theme = Theme.of(context);
     return CustomScrollView(
       slivers: <Widget>[
         SliverFillRemaining(
           hasScrollBody: false,
           child: Padding(
-            padding: const EdgeInsets.only(
-              top: 24.0,
-              bottom: 8.0,
-            ),
+            padding: const EdgeInsets.only(top: 24.0, bottom: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -249,9 +220,7 @@ class _CycloneWarningUi extends StatelessWidget {
                 ),
                 Text(
                   t.pages.cyclone.warning
-                      .subtitle(
-                        level: cycloneReport.level.toString(),
-                      )
+                      .subtitle(level: cycloneReport.level.toString())
                       .capitalize(),
                   textAlign: TextAlign.center,
                   style: theme.textTheme.displaySmall?.copyWith(
@@ -269,14 +238,12 @@ class _CycloneWarningUi extends StatelessWidget {
                     duration: getRotationSpeedFromCycloneLevel(
                       level: cycloneReport.level,
                     ),
+                    svgImage: AssetsManager.staticCyclone,
+                    size: 160,
                   ),
                 ),
                 _SectionTitle(
-                  title: t
-                      .pages
-                      .cyclone
-                      .warning
-                      .next_bulletin_title
+                  title: t.pages.cyclone.warning.next_bulletin_title
                       .capitalizeAll(),
                 ),
                 Row(
@@ -289,10 +256,9 @@ class _CycloneWarningUi extends StatelessWidget {
                     ),
                     Text(
                       ":",
-                      style: theme.textTheme.headlineMedium
-                          ?.copyWith(
-                            color: theme.colorScheme.secondary,
-                          ),
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        color: theme.colorScheme.secondary,
+                      ),
                     ),
                     TimerCard(
                       time: cycloneReport.getMinute,
@@ -302,28 +268,18 @@ class _CycloneWarningUi extends StatelessWidget {
                 ),
                 const SizedBox(height: 32.0),
                 _SectionTitle(
-                  title: t
-                      .pages
-                      .cyclone
-                      .warning
-                      .latest_news_title
+                  title: t.pages.cyclone.warning.latest_news_title
                       .capitalizeAll(),
                 ),
                 SizedBox(
                   height: 200,
                   child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     scrollDirection: Axis.horizontal,
                     itemCount: cycloneReport.news.length,
-                    prototypeItem: const CycloneNewsItem(
-                      news: "",
-                    ),
+                    prototypeItem: const CycloneNewsItem(news: ""),
                     itemBuilder: (context, index) {
-                      return CycloneNewsItem(
-                        news: cycloneReport.news[index],
-                      );
+                      return CycloneNewsItem(news: cycloneReport.news[index]);
                     },
                   ),
                 ),

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mauritius_emergency_services/models/service.dart';
+import 'package:mauritius_emergency_services/core/models/service/service.dart';
 part '../../../generated/components/appbar_search/search_state.freezed.dart';
 
 @freezed
@@ -8,13 +8,10 @@ sealed class SearchState with _$SearchState {
 
   const factory SearchState.Loading() = SearchLoading;
 
-  const factory SearchState.Matched({
-    required List<Service> services,
-  }) = SearchMatched;
+  const factory SearchState.Matched({required List<MesService> services}) =
+      SearchMatched;
 
   const factory SearchState.NoMatch() = SearchNoMatch;
 
-  const factory SearchState.Error({
-    required String message,
-  }) = SearchError;
+  const factory SearchState.Error({required String message}) = SearchError;
 }

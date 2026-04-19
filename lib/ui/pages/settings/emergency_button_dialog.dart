@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mauritius_emergency_services/models/service.dart';
-import 'package:mauritius_emergency_services/providers/services_providers.dart';
-import 'package:mauritius_emergency_services/providers/settings_providers.dart';
+import 'package:mauritius_emergency_services/core/models/service/service.dart';
+import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
+import 'package:mauritius_emergency_services/data/remote/api/service/mes_service_provider.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/ui/components/list_items.dart';
-import 'package:mauritius_emergency_services/ui/components/view_error.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
+import 'package:mauritius_emergency_services/ui/widgets/items/item_service_simple.dart';
 
 class EmergencyButtonDialog extends ConsumerWidget {
   const EmergencyButtonDialog({super.key});
@@ -20,7 +20,9 @@ class EmergencyButtonDialog extends ConsumerWidget {
     );
 
     // Get the services ui view
-    final servicesUiView = ref.watch(servicesProvider).when(
+    final servicesUiView = ref
+        .watch(servicesProvider)
+        .when(
           data: (services) => ServiceListView(
             services: services,
             selectedService: emergencyButtonAction,
@@ -34,8 +36,7 @@ class EmergencyButtonDialog extends ConsumerWidget {
               context.showSimpleSnackbar(
                 t.messages.success
                     .emergency_button_action_updated(
-                      action:
-                          "${service.name} - ${service.mainContact.toString()}",
+                      action: "${service.name} - ${service.mainContact}",
                     )
                     .capitalize(),
               );
@@ -75,9 +76,7 @@ class EmergencyButtonDialog extends ConsumerWidget {
           onPressed: () {
             context.pop();
           },
-          child: Text(
-            t.actions.close.capitalize(),
-          ),
+          child: Text(t.actions.close.capitalize()),
         ),
       ],
     );
@@ -85,15 +84,15 @@ class EmergencyButtonDialog extends ConsumerWidget {
 }
 
 class ServiceListView extends StatelessWidget {
-  final List<Service> services;
-  final Service selectedService;
-  final Function(Service) onServiceSelected;
+  final List<MesService> services;
+  final MesService selectedService;
+  final Function(MesService) onServiceSelected;
 
   const ServiceListView({
-    super.key,
     required this.services,
     required this.selectedService,
     required this.onServiceSelected,
+    super.key,
   });
 
   @override
@@ -102,7 +101,7 @@ class ServiceListView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       prototypeItem: SimpleServiceItem(
         isSelected: false,
-        service: const Service(),
+        service: const MesService(),
         onServiceSelected: onServiceSelected,
       ),
       itemCount: services.length,

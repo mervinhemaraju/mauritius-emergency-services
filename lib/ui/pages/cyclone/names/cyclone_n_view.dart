@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mauritius_emergency_services/models/cyclone_name.dart';
+import 'package:mauritius_emergency_services/core/models/cyclone/cyclone_name.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/ui/components/view_loading.dart';
-import 'package:mauritius_emergency_services/ui/components/view_error.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_error.dart';
+import 'package:mauritius_emergency_services/ui/components/views/view_loading.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_n_provider.dart';
 import 'package:mauritius_emergency_services/ui/pages/cyclone/names/cyclone_n_state.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
@@ -20,30 +20,31 @@ class CycloneNamesSheet extends ConsumerWidget {
     }
 
     // Get the ui state
-    final uiState = ref.watch(cycloneNamesProvider).when(
+    final uiState = ref
+        .watch(cycloneNamesProvider)
+        .when(
           data: (state) => state,
           loading: () => const CycloneNamesLoading(),
-          error: (error, stack) => CycloneNamesError(
-            message: error.toString().capitalize(),
-          ),
+          error: (error, stack) =>
+              CycloneNamesError(message: error.toString().capitalize()),
         );
 
     // Get the ui view
     final uiView = switch (uiState) {
       CycloneNamesLoading() => const LoadingScreen(),
       CycloneNamesError() => ErrorScreen(
-          title: uiState.message.capitalize(),
-          showErrorImage: true,
-          retryAction: retryAction,
-        ),
+        title: uiState.message.capitalize(),
+        showErrorImage: true,
+        retryAction: retryAction,
+      ),
       CycloneNamesNoInternet() => ErrorScreen(
-          title: uiState.message.capitalize(),
-          showInternetErrorImage: true,
-          retryAction: retryAction,
-        ),
+        title: uiState.message.capitalize(),
+        showInternetErrorImage: true,
+        retryAction: retryAction,
+      ),
       CycloneNamesLoaded() => _CycloneNamesUi(
-          cycloneNames: uiState.cycloneNames,
-        ),
+        cycloneNames: uiState.cycloneNames,
+      ),
     };
 
     return Container(
@@ -68,11 +69,9 @@ class CycloneNamesSheet extends ConsumerWidget {
 }
 
 class _CycloneNamesUi extends StatelessWidget {
-  final List<CycloneName> cycloneNames;
+  final List<MesCycloneName> cycloneNames;
 
-  const _CycloneNamesUi({
-    required this.cycloneNames,
-  });
+  const _CycloneNamesUi({required this.cycloneNames});
 
   @override
   Widget build(BuildContext context) {

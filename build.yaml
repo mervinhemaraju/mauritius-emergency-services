@@ -1,29 +1,45 @@
 targets:
   $default:
     builders:
+
       source_gen|combining_builder:
         generate_for:
           - lib/providers/**.dart
           - lib/ui/pages/**/*_provider.dart
-          - lib/models/**.dart
+          - lib/data/**/*_provider.dart
+          - lib/core/**.dart
         options:
           build_extensions:
+            # Core
+            '^lib/core/{{}}.dart': 'lib/generated/core/{{}}.g.dart'
+
+            # Global Infra Providers
             '^lib/providers/{{}}.dart': 'lib/generated/providers/{{}}.g.dart'
+            
+            # UI Providers
             '^lib/ui/pages/{{}}_provider.dart': 'lib/generated/pages/{{}}_provider.g.dart'
-            '^lib/models/{{}}.dart': 'lib/generated/models/{{}}.g.dart'
+
+            # Data Providers
+            '^lib/data/{{}}_provider.dart': 'lib/generated/data/{{}}_provider.g.dart'
       
       # Configure freezed
       freezed:
         generate_for:
-          - lib/models/*.dart
+          - lib/core/**.dart
           - lib/ui/pages/**.dart
           - lib/ui/components/**.dart
         options:
           build_extensions:
-            '^lib/models/{{}}.dart': 'lib/generated/models/{{}}.freezed.dart'
+            # Models
+            '^lib/core/{{}}.dart': 'lib/generated/core/{{}}.freezed.dart'
+
+            # UI Pages
             '^lib/ui/pages/{{}}.dart': 'lib/generated/pages/{{}}.freezed.dart'
+
+            # UI Components
             '^lib/ui/components/{{}}.dart': 'lib/generated/components/{{}}.freezed.dart'
 
+      # Configure slang localizations
       slang_build_runner:
         options:
           input_directory: assets/i18n

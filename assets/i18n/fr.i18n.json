@@ -29,28 +29,28 @@
             }
         },
         "disclaimer_screen": {
-            "title": "avis important",
-            "header": "avant de continuer",
+            "title": "Avis Important",
+            "header": "Avant de Continuer",
             "sections": [
                 {
                     "icon": "⚠️",
                     "title": "aucune affiliation gouvernementale",
-                    "message": "Cette application n'est PAS affiliée, endorsée ou liée à une entité gouvernementale ou agence, y compris les Services Météorologiques de Maurice ou les services d'urgence. Il s'agit d'un service indépendant."
+                    "message": "cette application N'EST PAS affiliée, approuvée ou liée à une entité ou agence gouvernementale, y compris les Services Météorologiques de Maurice ou tout service d'urgence. Il s'agit d'un service indépendant et communautaire."
                 },
                 {
                     "icon": "📋",
-                    "title": "sources des données",
-                    "message": "Les numéros d'urgence proviennent de :\n• Le site officiel du gouvernement (govmu.org)\n• Le site officiel Maurinet (maurinet.com)\n• Répertoires de services publics\n\nLes informations cycloniques proviennent des Services Météorologiques de Maurice (metservice.intnet.mu) et sont relayées via notre API pour votre commodité."
+                    "title": "sources de données",
+                    "message": "toutes les informations proviennent de :\n• Site officiel du Corps de Police de Maurice : https://police.govmu.org\n• Site officiel de la Central Electricity Board : https://ceb.mu\n• Services Météorologiques de Maurice (données cycloniques) : https://metservice.intnet.mu"
                 },
                 {
                     "icon": "ℹ️",
-                    "title": "usage informatif uniquement",
-                    "message": "Toutes les informations fournies dans cette application sont à titre informatif personnel uniquement. Vérifiez toujours les informations critiques auprès des sources gouvernementales officielles lors d'urgences."
+                    "title": "à titre informatif uniquement",
+                    "message": "toutes les informations fournies dans cette application sont à titre informatif uniquement. Vérifiez toujours les informations critiques auprès des sources gouvernementales officielles en cas d'urgence. Cette application ne remplace pas les services d'urgence officiels."
                 },
                 {
                     "icon": "🔒",
-                    "title": "confidentialité et données",
-                    "message": "Cette application ne collecte, ne stocke ni ne partage aucune information personnelle. Toutes les données affichées proviennent de sources publiques et de notre API. Pour plus de détails, veuillez consulter notre Politique de Confidentialité."
+                    "title": "confidentialité & données",
+                    "message": "cette application ne collecte, ne stocke ni ne partage aucune information personnelle. Toutes les données affichées sont récupérées depuis des sources publiques et notre API. Pour plus de détails, veuillez consulter notre Politique de Confidentialité."
                 }
             ]
         },
@@ -63,6 +63,12 @@
         },
         "services": {
             "title": "services"
+        },
+        "alerts": {
+            "title": "alertes"
+        },
+        "sun_moon_tides": {
+            "title": "soleil, lune & marées"
         },
         "cyclone": {
             "title": "rapport cyclonique",
@@ -84,15 +90,49 @@
                 "header_precautions_title": "précautions"
             }
         },
-        "vicinity_alerts": {
-            "title": "alertes de proximité"
+        "power_outages": {
+            "title": "pannes de courant",
+            "hero": {
+                "outage_singular": "panne",
+                "outage_plural": "pannes",
+                "across_districts_singular": "Dans $count district",
+                "across_districts_plural": "Dans $count districts",
+                "live_now": "$count en cours",
+                "ceb_outages": "pannes CEB"
+            },
+            "filter": {
+                "all": "Tous"
+            },
+            "tabs": {
+                "street_count": "$count rue(s)"
+            },
+            "card": {
+                "ongoing": "EN COURS",
+                "affected_streets": "RUES AFFECTÉES"
+            },
+            "empty": {
+                "title": "Tout est normal",
+                "subtitle": "Aucune interruption de courant prévue."
+            },
+            "no_district_results": "Aucune panne dans ce district."
+        },
+        "new_feature": {
+            "pill_label": "quoi de neuf",
+            "headline_line1": "calendrier des\ncoupures,",
+            "headline_line2": "en un coup d'œil.",
+            "body": "anticipez les interruptions planifiées par la CEB dans tous les districts — disponible hors ligne.",
+            "feature_1_label": "chronologie par date",
+            "feature_1_description": "pannes triées par jour pour ne jamais être pris de court",
+            "feature_2_label": "filtrer par district",
+            "feature_2_description": "accédez directement à ce qui concerne votre zone",
+            "feature_3_label": "indicateur en direct",
+            "feature_3_description": "interruptions en cours signalées en temps réel",
+            "cta_explore": "voir le calendrier des pannes",
+            "cta_dismiss": "plus tard"
         },
         "precall": {
             "title": "démarrage d'un appel vers",
             "calling_in": "appel dans"
-        },
-        "theme_selector": {
-            "title": "préférences de thème"
         },
         "about": {
             "title": "à propos",
@@ -156,7 +196,8 @@
             "services_unavailable": "il semble qu'aucun service ne soit disponible. Assurez-vous d'être connecté à Internet la première fois pour que $app_name_short puisse télécharger les services.",
             "cannot_load_cyclone_report": "il semble que quelque chose ne va pas et nous n'avons pas pu charger le rapport cyclonique.",
             "cannot_load_cyclone_names": "une erreur s'est produite lors de la récupération des noms des cyclones.",
-            "cannot_launch_phone_app": "Ooups! Nous n'avons pas pu lancer votre application téléphonique."
+            "cannot_launch_phone_app": "Ooups! Nous n'avons pas pu lancer votre application téléphonique.",
+            "cannot_load_alert": "une erreur s'est produite lors de la récupération de l'alerte."
         },
         "success": {
             "language_updated": "la langue de l'application est définie avec succès sur: $language",
@@ -165,9 +206,11 @@
         "info": {
             "loading_component": "chargement...",
             "unknown_component": "inconnu",
-            "no_match_for_query": "Ooups, votre recherche ne correspond à aucun service. Essayez autre chose ?",
             "other_contacts": "autres contacts",
-            "no_other_contacts": "pas d'autres contacts"
+            "active_alert": "alerte active",
+            "no_match_for_query": "Ooups, votre recherche ne correspond à aucun service. Essayez autre chose ?",
+            "no_other_contacts": "pas d'autres contacts",
+            "no_active_alert": "il n'y a pas d'alertes actives pour le moment"
         }
     },
     "components": {
@@ -187,12 +230,15 @@
         "contact_us": "contactez-nous",
         "coming_soon": "bientôt disponible",
         "toll_free": "gratuit",
-        "retry": "réessayer"
+        "retry": "réessayer",
+        "is_new": "nouveau"
     },
     "others": {
         "hour_abbr": "h",
         "minute_abbr": "min",
         "ooops": "ooups!",
+        "today": "Aujourd'hui",
+        "tomorrow": "Demain",
         "themes(map)": {
             "light": "clair",
             "dark": "sombre",
@@ -201,6 +247,29 @@
         "language(map)": {
             "english": "anglais",
             "french": "français"
+        },
+        "days(map)": {
+            "mon": "Lun",
+            "tue": "Mar",
+            "wed": "Mer",
+            "thu": "Jeu",
+            "fri": "Ven",
+            "sat": "Sam",
+            "sun": "Dim"
+        },
+        "months(map)": {
+            "jan": "Jan",
+            "feb": "Fév",
+            "mar": "Mar",
+            "apr": "Avr",
+            "may": "Mai",
+            "jun": "Juin",
+            "jul": "Juil",
+            "aug": "Aoû",
+            "sep": "Sep",
+            "oct": "Oct",
+            "nov": "Nov",
+            "dec": "Déc"
         }
     }
 }

@@ -3,10 +3,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mauritius_emergency_services/models/about.dart';
-import 'package:mauritius_emergency_services/models/service.dart';
-import 'package:mauritius_emergency_services/routes/routes.dart';
-import 'package:mauritius_emergency_services/data/impl/runtime_permissions_impl.dart';
+import 'package:mauritius_emergency_services/core/models/app/about.dart';
+import 'package:mauritius_emergency_services/core/models/service/service.dart';
+import 'package:mauritius_emergency_services/core/routes/routes.dart';
+import 'package:mauritius_emergency_services/data/contracts/permissions/rt_permissions_impl.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
 import 'package:mauritius_emergency_services/ui/pages/welcome/permissions_dialog.dart';
 import 'package:mauritius_emergency_services/ui/utils/constants.dart';
@@ -23,15 +23,20 @@ extension ColorSchemeExtension on ColorScheme {
 
     // Use ElevationOverlay to apply the tint.
     // The third parameter is the elevation.
-    return ElevationOverlay.applySurfaceTint(
-      surface,
-      surfaceTintColor,
-      level,
-    );
+    return ElevationOverlay.applySurfaceTint(surface, surfaceTintColor, level);
   }
 }
 
 extension NavigationExtension on BuildContext {
+  void popAndGo(String location, {Object? extra}) {
+    // Pop the drawer first
+    if (canPop()) {
+      pop();
+    }
+    // Then navigate to the new route
+    go(location, extra: extra);
+  }
+
   void goBack() {
     if (canPop()) {
       pop();
@@ -40,16 +45,16 @@ extension NavigationExtension on BuildContext {
     }
   }
 
-  void navigateToPreCall(Service service, String number) async {
+  Future<void> navigateToPreCall(MesService service, String number) async {
     // Will run this part if it is Android
     if (Platform.isAndroid) {
       // The default proceed behavior will open app settings
       Function() onProceed = () {
-        openAppSettings().whenComplete(() => goBack());
+        openAppSettings().whenComplete(goBack);
       };
 
       // Retrieve the runtime permissions
-      final runtimePermissions = RuntimePermissions();
+      const runtimePermissions = RuntimePermissionsImpl();
 
       // Get the permission status for phone
       final phonePermissions = await runtimePermissions
@@ -60,18 +65,18 @@ extension NavigationExtension on BuildContext {
         // Check if permission is permanently denied
         if (!phonePermissions.isPermanentlyDenied) {
           onProceed = () async {
-            await runtimePermissions
-                .requestPhonePermissions()
-                .whenComplete(() => goBack());
+            await runtimePermissions.requestPhonePermissions().whenComplete(
+              goBack,
+            );
           };
         }
 
         // Show the permissions dialog
-        showDialog<String>(
+        await showDialog<String>(
           context: this,
           builder: (BuildContext context) => PermissionsDialog(
             onProceed: onProceed,
-            onComplete: () => goBack(),
+            onComplete: goBack,
           ),
         );
 
@@ -81,7 +86,7 @@ extension NavigationExtension on BuildContext {
     }
 
     // Open precall route
-    push(
+    await push(
       PrecallRoute.path,
       extra: {
         PrecallRoute.extraService: service,
@@ -91,19 +96,15 @@ extension NavigationExtension on BuildContext {
   }
 }
 
-extension ServiceExtension on List<Service> {
-  List<Service> search({required String query}) {
+extension ServiceExtension on List<MesService> {
+  List<MesService> search({required String query}) {
     return where(
       (service) =>
           service.name.toLowerCase().contains(query) ||
           service.mainContact.toString().contains(query) ||
-          service.emails
-              .where((email) => email.contains(query))
-              .isNotEmpty ||
+          service.emails.where((email) => email.contains(query)).isNotEmpty ||
           service.otherContacts
-              .where(
-                (contact) => contact.toString().contains(query),
-              )
+              .where((contact) => contact.toString().contains(query))
               .isNotEmpty,
     ).toList();
   }
@@ -126,6 +127,17 @@ extension StringExtension on String {
     return int.tryParse(this) != null;
   }
 
+  /// Strips all characters except digits and leading '+' to prevent
+  /// tel: URI injection (e.g. DTMF tones via `;`, `,`, `#`, `*`).
+  String sanitizeForTelUri() {
+    // Keep only digits and a leading '+' for international format
+    final digits = replaceAll(RegExp(r'[^\d]'), '');
+    if (startsWith('+')) {
+      return '+$digits';
+    }
+    return digits;
+  }
+
   List<Pair<String, String>> getStyleHeaderName() {
     // Split the name
     final names = split(" ");
@@ -135,10 +147,7 @@ extension StringExtension on String {
       // First check if the name is empty
       if (length < 2) return Pair(name, name);
 
-      return Pair(
-        name[0].toUpperCase(),
-        name.substring(1).toLowerCase(),
-      );
+      return Pair(name[0].toUpperCase(), name.substring(1).toLowerCase());
     }).toList();
   }
 }
@@ -168,23 +177,18 @@ extension BytesExtensions on Uint8List? {
             height: size,
             fit: fit,
           )
-        : Image.memory(
-            this!,
-            width: size,
-            height: size,
-            fit: fit,
-          );
+        : Image.memory(this!, width: size, height: size, fit: fit);
   }
 }
 
-extension AboutExtensions on About {
-  void launchAboutIntent() async {
+extension AboutExtensions on MesAbout {
+  Future<void> launchAboutIntent() async {
     if (title.toLowerCase().startsWith(
       t.pages.about.support_section
           .share_app_title(app_name_short: t.app.short_name)
           .toLowerCase(),
     )) {
-      SharePlus.instance.share(
+      await SharePlus.instance.share(
         ShareParams(uri: Uri.parse(URI_MES_PLAYSTORE)),
       );
     } else {
@@ -197,50 +201,40 @@ extension AboutExtensions on About {
 
 extension SnackbarExtensions on BuildContext {
   void showSimpleSnackbar(String message) {
-    ScaffoldMessenger.of(
-      this,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(this).showSnackBar(SnackBar(content: Text(message)));
   }
 }
 
 extension ViewAnimations on Widget {
-  CustomTransitionPage withSlideTransition(LocalKey pageKey) {
+  CustomTransitionPage<T> withSlideTransition<T>(LocalKey pageKey) {
     return CustomTransitionPage(
       key: pageKey,
       child: this,
-      transitionsBuilder:
-          (context, animation, secondaryAnimation, child) {
-            const begin = Offset(1.0, 0.0);
-            const end = Offset.zero;
-            const curve = Curves.easeInOut;
-            var tween = Tween(
-              begin: begin,
-              end: end,
-            ).chain(CurveTween(curve: curve));
-            var offsetAnimation = animation.drive(tween);
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.easeInOut;
+        final tween = Tween(
+          begin: begin,
+          end: end,
+        ).chain(CurveTween(curve: curve));
+        final offsetAnimation = animation.drive(tween);
 
-            return SlideTransition(
-              position: offsetAnimation,
-              child: child,
-            );
-          },
+        return SlideTransition(position: offsetAnimation, child: child);
+      },
     );
   }
 
-  CustomTransitionPage withScaleTransition(LocalKey pageKey) {
+  CustomTransitionPage<T> withScaleTransition<T>(LocalKey pageKey) {
     return CustomTransitionPage(
       key: pageKey,
       child: this,
-      transitionsBuilder:
-          (context, animation, secondaryAnimation, child) {
-            return ScaleTransition(
-              scale: Tween<double>(
-                begin: 0.95,
-                end: 1.0,
-              ).animate(animation),
-              child: child,
-            );
-          },
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return ScaleTransition(
+          scale: Tween<double>(begin: 0.95, end: 1.0).animate(animation),
+          child: child,
+        );
+      },
     );
   }
 }

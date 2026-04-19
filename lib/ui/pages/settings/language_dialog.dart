@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mauritius_emergency_services/models/locale.dart';
-import 'package:mauritius_emergency_services/providers/settings_providers.dart';
+import 'package:mauritius_emergency_services/core/models/app/locale.dart';
+import 'package:mauritius_emergency_services/data/local/preferences/settings_provider.dart';
 import 'package:mauritius_emergency_services/generated/translations/strings.g.dart';
-import 'package:mauritius_emergency_services/ui/components/list_items.dart';
 import 'package:mauritius_emergency_services/ui/utils/extensions.dart';
+import 'package:mauritius_emergency_services/ui/widgets/items/item_language_selector.dart';
 
 class LanguageDialog extends StatelessWidget {
   const LanguageDialog({super.key});
@@ -41,39 +41,39 @@ class LanguageDialog extends StatelessWidget {
             final locale = MesLocale.values[index];
 
             // Build the view
-            return Consumer(builder: (context, ref, child) {
-              // Get the current locale
-              final settingsLocale = ref.watch(
-                mesSettingsProvider.select(
-                  (s) => s.locale,
-                ),
-              );
+            return Consumer(
+              builder: (context, ref, child) {
+                // Get the current locale
+                final settingsLocale = ref.watch(
+                  mesSettingsProvider.select((s) => s.locale),
+                );
 
-              // Return the view
-              return LanguageSelectorItem(
-                isSelected: settingsLocale == locale,
-                locale: locale,
-                onTap: (locale) {
-                  // Update the locale
-                  ref.read(mesSettingsProvider.notifier).updateLocale(locale);
+                // Return the view
+                return LanguageSelectorItem(
+                  isSelected: settingsLocale == locale,
+                  locale: locale,
+                  onTap: (locale) {
+                    // Update the locale
+                    ref.read(mesSettingsProvider.notifier).updateLocale(locale);
 
-                  // Show snackbar
-                  context.showSimpleSnackbar(
-                    t.messages.success
-                        .language_updated(
-                          language: t.others.language[locale.name.toString()]
-                                  ?.capitalize() ??
-                              t.others.language.entries.first.value
-                                  .capitalize(),
-                        )
-                        .capitalize(),
-                  );
+                    // Show snackbar
+                    context.showSimpleSnackbar(
+                      t.messages.success
+                          .language_updated(
+                            language:
+                                t.others.language[locale.name]?.capitalize() ??
+                                t.others.language.entries.first.value
+                                    .capitalize(),
+                          )
+                          .capitalize(),
+                    );
 
-                  // Close the dialog
-                  context.pop();
-                },
-              );
-            });
+                    // Close the dialog
+                    context.pop();
+                  },
+                );
+              },
+            );
           },
         ),
       ),
@@ -82,9 +82,7 @@ class LanguageDialog extends StatelessWidget {
           onPressed: () {
             context.pop();
           },
-          child: Text(
-            t.actions.close.capitalize(),
-          ),
+          child: Text(t.actions.close.capitalize()),
         ),
       ],
     );
